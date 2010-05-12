@@ -50,7 +50,7 @@ cd $DST
 #########
 # Clean up
 cd $DST
-# rm -rf usr/share usr/man
+rm -rf usr/share
 [ -d bin ] && strip bin/*
 [ -d usr/bin ] && strip usr/bin/*
 
