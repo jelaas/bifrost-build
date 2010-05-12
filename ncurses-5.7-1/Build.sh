@@ -26,7 +26,7 @@ libtool_fix-1
 
 #########
 # Configure
-B-configure-1 --prefix=/usr || exit 1
+B-configure-1 --prefix=/usr --bindir=/usr/ncurses/bin || exit 1
 
 #########
 # Post configure patch
@@ -50,7 +50,7 @@ cd $DST
 #########
 # Clean up
 cd $DST
-# rm -rf usr/share usr/man
+rm -rf usr/man
 [ -d bin ] && strip bin/*
 [ -d usr/bin ] && strip usr/bin/*
 
