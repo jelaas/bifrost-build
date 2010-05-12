@@ -1,0 +1,14 @@
+--- ltmain.sh~	Wed Jan 30 20:26:55 2008
++++ ltmain.sh	Fri Feb 13 12:47:25 2009
+@@ -1758,6 +1758,11 @@
+ 	# didn't have a PIC flag, but the assumption that the effects
+ 	# would be equivalent was wrong.  It would break on at least
+ 	# Digital Unix and AIX.
++	if test -n "$link_static_flag"; then
++	  compile_command="$compile_command $link_static_flag"
++	  finalize_command="$finalize_command $link_static_flag"
++	fi
++
+ 	continue
+ 	;;
+ 

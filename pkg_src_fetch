@@ -1,0 +1,5 @@
+#!/bin/bash
+
+pkg="$1"
+
+[ -f "/var/lib/build/$pkg/Fetch-source.sh" ] && "/var/lib/build/$pkg/Fetch-source.sh"

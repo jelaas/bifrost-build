@@ -1,0 +1,45 @@
+#!/bin/bash
+
+[ -d /proc/self/fd ] || exit 1
+[ -d /dev/fd ] || exit 1
+[ -c /dev/null ] || exit 1
+[ -c /dev/zero ] || exit 1
+
+if [ -z "$1" ]; then
+   echo "Usage: pkg_build <pkg> ..."
+   exit 0
+fi
+
+function checkpkg {
+    local rc
+
+    rc=0
+    while [ "$1" ]; do
+	pkg=$1
+	if [ ! -d "/var/lib/build/$pkg" ]; then
+	    echo "/var/lib/build/$pkg does not exist"
+	    rc=1
+	fi
+	shift
+    done
+    return $rc
+}
+
+checkpkg $@ || exit 1
+
+mkdir -p /var/tmp/install
+mkdir -p /var/tmp/src
+mkdir -p /var/spool/src
+mkdir -p /var/spool/pkg
+
+while [ "$1" ]; do
+    pkg=$1
+    shift
+    
+    rm -rf "/var/tmp/install/$pkg"
+    
+    [ "$BUILD_IN_PROGRESS" ] || /var/lib/build/pkg_uninstall
+    export BUILD_IN_PROGRESS=yes
+    cd "/var/lib/build/$pkg"
+    PATH="/var/lib/build:$PATH" ./Build.sh || echo "ERROR: Build unsuccessful [$?]"
+done

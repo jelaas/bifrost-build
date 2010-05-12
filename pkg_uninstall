@@ -1,0 +1,27 @@
+#!/bin/bash
+
+STATE=/var/state/installed_files
+STATEPKGS=/var/state/installed_pkgs
+TMPFILE=/tmp/installed_files_tmp.$$
+
+rm -f $TMPFILE
+touch $TMPFILE
+trap "rm -f $TMPFILE" EXIT
+
+mkdir -p /var/state
+
+cd /
+# remount w
+if [ -s $STATE ]; then
+    tac $STATE|while read f; do
+        if [ -d "$f" ]; then
+	    rmdir $f &> /dev/null
+	    continue
+	fi
+        rm -f "$f" || (echo "$f" >> $TMPFILE)
+    done
+fi
+cp -f $TMPFILE $STATE
+rm -f $TMPFILE
+rm -f $STATEPKGS
+# remount r

@@ -1,0 +1,86 @@
+diff -u tcp_wrappers_7.6/Makefile tcp_wrappers_7.6/Makefile
+--- tcp_wrappers_7.6/Makefile	Fri Mar 21 19:27:21 1997
++++ tcp_wrappers_7.6/Makefile	Tue Nov 27 20:48:03 2001
+@@ -44,7 +44,7 @@
+ #REAL_DAEMON_DIR=/usr/etc
+ #
+ # SysV.4 Solaris 2.x OSF AIX
+-#REAL_DAEMON_DIR=/usr/sbin
++REAL_DAEMON_DIR=/usr/sbin
+ #
+ # BSD 4.4
+ #REAL_DAEMON_DIR=/usr/libexec
+@@ -143,7 +143,7 @@
+ 
+ linux:
+ 	@make REAL_DAEMON_DIR=$(REAL_DAEMON_DIR) STYLE=$(STYLE) \
+-	LIBS= RANLIB=ranlib ARFLAGS=rv AUX_OBJ=setenv.o \
++	LIBS= RANLIB=ranlib ARFLAGS=rv AUX_OBJ= \
+ 	NETGROUP= TLI= EXTRA_CFLAGS="-DBROKEN_SO_LINGER" all
+ 
+ # This is good for many SYSV+BSD hybrids with NIS, probably also for HP-UX 7.x.
+@@ -391,7 +391,7 @@
+ # the ones provided with this source distribution. The environ.c module
+ # implements setenv(), getenv(), and putenv().
+ 
+-AUX_OBJ= setenv.o
++#AUX_OBJ= setenv.o
+ #AUX_OBJ= environ.o
+ #AUX_OBJ= environ.o strcasecmp.o
+ 
+@@ -657,7 +657,7 @@
+ # Protection against weird shells or weird make programs.
+ 
+ SHELL	= /bin/sh
+-.c.o:;	$(CC) $(CFLAGS) -c $*.c
++.c.o:;	$(LIBTOOL) $(CC) $(CFLAGS) -c $*.c
+ 
+ CFLAGS	= -O -DFACILITY=$(FACILITY) $(ACCESS) $(PARANOID) $(NETGROUP) \
+ 	$(BUGS) $(SYSTYPE) $(AUTH) $(UMASK) \
+@@ -704,26 +704,26 @@
+ 	-$(RANLIB) $(LIB)
+ 
+ tcpd:	tcpd.o $(LIB)
+-	$(CC) $(CFLAGS) -o $@ tcpd.o $(LIB) $(LIBS)
++	$(LIBTOOL) $(CC) $(CFLAGS) -o $@ tcpd.o $(LIB) $(LIBS)
+ 
+ miscd:	miscd.o $(LIB)
+-	$(CC) $(CFLAGS) -o $@ miscd.o $(LIB) $(LIBS)
++	$(LIBTOOL) $(CC) $(CFLAGS) -o $@ miscd.o $(LIB) $(LIBS)
+ 
+ safe_finger: safe_finger.o $(LIB)
+-	$(CC) $(CFLAGS) -o $@ safe_finger.o $(LIB) $(LIBS)
++	$(LIBTOOL) $(CC) $(CFLAGS) -o $@ safe_finger.o $(LIB) $(LIBS)
+ 
+ TCPDMATCH_OBJ = tcpdmatch.o fakelog.o inetcf.o scaffold.o
+ 
+ tcpdmatch: $(TCPDMATCH_OBJ) $(LIB)
+-	$(CC) $(CFLAGS) -o $@ $(TCPDMATCH_OBJ) $(LIB) $(LIBS)
++	$(LIBTOOL) $(CC) $(CFLAGS) -o $@ $(TCPDMATCH_OBJ) $(LIB) $(LIBS)
+ 
+ try-from: try-from.o fakelog.o $(LIB)
+-	$(CC) $(CFLAGS) -o $@ try-from.o fakelog.o $(LIB) $(LIBS)
++	$(LIBTOOL) $(CC) $(CFLAGS) -o $@ try-from.o fakelog.o $(LIB) $(LIBS)
+ 
+ TCPDCHK_OBJ = tcpdchk.o fakelog.o inetcf.o scaffold.o
+ 
+ tcpdchk: $(TCPDCHK_OBJ) $(LIB)
+-	$(CC) $(CFLAGS) -o $@ $(TCPDCHK_OBJ) $(LIB) $(LIBS)
++	$(LIBTOOL) $(CC) $(CFLAGS) -o $@ $(TCPDCHK_OBJ) $(LIB) $(LIBS)
+ 
+ shar:	$(KIT)
+ 	@shar $(KIT)
+diff -u tcp_wrappers_7.6/percent_m.c tcp_wrappers_7.6/percent_m.c
+--- tcp_wrappers_7.6/percent_m.c	Wed Dec 28 17:42:37 1994
++++ tcp_wrappers_7.6/percent_m.c	Tue Nov 27 20:47:39 2001
+@@ -13,10 +13,6 @@
+ #include <string.h>
+ 
+ extern int errno;
+-#ifndef SYS_ERRLIST_DEFINED
+-extern char *sys_errlist[];
+-extern int sys_nerr;
+-#endif
+ 
+ #include "mystdarg.h"
+ 

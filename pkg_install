@@ -1,0 +1,89 @@
+#!/bin/bash
+
+PERMANENT=no
+FORCE=no
+LIST=no
+
+while [ "${1:0:1}" = "-" ]; do
+    [ "$1" = --permanent ] && PERMANENT=yes && shift && continue
+    [ "$1" = --force ] && FORCE=yes && shift && continue
+    [ "$1" = -l ] && LIST=yes && shift && continue
+    [ "$1" = --list ] && LIST=yes && shift && continue
+    break
+done
+
+pkg=$1
+pkgfile=""
+STATE=/var/state/installed_files
+STATEPKGS=/var/state/installed_pkgs
+PERMPKGS=/var/state/permanent_pkgs
+PERMFILES=/var/state/permanent_files
+TMPFILE=/tmp/filelist.$$
+trap "rm -f $TMPFILE" EXIT
+
+[ "$LIST" = yes ] && (cat $STATEPKGS $PERMPKGS|tr -d ':') 2>/dev/null && exit 0
+
+if [ -z "$pkg" ]; then
+   echo "Usage: pkg_install [--permanent] [--force] [-l] <pkg>"
+   exit 0
+fi
+
+mkdir -p /var/state
+
+if grep -qs ":$pkg:" $PERMPKGS; then
+    echo $pkg already permanently installed
+    exit 0
+fi
+if grep -qs ":$pkg:" $STATEPKGS; then
+    echo $pkg already installed
+    exit 0
+fi
+
+[ -f "/var/spool/pkg/$pkg.tar.gz" ] && pkgfile="/var/spool/pkg/$pkg.tar.gz"
+[ -f "/var/spool/pkg/$pkg.tgz" ] && pkgfile="/var/spool/pkg/$pkg.tgz"
+
+if [ -z "$pkgfile" ]; then
+   echo "$pkg not found in spool"
+   exit 1
+fi
+
+tar tf "$pkgfile" > $TMPFILE
+
+function checkfiles {
+    local rc=0
+    cd /
+    while read f; do
+	if [ -d "$f" ]; then
+	    continue
+	fi
+	if [ -e "$f" ]; then
+	    [ "$rc" = 0 ] && echo " conflicts follow:"
+	    echo "file '$f' already exists"
+	    rc=1
+	fi
+    done
+    return $rc
+}
+
+echo -n "Installing $pkg: ."
+if [ "$FORCE" = no ]; then
+    checkfiles < $TMPFILE
+    [ $? = 0 ] || exit 1
+fi
+
+if [ "$PERMANENT" = no ]; then
+    cat $TMPFILE >> $STATE
+else
+    cat $TMPFILE >> $PERMFILES
+fi
+
+[ -f /sbin/remount ] && remount w
+cd /
+tar xf "$pkgfile" #--checkpoint=500 --checkpoint-action="dot"
+echo " Done!"
+[ -f /sbin/remount ] && remount r
+if [ "$PERMANENT" = no ]; then
+    echo ":$pkg:" >> $STATEPKGS
+else
+    echo ":$pkg:" >> $PERMPKGS
+fi

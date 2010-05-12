@@ -1,0 +1,61 @@
+
+./Configure -ed -Uusedl.
+
+# stänga av shared support
+What is the file extension used for shared libraries?
+so="none"
+------------------
+
+# Flagga som behövs
+cflags: -D_SVID_SOURCE
+
+-----------------
+
+# tabort stack-protector
+config.sh:
+ccflags='-D_SVID_SOURCE -fno-strict-aliasing -pipe -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64'
+ccflags_uselargefiles='-D_SVID_SOURCE -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64'
+
+d_tm_tm_gmtoff='define'
+d_tm_tm_zone='define'
+extensions= /del IO/Compress /
+static_ext=
+
+------------------
+# stänga av flaggor
+config.h:/* HAS_TM_TM_GMTOFF:
+config.h:#define HAS_TM_TM_GMTOFF		/**/
+
+/*  #define HAS_TM_TM_ZONE				*/
+
+----------------
+
+IO abstraction layer?
+rp='Use the PerlIO abstraction layer?'
+#. ./myread
+ans=n
+
+--------------
+By default, Configure will compile perl to use dynamic loading.
+If you want to force perl to be compiled completely
+statically, you can either choose this when Configure prompts you or
+you can use the Configure command line option -Uusedl.
+
+If you have any additional changes to make to the C compiler command
+line, they can be made in cflags.SH.
+
+
+If you can successfully build miniperl, but the process crashes
+during the building of extensions, run
+
+       make minitest
+
+to test your version of miniperl.
+
+-----------------------------
+cc -o perl    perlmain.o lib/auto/B/B.a lib/auto/Compress/Raw/Bzip2/Bzip2.a lib/auto/Compress/Raw/Zlib/Zlib.a lib/auto/Cwd/Cwd.a lib/auto/Data/Dumper/Dumper.a lib/auto/Devel/DProf/DProf.a lib/auto/Devel/PPPort/PPPort.a lib/auto/Devel/Peek/Peek.a lib/auto/Digest/MD5/MD5.a lib/auto/Digest/SHA/SHA.a lib/auto/Encode/Encode.a lib/auto/Fcntl/Fcntl.a lib/auto/File/Glob/Glob.a lib/auto/Filter/Util/Call/Call.a lib/auto/Hash/Util/Util.a lib/auto/Hash/Util/FieldHash/FieldHash.a lib/auto/I18N/Langinfo/Langinfo.a lib/auto/IO/IO.a lib/auto/IO/Compress/Compress.a lib/auto/IPC/SysV/SysV.a lib/auto/List/Util/Util.a lib/auto/MIME/Base64/Base64.a lib/auto/Math/BigInt/FastCalc/FastCalc.a lib/auto/Opcode/Opcode.a lib/auto/POSIX/POSIX.a lib/auto/PerlIO/encoding/encoding.a lib/auto/PerlIO/scalar/scalar.a lib/auto/PerlIO/via/via.a lib/auto/SDBM_File/SDBM_File.a lib/auto/Socket/Socket.a lib/auto/Storable/Storable.a lib/auto/Sys/Hostname/Hostname.a lib/auto/Sys/Syslog/Syslog.a lib/auto/Text/Soundex/Soundex.a lib/auto/Time/HiRes/HiRes.a lib/auto/Time/Piece/Piece.a lib/auto/Unicode/Normalize/Normalize.a lib/auto/attrs/attrs.a lib/auto/mro/mro.a lib/auto/re/re.a lib/auto/threads/threads.a lib/auto/threads/shared/shared.a lib/auto/Encode/Byte/Byte.a lib/auto/Encode/CN/CN.a lib/auto/Encode/EBCDIC/EBCDIC.a lib/auto/Encode/JP/JP.a lib/auto/Encode/KR/KR.a lib/auto/Encode/Symbol/Symbol.a lib/auto/Encode/TW/TW.a lib/auto/Encode/Unicode/Unicode.a libperl.a `cat ext.libs` -lnsl -ldl -lm -lcrypt -lutil -lc 
+rawgcc: lib/auto/IO/Compress/Compress.a: No such file or directory
+make: *** [perl] Error 1
+
+Kan det vara så att zlib behövs?
+eller slå av Compress?

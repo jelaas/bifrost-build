@@ -1,0 +1,5 @@
+#!/bin/bash
+
+for f in $(find . -name ltmain.sh) EOF; do
+    [ "$f" = EOF ] || (cd $(dirname $f);patch -p0 < /var/lib/build/patches/libtool-static.patch)
+done
