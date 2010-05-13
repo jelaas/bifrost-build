@@ -25,9 +25,11 @@ fi
 cp -f $TMPFILE $STATE
 rm -f $TMPFILE
 rm -f $STATEPKGS
-if tar xUf $MOVEFILES; then
-    rm -f $MOVEFILES
-else
-    echo "Failed restore backup of files in $MOVEFILES !!"
+if [ -f $MOVEFILES ]; then
+    if tar xUf $MOVEFILES; then
+	rm -f $MOVEFILES
+    else
+	echo "Failed restore backup of files in $MOVEFILES !!"
+    fi
 fi
 # remount r
