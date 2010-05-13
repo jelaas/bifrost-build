@@ -33,6 +33,7 @@ B-configure-1 --prefix=/ --enable-static-link || exit 1
 # Post configure patch
 # patch -p0 < $PKGDIR/Makefile.pat
 echo '#define WCONTINUED_BROKEN 1' >> config.h
+echo '#undef CAN_REDEFINE_GETENV' >> config.h
 
 #########
 # Compile
@@ -52,7 +53,8 @@ cd $DST
 #########
 # Clean up
 cd $DST
-# rm -rf usr/share usr/man
+rm -rf share
+rm -f bin/bashbug
 [ -d bin ] && strip bin/*
 [ -d usr/bin ] && strip usr/bin/*
 
