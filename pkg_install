@@ -58,7 +58,10 @@ function movefiles {
 	    continue
 	fi
 	if [ -e "$f" ]; then
-	    if ! tar tf $MOVEFILES "$f" || tar rf $MOVEFILES "$f"; then
+	    if [ -f $MOVEFILES ]; then
+		tar tf $MOVEFILES "$f" && continue
+	    fi
+	    if ! tar rf $MOVEFILES "$f"; then
 		echo "Failed to take backup of $f"
 		rc=1
 	    fi
