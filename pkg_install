@@ -74,7 +74,7 @@ function movefiles {
 	fi
 	if [ -e "$f" ]; then
 	    if [ -f $MOVEFILES ]; then
-		tar tf $MOVEFILES "$f" && continue
+		tar tf $MOVEFILES "$f" &>/dev/null && continue
 	    fi
 	    if ! tar rf $MOVEFILES "$f"; then
 		echo "Failed to take backup of $f"
@@ -121,7 +121,7 @@ if [ "$INTERNAL" = yes ]; then
     /tmp/tar xf "$pkgfile" || exit 1
     rm -f /tmp/tar /tmp/tac /tmp/rm /tmp/rmdir
 else
-    tar xUf "$pkgfile" --checkpoint=500 --checkpoint-action="dot" || exit 1
+    tar xf "$pkgfile" --checkpoint=500 --checkpoint-action="dot" || exit 1
 fi
 
 if [ "$PERMANENT" = no ]; then
