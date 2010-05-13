@@ -3,6 +3,7 @@
 STATE=/var/state/installed_files
 STATEPKGS=/var/state/installed_pkgs
 TMPFILE=/tmp/installed_files_tmp.$$
+MOVEFILES=/var/state/movedfiles.tar
 
 rm -f $TMPFILE
 touch $TMPFILE
@@ -24,4 +25,9 @@ fi
 cp -f $TMPFILE $STATE
 rm -f $TMPFILE
 rm -f $STATEPKGS
+if tar xUf $MOVEFILES; then
+    rm -f $MOVEFILES
+else
+    echo "Failed restore backup of files in $MOVEFILES !!"
+fi
 # remount r

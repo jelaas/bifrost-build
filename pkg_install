@@ -18,6 +18,7 @@ STATE=/var/state/installed_files
 STATEPKGS=/var/state/installed_pkgs
 PERMPKGS=/var/state/permanent_pkgs
 PERMFILES=/var/state/permanent_files
+MOVEFILES=/var/state/movedfiles.tar
 TMPFILE=/tmp/filelist.$$
 trap "rm -f $TMPFILE" EXIT
 
@@ -49,7 +50,7 @@ fi
 
 tar tf "$pkgfile" > $TMPFILE
 
-function checkfiles {
+function movefiles {
     local rc=0
     cd /
     while read f; do
@@ -57,19 +58,19 @@ function checkfiles {
 	    continue
 	fi
 	if [ -e "$f" ]; then
-	    [ "$rc" = 0 ] && echo " conflicts follow:"
-	    echo "file '$f' already exists"
-	    rc=1
+	    if ! tar tf $MOVEFILES "$f" || tar rf $MOVEFILES "$f"; then
+		echo "Failed to take backup of $f"
+		rc=1
+	    fi
 	fi
     done
     return $rc
 }
 
 echo -n "Installing $pkg: ."
-if [ "$FORCE" = no ]; then
-    checkfiles < $TMPFILE
-    [ $? = 0 ] || exit 1
-fi
+
+movefiles < $TMPFILE
+[ $? = 0 ] || exit 1
 
 if [ "$PERMANENT" = no ]; then
     cat $TMPFILE >> $STATE
@@ -79,7 +80,7 @@ fi
 
 [ -f /sbin/remount ] && remount w
 cd /
-tar xf "$pkgfile" #--checkpoint=500 --checkpoint-action="dot"
+tar xUf "$pkgfile" #--checkpoint=500 --checkpoint-action="dot"
 echo " Done!"
 [ -f /sbin/remount ] && remount r
 if [ "$PERMANENT" = no ]; then
