@@ -52,12 +52,14 @@ if [ -z "$pkgfile" ]; then
    exit 1
 fi
 
-if ! grep -qs ":$TARPKG:" $PERMPKGS; then
-    echo "Trying to install $TARPKG for full functionality."
-    if ! /var/lib/build/pkg_install --internal --permanent $TARPKG; then
-	echo "I need pkg $TARPKG permanently installed!"
-	echo "Please run: \"/var/lib/build/pkg_build $TARPKG\""
-	return 1
+if [ "$INTERNAL" = no ]; then
+    if ! grep -qs ":$TARPKG:" $PERMPKGS; then
+	echo "Trying to install $TARPKG for full functionality."
+	if ! /var/lib/build/pkg_install --internal --permanent $TARPKG; then
+	    echo "I need pkg $TARPKG permanently installed!"
+	    echo "Please run: \"/var/lib/build/pkg_build $TARPKG\""
+	    return 1
+	fi
     fi
 fi
 
