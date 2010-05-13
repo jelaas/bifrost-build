@@ -58,7 +58,7 @@ if [ "$INTERNAL" = no ]; then
 	if ! /var/lib/build/pkg_install --internal --permanent $TARPKG; then
 	    echo "I need pkg $TARPKG permanently installed!"
 	    echo "Please run: \"/var/lib/build/pkg_build $TARPKG\""
-	    return 1
+	    exit 1
 	fi
     fi
 fi
@@ -90,11 +90,11 @@ function rmfiles {
     cd /
     while read f; do
 	if [ -d "$f" ]; then
-	    rmdir "$f"
+	    /tmp/rmdir "$f"
 	    continue
 	fi
 	if [ -e "$f" ]; then
-	    if ! /bin/rm -f "$f"; then
+	    if ! /tmp/rm -f "$f"; then
 		echo "Failed to remove $f"
 		rc=1
 	    fi
@@ -113,8 +113,13 @@ fi
 [ -f /sbin/remount ] && remount w
 cd /
 if [ "$INTERNAL" = yes ]; then
-    tac $TMPFILE | rmfiles
-    tar xf "$pkgfile" || exit 1
+    cp -p /bin/tar /tmp/tar || exit 1
+    cp -p /bin/tac /tmp/tac || exit 1
+    cp -p /bin/rm /tmp/rm || exit 1
+    cp -p /bin/rmdir /tmp/rmdir || exit 1
+    /tmp/tac $TMPFILE | rmfiles
+    /tmp/tar xf "$pkgfile" || exit 1
+    rm -f /tmp/tar /tmp/tac /tmp/rm /tmp/rmdir
 else
     tar xUf "$pkgfile" --checkpoint=500 --checkpoint-action="dot" || exit 1
 fi
