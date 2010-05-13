@@ -1,5 +1,7 @@
 #!/bin/bash
 
+TARPKG=tar-1.23-1
+
 PERMANENT=no
 FORCE=no
 LIST=no
@@ -61,6 +63,13 @@ function movefiles {
 	    if [ -f $MOVEFILES ]; then
 		tar tf $MOVEFILES "$f" && continue
 	    fi
+	    if ! grep -qs ":$TARPKG:" $PERMPKGS; then
+		echo "Trying to install $TARPKG for backup functionality."
+		if ! pkg_install --permanent $TARPKG; then
+		    echo "I need pkg $TARPKG permanently installed to be able to backup files!"
+		    return 1
+		fi
+	    fi
 	    if ! tar rf $MOVEFILES "$f"; then
 		echo "Failed to take backup of $f"
 		rc=1
@@ -72,8 +81,10 @@ function movefiles {
 
 echo -n "Installing $pkg: ."
 
-movefiles < $TMPFILE
-[ $? = 0 ] || exit 1
+if [ "$PERMANENT" = no ]; then
+    movefiles < $TMPFILE
+    [ $? = 0 ] || exit 1
+fi
 
 if [ "$PERMANENT" = no ]; then
     cat $TMPFILE >> $STATE
