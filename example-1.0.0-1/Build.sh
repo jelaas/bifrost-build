@@ -45,7 +45,7 @@ make install DESTDIR=$DST # --with-install-prefix may be an alternative
 # Check result
 cd $DST
 # [ -f usr/bin/myprog ] || exit 1
-# (file usr/bin/myprog | grep -qs "statically linked") || exit 1
+# (ldd sbin/myprog|grep -qs "not a dynamic executable") || exit 1
 
 #########
 # Clean up
