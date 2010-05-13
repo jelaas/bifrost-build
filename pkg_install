@@ -83,11 +83,38 @@ function movefiles {
     return $rc
 }
 
+function rmfiles {
+    local rc=0
+    cd /
+    while read f; do
+	if [ -d "$f" ]; then
+	    rmdir "$f"
+	    continue
+	fi
+	if [ -e "$f" ]; then
+	    if ! /bin/rm -f "$f"; then
+		echo "Failed to remove $f"
+		rc=1
+	    fi
+	fi
+    done
+    return $rc
+}
+
 echo -n "Installing $pkg: ."
 
 if [ "$PERMANENT" = no ]; then
     movefiles < $TMPFILE
     [ $? = 0 ] || exit 1
+fi
+
+[ -f /sbin/remount ] && remount w
+cd /
+if [ "$INTERNAL" = yes ]; then
+    tac $TMPFILE | rmfiles
+    tar xf "$pkgfile" || exit 1
+else
+    tar xUf "$pkgfile" --checkpoint=500 --checkpoint-action="dot" || exit 1
 fi
 
 if [ "$PERMANENT" = no ]; then
@@ -96,16 +123,10 @@ else
     cat $TMPFILE >> $PERMFILES
 fi
 
-[ -f /sbin/remount ] && remount w
-cd /
-if [ "$INTERNAL" = yes ]; then
-    tar xf "$pkgfile" || exit 1
-else
-    tar xUf "$pkgfile" --checkpoint=500 --checkpoint-action="dot" || exit 1
-fi
-
 echo " Done!"
+
 [ -f /sbin/remount ] && remount r
+
 if [ "$PERMANENT" = no ]; then
     echo ":$pkg:" >> $STATEPKGS
 else
