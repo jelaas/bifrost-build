@@ -65,7 +65,7 @@ function movefiles {
 	    fi
 	    if ! grep -qs ":$TARPKG:" $PERMPKGS; then
 		echo "Trying to install $TARPKG for backup functionality."
-		if ! pkg_install --permanent $TARPKG; then
+		if ! /var/lib/build/pkg_install --permanent $TARPKG; then
 		    echo "I need pkg $TARPKG permanently installed to be able to backup files!"
 		    return 1
 		fi
