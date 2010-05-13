@@ -5,11 +5,13 @@ TARPKG=tar-1.23-1
 PERMANENT=no
 FORCE=no
 LIST=no
+INTERNAL=no
 
 while [ "${1:0:1}" = "-" ]; do
     [ "$1" = --permanent ] && PERMANENT=yes && shift && continue
     [ "$1" = --force ] && FORCE=yes && shift && continue
     [ "$1" = -l ] && LIST=yes && shift && continue
+    [ "$1" = --internal ] && INTERNAL=yes && shift && continue
     [ "$1" = --list ] && LIST=yes && shift && continue
     break
 done
@@ -50,6 +52,15 @@ if [ -z "$pkgfile" ]; then
    exit 1
 fi
 
+if ! grep -qs ":$TARPKG:" $PERMPKGS; then
+    echo "Trying to install $TARPKG for full functionality."
+    if ! /var/lib/build/pkg_install --internal --permanent $TARPKG; then
+	echo "I need pkg $TARPKG permanently installed!"
+	echo "Please run: \"/var/lib/build/pkg_build $TARPKG\""
+	return 1
+    fi
+fi
+
 tar tf "$pkgfile" > $TMPFILE
 
 function movefiles {
@@ -62,13 +73,6 @@ function movefiles {
 	if [ -e "$f" ]; then
 	    if [ -f $MOVEFILES ]; then
 		tar tf $MOVEFILES "$f" && continue
-	    fi
-	    if ! grep -qs ":$TARPKG:" $PERMPKGS; then
-		echo "Trying to install $TARPKG for backup functionality."
-		if ! /var/lib/build/pkg_install --permanent $TARPKG; then
-		    echo "I need pkg $TARPKG permanently installed to be able to backup files!"
-		    return 1
-		fi
 	    fi
 	    if ! tar rf $MOVEFILES "$f"; then
 		echo "Failed to take backup of $f"
@@ -94,7 +98,12 @@ fi
 
 [ -f /sbin/remount ] && remount w
 cd /
-tar xUf "$pkgfile" #--checkpoint=500 --checkpoint-action="dot"
+if [ "$INTERNAL" = yes ]; then
+    tar xf "$pkgfile" || exit 1
+else
+    tar xUf "$pkgfile" --checkpoint=500 --checkpoint-action="dot" || exit 1
+fi
+
 echo " Done!"
 [ -f /sbin/remount ] && remount r
 if [ "$PERMANENT" = no ]; then
