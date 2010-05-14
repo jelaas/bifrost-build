@@ -41,7 +41,7 @@ make -j || exit 1
 rm -rf "$DST"
 make install DESTDIR=$DST # --with-install-prefix may be an alternative
 cd $DST
-ln -s bin/zile emacs
+ln -s zile bin/emacs
 
 #########
 # Check result
@@ -52,7 +52,7 @@ cd $DST
 #########
 # Clean up
 cd $DST
-# rm -rf usr/share usr/man
+rm -rf usr/share
 [ -d bin ] && strip bin/*
 [ -d usr/bin ] && strip usr/bin/*
 
