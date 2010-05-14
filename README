@@ -1,3 +1,101 @@
-install uclibc mini-native-i586.
-cd /var/lib inside mini-native chroot environment.
-git clone git://github.com/jelaas/bifrost-build.git build
+ BUILD ENVIRONMENT FOR BIFROST
+-------------------------------
+
+A predictable and repeatable building environment for Bifrost binaries.
+Consists of a uclibc mini-native chroot environment and a this package
+of management and build scripts.
+
+Each package is identified by source version and build script version.
+A package may install dependencies in the form of other bifrost packages
+from this build environment.
+
+The 'pkg_build' script will ensure a clean environment (all installed
+dependencies are uninstalled) before the package's own build script is run.
+
+Installation:
+-------------
+Fetch the uclibc chroot tarball:
+$ cd /tmp
+$ wget http://uclibc.org/downloads/binaries/0.9.30.1/mini-native-i586.tar.bz2
+
+Put into a suitable place:
+$ mkdir /home/build
+$ cd /home/build
+$ tar xf /tmp/mini-native-i586.tar.bz2
+
+Install this package:
+$ mkdir -p mini-native-i586/var/lib
+$ cd mini-native-i586/var/lib
+$ git clone git://github.com/jelaas/bifrost-build.git build
+
+Install helpful scripts:
+$ cp -p util/chroot-i586.sh /home/build
+$ cp -p util/chroot-setup.sh /home/build/mini-native-i586/bin
+
+Do we need to install a newer bash? (bash version 3+)
+
+Usage:
+------
+
+Enter chroot:
+$ cd /home/build
+$ ./chroot-i586.sh
+$ cd /var/lib/build
+
+Start with building gnu tar:
+$ ./pkg_build tar-1.23-1
+
+Note: the first time you install a package or a build script installs a
+dependency it will try to install gnu tar.
+
+Package:
+--------
+
+Files in a package:
+ Build.sh
+ Fetch-source.sh
+
+"Build.sh"
+Configures, compiles and creates a package tarball which must be put in
+'/var/spool/pkg/' and names '<package>.tar.gz'. Where package is the same
+name as the directory under '/var/lib/build' that contains the package scripts.
+
+"Fetch-source.sh"
+Responsible for fetching any source files the package might need.
+These should be put under '/var/spool/src'.
+
+Example package:
+----------------
+
+The best way to create a new package is to copy the example scripts from
+the package 'example-1.0.0-1'.
+
+The name of a package should be: "<application>-<version>-<build-version>".
+
+After a package has been published and you wish to change the logic in the
+scripts you need to create a new build-version for this. The same goes for
+a new version of the source. This to ensure that the resulting build is
+always identical.
+
+The management scripts:
+-----------------------
+
+pkg_available:
+ Help script for use by 'Build.sh'. It is there to help the user when more the
+ package needs more than one dependency. pkg_available will report which
+ dependencies need to be build (not recursively though).
+
+pkg_build:
+ Makes sure a working environment exists. Uninstalls any previously installed
+ packages (dependencies). Calls the 'Build.sh' script for the package.
+ 
+pkg_install:
+ Installs a package. Keeps track of which files are installed. Also takes
+ backup copies of any files that will be overwritten.
+
+pkg_src_fetch:
+ Calls 'Fetch-source.sh' for the package. This may be useful if you want to
+ stock up on source files before starting building.
+
+pkg_uninstall:
+ Removes the packages files. Also reinstalls any files that were backuped.
