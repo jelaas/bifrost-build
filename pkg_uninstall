@@ -13,6 +13,9 @@ mkdir -p /var/state
 
 cd /
 # remount w
+
+# FIXME: what if we remove 'rmdir' and 'rm' during uninstallation?
+# we need to make temporary backups.
 if [ -s $STATE ]; then
     tac $STATE|while read f; do
         if [ -d "$f" ]; then
