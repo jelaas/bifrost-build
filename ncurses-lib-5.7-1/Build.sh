@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SRCVER=ncurses-5.7
-PKG=$SRCVER-1 # with build version
+PKG=ncurses-lib-5.7-1 # with build version
 
 PKGDIR=${PKGDIR:-/var/lib/build/$PKG}
 SRC=/var/spool/src/$SRCVER.tar.gz
@@ -50,9 +50,7 @@ cd $DST
 #########
 # Clean up
 cd $DST
-rm -rf usr/man
-[ -d bin ] && strip bin/*
-[ -d usr/bin ] && strip usr/bin/*
+rm -rf usr/man usr/bin usr/share
 
 #########
 # Make package
