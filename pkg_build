@@ -15,7 +15,7 @@ function checkpkg {
 
     rc=0
     while [ "$1" ]; do
-	pkg=$1
+	pkg=$(basename $1)
 	PKGDIR=""
 	[ -d "/var/lib/build/staging/$pkg" ] && PKGDIR="/var/lib/build/staging/$pkg"
 	[ -d "/var/lib/build/$pkg" ] && PKGDIR="/var/lib/build/$pkg"
@@ -36,7 +36,7 @@ mkdir -p /var/spool/src
 mkdir -p /var/spool/pkg
 
 while [ "$1" ]; do
-    pkg=$1
+    pkg=$(basename $1)
     shift
     
     rm -rf "/var/tmp/install/$pkg"

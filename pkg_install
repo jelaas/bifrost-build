@@ -16,7 +16,7 @@ while [ "${1:0:1}" = "-" ]; do
     break
 done
 
-pkg=$1
+pkg=$(basename $1)
 pkgfile=""
 STATE=/var/state/installed_files
 STATEPKGS=/var/state/installed_pkgs
