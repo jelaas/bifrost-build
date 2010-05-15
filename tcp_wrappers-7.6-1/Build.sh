@@ -3,7 +3,7 @@
 SRCVER=tcp_wrappers-7.6
 PKG=$SRCVER-1 # with build version
 
-PKGDIR=/var/lib/build/$PKG
+PKGDIR=${PKGDIR:-/var/lib/build/$PKG}
 SRC=/var/spool/src/tcp_wrappers_7.6.tar.gz
 CDIR=/var/tmp/src
 SRCDIR=$CDIR/tcp_wrappers_7.6

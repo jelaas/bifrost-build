@@ -3,7 +3,7 @@
 SRCVER=openssl-0.9.8n
 PKG=$SRCVER-2 # with build version
 
-PKGDIR=/var/lib/build/$PKG
+PKGDIR=${PKGDIR:-/var/lib/build/$PKG}
 SRC=/var/spool/src/$SRCVER.tar.gz
 CDIR=/var/tmp/src
 DST="/var/tmp/install/$PKG"

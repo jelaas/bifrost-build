@@ -3,7 +3,7 @@
 SRCVER=git-1.7.1
 PKG=$SRCVER-2 # with build version
 
-PKGDIR=/var/lib/build/$PKG
+PKGDIR=${PKGDIR:-/var/lib/build/$PKG}
 SRC=/var/spool/src/$SRCVER.tar.bz2
 BUILDDIR=/var/tmp/src/$SRCVER
 DST="/var/tmp/install/$PKG"

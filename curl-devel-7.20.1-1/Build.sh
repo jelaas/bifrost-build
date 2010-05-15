@@ -3,7 +3,7 @@
 SRCVER=curl-devel-7.20.1
 PKG=$SRCVER-1 # with build version
 
-PKGDIR=/var/lib/build/$PKG
+PKGDIR=${PKGDIR:-/var/lib/build/$PKG}
 SRC=/var/spool/src/curl-7.20.1.tar.bz2
 BUILDDIR=/var/tmp/src/curl-7.20.1
 DST="/var/tmp/install/$PKG"

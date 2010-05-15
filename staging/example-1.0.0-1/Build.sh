@@ -4,6 +4,7 @@ SRCVER=example-1.0.0
 PKG=$SRCVER-1 # with build version
 
 # PKGDIR is set by 'pkg_build'. Usually "/var/lib/build/$PKG".
+PKGDIR=${PKGDIR:-/var/lib/build/$PKG}
 SRC=/var/spool/src/$SRCVER.tar.gz
 BUILDDIR=/var/tmp/src/$SRCVER
 DST="/var/tmp/install/$PKG"
