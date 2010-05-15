@@ -26,7 +26,7 @@ libtool_fix-1
 
 #########
 # Configure
-B-configure-1 --prefix=/usr --bindir=/usr/ncurses/bin || exit 1
+B-configure-1 --prefix=/usr || exit 1
 
 #########
 # Post configure patch
