@@ -2,4 +2,9 @@
 
 pkg="$1"
 
-[ -f "/var/lib/build/$pkg/Fetch-source.sh" ] && "/var/lib/build/$pkg/Fetch-source.sh"
+PKGDIR=""
+[ -d "/var/lib/build/staging/$pkg" ] && PKGDIR="/var/lib/build/staging/$pkg"
+[ -d "/var/lib/build/$pkg" ] && PKGDIR="/var/lib/build/$pkg"
+
+
+[ "$PKGDIR" ] && [ -f "$PKGDIR/Fetch-source.sh" ] && "$PKGDIR/Fetch-source.sh"

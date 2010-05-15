@@ -68,7 +68,7 @@ Example package:
 ----------------
 
 The best way to create a new package is to copy the example scripts from
-the package 'example-1.0.0-1'.
+the package 'example-1.0.0-1', which is located under the staging directory.
 
 The name of a package should be: "<application>-<version>-<build-version>".
 
@@ -99,3 +99,26 @@ pkg_src_fetch:
 
 pkg_uninstall:
  Removes the packages files. Also reinstalls any files that were backuped.
+
+Creating a package
+------------------
+
+While working on a new package there is a staging directory that is not
+tracked by git ("/var/lib/build/staging").
+
+$ cd /var/lib/build/staging
+$ cp -a example-1.0.0-1 <pkg>-<version>-<build-version>
+
+Edit Fetch-source.sh.
+Edit Build.sh.
+
+Testrun:
+$ /var/lib/build/pkg_build <pkg>-<version>-<build-version>
+
+__Important note_!!_
+Be careful with the install part of making the package. Make sure that
+for instance 'make install' wont install files under a real prefix into
+the actual build environment. You might inadvertently insert unknown
+dependencies into the environment.
+
+Many package will support the DESTDIR variable for 'make install'.

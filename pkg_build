@@ -16,7 +16,10 @@ function checkpkg {
     rc=0
     while [ "$1" ]; do
 	pkg=$1
-	if [ ! -d "/var/lib/build/$pkg" ]; then
+	PKGDIR=""
+	[ -d "/var/lib/build/staging/$pkg" ] && PKGDIR="/var/lib/build/staging/$pkg"
+	[ -d "/var/lib/build/$pkg" ] && PKGDIR="/var/lib/build/$pkg"
+	if [ -z "$PKGDIR" ]; then
 	    echo "/var/lib/build/$pkg does not exist"
 	    rc=1
 	fi
@@ -40,6 +43,8 @@ while [ "$1" ]; do
     
     [ "$BUILD_IN_PROGRESS" ] || /var/lib/build/pkg_uninstall
     export BUILD_IN_PROGRESS=yes
-    cd "/var/lib/build/$pkg"
+    [ -d "/var/lib/build/staging/$pkg" ] && export PKGDIR="/var/lib/build/staging/$pkg"
+    [ -d "/var/lib/build/$pkg" ] && export PKGDIR="/var/lib/build/$pkg"
+    cd $PKGDIR
     PATH="/var/lib/build:$PATH" ./Build.sh || echo "ERROR: Build unsuccessful [$?]"
 done

@@ -1,1 +1,4 @@
 *~
+staging/*
+!staging/.gitignore
+!staging/example-1.0.0-1
