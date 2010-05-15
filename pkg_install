@@ -16,7 +16,6 @@ while [ "${1:0:1}" = "-" ]; do
     break
 done
 
-pkg=$(basename $1)
 pkgfile=""
 STATE=/var/state/installed_files
 STATEPKGS=/var/state/installed_pkgs
@@ -28,10 +27,12 @@ trap "rm -f $TMPFILE" EXIT
 
 [ "$LIST" = yes ] && (cat $STATEPKGS $PERMPKGS|tr -d ':') 2>/dev/null && exit 0
 
-if [ -z "$pkg" ]; then
+if [ -z "$1" ]; then
    echo "Usage: pkg_install [--permanent] [--force] [-l] <pkg>"
    exit 0
 fi
+
+pkg="$(basename $1)"
 
 mkdir -p /var/state
 
