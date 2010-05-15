@@ -10,9 +10,9 @@ DST="/var/tmp/install/$PKG"
 
 #########
 # Install dependencies:
-pkg_available readline-6.1-1 ncurses-5.7-1
+pkg_available readline-6.1-1 ncurses-lib-5.7-1
 pkg_install readline-6.1-1 || exit 1
-pkg_install ncurses-5.7-1 || exit 1
+pkg_install ncurses-lib-5.7-1 || exit 1
 
 #########
 # Unpack sources into dir under /var/tmp/src

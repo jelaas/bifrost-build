@@ -11,7 +11,7 @@ DST="/var/tmp/install/$PKG"
 #########
 # Install dependencies:
 # pkg_available dependency1-1 dependency2-1
-pkg_install ncurses-5.7-1 || exit 1
+pkg_install ncurses-lib-5.7-1 || exit 1
 
 #########
 # Unpack sources into dir under /var/tmp/src
