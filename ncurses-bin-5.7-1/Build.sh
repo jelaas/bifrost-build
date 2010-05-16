@@ -50,7 +50,8 @@ cd $DST
 #########
 # Clean up
 cd $DST
-rm -rf usr/man usr/share usr/lib usr/include
+rm -rf usr/man usr/share usr/lib usr/include 
+rm -f usr/bin/ncurses5-config
 [ -d bin ] && strip bin/*
 [ -d usr/bin ] && strip usr/bin/*
 

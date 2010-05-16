@@ -50,7 +50,11 @@ cd $DST
 #########
 # Clean up
 cd $DST
+mv usr/bin/ncurses5-config .
 rm -rf usr/man usr/bin usr/share
+mkdir -p usr/bin
+mv ncurses5-config usr/bin
+chmod +x usr/bin/ncurses5-config
 
 #########
 # Make package
