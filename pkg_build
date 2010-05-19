@@ -41,8 +41,7 @@ while [ "$1" ]; do
     
     rm -rf "/var/tmp/install/$pkg"
     
-    [ "$BUILD_IN_PROGRESS" ] || /var/lib/build/pkg_uninstall
-    export BUILD_IN_PROGRESS=yes
+    /var/lib/build/pkg_uninstall
     [ -d "/var/lib/build/staging/$pkg" ] && export PKGDIR="/var/lib/build/staging/$pkg"
     [ -d "/var/lib/build/$pkg" ] && export PKGDIR="/var/lib/build/$pkg"
     cd $PKGDIR
