@@ -37,7 +37,7 @@ echo '#undef CAN_REDEFINE_GETENV' >> config.h
 
 #########
 # Compile
-make -j || exit 1
+make || exit 1
 
 #########
 # Install into dir under /var/tmp/install
