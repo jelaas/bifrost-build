@@ -10,6 +10,15 @@ BUILDDIR=/var/tmp/src/$SRCVER
 DST="/var/tmp/install/$PKG"
 
 #########
+# Simple inplace edit with sed.
+# Usage: sedit 's/find/replace/g' Filename
+function sedit {
+    sed $1 $2 > /tmp/sedit.$$
+    cp /tmp/sedit.$$ $2
+    rm /tmp/sedit.$$
+}
+
+#########
 # Install dependencies:
 # pkg_available dependency1-1 dependency2-1
 # pkg_install dependency1-1 || exit 1
