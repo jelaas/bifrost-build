@@ -35,7 +35,8 @@ function sedit {
 }
 
 libtool_fix-1
-# patch -p1 < $PKGDIR/mypatch.pat
+patch -p0 < $PKGDIR/util-linux-ng_fstab_d.pat
+
 sedit 's/versionsort/alphasort/' mount/lomount.c
 echo '#define program_invocation_short_name argv[0]' >> include/c.h
 sedit 's/program_invocation_short_name/argv[0]/' shlibs/blkid/samples/partitions.c
