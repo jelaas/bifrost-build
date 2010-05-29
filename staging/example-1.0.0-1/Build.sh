@@ -13,7 +13,7 @@ DST="/var/tmp/install/$PKG"
 # Simple inplace edit with sed.
 # Usage: sedit 's/find/replace/g' Filename
 function sedit {
-    sed $1 $2 > /tmp/sedit.$$
+    sed "$1" $2 > /tmp/sedit.$$
     cp /tmp/sedit.$$ $2
     rm /tmp/sedit.$$
 }
