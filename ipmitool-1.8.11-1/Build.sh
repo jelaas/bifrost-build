@@ -61,8 +61,7 @@ cd $DST
 # Clean up
 cd $DST
 rm -rf usr/share usr/man
-[ -d bin ] && strip bin/*
-[ -d usr/bin ] && strip usr/bin/*
+strip usr/bin/* usr/sbin/*
 
 #########
 # Make package
