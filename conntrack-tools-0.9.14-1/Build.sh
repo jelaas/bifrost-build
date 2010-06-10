@@ -54,6 +54,8 @@ make || exit 1
 # Install into dir under /var/tmp/install
 rm -rf "$DST"
 make install DESTDIR=$DST # --with-install-prefix may be an alternative
+mkdir -p $DST/opt/conntrack-tools/doc
+cp $PKGDIR/EXAMPLES $DST/opt/conntrack-tools/doc
 
 #########
 # Check result
