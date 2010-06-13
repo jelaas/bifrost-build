@@ -1,0 +1,11 @@
+--- inetd/servtab.c.orig	2006-01-30 10:53:06.000000000 +0100
++++ inetd/servtab.c	2006-01-30 10:53:41.000000000 +0100
+@@ -771,7 +771,7 @@
+ 			return;
+ 		}
+ 		
+-#define SWAP(type, a, b) {type c=(type)a; (type)a=(type)b; (type)b=(type)c;}
++#define SWAP(type, a, b) {type c=(type)a; a=(type)b; b=(type)c;}
+ 
+ 		/*
+ 		 * sep->se_wait may be holding the pid of a daemon
