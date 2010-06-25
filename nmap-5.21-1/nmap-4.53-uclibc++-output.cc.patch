@@ -1,0 +1,11 @@
+--- output.cc.orig	Fri Jun 25 09:22:00 2010
++++ output.cc	Fri Jun 25 09:24:24 2010
+@@ -2270,7 +2270,7 @@
+ 
+   /* Compares this record to another. First compare the directory names, then
+      compare the file names. */
+-  bool operator<(const struct data_file_record &other) {
++  bool operator<(const struct data_file_record &other) const {
+     int cmp;
+ 
+     cmp = dir.compare(other.dir);
