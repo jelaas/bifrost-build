@@ -36,7 +36,7 @@ cd $(dirname $BUILDDIR); tar xf $SRC
 # Patch
 cd $BUILDDIR
 libtool_fix-1
-# patch -p1 < $PKGDIR/mypatch.pat
+patch -p0 < $PKGDIR/utent.pat
 
 #########
 # Configure
@@ -47,10 +47,15 @@ LIBS="-lpthread" $PKGDIR/B-configure-1 --enable-ipv6 --with-nl --without-pic\
  --prefix=/opt/snmp --enable-applications --disable-manuals\
  --disable-debugging --disable-deprecated --disable-set-support\
  --disable-snmptrapd-subagent --disable-embedded-perl --without-root-access\
- --disable-shared --enable-mini-agent --without-rpm\
+ --disable-shared --without-rpm\
  --with-sys-contact=root@localhost --with-sys-location=unknown\
  --with-default-snmp-version=3 --with-logfile=/var/log/snmpd.log\
- --with-persistent-directory=/var/snmp --enable-ucd-snmp-compatibility
+ --with-persistent-directory=/var/snmp --enable-ucd-snmp-compatibility\
+ --with-mnttab="/etc/mtab"
+
+# --with-mib-modules="mibII/interfaces"
+
+# ucd-snmp/lmSensors need lm_sensors pkg if we want to use it
 
 #########
 # Post configure patch
@@ -89,8 +94,9 @@ for f in opt/snmp/bin/net-snmp-config opt/snmp/bin/snmpgetnext opt/snmp/bin/snmp
  opt/snmp/bin/snmpvacm opt/snmp/bin/snmpnetstat opt/snmp/bin/snmpinform; do
 	rm -f $f
 done
-rm -rf opt/snmp/lib opt/snmp/include opt/snmp/share/snmp/mibs opt/snmp/share/snmp/snmp_perl_trapd.pl
+rm -rf opt/snmp/lib opt/snmp/include opt/snmp/share/snmp/snmp_perl_trapd.pl
 strip opt/snmp/bin/* opt/snmp/sbin/*
+mkdir -p opt/snmp/share/snmp/mibs
 
 #########
 # Make package
