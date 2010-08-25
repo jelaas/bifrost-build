@@ -1,11 +1,11 @@
 #!/bin/bash
 
-SRCVER=netperf-2.4.5
-PKG=netperf-opt-2.4.5-1 # with build version
+SRCVER=minicom-2.4
+PKG=opt-minicom-2.4-1 # with build version
 
 # PKGDIR is set by 'pkg_build'. Usually "/var/lib/build/$PKG".
 PKGDIR=${PKGDIR:-/var/lib/build/$PKG}
-SRC=/var/spool/src/$SRCVER.tar.bz2
+SRC=/var/spool/src/$SRCVER.tar.gz
 BUILDDIR=/var/tmp/src/$SRCVER
 DST="/var/tmp/install/$PKG"
 
@@ -13,6 +13,8 @@ DST="/var/tmp/install/$PKG"
 # Install dependencies:
 # pkg_available dependency1-1 dependency2-1
 # pkg_install dependency1-1 || exit 1
+pkg_install libiconv-1.13.1-1 || exit 1
+pkg_install ncurses-lib-5.7-1 || exit 1
 
 #########
 # Unpack sources into dir under /var/tmp/src
@@ -27,7 +29,7 @@ libtool_fix-1
 
 #########
 # Configure
-B-configure-1 --prefix=/opt/netperf --enable-slotlookup=none --enable-intervals --enable-spin --enable-burst || exit 1
+$PKGDIR/B-configure-1 --prefix=/ --bindir=/opt/minicom/bin --enable-lock-dir=/tmp || exit 1
 
 #########
 # Post configure patch
@@ -35,7 +37,7 @@ B-configure-1 --prefix=/opt/netperf --enable-slotlookup=none --enable-intervals 
 
 #########
 # Compile
-make -j || exit 1
+make || exit 1
 
 #########
 # Install into dir under /var/tmp/install
@@ -46,13 +48,13 @@ make install DESTDIR=$DST # --with-install-prefix may be an alternative
 # Check result
 cd $DST
 # [ -f usr/bin/myprog ] || exit 1
-# (ldd sbin/myprog|grep -qs "not a dynamic executable") || exit 1
+(ldd opt/minicom/bin/minicom|grep -qs "not a dynamic executable") || exit 1
 
 #########
 # Clean up
 cd $DST
-rm -rf opt/netperf/share
-[ -d opt/netperf/bin ] && strip opt/netperf/bin/*
+rm -rf share
+strip opt/minicom/bin/*
 
 #########
 # Make package

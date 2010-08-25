@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SRCVER=quagga-0.99.16
-PKG=quagga-opt-0.99.16-1 # with build version
+PKG=opt-quagga-0.99.16-1 # with build version
 
 # PKGDIR is set by 'pkg_build'. Usually "/var/lib/build/$PKG".
 PKGDIR=${PKGDIR:-/var/lib/build/$PKG}
