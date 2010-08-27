@@ -46,8 +46,8 @@ while [ "$1" ]; do
     [ -d "/var/lib/build/staging/$pkg" ] && export PKGDIR="/var/lib/build/staging/$pkg"
     [ -d "/var/lib/build/$pkg" ] && export PKGDIR="/var/lib/build/$pkg"
     cd $PKGDIR
-    echo "Building $pkg from $PKGDIR"
-    PATH="/var/lib/build:$PATH" ./Build.sh 2>&1 | tee /var/log/build/$pkg.log
+    echo "Building $pkg from $PKGDIR" | tee /var/log/build/$pkg.log
+    PATH="/var/lib/build:$PATH" ./Build.sh 2>&1 | tee -a /var/log/build/$pkg.log
     rc=$?
     if [ $rc != 0 ]; then
 	echo "ERROR: Build unsuccessful [$rc]. See /var/log/build/$pkg.log"
