@@ -34,6 +34,7 @@ mkdir -p /var/tmp/install
 mkdir -p /var/tmp/src
 mkdir -p /var/spool/src
 mkdir -p /var/spool/pkg
+mkdir -p /var/log/build
 
 while [ "$1" ]; do
     pkg=$(basename $1)
@@ -45,5 +46,10 @@ while [ "$1" ]; do
     [ -d "/var/lib/build/staging/$pkg" ] && export PKGDIR="/var/lib/build/staging/$pkg"
     [ -d "/var/lib/build/$pkg" ] && export PKGDIR="/var/lib/build/$pkg"
     cd $PKGDIR
-    PATH="/var/lib/build:$PATH" ./Build.sh || echo "ERROR: Build unsuccessful [$?]"
+    PATH="/var/lib/build:$PATH" ./Build.sh &> /var/log/build/$pkg.log
+    rc=$?
+    if [ $rc != 0 ]; then
+	tail /var/log/build/$pkg.log
+	echo "ERROR: Build unsuccessful [$rc]. See /var/log/build/$pkg.log"
+    fi
 done
