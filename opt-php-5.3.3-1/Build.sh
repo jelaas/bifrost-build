@@ -52,8 +52,7 @@ B-configure-1 --prefix=/opt/php-5.3.3-1\
  --disable-xmlwriter --disable-simplexml --without-iconv\
  --without-pear --with-curl|| exit 1
 
-mkdir -p /var/log/config
-[ -e config.log ] && cp -p config.log /var/log/config/$PKG-config.log
+[ -f config.log ] && cp -p config.log /var/log/config/$PKG-config.log
 
 #########
 # Post configure patch
@@ -84,7 +83,6 @@ strip opt/php-5.3.3-1/bin/*
 # Make package
 cd $DST || exit 1
 tar czf /var/spool/pkg/$PKG.tar.gz .
-[ -f config.log ] && cp -p config.log /var/log/build/$PKG-config.log
 
 #########
 # Cleanup after a success
