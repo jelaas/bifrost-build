@@ -41,7 +41,7 @@ libtool_fix-1
 #########
 # Configure
 B-configure-1 --prefix=/ --bindir=/bin --disable-nls --without-nscd || exit 1
-[ -f config.log ] && cp -p config.log /var/log/build/$PKG-config.log
+[ -f config.log ] && cp -p config.log /var/log/config/$PKG-config.log
 
 #########
 # Post configure patch
