@@ -41,6 +41,7 @@ libtool_fix-1
 #########
 # Configure
 B-configure-1 --prefix=/usr || exit 1
+[ -f config.log ] && cp -p config.log /var/log/build/$PKG-config.log
 
 #########
 # Post configure patch
