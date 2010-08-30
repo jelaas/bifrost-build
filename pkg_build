@@ -35,6 +35,7 @@ mkdir -p /var/tmp/src
 mkdir -p /var/spool/src
 mkdir -p /var/spool/pkg
 mkdir -p /var/log/build
+mkdir -p /var/log/config
 
 while [ "$1" ]; do
     pkg=$(basename $1)
