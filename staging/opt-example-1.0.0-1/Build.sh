@@ -55,11 +55,12 @@ make || exit 1
 # Install into dir under /var/tmp/install
 rm -rf "$DST"
 make install DESTDIR=$DST # --with-install-prefix may be an alternative
-mkdir -p $DST/opt/$PKG/etc/config.flags
-mkdir -p $DST/opt/$PKG/rc.d
-echo yes > $DST/opt/$PKG/etc/config.flags/$PKG
-cp -p $PKGDIR/rc $DST/opt/$PKG/rc.d/rc.$PKG
-[ -f $PKGDIR/README ] && cp -p $PKGDIR/README $DST/opt/$PKG
+OPTDIR=$DST/opt/$PKG
+mkdir -p $OPTDIR/etc/config.flags
+mkdir -p $OPTDIR/rc.d
+echo yes > $OPTDIR/etc/config.flags/example
+cp -p $PKGDIR/rc $OPTDIR/rc.d/rc.example
+[ -f $PKGDIR/README ] && cp -p $PKGDIR/README $OPTDIR
 
 #########
 # Check result
