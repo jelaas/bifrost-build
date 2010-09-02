@@ -1,7 +1,7 @@
 #!/bin/bash
 
-SRCVER=opt-example-1.0.0
-PKG=$SRCVER-1 # with build version
+SRCVER=example-1.0.0
+PKG=opt-example-1.0.0-1 # with build version
 
 # PKGDIR is set by 'pkg_build'. Usually "/var/lib/build/$PKG".
 PKGDIR=${PKGDIR:-/var/lib/build/$PKG}
