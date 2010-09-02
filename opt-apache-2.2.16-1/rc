@@ -1,0 +1,19 @@
+#!/bin/bash
+
+PKG=apache
+BINDIR=/opt/apache/bin
+
+case "$1" in
+    start)
+        printf "\nstarting: $PKG"
+	$BINDIR/apachectl start
+        ;;
+    stop)
+        printf "\nstopping: $PKG"
+	$BINDIR/apachectl stop
+        ;;
+    *)
+        printf "\n\tUsage: $0 < start | stop >\n\n"
+        ;;
+esac
+
