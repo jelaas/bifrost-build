@@ -9,7 +9,7 @@ case "$1" in
         $BINDIR/example -d
         ;;
     stop)
-        printf "\nstopping: bgpd"
+        printf "\nstopping: $PKG"
 	killall example
         ;;
     *)
