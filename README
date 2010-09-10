@@ -29,6 +29,7 @@ $ cd mini-native-i586/var/lib
 $ git clone git://github.com/jelaas/bifrost-build.git build
 
 Install helpful scripts:
+$ cd build
 $ cp -p util/chroot-i586.sh /home/build
 $ cp -p util/chroot-setup.sh /home/build/mini-native-i586/bin
 
