@@ -116,6 +116,18 @@ Edit Build.sh.
 Testrun:
 $ /var/lib/build/pkg_build <pkg>-<version>-<build-version>
 
+Dependencies
+------------
+
+A package may have a number of dependencies for building. These dependencies
+may be in the form of libraries or utilities.
+The build script 'Build.sh' must install these dependencies by using the
+script 'pkg_install'. 'pkg_install' will keep track of what it installs so
+everything can be retracted later by 'pkg_uninstall'.
+
+Each build is supposed to start with a "clean" environment. Before each build
+the 'pkg_build' script will run the 'pkg_uninstall' script.
+
 __Important note_!!_
 Be careful with the install part of making the package. Make sure that
 for instance 'make install' wont install files under a real prefix into
