@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SRCVER=emacs-23.2
-PKG=$SRCVER-1 # with build version
+PKG=opt-$SRCVER-1 # with build version
 
 # PKGDIR is set by 'pkg_build'. Usually "/var/lib/build/$PKG".
 PKGDIR=${PKGDIR:-/var/lib/build/$PKG}
