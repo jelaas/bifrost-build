@@ -47,12 +47,19 @@ while [ "$1" ]; do
     [ -d "/var/lib/build/staging/$pkg" ] && export PKGDIR="/var/lib/build/staging/$pkg"
     [ -d "/var/lib/build/$pkg" ] && export PKGDIR="/var/lib/build/$pkg"
     cd $PKGDIR
-    echo "Building $pkg from $PKGDIR" | tee /var/log/build/$pkg.log
-    PATH="/var/lib/build:$PATH" ./Build.sh 2>&1 | tee -a /var/log/build/$pkg.log
+
+    # Save current stdout to file descriptor 3, and redirect stdout to tee
+    exec 3>&1 > >(tee -a "/var/log/build/$pkg.log")
+
+    echo "Building $pkg from $PKGDIR"
+    PATH="/var/lib/build:$PATH" ./Build.sh 2>&1
     rc=$?
     if [ $rc != 0 ]; then
 	echo "ERROR: Build unsuccessful [$rc]. See /var/log/build/$pkg.log"
     else
 	echo "$pkg done!"
     fi
+    
+    # Restore stdout and close file descriptor 3
+    exec 1>&3 3>&-
 done
