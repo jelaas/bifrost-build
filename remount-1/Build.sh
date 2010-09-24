@@ -29,7 +29,7 @@ cp $PKGDIR/remount.c $BUILDDIR
 #########
 # Compile
 cd $BUILDDIR
-make || exit 1
+PATH=/opt/diet/bin:$PATH make || exit 1
 strip remount
 
 #########

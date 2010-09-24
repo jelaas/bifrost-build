@@ -1,5 +1,5 @@
 CC=diet gcc
-CFLAGS=-Os -Wall -march=i586
+CFLAGS=-nostdinc -Os -Wall -march=i586
 LDFLAGS=-static
 remount:	remount.o
 	$(CC) $(LDFLAGS) -o remount remount.o
