@@ -2,7 +2,7 @@
 
 rc=0
 while [ "$1" ]; do
-    pkg=$1
+    pkg=$(basename $1)
     pkgfile=""
     [ -f "/var/spool/pkg/$pkg.tar.gz" ] && pkgfile="/var/spool/pkg/$pkg.tar.gz"
     [ -f "/var/spool/pkg/$pkg.tgz" ] && pkgfile="/var/spool/pkg/$pkg.tgz"
