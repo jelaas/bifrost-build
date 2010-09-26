@@ -3,8 +3,8 @@
 SRCVER=console-tools-0.2.3
 PKG=console-tools-lib-0.2.3-1 # with build version
 
-# PKGDIR is set by 'pkg_build'. Usually "/var/lib/build/$PKG".
-PKGDIR=${PKGDIR:-/var/lib/build/$PKG}
+# PKGDIR is set by 'pkg_build'. Usually "/var/lib/build/all/$PKG".
+PKGDIR=${PKGDIR:-/var/lib/build/all/$PKG}
 SRC=/var/spool/src/$SRCVER.tar.gz
 BUILDDIR=/var/tmp/src/$SRCVER
 DST="/var/tmp/install/$PKG"

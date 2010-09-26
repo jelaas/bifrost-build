@@ -3,7 +3,7 @@
 SRCVER=make-3.81
 PKG=$SRCVER-1 # with build version
 
-PKGDIR=${PKGDIR:-/var/lib/build/$PKG}
+PKGDIR=${PKGDIR:-/var/lib/build/all/$PKG}
 SRC=/var/spool/src/$SRCVER.tar.gz
 CDIR=/var/tmp/src
 DST="/var/tmp/install/$PKG"
