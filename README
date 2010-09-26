@@ -47,7 +47,7 @@ Start with building gnu tar:
 $ ./pkg_build tar-1.23-1
 
 Note: the first time you install a package or a build script installs a
-dependency it will try to install gnu tar.
+dependency it will try to install GNU tar.
 
 Package:
 --------
@@ -108,7 +108,10 @@ While working on a new package there is a staging directory that is not
 tracked by git ("/var/lib/build/staging").
 
 $ cd /var/lib/build/staging
+For a base package:
 $ cp -a example-1.0.0-1 <pkg>-<version>-<build-version>
+For an optional package:
+$ cp -a opt-example-1.0.0-1 opt-<pkg>-<version>-<build-version>
 
 Edit Fetch-source.sh.
 Edit Build.sh.
