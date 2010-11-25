@@ -19,8 +19,11 @@ case "$1" in
         printf "\nstopping: $PKG"
 	$BINDIR/apachectl stop
         ;;
+    restart)
+        $0 stop
+	$0 start
     *)
-        printf "\n\tUsage: $0 < start | stop >\n\n"
+        printf "\n\tUsage: $0 < start | stop | restart >\n\n"
         ;;
 esac
 
