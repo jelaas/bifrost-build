@@ -57,12 +57,14 @@ make || exit 1
 # Install into dir under /var/tmp/install
 rm -rf "$DST"
 make install DESTDIR=$DST # --with-install-prefix may be an alternative
+cd "$DST"
+mv usr/sbin/arping usr/sbin/arping2
 
 #########
 # Check result
 cd $DST
 # [ -f usr/bin/myprog ] || exit 1
-(ldd usr/sbin/arping|grep -qs "not a dynamic executable") || exit 1
+(ldd usr/sbin/arping2|grep -qs "not a dynamic executable") || exit 1
 
 #########
 # Clean up
