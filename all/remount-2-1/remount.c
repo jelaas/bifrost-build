@@ -55,7 +55,7 @@ int mountopt(const char *p)
 int romount(const char *path)
 {
 	int fd, flag=-1, rc;
-	char buf[2048], *p, *pp, *fp, mpath[256], mfs[32];
+	char buf[2048], *p, *pp, *fp, mpath[256];
 	
 	fd = open("/proc/mounts", O_RDONLY);
 	if(fd == -1) {
