@@ -27,8 +27,10 @@ mount("tmpfs", "/mnt/usb", 0x8056570, MS_MGC_VAL|MS_RDONLY|MS_REMOUNT, NULL) = 0
 
 */
 
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include <sys/mount.h>
-#include <sys/statvfs.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
@@ -38,12 +40,69 @@ void put(int fd, const char *s)
   write(fd, s, strlen(s));
 }
 
+int mountopt(const char *p)
+{
+	if(!p) return -1;
+	if(strstr(p, " ro,"))
+		return 1;
+	if(strstr(p, " ro "))
+		return 1;
+	if(strstr(p, ",ro,"))
+		return 1;
+	return 0;
+}
+
+int romount(const char *path)
+{
+	int fd, flag=-1, rc;
+	char buf[2048], *p, *pp, *fp, mpath[256], mfs[32];
+	
+	fd = open("/proc/mounts", O_RDONLY);
+	if(fd == -1) {
+		put(2, "Failed to open /proc/mounts\n");
+		return -1;
+	}
+	rc = read(fd, buf, sizeof(buf)-1);
+	if( rc <= 0) {
+		close(fd);
+		return -1;
+	}
+	buf[rc] = 0;
+	
+	p = buf;
+	while(1) {
+		pp = strchr(p, ' ');
+		if(pp) {
+			pp++;
+			fp = strchr(pp, ' ');
+			if(fp) {
+				strncpy(mpath, pp, fp-pp);
+				mpath[fp-pp] = 0;
+				fp++;
+				if(!strcmp(mpath, path)) {
+					if(strncmp(fp, "rootfs", 6)) {
+						flag = mountopt(strchr(fp, ' '));
+						return flag;
+					}
+					else {
+						if(flag == -1)
+							flag = mountopt(strchr(fp, ' '));
+					}
+				}
+			}
+		}
+		p = strchr(p, '\n');
+		if(!p) break;
+		p++;
+	}
+	return flag;
+}
+
 int main(int argc, char **argv)
 {
 	int op=0;
 	unsigned long mountflags = MS_REMOUNT;
-	unsigned long mountflags_prev = 0;
-	struct statvfs buf;
+	int romountflag = 0;
 	
 	if(argc < 2) {
 		put(1, "remount (r|w)\n Remounts root filesystem read-only or read-write\n");
@@ -56,11 +115,7 @@ int main(int argc, char **argv)
 		exit(2);
 	}
 	
-	if(statvfs("/", &buf)) {
-		put(2, "statvfs('/') failed.");
-	} else {
-		mountflags_prev = buf.f_flag & ST_RDONLY;
-	}
+	romountflag = romount("/");
 
 	put(1, "Remounting the system disk:  ");
 	if(op == 'r') {
@@ -77,11 +132,10 @@ int main(int argc, char **argv)
 	
 	sync();
 
-	if(statvfs("/", &buf)==0) {
-		/* If the mount flag is unchanged this is a "failure" */
-		if( (buf.f_flag & ST_RDONLY) == mountflags_prev)
+	/* If the mount flag is unchanged this is a "failure" */
+	if( romount("/") == romountflag )
+		if(romountflag != -1) 
 			exit(1);
-	}
 
 	exit(0);
 }
