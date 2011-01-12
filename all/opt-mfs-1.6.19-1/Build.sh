@@ -42,9 +42,12 @@ cd $BUILDDIR
 libtool_fix-1
 # patch -p1 < $PKGDIR/mypatch.pat
 
+echo mfs:x:99:99::/var/lib/mfs:/bin/false >>  /etc/passwd
+echo mfs:x:99: >> /etc/group
+
 #########
 # Configure
-B-configure-1 --prefix=/opt/mfs --localstatedir=/var --without-pic || exit 1
+B-configure-1 --prefix=/opt/mfs --localstatedir=/var/lib --with-default-user=mfs --with-default-group=mfs --without-pic || exit 1
 [ -f config.log ] && cp -p config.log /var/log/config/$PKG-config.log
 
 #########
