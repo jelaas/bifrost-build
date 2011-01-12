@@ -44,7 +44,7 @@ libtool_fix-1
 
 #########
 # Configure
-B-configure-1 --prefix=/opt/$PKG --localstatedir=/var --without-pic || exit 1
+B-configure-1 --prefix=/opt/mfs --localstatedir=/var --without-pic || exit 1
 [ -f config.log ] && cp -p config.log /var/log/config/$PKG-config.log
 
 #########
@@ -59,7 +59,7 @@ make || exit 1
 # Install into dir under /var/tmp/install
 rm -rf "$DST"
 make install DESTDIR=$DST # --with-install-prefix may be an alternative
-OPTDIR=$DST/opt/$PKG
+OPTDIR=$DST/opt/mfs
 mkdir -p $OPTDIR/etc/config.flags
 mkdir -p $OPTDIR/rc.d
 echo yes > $OPTDIR/etc/config.flags/mfs
@@ -68,13 +68,14 @@ cp -p $PKGDIR/rc $OPTDIR/rc.d/rc.mfs
 
 #########
 # Check result
-cd $DST/opt/$PKG || exit 1
+cd $DST/opt/mfs || exit 1
 (ldd sbin/mfsmaster|grep -qs "not a dynamic executable") || exit 1
 
 #########
 # Clean up
-cd $DST/opt/$PKG || exit 1
+cd $DST/opt/mfs || exit 1
 rm -rf share
+strip bin/*
 strip sbin/*
 
 #########
