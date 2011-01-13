@@ -1,0 +1,40 @@
+#!/bin/bash
+
+PKG=mfsmaster
+BINDIR=/opt/mfs/sbin
+
+case "$1" in
+    start)
+        printf "\nstarting: $PKG"
+	if ! getent passwd mfs &> /dev/null; then
+	    [ -f /sbin/remount ] && remount w
+	    echo mfs:x:999:999::/home/mfs:/bin/false >> /etc/passwd
+	    echo mfs:x:999: >> /etc/group
+	fi
+	if [ $(stat -c %U:%G /var/lib/mfs) != mfs:mfs ]; then
+	    [ -f /sbin/remount ] && remount w
+	    chown -R mfs:mfs /var/lib/mfs
+	fi
+	if [ -f /var/lib/mfs/metadata.mfs.back -a ! -f /var/lib/mfs/metadata.mfs ]; then
+	    $BINDIR/mfsmetarestore -a
+	    if [ $? -ne 0 ]; then
+		echo "FAILED to invoke the mfsmetarestore operation, check logs."
+		echo "Unable to start mfsmaster service."
+		exit 1
+	    fi
+	fi
+        $BINDIR/mfsmaster start
+        ;;
+    stop)
+        printf "\nstopping: $PKG"
+        $BINDIR/mfsmaster stop
+        ;;
+    restart)
+        printf "\nrestarting: $PKG"
+        $BINDIR/mfsmaster restart
+	;;
+    *)
+        printf "\n\tUsage: $0 < start | stop >\n\n"
+        ;;
+esac
+
