@@ -64,13 +64,13 @@ cp -p $PKGDIR/rc $OPTDIR/rc.d/rc.example
 
 #########
 # Check result
-cd $DST
+cd $DST || exit 1
 # [ -f usr/bin/myprog ] || exit 1
 # (ldd sbin/myprog|grep -qs "not a dynamic executable") || exit 1
 
 #########
 # Clean up
-cd $DST
+cd $DST || exit 1
 # rm -rf usr/share usr/man
 [ -d bin ] && strip bin/*
 [ -d usr/bin ] && strip usr/bin/*

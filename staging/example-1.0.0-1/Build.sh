@@ -58,20 +58,20 @@ make install DESTDIR=$DST # --with-install-prefix may be an alternative
 
 #########
 # Check result
-cd $DST
+cd $DST || exit 1
 # [ -f usr/bin/myprog ] || exit 1
 # (ldd sbin/myprog|grep -qs "not a dynamic executable") || exit 1
 
 #########
 # Clean up
-cd $DST
+cd $DST || exit 1
 # rm -rf usr/share usr/man
 [ -d bin ] && strip bin/*
 [ -d usr/bin ] && strip usr/bin/*
 
 #########
 # Make package
-cd $DST
+cd $DST || exit 1
 tar czf /var/spool/pkg/$PKG.tar.gz .
 
 #########
