@@ -46,6 +46,7 @@ B-configure-1 --prefix=/usr || exit 1
 # Post configure patch
 # patch -p0 < $PKGDIR/Makefile.pat
 sedit 's/-O2//' MCONFIG
+echo "LDFLAGS=-static" >> MCONFIG
 
 #########
 # Compile
@@ -61,9 +62,10 @@ cp -p ping/ping "$DST/bin"
 
 #########
 # Check result
-cd $DST
+cd $DST || exit 1
 # [ -f usr/bin/myprog ] || exit 1
-# (ldd sbin/myprog|grep -qs "not a dynamic executable") || exit 1
+(ldd sbin/inetd|grep -qs "not a dynamic executable") || exit 1
+(ldd bin/ping|grep -qs "not a dynamic executable") || exit 1
 
 #########
 # Clean up
