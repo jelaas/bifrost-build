@@ -5,7 +5,7 @@ for PKG in /var/spool/pkg/*.gz; do
 	tar tvf $PKG > $T
 	if grep -q "$1" $T; then
 		echo -n "$(basename $PKG): "
-		grep "$1" $T
+		grep "$1" $T|head -n 1
 	fi
 done
 rm -f $T
