@@ -37,6 +37,7 @@ cd $(dirname $BUILDDIR); tar xf $SRC
 cd $BUILDDIR
 libtool_fix-1
 patch -p0 < $PKGDIR/numa_init.pat
+patch -p0 < $PKGDIR/libnuma.pat
 
 #########
 # Configure
