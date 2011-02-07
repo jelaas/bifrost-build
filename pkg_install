@@ -122,7 +122,7 @@ if [ "$INTERNAL" = yes ]; then
     /tmp/tar xf "$pkgfile" || exit 1
     rm -f /tmp/tar /tmp/tac /tmp/rm /tmp/rmdir
 else
-    tar xf "$pkgfile" --checkpoint=500 --checkpoint-action="dot" || exit 1
+    tar xUf "$pkgfile" --checkpoint=500 --checkpoint-action="dot" || exit 1
 fi
 
 if [ "$PERMANENT" = no ]; then
