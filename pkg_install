@@ -91,7 +91,7 @@ function rmfiles {
     cd /
     while read f; do
 	if [ -d "$f" ]; then
-	    /tmp/rmdir "$f"
+	    /tmp/rmdir "$f" &>/dev/null
 	    continue
 	fi
 	if [ -e "$f" ]; then
