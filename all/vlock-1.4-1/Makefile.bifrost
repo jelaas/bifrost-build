@@ -1,0 +1,28 @@
+# vlock makefile
+
+include config.mk.bifrost
+
+OBJS = vlock.o signals.o help.o terminal.o input.o sysrq.o
+
+vlock: $(OBJS)
+
+vlock.man: vlock.1
+	groff -man -Tascii $< > $@
+
+vlock.1.html: vlock.1
+	groff -man -Thtml $< > $@
+
+vlock.o: vlock.h version.h
+signals.o: vlock.h
+help.o: vlock.h
+terminal.o: vlock.h
+input.o: vlock.h
+
+.PHONY: install
+install: vlock
+	$(INSTALL) -m 4711 -o root -g root vlock $(DESTDIR)$(PREFIX)/bin
+	$(INSTALL) -m 644 -o root -g root vlock.1 $(DESTDIR)$(PREFIX)/share/man/man1
+
+.PHONY: clean
+clean:
+	rm -f $(OBJS) vlock vlock.man vlock.1.html
