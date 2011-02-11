@@ -27,9 +27,9 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 # Install dependencies:
 # pkg_available dependency1-1 dependency2-1
 # pkg_install dependency1-1 || exit 1
-pkg_install libpcap-1.1.1-1 || exit 1
-pkg_install passwd-file-1 || exit 1
-pkg_install group-file-1 || exit 1
+pkg_install libpcap-1.1.1-1 || exit 2
+pkg_install passwd-file-1 || exit 2
+pkg_install group-file-1 || exit 2
 
 #########
 # Unpack sources into dir under /var/tmp/src

@@ -26,11 +26,11 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 #########
 # Install dependencies:
 # pkg_available dependency1-1 dependency2-1
-pkg_install pkg-config-0.23-1 || exit 1
-pkg_install libiconv-1.13.1-1 || exit 1
-pkg_install zlib-1.2.5-1 || exit 1
-pkg_install fake-libintl-2 || exit 1
-pkg_install gettext-0.18.1.1-1 || exit 1
+pkg_install pkg-config-0.23-1 || exit 2
+pkg_install libiconv-1.13.1-1 || exit 2
+pkg_install zlib-1.2.5-1 || exit 2
+pkg_install fake-libintl-2 || exit 2
+pkg_install gettext-0.18.1.1-1 || exit 2
 
 #########
 # Unpack sources into dir under /var/tmp/src

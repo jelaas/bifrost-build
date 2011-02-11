@@ -21,8 +21,8 @@ function sedit {
 #########
 # Install dependencies:
 pkg_available libcap-2.19-1 passwd-file-1
-pkg_install libcap-2.19-1 || exit 1
-pkg_install passwd-file-1 || exit 1
+pkg_install libcap-2.19-1 || exit 2
+pkg_install passwd-file-1 || exit 2
 
 #########
 # Unpack sources into dir under /var/tmp/src

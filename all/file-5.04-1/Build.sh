@@ -21,7 +21,7 @@ function sedit {
 #########
 # Install dependencies:
 # pkg_available dependency1-1 dependency2-1
-pkg_install zlib-1.2.5-1 || exit 1
+pkg_install zlib-1.2.5-1 || exit 2
 
 #########
 # Unpack sources into dir under /var/tmp/src

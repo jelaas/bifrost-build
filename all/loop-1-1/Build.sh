@@ -28,7 +28,7 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 # pkg_available dependency1-1 dependency2-1
 # pkg_install dependency1-1 || exit 1
 
-pkg_install dietlibc-0.32-1 || exit 1
+pkg_install dietlibc-0.32-1 || exit 2
 
 mkdir -p $BUILDDIR
 cp $PKGDIR/loop.c $BUILDDIR

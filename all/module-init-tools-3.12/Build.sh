@@ -26,9 +26,9 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 #########
 # Install dependencies:
 # pkg_available dependency1-1 dependency2-1
-pkg_install zlib-1.2.5-1 || exit 1
-pkg_install flex-2.5.35-1 || exit 1
-pkg_install gnupg-1.4.10-1 || exit 1
+pkg_install zlib-1.2.5-1 || exit 2
+pkg_install flex-2.5.35-1 || exit 2
+pkg_install gnupg-1.4.10-1 || exit 2
 
 #########
 # Unpack sources into dir under /var/tmp/src

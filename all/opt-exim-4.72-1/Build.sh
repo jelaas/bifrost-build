@@ -26,15 +26,15 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 #########
 # Install dependencies:
 pkg_available pcre-8.02-1 gawk-3.1.8-1 openssl-0.9.8n-2 passwd-file-1\
- group-file-1 gdbm-1.8.3-1 libiconv-1.13.1-1 tcp_wrappers-7.6-1 || exit 1
-pkg_install pcre-8.02-1 || exit 1
-pkg_install gawk-3.1.8-1 || exit 1
-pkg_install openssl-0.9.8n-2 || exit 1
-pkg_install passwd-file-1 || exit 1
-pkg_install group-file-1 || exit 1
-pkg_install gdbm-1.8.3-1 || exit 1
-pkg_install libiconv-1.13.1-1 || exit 1
-pkg_install tcp_wrappers-7.6-1 || exit 1
+ group-file-1 gdbm-1.8.3-1 libiconv-1.13.1-1 tcp_wrappers-7.6-1
+pkg_install pcre-8.02-1 || exit 2
+pkg_install gawk-3.1.8-1 || exit 2
+pkg_install openssl-0.9.8n-2 || exit 2
+pkg_install passwd-file-1 || exit 2
+pkg_install group-file-1 || exit 2
+pkg_install gdbm-1.8.3-1 || exit 2
+pkg_install libiconv-1.13.1-1 || exit 2
+pkg_install tcp_wrappers-7.6-1 || exit 2
 
 #########
 # Unpack sources into dir under /var/tmp/src

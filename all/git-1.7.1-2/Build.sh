@@ -10,10 +10,10 @@ DST="/var/tmp/install/$PKG"
 
 #########
 # Install dependencies:
-pkg_available openssl-0.9.8n-2 zlib-1.2.5-1 curl-devel-7.20.1-1 || exit 1
-pkg_install openssl-0.9.8n-2 || exit 1
-pkg_install zlib-1.2.5-1 || exit 1
-pkg_install curl-devel-7.20.1-1 || exit 1
+pkg_available openssl-0.9.8n-2 zlib-1.2.5-1 curl-devel-7.20.1-1
+pkg_install openssl-0.9.8n-2 || exit 2
+pkg_install zlib-1.2.5-1 || exit 2
+pkg_install curl-devel-7.20.1-1 || exit 2
 
 #########
 # Unpack sources into dir under /var/tmp/src

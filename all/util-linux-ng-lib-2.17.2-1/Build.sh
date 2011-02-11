@@ -14,11 +14,11 @@ DST="/var/tmp/install/$PKG"
 # pkg_available dependency1-1 dependency2-1
 # pkg_install dependency1-1 || exit 1
 pkg_available ncurses-lib-5.7-1 e2fsprogs-lib-1.41.11-1 zlib-1.2.5-1 console-tools-lib-0.2.3-1
-pkg_install group-file-1 || exit 1
-pkg_install ncurses-lib-5.7-1 || exit 1
-pkg_install e2fsprogs-lib-1.41.11-1 || exit 1
-pkg_install zlib-1.2.5-1 || exit 1
-pkg_install console-tools-lib-0.2.3-1 || exit 1
+pkg_install group-file-1 || exit 2
+pkg_install ncurses-lib-5.7-1 || exit 2
+pkg_install e2fsprogs-lib-1.41.11-1 || exit 2
+pkg_install zlib-1.2.5-1 || exit 2
+pkg_install console-tools-lib-0.2.3-1 || exit 2
 
 #########
 # Unpack sources into dir under /var/tmp/src

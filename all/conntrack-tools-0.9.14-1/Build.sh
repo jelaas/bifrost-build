@@ -21,11 +21,11 @@ function sedit {
 #########
 # Install dependencies:
 pkg_available libnfnetlink-1.0.0-1 libnetfilter_conntrack-0.0.101-1 pkg-config-0.23-1 bison-2.4.2-1 flex-2.5.35-1
-pkg_install libnfnetlink-1.0.0-1 || exit 1
-pkg_install libnetfilter_conntrack-0.0.101-1 || exit 1
-pkg_install pkg-config-0.23-1 || exit 1
-pkg_install bison-2.4.2-1 || exit 1
-pkg_install flex-2.5.35-1 || exit 1
+pkg_install libnfnetlink-1.0.0-1 || exit 2
+pkg_install libnetfilter_conntrack-0.0.101-1 || exit 2
+pkg_install pkg-config-0.23-1 || exit 2
+pkg_install bison-2.4.2-1 || exit 2
+pkg_install flex-2.5.35-1 || exit 2
 
 #########
 # Unpack sources into dir under /var/tmp/src

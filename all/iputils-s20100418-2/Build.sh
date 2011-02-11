@@ -26,8 +26,8 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 #########
 # Install dependencies:
 pkg_available sysfsutils-2.1.0-1 openssl-0.9.8n-2
-pkg_install sysfsutils-2.1.0-1 || exit 1
-pkg_install openssl-0.9.8n-2 || exit 1
+pkg_install sysfsutils-2.1.0-1 || exit 2
+pkg_install openssl-0.9.8n-2 || exit 2
 
 #########
 # Unpack sources into dir under /var/tmp/src

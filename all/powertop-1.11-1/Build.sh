@@ -26,8 +26,8 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 #########
 # Install dependencies:
 pkg_available fake-libintl-1 ncurses-lib-5.7-1
-pkg_install fake-libintl-1 || exit 1
-pkg_install ncurses-lib-5.7-1 || exit 1
+pkg_install fake-libintl-1 || exit 2
+pkg_install ncurses-lib-5.7-1 || exit 2
 
 
 #########

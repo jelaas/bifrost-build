@@ -13,8 +13,8 @@ DST="/var/tmp/install/$PKG"
 # Install dependencies:
 # pkg_available dependency1-1 dependency2-1
 # pkg_install dependency1-1 || exit 1
-pkg_install libiconv-1.13.1-1 || exit 1
-pkg_install ncurses-lib-5.7-1 || exit 1
+pkg_install libiconv-1.13.1-1 || exit 2
+pkg_install ncurses-lib-5.7-1 || exit 2
 
 #########
 # Unpack sources into dir under /var/tmp/src

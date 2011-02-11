@@ -26,11 +26,11 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 #########
 # Install dependencies:
 pkg_available zlib-1.2.5-1 passwd-file-1 group-file-1 fuse-2.8.5-1 pkg-config-0.23-1
-pkg_install zlib-1.2.5-1 || exit 1
-pkg_install passwd-file-1 || exit 1
-pkg_install group-file-1 || exit 1
-pkg_install fuse-2.8.5-1 || exit 1
-pkg_install pkg-config-0.23-1 || exit 1
+pkg_install zlib-1.2.5-1 || exit 2
+pkg_install passwd-file-1 || exit 2
+pkg_install group-file-1 || exit 2
+pkg_install fuse-2.8.5-1 || exit 2
+pkg_install pkg-config-0.23-1 || exit 2
 
 #########
 # Unpack sources into dir under /var/tmp/src

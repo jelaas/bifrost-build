@@ -26,9 +26,9 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 #########
 # Install dependencies:
 # pkg_available dependency1-1 dependency2-1
-pkg_install openssl-0.9.8q-1 || exit 1
-pkg_install popt-1.16-1 || exit 1
-pkg_install libnl-1.1-1 || exit 1
+pkg_install openssl-0.9.8q-1 || exit 2
+pkg_install popt-1.16-1 || exit 2
+pkg_install libnl-1.1-1 || exit 2
 
 #########
 # Unpack sources into dir under /var/tmp/src

@@ -21,8 +21,8 @@ function sedit {
 #########
 # Install dependencies:
 pkg_available pkg-config-0.23-1 libnfnetlink-1.0.0-1
-pkg_install pkg-config-0.23-1 || exit 1
-pkg_install libnfnetlink-1.0.0-1 || exit 1
+pkg_install pkg-config-0.23-1 || exit 2
+pkg_install libnfnetlink-1.0.0-1 || exit 2
 
 #########
 # Unpack sources into dir under /var/tmp/src

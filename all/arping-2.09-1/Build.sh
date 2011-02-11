@@ -26,8 +26,8 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 #########
 # Install dependencies:
 pkg_available libnet-1.1.4-1 libpcap-1.1.1-1
-pkg_install libnet-1.1.4-1 || exit 1
-pkg_install libpcap-1.1.1-1 || exit 1
+pkg_install libnet-1.1.4-1 || exit 2
+pkg_install libpcap-1.1.1-1 || exit 2
 
 
 #########

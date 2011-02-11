@@ -26,8 +26,8 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 #########
 # Install dependencies:
 pkg_available openssl-0.9.8p-1 perl-5.10.1-1
-pkg_install openssl-0.9.8p-1 || exit 1
-pkg_install perl-5.10.1-1 || exit 1
+pkg_install openssl-0.9.8p-1 || exit 2
+pkg_install perl-5.10.1-1 || exit 2
 
 #########
 # Unpack sources into dir under /var/tmp/src

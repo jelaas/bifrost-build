@@ -10,7 +10,7 @@ DST="/var/tmp/install/$PKG"
 
 #########
 # Install dependencies:
-pkg_install pcre-8.02-1 || exit 1
+pkg_install pcre-8.02-1 || exit 2
 
 #########
 # Unpack sources into dir under /var/tmp/src

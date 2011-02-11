@@ -28,8 +28,8 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 # pkg_available dependency1-1 dependency2-1
 # pkg_install dependency1-1 || exit 1
 pkg_available libpng-1.4.3-1 zlib-1.2.5-1 
-pkg_install zlib-1.2.5-1 
-pkg_install libpng-1.4.3-1 
+pkg_install zlib-1.2.5-1  || exit 2
+pkg_install libpng-1.4.3-1  || exit 2
 
 
 #########

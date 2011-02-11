@@ -26,10 +26,10 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 #########
 # Install dependencies:
 pkg_available bison-2.4.2-1 m4-1.4.14-1 flex-2.5.35-1 # iptables-lib-1.4.8-1
-pkg_install bison-2.4.2-1 || exit 1
-pkg_install m4-1.4.14-1 || exit 1
-pkg_install flex-2.5.35-1 || exit 1
-#pkg_install iptables-lib-1.4.8-1 || exit 1
+pkg_install bison-2.4.2-1 || exit 2
+pkg_install m4-1.4.14-1 || exit 2
+pkg_install flex-2.5.35-1 || exit 2
+#pkg_install iptables-lib-1.4.8-1 || exit 2
 
 #########
 # Unpack sources into dir under /var/tmp/src
