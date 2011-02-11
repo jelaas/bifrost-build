@@ -127,18 +127,18 @@ cp -p /bin/rmdir /tmp/rmdir || exit 1
 # remove files that we are about to install
 /tmp/tac $TMPFILE | rmfiles
 
+if [ "$PERMANENT" = no ]; then
+    cat $TMPFILE >> $STATE
+else
+    cat $TMPFILE >> $PERMFILES
+fi
+
 if [ "$INTERNAL" = yes ]; then
     /tmp/tar xf "$pkgfile" || exit 1
 else
     /tmp/tar xf "$pkgfile" --checkpoint=500 --checkpoint-action="dot" || exit 1
 fi
 /tmp/rm -f /tmp/tar /tmp/tac /tmp/rm /tmp/rmdir
-
-if [ "$PERMANENT" = no ]; then
-    cat $TMPFILE >> $STATE
-else
-    cat $TMPFILE >> $PERMFILES
-fi
 
 echo " Done!"
 
