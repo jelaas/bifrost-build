@@ -26,7 +26,7 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 #########
 # Install dependencies:
 # pkg_available dependency1-1 dependency2-1
-# pkg_install dependency1-1 || exit 1
+# pkg_install dependency1-1 || exit 2
 
 #########
 # Unpack sources into dir under /var/tmp/src
@@ -34,7 +34,7 @@ cd $(dirname $BUILDDIR); tar xf $SRC
 
 #########
 # Patch
-cd $BUILDDIR
+cd $BUILDDIR || exit 1
 libtool_fix-1
 # patch -p1 < $PKGDIR/mypatch.pat
 
