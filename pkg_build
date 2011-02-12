@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Maximum number of recursive builds
-MR=4
+MR=10
 
 [ -d /proc/self/fd ] || exit 1
 [ -d /dev/fd ] || exit 1
