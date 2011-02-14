@@ -39,6 +39,7 @@ rm -rf "$DST"
 mkdir -p "$DST"
 cd $DST
 
+untar allcaps-1-1
 untar cpuinfo-1.1-1
 untar cpu_pkts-1-1
 untar eth-affinity-1.2.3-1
