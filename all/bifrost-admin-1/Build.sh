@@ -42,6 +42,7 @@ cd $DST
 untar bc-1.06-1
 untar dialog-1.1-20100428-1
 untar gawk-3.1.8-1
+untar ipmask-1
 untar nano-2.2.4-1
 untar sed-4.2.1-1
 untar vim-7.3-1 ./usr/bin/vim && mv usr/bin/vim usr/bin/vi
