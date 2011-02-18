@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SRCVER=bifrost-core-net
+SRCVER=meta-bifrost-core-net
 PKG=$SRCVER-1 # with build version
 
 # PKGDIR is set by 'pkg_build'. Usually "/var/lib/build/$PKG".

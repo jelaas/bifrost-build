@@ -4,7 +4,7 @@
 # Non-essential networking support
 #
 
-SRCVER=bifrost-fileutils
+SRCVER=meta-bifrost-fileutils
 PKG=$SRCVER-1 # with build version
 
 # PKGDIR is set by 'pkg_build'. Usually "/var/lib/build/$PKG".
