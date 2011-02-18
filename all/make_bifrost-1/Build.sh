@@ -35,6 +35,7 @@ mkdir -p "$DST" || exit 1
 mkdir -p $DST/boot
 mkdir -p $DST/
 mkdir -p $DST/sbin
+mkdir -p $DST/Documentation
 
 cp "$PKGDIR/boot_image.gz" $DST/boot
 cp "$PKGDIR/make_bifrost-minihowto" $DST/Documentation
