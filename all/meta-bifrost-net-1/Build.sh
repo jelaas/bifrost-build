@@ -45,7 +45,7 @@ cd $DST
 
 untar arping-2.09-1
 untar arpwatch-2.1a15-1
-untar conntrack-tools-0.9.14-1
+untar conntrack-tools-0.9.14-2
 untar curl-7.20.1-1
 untar ncftp-3.2.5-1 ./usr/bin/ncftp
 untar netperf-2.4.5-1

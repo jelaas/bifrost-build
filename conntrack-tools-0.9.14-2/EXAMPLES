@@ -1,0 +1,47 @@
+$ echo 1 >/proc/sys/net/netfilter/nf_conntrack_acct
+$ echo 33554432 > /proc/sys/net/core/rmem_max 
+$ /opt/conntrack-tools/sbin/conntrack -b 6000000 -E -e NEW,DESTROY -o extended,timestamp
+$ /opt/conntrack-tools/sbin/conntrack -b 200000 -E -e NEW,DESTROY -o extended,timestamp > /dev/null
+[1236871748.722316]	[DESTROY] ipv4     2 udp      17 src=10.10.10.1 dst=11.229.241.123 sport=9 dport=9 packets=25 bytes=37050 [
+UNREPLIED] src=11.229.241.123 dst=10.10.10.1 sport=9 dport=9 packets=0 bytes=0
+
+Make sure you have loaded nf_conntrack, nf_conntrack_ipv4 (if your setup also supports IPv6, nf_conntrack_ipv6) and nf_conntrack_ne
+tlink. 
+
+--- conntrack.c.orig	Mon Mar 16 10:31:44 2009
++++ conntrack.c	Mon Mar 16 10:34:40 2009
+@@ -1310,9 +1310,12 @@
+ 		signal(SIGINT, event_sighandler);
+ 		signal(SIGTERM, event_sighandler);
+ 		nfct_callback_register(cth, NFCT_T_ALL, event_cb, obj);
++		{ int msg=0;
++		while(1) {
+ 		res = nfct_catch(cth);
+ 		if (res == -1) {
+ 			if (errno == ENOBUFS) {
++			  if(!msg)
+ 				fprintf(stderr, 
+ 					"WARNING: We have hit ENOBUFS! We "
+ 					"are losing events.\nThis message "
+@@ -1320,7 +1323,11 @@
+ 					"socket buffer size is too small.\n"
+ 					"Please, check --buffer-size in "
+ 					"conntrack(8) manpage.\n");
++			  msg=1;
+ 			}
++			else break;
++		}
++		}
+ 		}
+ 		nfct_close(cth);
+ 		break;
+
+#############################################################3
+
+Kernel:
+CONFIG_NF_CONNTRACK=m
+CONFIG_NF_CONNTRACK_IPV4=m
+CONFIG_NF_CONNTRACK_IPV6=m (if your setup supports IPv6)
+CONFIG_NETFILTER_NETLINK=m
+CONFIG_NF_CT_NETLINK=m
+CONFIG_NF_CONNTRACK_EVENTS=y
