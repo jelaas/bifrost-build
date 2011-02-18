@@ -2,19 +2,26 @@
 
 # Maximum number of recursive builds
 MR=15
+export RECURSIVEBUILD=yes
 
 [ -d /proc/self/fd ] || exit 1
 [ -d /dev/fd ] || exit 1
 [ -c /dev/null ] || exit 1
 [ -c /dev/zero ] || exit 1
 
+if [ "$1" = '-R' ]; then
+    export RECURSIVEBUILD=no
+    shift
+fi
 if [ "$1" = '-r' ]; then
     export RECURSIVEBUILD=yes
     shift
 fi
 
 if [ -z "$1" ]; then
-   echo "Usage: pkg_build <pkg> ..."
+   echo "Usage: pkg_build [-r|-R] <pkg> ..."
+   echo " -r      enable recursive building [default]."
+   echo " -R      disable recursive building."
    exit 0
 fi
 
