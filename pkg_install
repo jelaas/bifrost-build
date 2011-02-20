@@ -121,6 +121,7 @@ cd /
 # make sure we have access to some commands
 cp -p /bin/tar /tmp/tar || exit 1
 cp -p /bin/tac /tmp/tac || exit 1
+cp -p /bin/cat /tmp/cat || exit 1
 cp -p /bin/rm /tmp/rm || exit 1
 cp -p /bin/rmdir /tmp/rmdir || exit 1
 
@@ -128,9 +129,9 @@ cp -p /bin/rmdir /tmp/rmdir || exit 1
 /tmp/tac $TMPFILE | rmfiles
 
 if [ "$PERMANENT" = no ]; then
-    cat $TMPFILE >> $STATE
+    /tmp/cat $TMPFILE >> $STATE
 else
-    cat $TMPFILE >> $PERMFILES
+    /tmp/cat $TMPFILE >> $PERMFILES
 fi
 
 if [ "$INTERNAL" = yes ]; then
@@ -138,7 +139,7 @@ if [ "$INTERNAL" = yes ]; then
 else
     /tmp/tar xf "$pkgfile" --checkpoint=500 --checkpoint-action="dot" || exit 1
 fi
-/tmp/rm -f /tmp/tar /tmp/tac /tmp/rm /tmp/rmdir
+/tmp/rm -f /tmp/tar /tmp/tac /tmp/rm /tmp/rmdir /tmp/cat
 
 echo " Done!"
 
