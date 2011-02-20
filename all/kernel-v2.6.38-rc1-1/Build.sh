@@ -62,6 +62,7 @@ make INSTALL_MOD_PATH=$DST modules_install
 cp arch/x86/boot/bzImage $DST/boot/$SRCVER-bifrost-x86_32
 cp System.map  $DST/boot/
 cp vmlinux  $DST/boot/
+ln -s $SRCVER-bifrost-x86_32 $DST/boot/kernel.default
 
 #########
 # Check result
