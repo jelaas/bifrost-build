@@ -14,10 +14,12 @@ mkdir -p /var/state
 cd /
 # remount w
 
+cp -p /bin/tac /tmp/tac || exit 1
+cp -p /bin/rm /tmp/rm || exit 1
+cp -p /bin/cp /tmp/cp || exit 1
+cp -p /bin/rmdir /tmp/rmdir || exit 1
+
 if [ -s $STATE ]; then
-    cp -p /bin/tac /tmp/tac || exit 1
-    cp -p /bin/rm /tmp/rm || exit 1
-    cp -p /bin/rmdir /tmp/rmdir || exit 1
     /tmp/tac $STATE|while read f; do
         if [ -d "$f" ]; then
 	    /tmp/rmdir $f &> /dev/null
@@ -25,14 +27,14 @@ if [ -s $STATE ]; then
 	fi
         /tmp/rm -f "$f" || (echo "$f" >> $TMPFILE)
     done
-    rm -f /tmp/tac /tmp/rm /tmp/rmdir
 fi
-cp -f $TMPFILE $STATE
-rm -f $TMPFILE
-rm -f $STATEPKGS
+/tmp/cp -f $TMPFILE $STATE
+/tmp/rm -f $TMPFILE
+/tmp/rm -f $STATEPKGS
 if [ -f $MOVEFILES ]; then
     if tar xUf $MOVEFILES; then
-	rm -f $MOVEFILES
+	/tmp/rm -f $MOVEFILES
+	/tmp/rm -f /tmp/tac /tmp/rm /tmp/rmdir /tmp/cp
     else
 	echo "Failed restore backup of files in $MOVEFILES !!"
     fi
