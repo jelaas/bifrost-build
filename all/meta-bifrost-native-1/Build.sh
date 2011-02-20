@@ -42,7 +42,7 @@ cd $DST
 untar allcaps-1-1
 untar cpuinfo-1.1-1
 untar cpu_pkts-1-1
-untar eth-affinity-1.2.3-1
+untar eth-affinity-1.2.5-1
 untar ifinfo-1.6-1
 untar loop-1-1
 untar make_bifrost-1
