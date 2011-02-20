@@ -10,7 +10,7 @@ DST="/var/tmp/install/$PKG"
 
 #########
 # Install dependencies:
-# pkg_install dependency-1.1 || exit 1
+pkg_install coreutils-7.6-1 || exit 2
 
 #########
 # Unpack sources into dir under /var/tmp/src
@@ -23,7 +23,6 @@ cd $BUILDDIR
 
 #########
 # Configure
-
 #########
 # Post configure patch
 
