@@ -37,7 +37,7 @@ rm -f /tmp/config.$$
 #########
 # Compile
 make depend
-make -j || exit 1
+make -j 3 || exit 1
 
 #########
 # Install into dir under /var/tmp/install
