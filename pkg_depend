@@ -1,0 +1,38 @@
+#!/bin/bash
+
+#echo invoked $@
+
+if [ -z "$1" ]; then
+	echo "pkg_depend [-r] pkg [indent]"
+	echo " -r   Display dependencies for pkg."
+	exit 0
+fi
+
+rev=n
+[ "$1" = -r ] && rev=y && shift
+
+dep="$(basename $1)"
+indent="${2:-0}"
+
+function revdep {
+	while read p; do
+		printf %${indent}s ""
+		echo "\"$dep\" depends on \"$p\""
+		/var/lib/build/pkg_depend -r $p $[ indent + 2 ]
+	done
+}
+
+if [ "$rev" = y ]; then
+	grep "^pkg_install " /var/lib/build/all/$dep/Build.sh|cut -d ' ' -f 2|revdep
+	exit 0
+fi
+
+for d in /var/lib/build/all/*; do
+    p=$(basename $d)
+    [ -f $d/Build.sh ] || continue
+    if grep -qs "^pkg_install $dep" $d/Build.sh; then
+	pkg=$(grep "^pkg_install $dep" $d/Build.sh|cut -d ' ' -f 2)
+	printf %${indent}s ""
+	echo "\"$p\" depends on \"$pkg\""
+    fi
+done
