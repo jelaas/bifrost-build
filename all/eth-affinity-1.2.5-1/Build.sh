@@ -27,7 +27,7 @@ pkg_install group-file-1 || exit 1
 
 #########
 # Unpack sources into dir under /var/tmp/src
-./Fetch-source.sh || exit 1
+./Fetch-source.sh || exit $?
 cd $(dirname $BUILDDIR); tar xf $SRC
 
 #########

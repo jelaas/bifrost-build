@@ -14,7 +14,7 @@ pkg_install coreutils-7.6-1 || exit 2
 
 #########
 # Unpack sources into dir under /var/tmp/src
-./Fetch-source.sh || exit 1
+./Fetch-source.sh || exit $?
 cd $(dirname $BUILDDIR); tar xf $SRC
 
 #########

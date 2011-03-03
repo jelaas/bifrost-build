@@ -6,9 +6,9 @@ SRC=$V.tar.gz
 DST=/var/spool/src/$SRC
 
 if [ ! -s "$DST" ]; then
-    pkg_install passwd-file-1 || exit 1
-    pkg_install git-1.7.1-2 || exit 1
-    pkg_install openssh-5.5p1-1 || exit 1
+    pkg_install passwd-file-1 || exit 2
+    pkg_install git-1.7.1-2 || exit 2
+    pkg_install openssh-5.5p1-1 || exit 2
     cd /tmp
     rm -rf $VER
     /opt/git/bin/git clone git://github.com/ThomasHabets/arping.git $VER || exit 1

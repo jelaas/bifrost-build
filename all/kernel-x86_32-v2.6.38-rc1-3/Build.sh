@@ -22,7 +22,7 @@ function sedit {
 
 #########
 # Fetch sources
-./Fetch-source.sh || exit 1
+./Fetch-source.sh || exit $?
 pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 
 #########
