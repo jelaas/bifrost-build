@@ -1,10 +1,33 @@
 #!/bin/bash
 
-pkg="$1"
+function checkpkg {
+    local rc
 
-PKGDIR=""
-[ -d "/var/lib/build/staging/$pkg" ] && PKGDIR="/var/lib/build/staging/$pkg"
-[ -d "/var/lib/build/all/$pkg" ] && PKGDIR="/var/lib/build/all/$pkg"
+    rc=0
+    while [ "$1" ]; do
+	pkg=$(basename $1)
+	PKGDIR=""
+	[ -d "/var/lib/build/staging/$pkg" ] && PKGDIR="/var/lib/build/staging/$pkg"
+	[ -d "/var/lib/build/all/$pkg" ] && PKGDIR="/var/lib/build/all/$pkg"
+	if [ -z "$PKGDIR" ]; then
+	    echo "/var/lib/build/all/$pkg does not exist"
+	    rc=1
+	fi
+	shift
+    done
+    return $rc
+}
+
+checkpkg $@ || exit 1
 
 
-[ "$PKGDIR" ] && [ -f "$PKGDIR/Fetch-source.sh" ] && PATH="/var/lib/build:$PATH" "$PKGDIR/Fetch-source.sh"
+while [ "$1" ]; do
+    pkg=$(basename $1)
+    shift
+    
+    PKGDIR=""
+    [ -d "/var/lib/build/staging/$pkg" ] && PKGDIR="/var/lib/build/staging/$pkg"
+    [ -d "/var/lib/build/all/$pkg" ] && PKGDIR="/var/lib/build/all/$pkg"
+    
+    [ "$PKGDIR" ] && [ -f "$PKGDIR/Fetch-source.sh" ] && (cd $PKGDIR; PATH="/var/lib/build:$PATH" "./Fetch-source.sh)"
+done
