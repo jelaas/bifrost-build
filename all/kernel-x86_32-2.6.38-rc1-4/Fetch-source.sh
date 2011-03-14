@@ -14,6 +14,7 @@ if [ ! -s "$DST" ]; then
     /opt/git/bin/git clone git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next-2.6.git $VER || exit 1
     cd $VER
     /opt/git/bin/git checkout v$V || exit 1
+    rm -rf .git
     cd /tmp
     tar czf $DST $VER
     rm -rf $VER
