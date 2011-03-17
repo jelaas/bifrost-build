@@ -31,7 +31,7 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 #########
 # Unpack sources into dir under /var/tmp/src
 cd $(dirname $BUILDDIR)
-cp -a $PKDIR/src vers-1 || exit 1
+cp -a $PKGDIR/src vers-1 || exit 1
 
 #########
 # Patch
