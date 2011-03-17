@@ -12,6 +12,8 @@ SRC=/var/spool/src/$SRCVER.tar.gz
 BUILDDIR=/var/tmp/src/$SRCVER
 DSTS="/var/tmp/install/supported-$PKG" # supported modules
 DSTU="/var/tmp/install/unsupported-$PKG" # unsupported modules
+DSTW="/var/tmp/install/wireless-$PKG" # wireless modules
+DSTF="/var/tmp/install/firmware-$PKG" # wireless modules
 
 #########
 # Simple inplace edit with sed.
@@ -67,8 +69,12 @@ make -j 3 || exit 1
 # Install into dir under /var/tmp/install
 rm -rf "$DSTS"
 rm -rf "$DSTU"
+rm -rf "$DSTW"
+rm -rf "$DSTF"
 mkdir -p $DSTS/boot/grub
 mkdir -p $DSTU
+mkdir -p $DSTW
+mkdir -p $DSTF
 
 make INSTALL_MOD_PATH=$DSTS modules_install
 cp arch/x86/boot/bzImage $DSTS/boot/$PKG-bifrost
@@ -85,15 +91,24 @@ function filter_modules {
 		n=0
 		if [ -d "$L" ]; then
 			mkdir -p $DSTU/$L
+			mkdir -p $DSTW/$L
 			continue
 		fi
 		for unsup in net/batman-adv net/ceph/libceph.ko block/DAC960.ko block/cciss.ko \
-			     drivers/ide kernel/net/mac80211 kernel/net/wireless; do
+			     drivers/ide; do
 			if [[ $L =~ $unsup ]]; then
 				mv $L $DSTU/$L || exit 1
 			fi
 			continue
 		done
+		for wireless in wireless net/mac80211; do
+			if [[ $L =~ $wireless ]]; then
+				mv $L $DSTW/$L || exit 1
+				n=1
+			fi
+			continue
+		done
+		[ $n = 1 ] && continue
 		for supported in kernel/arch/ kernel/crypto/ kernel/lib/ kernel/net/ \
 				loop.ko ; do
 			[[ $L =~ $supported ]] && n=1
@@ -123,7 +138,8 @@ cd $DSTS
 find lib/modules/$V-$BUILDVERSION-bifrost-$ARCH/kernel|filter_modules
 
 # firmware to unsupported
-mv $DSTS/lib/firmware $DSTU/lib || exit 1
+mkdir -p $DSTF/lib
+mv $DSTS/lib/firmware $DSTF/lib || exit 1
 
 #########
 # Check result
@@ -139,15 +155,21 @@ cd $DSTS || exit 1
 #########
 # Make package
 cd $DSTS || exit 1
-tar czf /var/spool/pkg/$PKG.tar.gz .
+tar czf /var/spool/pkg/kernel-$ARCH-$V-$BUILDVERSION.tar.gz .
 cd $DSTU || exit 1
-tar czf /var/spool/pkg/$PKG-unsup.tar.gz .
+tar czf /var/spool/pkg/kernel-$ARCH-unsup-$V-$BUILDVERSION.tar.gz .
+cd $DSTW || exit 1
+tar czf /var/spool/pkg/kernel-$ARCH-wireless-$V-$BUILDVERSION.tar.gz .
+cd $DSTF || exit 1
+tar czf /var/spool/pkg/kernel-$ARCH-firmware-$V-$BUILDVERSION.tar.gz .
 
 #########
 # Cleanup after a success
 cd /var/lib/build
 [ "$DEVEL" ] || rm -rf "$DSTS"
 [ "$DEVEL" ] || rm -rf "$DSTU"
+[ "$DEVEL" ] || rm -rf "$DSTW"
+[ "$DEVEL" ] || rm -rf "$DSTF"
 [ "$DEVEL" ] || rm -rf "$BUILDDIR"
 pkg_uninstall
 exit 0
