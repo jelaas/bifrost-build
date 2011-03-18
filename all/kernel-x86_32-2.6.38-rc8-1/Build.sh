@@ -13,7 +13,8 @@ BUILDDIR=/var/tmp/src/$SRCVER
 DSTS="/var/tmp/install/supported-$PKG" # supported modules
 DSTU="/var/tmp/install/unsupported-$PKG" # unsupported modules
 DSTW="/var/tmp/install/wireless-$PKG" # wireless modules
-DSTF="/var/tmp/install/firmware-$PKG" # wireless modules
+DSTF="/var/tmp/install/firmware-$PKG" # firmware binaries
+DSTV="/var/tmp/install/vmlinux-$PKG" # uncompress kernel vmlinux and System.map
 
 #########
 # Simple inplace edit with sed.
@@ -71,7 +72,9 @@ rm -rf "$DSTS"
 rm -rf "$DSTU"
 rm -rf "$DSTW"
 rm -rf "$DSTF"
+rm -rf "$DSTV"
 mkdir -p $DSTS/boot/grub
+mkdir -p $DSTV/boot
 mkdir -p $DSTU
 mkdir -p $DSTW
 mkdir -p $DSTF
@@ -79,8 +82,8 @@ mkdir -p $DSTF
 make INSTALL_MOD_PATH=$DSTS modules_install
 cp arch/x86/boot/bzImage $DSTS/boot/$PKG-bifrost
 ln -s $PKG-bifrost $DSTS/boot/kernel.default-$ARCH
-cp System.map  $DSTS/boot/System.map-$PKG-bifrost
-# cp vmlinux  $DSTS/boot/ # Takes a lot of space!
+cp System.map  $DSTV/boot/System.map-$PKG-bifrost
+cp vmlinux  $DSTV/boot/vmlinux-$PKG-bifrost
 echo "title   $PKG-bifrost" > $DSTS/boot/grub/$PKG-bifrost.grub
 echo "root    (hd0,0)" >> $DSTS/boot/grub/$PKG-bifrost.grub
 echo "kernel /boot/$PKG-bifrost rhash_entries=131072 root=/dev/sda1 rootdelay=10" >> $DSTS/boot/grub/$PKG-bifrost.grub
@@ -162,6 +165,8 @@ cd $DSTW || exit 1
 tar czf /var/spool/pkg/kernel-$ARCH-wireless-$V-$BUILDVERSION.tar.gz .
 cd $DSTF || exit 1
 tar czf /var/spool/pkg/kernel-$ARCH-firmware-$V-$BUILDVERSION.tar.gz .
+cd $DSTV || exit 1
+tar czf /var/spool/pkg/kernel-$ARCH-vmlinux-$V-$BUILDVERSION.tar.gz .
 
 #########
 # Cleanup after a success
@@ -170,6 +175,7 @@ cd /var/lib/build
 [ "$DEVEL" ] || rm -rf "$DSTU"
 [ "$DEVEL" ] || rm -rf "$DSTW"
 [ "$DEVEL" ] || rm -rf "$DSTF"
+[ "$DEVEL" ] || rm -rf "$DSTV"
 [ "$DEVEL" ] || rm -rf "$BUILDDIR"
 pkg_uninstall
 exit 0
