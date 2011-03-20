@@ -38,6 +38,7 @@ pkg_install perl-5.10.1-1 || exit 2
 pkg_install passwd-file-1 || exit 2
 pkg_install module-init-tools-3.12-1 || exit 2
 pkg_install bifrost-initramfs-1 || exit 2
+pkg_install bash-4.1-1 || exit 2
 
 #########
 # Unpack sources into dir under /var/tmp/src
