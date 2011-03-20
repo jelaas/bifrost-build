@@ -77,9 +77,11 @@ echo Installing tar
 setarch linux64 /bin/chroot $DST/home/build/mini-native-x86_64 /var/lib/build/pkg_install --permanent tar-1.23-1
 
 for pkg in passwd-file-1 ncurses-lib-5.7-1 git-1.7.1-2 openssh-5.5p1-1 perl-5.10.1-1\
-	e2fsprogs-1.41.11-1 module-init-tools-3.12-1 cpio-2.11-1 util-linux-ng-lib-2.17.2-1; do
+	e2fsprogs-1.41.11-1 module-init-tools-3.12-1 cpio-2.11-1 util-linux-ng-lib-2.17.2-1 bash-4.1-1; do
 	setarch linux64 /bin/chroot $DST/home/build/mini-native-x86_64 /var/lib/build/pkg_build $pkg
 done
+
+setarch linux64 /bin/chroot $DST/home/build/mini-native-x86_64 /var/lib/build/pkg_install --permanent bash-4.1-1
 
 setarch linux64 /bin/chroot $DST/home/build/mini-native-x86_64 umount /proc
 setarch linux64 /bin/chroot $DST/home/build/mini-native-x86_64 umount /sys
