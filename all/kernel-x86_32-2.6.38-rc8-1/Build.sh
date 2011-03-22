@@ -54,6 +54,7 @@ patch -p1 < $PKGDIR/DOM-core-110310.pat || exit 1
 patch -p1 < $PKGDIR/DOM-igb-110310.pat || exit 1
 patch -p1 < $PKGDIR/DOM-ixgbe-110310.pat || exit 1
 patch -p1 < $PKGDIR/ixgbe_sfp_override.pat || exit 1
+patch -p1 < $PKGDIR/e1000_e1000e_copybreak.pat || exit 1
 
 #########
 # Configure
