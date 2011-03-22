@@ -48,6 +48,7 @@ untar loop-1-1
 untar make_bifrost-1
 untar remount-2-1
 untar schedlat-1.2-1
+untar vers-1-1
 
 #########
 # Clean up
