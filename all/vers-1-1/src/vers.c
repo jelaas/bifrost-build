@@ -286,9 +286,8 @@ int main(int argc, char **argv)
 					printf("%s\n", prev->prettyname);
 				else
 					printf("%s%s\n", prev->name, prev->vers);
-				prev = pkg;
 			}
-			if(!prev) prev = pkg;
+			prev = pkg;
 		} else {
 			if(names)
 				printf("%s\n", pkg->prettyname);
