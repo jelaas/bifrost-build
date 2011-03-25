@@ -48,7 +48,7 @@ libtool_fix-1
 
 #########
 # Compile
-CFLAGS="-Wall -Os -march=i586" LDFLAGS="-static" make || exit 1
+CFLAGS="-Wall -Os -march=i586 -D_GNU_SOURCE" LDFLAGS="-static" make || exit 1
 
 #########
 # Install into dir under /var/tmp/install
