@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS?=-Wall
+CFLAGS?=-Wall -D_GNU_SOURCE
 LDFLAGS?=-static
 all: vers
 vers:	vers.c jelist.o
