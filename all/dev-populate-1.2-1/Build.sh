@@ -48,7 +48,7 @@ cd $BUILDDIR || exit 1
 
 #########
 # Compile
-make || exit 1
+make blockdev-populate || exit 1
 
 #########
 # Install into dir under /var/tmp/install
