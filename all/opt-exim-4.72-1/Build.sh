@@ -66,13 +66,14 @@ echo  "BIN_DIRECTORY=/opt/exim/bin"          >>  Local/Makefile
 echo  "CONFIGURE_FILE=/opt/exim/etc/exim.conf"    >>  Local/Makefile
 echo  "SPOOL_DIRECTORY=/var/spool/mail"  >>  Local/Makefile
 echo  "LOG_FILE_PATH=/var/log/exim_%s:"  >>  Local/Makefile
-echo  "CFLAGS=-Os -march=i586"                   >>  Local/Makefile
+echo  "CFLAGS=-static -Os -march=i586"   >>  Local/Makefile
+echo  "LDFLAGS=-static"                  >>  Local/Makefile
 echo  "EXIM_UID=`id -u exim`"            >>  Local/Makefile
 echo  "EXIM_GID=`id -g exim`"            >>  Local/Makefile
 echo  "EXIM_USER=exim"                   >>  Local/Makefile
 echo  "EXIM_GROUP=exim"                  >>  Local/Makefile
 echo  "PCRE_LIBS=-lpcre"                 >> Local/Makefile
-echo  "EXTRALIBS=-lwrap -liconv"	>>  Local/Makefile
+echo  "EXTRALIBS=-lwrap -liconv"	 >>  Local/Makefile
 echo "DBMLIB=-lgdbm" >> Local/Makefile
 echo "USE_GDBM=yes" >> Local/Makefile
 
