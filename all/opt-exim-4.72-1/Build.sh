@@ -104,7 +104,7 @@ cp -p $PKGDIR/rc $OPTDIR/rc.d/rc.exim
 # Check result
 cd $DST
 # [ -f usr/bin/myprog ] || exit 1
-# (ldd sbin/myprog|grep -qs "not a dynamic executable") || exit 1
+(ldd opt/exim/bin/exim|grep -qs "not a dynamic executable") || exit 1
 
 #########
 # Clean up
