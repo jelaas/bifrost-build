@@ -68,6 +68,7 @@ echo  "SPOOL_DIRECTORY=/var/spool/mail"  >>  Local/Makefile
 echo  "LOG_FILE_PATH=/var/log/exim_%s:"  >>  Local/Makefile
 echo  "CFLAGS=-static -Os -march=i586"   >>  Local/Makefile
 echo  "LDFLAGS=-static"                  >>  Local/Makefile
+echo  "LFLAGS=-static"                  >>  Local/Makefile
 echo  "EXIM_UID=`id -u exim`"            >>  Local/Makefile
 echo  "EXIM_GID=`id -g exim`"            >>  Local/Makefile
 echo  "EXIM_USER=exim"                   >>  Local/Makefile
@@ -83,7 +84,7 @@ echo "USE_GDBM=yes" >> Local/Makefile
 
 #########
 # Compile
-make || exit 1
+FULLECHO='' make -e || exit 1
 
 #########
 # Install into dir under /var/tmp/install
@@ -105,6 +106,7 @@ cp -p $PKGDIR/rc $OPTDIR/rc.d/rc.exim
 cd $DST
 # [ -f usr/bin/myprog ] || exit 1
 (ldd opt/exim/bin/exim|grep -qs "not a dynamic executable") || exit 1
+(ldd opt/exim/bin/exim_lock|grep -qs "not a dynamic executable") || exit 1
 
 #########
 # Clean up
