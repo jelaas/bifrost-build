@@ -26,8 +26,8 @@ while [ "$1" ]; do
     shift
     
     PKGDIR=""
-    [ -d "/var/lib/build/staging/$pkg" ] && PKGDIR="/var/lib/build/staging/$pkg"
-    [ -d "/var/lib/build/all/$pkg" ] && PKGDIR="/var/lib/build/all/$pkg"
+    [ -d "/var/lib/build/staging/$pkg" ] && export PKGDIR="/var/lib/build/staging/$pkg"
+    [ -d "/var/lib/build/all/$pkg" ] && export PKGDIR="/var/lib/build/all/$pkg"
     
     [ "$PKGDIR" ] && [ -f "$PKGDIR/Fetch-source.sh" ] && (cd $PKGDIR; PATH="/var/lib/build:$PATH" "./Fetch-source.sh")
 done
