@@ -51,7 +51,7 @@ mkdir -p "$DST"
 cd $DST
 untar bifrost-framework-1.0.5-1
 
-untar kernel-v2.6.38-rc1-2
+untar kernel-x86_32-2.6.38-rc8-2
 
 untar meta-bifrost-admin-1
 untar meta-bifrost-hw-1
