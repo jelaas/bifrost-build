@@ -61,13 +61,14 @@ make install DESTDIR=$DST # --with-install-prefix may be an alternative
 # Check result
 cd $DST || exit 1
 # [ -f usr/bin/myprog ] || exit 1
-(ldd usr/sbin/iwlist|grep -qs "not a dynamic executable") || exit 1
+(ldd sbin/iwlist|grep -qs "not a dynamic executable") || exit 1
 
 #########
 # Clean up
 cd $DST || exit 1
-rm -rf usr/man usr/lib usr/include
+rm -rf man lib include
 [ -d bin ] && strip bin/*
+[ -d sbin ] && strip sbin/*
 [ -d usr/bin ] && strip usr/bin/*
 
 #########
