@@ -58,7 +58,7 @@ make || exit 1
 rm -rf "$DST"
 make install DESTDIR=$DST # --with-install-prefix may be an alternative
 cd "$DST"
-mv usr/sbin/arping usr/sbin/arping2
+mv sbin/arping sbin/arping2
 
 #########
 # Check result
