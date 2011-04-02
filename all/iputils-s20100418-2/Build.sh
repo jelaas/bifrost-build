@@ -58,20 +58,20 @@ make || exit 1
 #########
 # Install into dir under /var/tmp/install
 rm -rf "$DST"
-mkdir -p "$DST/bin"
-cp -p ipg ping ping6 tracepath tracepath6 traceroute6 arping rarpd rdisc tftpd clockdiff "$DST/bin"
+mkdir -p "$DST/sbin"
+cp -p ipg ping ping6 tracepath tracepath6 traceroute6 arping rarpd rdisc tftpd clockdiff "$DST/sbin"
 
 #########
 # Check result
 cd $DST
 # [ -f usr/bin/myprog ] || exit 1
-(ldd bin/ping|grep -qs "not a dynamic executable") || exit 1
+(ldd sbin/ping|grep -qs "not a dynamic executable") || exit 1
 
 #########
 # Clean up
 cd $DST
 # rm -rf usr/share usr/man
-[ -d bin ] && strip bin/*
+[ -d sbin ] && strip sbin/*
 
 #########
 # Make package

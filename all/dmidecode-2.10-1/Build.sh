@@ -48,12 +48,12 @@ libtool_fix-1
 
 #########
 # Compile
-make prefix="/" LDFLAGS="-static" CFLAGS="-Os -march=i586"|| exit 1
+make prefix="/usr" LDFLAGS="-static" CFLAGS="-Os -march=i586"|| exit 1
 
 #########
 # Install into dir under /var/tmp/install
 rm -rf "$DST"
-make install prefix="/" DESTDIR=$DST # --with-install-prefix may be an alternative
+make install prefix="/usr" DESTDIR=$DST # --with-install-prefix may be an alternative
 
 #########
 # Check result
@@ -64,8 +64,8 @@ cd $DST
 #########
 # Clean up
 cd $DST
-rm -rf share
-strip sbin/*
+rm -rf usr/share
+strip usr/sbin/*
 
 #########
 # Make package

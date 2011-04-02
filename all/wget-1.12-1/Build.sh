@@ -36,7 +36,7 @@ libtool_fix-1
 
 #########
 # Configure
-B-configure-1 --sysconfdir=/etc --prefix=/usr --bindir=/bin || exit 1
+B-configure-1 --sysconfdir=/etc --prefix=/usr --bindir=/usr/bin || exit 1
 
 #########
 # Post configure patch

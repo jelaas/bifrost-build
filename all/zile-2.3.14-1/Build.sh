@@ -26,7 +26,7 @@ libtool_fix-1
 
 #########
 # Configure
-B-configure-1 --prefix=/usr --bindir=/bin --with-included-regex || exit 1
+B-configure-1 --prefix=/usr --with-included-regex || exit 1
 
 #########
 # Post configure patch
@@ -47,7 +47,7 @@ ln -s zile bin/emacs
 # Check result
 cd $DST
 # [ -f usr/bin/myprog ] || exit 1
-(ldd bin/zile|grep -qs "not a dynamic executable") || exit 1
+(ldd usr/bin/zile|grep -qs "not a dynamic executable") || exit 1
 
 #########
 # Clean up

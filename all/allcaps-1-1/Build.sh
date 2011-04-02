@@ -52,8 +52,8 @@ cd $BUILDDIR || exit 1
 #########
 # Install into dir under /var/tmp/install
 rm -rf "$DST"
-mkdir -p "$DST/bin" || exit 1
-cp allcaps "$DST/bin"
+mkdir -p "$DST/sbin" || exit 1
+cp allcaps "$DST/sbin"
 
 #########
 # Check result
@@ -65,7 +65,7 @@ cd $DST || exit 1
 # Clean up
 cd $DST || exit 1
 # rm -rf usr/share usr/man
-[ -d bin ] && strip bin/*
+[ -d sbin ] && strip sbin/*
 
 #########
 # Make package

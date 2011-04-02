@@ -54,7 +54,7 @@ CFLAGS="-march=i586 -Os" LDFLAGS="-static" make env=yes noshare=yes|| exit 1
 #########
 # Install into dir under /var/tmp/install
 rm -rf "$DST"
-make prefix="$DST/usr" install
+make prefix="$DST" install
 
 #########
 # Check result

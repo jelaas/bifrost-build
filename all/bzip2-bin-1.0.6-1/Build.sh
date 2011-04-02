@@ -46,18 +46,18 @@ sedit  's/\$(PREFIX)\/bin/\$(EPREFIX)\/bin/g'                     Makefile
 
 #########
 # Compile
-make "PREFIX=$DST/usr" "EPREFIX=$DST" || exit 1
+make "PREFIX=$DST/usr" "EPREFIX=$DST/usr" || exit 1
 
 #########
 # Install into dir under /var/tmp/install
 rm -rf "$DST"
-make "PREFIX=$DST/usr" "EPREFIX=$DST" install || exit 1
+make "PREFIX=$DST/usr" "EPREFIX=$DST/usr" install || exit 1
 
 #########
 # Check result
 cd $DST
 # [ -f usr/bin/myprog ] || exit 1
-# (ldd sbin/myprog|grep -qs "not a dynamic executable") || exit 1
+(ldd usr/bin/bzip2|grep -qs "not a dynamic executable") || exit 1
 
 #########
 # Clean up

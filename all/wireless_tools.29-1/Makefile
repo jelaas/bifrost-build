@@ -5,7 +5,7 @@
 ## Installation directory. By default, go in /usr/local.
 ## Distributions should probably use /, but they probably know better...
 ifndef PREFIX
-  PREFIX = /usr
+  PREFIX = /
 endif
 
 ## Compiler to use (modify this for cross compile).

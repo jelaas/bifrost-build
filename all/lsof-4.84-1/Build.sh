@@ -57,8 +57,8 @@ make DEBUG='' CDEF="-Os -march=i586" CFGL="-static -L./lib -llsof" || exit 1
 #########
 # Install into dir under /var/tmp/install
 rm -rf "$DST"
-mkdir -p $DST/bin
-cp lsof $DST/bin
+mkdir -p $DST/usr/bin
+cp lsof $DST/usr/bin
 
 #########
 # Check result
@@ -69,7 +69,7 @@ cd $DST
 #########
 # Clean up
 cd $DST
-strip bin/*
+strip usr/bin/*
 
 #########
 # Make package

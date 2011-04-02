@@ -40,7 +40,7 @@ libtool_fix-1
 
 #########
 # Configure
-B-configure-1 --prefix=/ --bindir=/bin --disable-nls --without-nscd || exit 1
+B-configure-1 --exec-prefix=/ --prefix=/usr --libexecdir=/usr/libexec --sysconfdir=/etc --localstatedir=/var --disable-nls --without-nscd || exit 1
 [ -f config.log ] && cp -p config.log /var/log/config/$PKG-config.log
 
 #########
@@ -65,8 +65,8 @@ cd $DST
 #########
 # Clean up
 cd $DST || exit 1
-rm -rf share
-strip bin/* sbin/*
+rm -rf usr/share
+strip bin/* sbin/* usr/bin/* usr/sbin/*
 
 #########
 # Make package

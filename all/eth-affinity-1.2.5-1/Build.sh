@@ -38,7 +38,7 @@ libtool_fix-1
 
 #########
 # Configure
-B-configure-1 --diet --prefix=$DST/usr || exit 1
+B-configure-1 --diet --prefix=$DST || exit 1
 
 #########
 # Post configure patch
@@ -51,7 +51,7 @@ PATH=/opt/diet/bin:$PATH make || exit 1
 #########
 # Install into dir under /var/tmp/install
 rm -rf "$DST"
-mkdir -p $DST/usr/bin
+mkdir -p $DST/bin
 make install
 
 #########

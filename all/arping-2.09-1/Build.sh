@@ -42,7 +42,7 @@ libtool_fix-1
 
 #########
 # Configure
-B-configure-1 --prefix=/usr || exit 1
+B-configure-1 --prefix=/ || exit 1
 [ -f config.log ] && cp -p config.log /var/log/config/$PKG-config.log
 
 #########
@@ -64,13 +64,13 @@ mv usr/sbin/arping usr/sbin/arping2
 # Check result
 cd $DST
 # [ -f usr/bin/myprog ] || exit 1
-(ldd usr/sbin/arping2|grep -qs "not a dynamic executable") || exit 1
+(ldd sbin/arping2|grep -qs "not a dynamic executable") || exit 1
 
 #########
 # Clean up
 cd $DST
-rm -rf usr/share
-[ -d usr/sbin ] && strip usr/sbin/*
+rm -rf share
+[ -d sbin ] && strip sbin/*
 
 #########
 # Make package

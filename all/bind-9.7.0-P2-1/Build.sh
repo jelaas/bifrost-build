@@ -40,7 +40,7 @@ libtool_fix-1
 
 #########
 # Configure
-$PKGDIR/B-configure-1 --prefix=/usr --bindir=/bin --disable-nls --with-openssl=no --with-libxml2=no --disable-chroot --disable-linux-caps --disable-symtable|| exit 1
+$PKGDIR/B-configure-1 --prefix=/usr --bindir=/usr/bin --disable-nls --with-openssl=no --with-libxml2=no --disable-chroot --disable-linux-caps --disable-symtable|| exit 1
 
 #########
 # Post configure patch
@@ -59,14 +59,14 @@ make install DESTDIR=$DST # --with-install-prefix may be an alternative
 # Check result
 cd $DST
 # [ -f usr/bin/myprog ] || exit 1
-(ldd bin/host|grep -qs "not a dynamic executable") || exit 1
+(ldd usr/bin/host|grep -qs "not a dynamic executable") || exit 1
 (ldd usr/sbin/named|grep -qs "not a dynamic executable") || exit 1
 
 #########
 # Clean up
 cd $DST
 rm -rf usr/share
-strip bin/* usr/sbin/*
+strip usr/bin/* usr/sbin/*
 
 #########
 # Make package
