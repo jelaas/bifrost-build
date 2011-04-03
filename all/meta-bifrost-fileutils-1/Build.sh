@@ -43,10 +43,10 @@ rm -rf "$DST"
 mkdir -p "$DST"
 cd $DST
 
-untar bzip2-bin-1.0.5-1 ./usr/bin/bzip2
-untar bzip2-bin-1.0.5-1 ./usr/bin/bzgrep
-untar bzip2-bin-1.0.5-1 ./usr/bin/bzmore
-untar bzip2-bin-1.0.5-1 ./usr/bin/bzdiff
+untar bzip2-bin-1.0.6-1 ./usr/bin/bzip2
+untar bzip2-bin-1.0.6-1 ./usr/bin/bzgrep
+untar bzip2-bin-1.0.6-1 ./usr/bin/bzmore
+untar bzip2-bin-1.0.6-1 ./usr/bin/bzdiff
 ln -s /usr/bin/bzip2 ./usr/bin/bunzip2
 ln -s /usr/bin/bzip2 ./usr/bin/bzcat
 untar diffutils-3.0-1
