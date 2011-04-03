@@ -60,7 +60,7 @@ cd $DST
 #########
 # Clean up
 cd $DST
-rm -rf usr/lib usr/include usr/share/man
+rm -rf lib include share/man
 [ -d bin ] && strip bin/*
 [ -d usr/bin ] && strip usr/bin/*
 
