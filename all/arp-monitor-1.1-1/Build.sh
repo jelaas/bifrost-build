@@ -55,6 +55,8 @@ make || exit 1
 # Install into dir under /var/tmp/install
 rm -rf "$DST"
 make install DESTDIR=$DST # --with-install-prefix may be an alternative
+mkdir -p $DST/usr/sbin
+mv $DST/usr/bin/arp-monitor $DST/usr/sbin
 
 #########
 # Check result
@@ -68,6 +70,7 @@ cd $DST || exit 1
 # rm -rf usr/share usr/man
 [ -d bin ] && strip bin/*
 [ -d usr/bin ] && strip usr/bin/*
+[ -d usr/sbin ] && strip usr/sbin/*
 
 #########
 # Make package
