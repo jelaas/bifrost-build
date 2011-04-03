@@ -1,0 +1,5 @@
+To make git work the following files must be installed:
+/ect/hosts (for http transport)
+/etc/passwd (always, git checks user)
+
+passwd may be installed from pkg: passwd-file-1
