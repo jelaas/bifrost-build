@@ -37,6 +37,7 @@ libtool_fix-1
 #########
 # Configure
 #B-configure-1 --prefix=/usr || exit 1
+sedit  's/LDFLAGS=/LDFLAGS=-static/' Makefile
 sedit  's/-O2/-march=i586 -Os/'  Makefile
 sedit  's/\$(PREFIX)\/bin/\$(EPREFIX)\/bin/g'                     Makefile
 
