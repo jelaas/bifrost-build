@@ -53,6 +53,7 @@ PATH=/opt/diet/bin:$PATH make || exit 1
 rm -rf "$DST"
 mkdir -p $DST/bin
 make install
+mv $DST/bin $DST/sbin
 
 #########
 # Check result
@@ -66,6 +67,7 @@ cd $DST
 # rm -rf usr/share usr/man
 [ -d bin ] && strip bin/*
 [ -d usr/bin ] && strip usr/bin/*
+[ -d usr/sbin ] && strip usr/sbin/*
 
 #########
 # Make package
