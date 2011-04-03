@@ -55,12 +55,12 @@ make install DESTDIR=$DST # --with-install-prefix may be an alternative
 # Check result
 cd $DST
 # [ -f usr/bin/myprog ] || exit 1
-# (ldd sbin/myprog|grep -qs "not a dynamic executable") || exit 1
+(ldd usr/bin/wget|grep -qs "not a dynamic executable") || exit 1
 
 #########
 # Clean up
 cd $DST
-rm -rf usr
+rm -rf usr/share
 [ -d bin ] && strip bin/*
 [ -d usr/bin ] && strip usr/bin/*
 
