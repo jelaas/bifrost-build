@@ -69,6 +69,7 @@ rm -rf usr/share
 
 rm usr/bin/git-receive-pack && ln -s git usr/bin/git-receive-pack 
 rm usr/bin/git-upload-archive && ln -s git usr/bin/git-upload-archive
+rm usr/libexec/git-core/git-upload-pack && ln -s /usr/bin/git-upload-pack usr/libexec/git-core/git-upload-pack
 
 strip usr/bin/*
 strip usr/libexec/git-core/*
