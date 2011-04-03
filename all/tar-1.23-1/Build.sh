@@ -51,7 +51,7 @@ cd $DST
 # Clean up
 cd $DST
 # rm -rf usr/share usr/man
-rm -rf usr/libexec usr/share
+rm -rf libexec share
 [ -d bin ] && strip bin/*
 [ -d usr/bin ] && strip usr/bin/*
 
