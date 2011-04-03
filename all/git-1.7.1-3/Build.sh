@@ -66,6 +66,10 @@ cd $DST
 rm usr/bin/git-shell usr/bin/git-cvsserver usr/libexec/git-core/git-imap-send usr/libexec/git-core/git-shell usr/libexec/git-core/git-daemon
 rm usr/libexec/git-core/git-quiltimport usr/libexec/git-core/git-archimport usr/libexec/git-core/git-cvsexportcommit usr/libexec/git-core/git-cvsimport usr/libexec/git-core/git-cvsserver usr/libexec/git-core/git-svn usr/libexec/git-core/git-send-email usr/libexec/git-core/git-instaweb 
 rm -rf usr/share
+
+rm usr/bin/git-receive-pack && ln -s git usr/bin/git-receive-pack 
+rm usr/bin/git-upload-archive && ln -s git usr/bin/git-upload-archive
+
 strip usr/bin/*
 strip usr/libexec/git-core/*
 
