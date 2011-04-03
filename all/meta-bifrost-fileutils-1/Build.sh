@@ -43,7 +43,12 @@ rm -rf "$DST"
 mkdir -p "$DST"
 cd $DST
 
-untar bzip2-bin-1.0.5-1
+untar bzip2-bin-1.0.5-1 ./bin/bzip2
+untar bzip2-bin-1.0.5-1 ./bin/bzgrep
+untar bzip2-bin-1.0.5-1 ./bin/bzmore
+untar bzip2-bin-1.0.5-1 ./bin/bzdiff
+ln -s /bin/bzip2 ./bin/bunzip2
+ln -s /bin/bzip2 ./bin/bzcat
 untar diffutils-3.0-1
 untar file-5.04-1
 untar findutils-4.4.2-1
