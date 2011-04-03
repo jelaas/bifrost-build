@@ -36,7 +36,7 @@ libtool_fix-1
 
 #########
 # Configure
-B-configure-1 --prefix=/ || exit 1
+B-configure-1 --prefix=/ --datarootdir=/usr/share || exit 1
 
 #########
 # Post configure patch
@@ -60,7 +60,7 @@ cd $DST
 #########
 # Clean up
 cd $DST
-rm -rf lib include share/man
+rm -rf lib include usr/share/man
 [ -d bin ] && strip bin/*
 [ -d usr/bin ] && strip usr/bin/*
 
