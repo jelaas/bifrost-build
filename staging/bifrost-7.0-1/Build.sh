@@ -236,9 +236,6 @@ untar util-linux-ng-bin-2.17.2-2 ./sbin/fsck
 untar util-linux-ng-bin-2.17.2-2 ./usr/bin/isosize
 untar util-linux-ng-bin-2.17.2-2 ./usr/bin/getopt
 untar util-linux-ng-bin-2.17.2-2 ./usr/bin/last
-untar util-linux-ng-bin-2.17.2-2 ./usr/bin/chfn
-untar util-linux-ng-bin-2.17.2-2 ./usr/bin/chsh
-untar util-linux-ng-bin-2.17.2-2 ./usr/bin/newgrp
 untar util-linux-ng-bin-2.17.2-2 ./usr/bin/mesg
 untar util-linux-ng-bin-2.17.2-2 ./usr/bin/wall
 untar util-linux-ng-bin-2.17.2-2 ./usr/bin/ddate
@@ -269,8 +266,6 @@ untar util-linux-ng-bin-2.17.2-2 ./usr/bin/rev
 untar util-linux-ng-bin-2.17.2-2 ./usr/bin/line
 untar util-linux-ng-bin-2.17.2-2 ./usr/bin/tailf
 untar util-linux-ng-bin-2.17.2-2 ./usr/bin/pg
-untar util-linux-ng-bin-2.17.2-2 ./usr/sbin/vipw
-untar util-linux-ng-bin-2.17.2-2 ./usr/sbin/vigr
 untar util-linux-ng-bin-2.17.2-2 ./usr/sbin/uuidd
 untar util-linux-ng-bin-2.17.2-2 ./usr/sbin/readprofile
 untar util-linux-ng-bin-2.17.2-2 ./usr/sbin/ldattach
