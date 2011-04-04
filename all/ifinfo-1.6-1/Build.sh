@@ -53,8 +53,8 @@ PATH=/opt/diet/bin:$PATH make || exit 1
 #########
 # Install into dir under /var/tmp/install
 rm -rf "$DST"
-mkdir -p "$DST/usr/bin"
-cp -p ifinfo "$DST/usr/bin"
+mkdir -p "$DST/sbin"
+cp -p ifinfo "$DST/sbin"
 
 #########
 # Check result
@@ -65,7 +65,7 @@ cd $DST
 #########
 # Clean up
 cd $DST
-[ -d usr/bin ] && strip usr/bin/*
+[ -d sbin ] && strip sbin/*
 
 #########
 # Make package
