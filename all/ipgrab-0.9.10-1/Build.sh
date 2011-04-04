@@ -69,6 +69,7 @@ cd $DST || exit 1
 cd $DST || exit 1
 rm -rf usr/share
 [ -d bin ] && strip bin/*
+[ -d sbin ] && strip sbin/*
 [ -d usr/bin ] && strip usr/bin/*
 
 #########
