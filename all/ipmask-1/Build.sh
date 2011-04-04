@@ -53,8 +53,8 @@ cd $BUILDDIR || exit 1
 #########
 # Install into dir under /var/tmp/install
 rm -rf "$DST"
-mkdir -p "$DST/usr/bin" || exit 1
-cp ipmask "$DST/usr/bin"
+mkdir -p "$DST/bin" || exit 1
+cp ipmask "$DST/bin"
 
 #########
 # Check result
@@ -66,7 +66,7 @@ cd $DST || exit 1
 # Clean up
 cd $DST || exit 1
 # rm -rf usr/share usr/man
-[ -d usr/bin ] && strip usr/bin/*
+[ -d bin ] && strip bin/*
 
 #########
 # Make package
