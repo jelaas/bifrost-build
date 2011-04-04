@@ -35,8 +35,8 @@ strip cpu_pkts
 #########
 # Install into dir under /var/tmp/install
 rm -rf "$DST"
-mkdir -p $DST/sbin
-cp cpu_pkts $DST/sbin
+mkdir -p $DST/bin
+cp cpu_pkts $DST/bin
 
 #########
 # Make package
