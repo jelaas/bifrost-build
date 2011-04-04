@@ -44,7 +44,7 @@ function untar {
     fi
     [ "$2" ] && [ -e "$2" ] && echo "CONFLICT: \"$2\" from $1 is already installed and will be overwritten!"
     [ "$2" ] || (tar tvf /var/spool/pkg/$1.tar.gz | chk_conflicts $1)
-    tar xf /var/spool/pkg/$1.tar.gz $2
+    tar xf /var/spool/pkg/$1.tar.gz $2 || exit 1
 }
 rm -rf "$DST"
 mkdir -p "$DST"
