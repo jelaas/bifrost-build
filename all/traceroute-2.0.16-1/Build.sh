@@ -65,7 +65,7 @@ cd $DST
 #########
 # Clean up
 cd $DST
-rm -rf usr/share
+rm -rf share
 [ -d bin ] && strip bin/*
 [ -d usr/bin ] && strip usr/bin/*
 
