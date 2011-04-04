@@ -62,12 +62,13 @@ make install DESTDIR=$DST # --with-install-prefix may be an alternative
 # Check result
 cd $DST || exit 1
 # [ -f usr/bin/myprog ] || exit 1
-(ldd usr/bin/numactl|grep -qs "not a dynamic executable") || exit 1
+(ldd bin/numactl|grep -qs "not a dynamic executable") || exit 1
 
 #########
 # Clean up
 cd $DST || exit 1
-rm -rf usr/share usr/lib/libnuma.so*
+rm -rf share lib/libnuma.so*
+rm -rf lib include
 [ -d bin ] && strip bin/*
 [ -d usr/bin ] && strip usr/bin/*
 

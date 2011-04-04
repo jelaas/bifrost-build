@@ -5,7 +5,7 @@
  	clearcache.c test/*.c
  
 -prefix := /usr
-+prefix := ${DESTDIR}/usr
++prefix := ${DESTDIR}
  libdir := ${prefix}/$(shell ./getlibdir)
  docdir := ${prefix}/share/doc
  
