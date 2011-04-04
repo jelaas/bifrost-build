@@ -45,7 +45,7 @@ untar dhcp-4.1.2-P1-1
 untar dhcpcd-4.0.15-1
 untar dnsmasq-2.52-1
 untar ethtool-v2.6.35-2
-untar iproute2-2.6.34-1
+untar iproute2-2.6.34-2
 untar iptables-1.4.8-1
 untar iputils-s20100418-2
 untar netkit-base-0.17-1 ./sbin/inetd
