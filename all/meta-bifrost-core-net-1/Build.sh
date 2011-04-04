@@ -33,13 +33,13 @@ function untar {
 	pkg_build $1
 	exit 2
     fi
-	tar xvf /var/spool/pkg/$1.tar.gz $2
+    tar xvf /var/spool/pkg/$1.tar.gz $2 || exit 1
 }
 rm -rf "$DST"
 mkdir -p "$DST"
 cd $DST
 
-untar bind-9.7.0-P2-1 ./bin/host
+untar bind-9.7.0-P2-1 ./usr/bin/host
 untar bridge-utils-1.4-1
 untar dhcp-4.1.2-P1-1
 untar dhcpcd-4.0.15-1
