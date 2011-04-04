@@ -49,12 +49,12 @@ cd $BUILDDIR
 
 #########
 # Compile
-CC="gcc -Os -march=i586" LDFLAGS="-static" CSTD=gnu99 make || exit 1
+CC="gcc -Os -march=i586" LDFLAGS="-static" CSTD=gnu99 make LIBEXECDIR=/usr/libexec|| exit 1
 
 #########
 # Install into dir under /var/tmp/install
 rm -rf "$DST"
-make install DESTDIR=$DST # --with-install-prefix may be an alternative
+make install DESTDIR=$DST LIBEXECDIR=/usr/libexec # --with-install-prefix may be an alternative
 mkdir -p $DST/etc/config.preconf
 mv $DST/etc/dhcpcd.conf $DST/etc/config.preconf/dhcpcd.conf
 
@@ -67,7 +67,7 @@ cd $DST
 #########
 # Clean up
 cd $DST
-rm -rf usr
+rm -rf usr/share
 strip sbin/*
 
 #########
