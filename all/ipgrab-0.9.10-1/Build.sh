@@ -41,7 +41,7 @@ libtool_fix-1
 
 #########
 # Configure
-B-configure-1 --prefix=/usr || exit 1
+B-configure-1 --prefix=/usr --bindir=/sbin || exit 1
 [ -f config.log ] && cp -p config.log /var/log/config/$PKG-config.log
 
 #########
@@ -62,12 +62,12 @@ make install DESTDIR=$DST # --with-install-prefix may be an alternative
 # Check result
 cd $DST || exit 1
 # [ -f usr/bin/myprog ] || exit 1
-(ldd usr/bin/ipgrab|grep -qs "not a dynamic executable") || exit 1
+(ldd sbin/ipgrab|grep -qs "not a dynamic executable") || exit 1
 
 #########
 # Clean up
 cd $DST || exit 1
-# rm -rf usr/share usr/man
+rm -rf usr/share
 [ -d bin ] && strip bin/*
 [ -d usr/bin ] && strip usr/bin/*
 
