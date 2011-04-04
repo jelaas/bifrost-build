@@ -176,7 +176,7 @@ untar libcap-bin-2.19-1
 untar logrotate-3.7.3-1
 untar module-init-tools-3.12-1
 untar ncurses-bin-5.7-1 ./usr/bin/clear
-untar numactl-2.0.6-1 ./usr/bin/numactl
+untar numactl-2.0.6-1 ./bin/numactl
 untar openssl-0.9.8q-1 ./usr/bin/openssl
 untar procps-3.2.8-2 ./usr/bin/free
 untar procps-3.2.8-2 ./usr/bin/w
