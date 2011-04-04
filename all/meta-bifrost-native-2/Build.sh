@@ -46,6 +46,7 @@ untar dev-populate-1.2-1
 untar eth-affinity-1.2.5-1
 untar ifinfo-1.6-1
 untar ifstat2-0.31-1
+untar iocethtool-0.2-1
 untar loop-1-1
 untar make_bifrost-1
 untar nsutil-0.62-1 ./sbin/ns
