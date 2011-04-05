@@ -54,6 +54,7 @@ untar bifrost-framework-1.0.7-1
 untar kernel-x86_32-2.6.38-rc8-3
 untar kernel-x86_64-2.6.38-rc8-3
 
+untar meta-bifrost-bin64-1
 untar meta-bifrost-admin-2
 untar meta-bifrost-hw-2
 untar meta-bifrost-native-2
