@@ -58,7 +58,7 @@ function untar {
 	pkg_build $1
 	exit 2
     fi
-    tar xvf /home/build/mini-native-x86_64/var/spool/pkg/$1.tar.gz $2
+    tar xvf /home/build/mini-native-x86_64/var/spool/pkg/$1.tar.gz $2 || exit 1
 }
 
 rm -rf "$DST"
@@ -68,6 +68,9 @@ cd $DST || exit 1
 untar ethtool-v2.6.35-2
 untar strace-4.5.20-2
 untar tcpdump-4.1.1-1
+
+cd $DST
+tar czf /var/spool/pkg/$PKG.tar.gz .
 
 #########
 # Cleanup after a success
