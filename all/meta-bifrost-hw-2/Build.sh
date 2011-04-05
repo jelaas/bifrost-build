@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SRCVER=meta-bifrost-hw
-PKG=$SRCVER-1 # with build version
+PKG=$SRCVER-2 # with build version
 
 # PKGDIR is set by 'pkg_build'. Usually "/var/lib/build/$PKG".
 PKGDIR=${PKGDIR:-/var/lib/build/$PKG}
