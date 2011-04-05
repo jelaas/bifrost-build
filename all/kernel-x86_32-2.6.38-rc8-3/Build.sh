@@ -135,7 +135,7 @@ function filter_modules {
 		if [[ $L =~ kernel/drivers/ ]]; then
 			[[ $L =~ kernel/drivers/net/ ]] || continue
 		fi
-		for supported in e1000 igb ixgbe tulip veth macvlan tg3 niu ixgb; do
+		for supported in e1000 igb ixgbe mdio tulip veth macvlan tg3 niu ixgb; do
 			[[ $L =~ $supported ]] && n=1
 		done
 		[ $n = 1 ] && continue
