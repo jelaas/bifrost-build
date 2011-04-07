@@ -49,7 +49,7 @@ function untar {
 rm -rf "$DST"
 mkdir -p "$DST"
 cd $DST
-untar bifrost-framework-1.0.7-1
+untar bifrost-framework-1.0.8-1
 
 untar kernel-x86_32-2.6.38-rc8-3
 untar kernel-x86_64-2.6.38-rc8-3
