@@ -51,7 +51,7 @@ cd $BUILDDIR
 # Install into dir under /var/tmp/install
 rm -rf "$DST"
 mkdir -p $DST/sbin
-cp client/scripts/linux $DST/sbin/dhclient-script $DST/sbin || exit 1
+cp client/scripts/linux $DST/sbin/dhclient-script || exit 1
 
 #########
 # Check result
