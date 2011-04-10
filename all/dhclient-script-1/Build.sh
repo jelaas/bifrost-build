@@ -1,12 +1,13 @@
 #!/bin/bash
 
 SRCVER=dhlient-script
+
 PKG=$SRCVER-1 # with build version
 
 # PKGDIR is set by 'pkg_build'. Usually "/var/lib/build/all/$PKG".
 PKGDIR=${PKGDIR:-/var/lib/build/all/$PKG}
 SRC=/var/spool/src/$SRCVER.tar.gz
-BUILDDIR=/var/tmp/src/$SRCVER
+BUILDDIR=/var/tmp/src/dhcp-4.1-ESV-R2
 DST="/var/tmp/install/$PKG"
 
 #########
