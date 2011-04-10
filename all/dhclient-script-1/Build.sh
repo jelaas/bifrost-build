@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SRCVER=dhlient-script
+SRCVER=dhclient-script
 
 PKG=$SRCVER-1 # with build version
 
