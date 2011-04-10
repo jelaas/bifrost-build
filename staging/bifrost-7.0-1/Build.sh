@@ -207,16 +207,22 @@ untar sysvinit-2.86-1 ./bin/mountpoint
 untar sysvinit-2.86-1 ./bin/pidof
 untar sysvinit-2.86-1 ./usr/bin/utmpdump
 untar tcp_wrappers-bin-7.6-1 ./sbin/tcpd
+untar terminfo-5.7-1 ./usr/share/terminfo/l/linux
+untar terminfo-5.7-1 ./usr/share/terminfo/l/linux-basic
+untar terminfo-5.7-1 ./usr/share/terminfo/l/linux-c
+untar terminfo-5.7-1 ./usr/share/terminfo/l/linux-lat
+untar terminfo-5.7-1 ./usr/share/terminfo/l/linux-vt
 untar terminfo-5.7-1 ./usr/share/terminfo/n/nxterm
 untar terminfo-5.7-1 ./usr/share/terminfo/v/vs100
+untar terminfo-5.7-1 ./usr/share/terminfo/v/vt-utf8
+untar terminfo-5.7-1 ./usr/share/terminfo/v/vt100
+untar terminfo-5.7-1 ./usr/share/terminfo/v/vt220
 untar terminfo-5.7-1 ./usr/share/terminfo/x/xterm
 untar terminfo-5.7-1 ./usr/share/terminfo/x/xterm-bold
 untar terminfo-5.7-1 ./usr/share/terminfo/x/xterm-color
 untar terminfo-5.7-1 ./usr/share/terminfo/x/xterm-nic
 untar terminfo-5.7-1 ./usr/share/terminfo/x/xterm-pcolor
 untar terminfo-5.7-1 ./usr/share/terminfo/x/xterms
-untar terminfo-5.7-1 ./usr/share/terminfo/v/vt100
-untar terminfo-5.7-1 ./usr/share/terminfo/v/vt220
 untar time-1.7-1
 untar util-linux-ng-bin-2.17.2-2 ./sbin/mkfs
 untar util-linux-ng-bin-2.17.2-2 ./sbin/mkswap
