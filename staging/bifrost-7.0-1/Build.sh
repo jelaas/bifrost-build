@@ -171,7 +171,7 @@ untar wget-1.12-1
 
 # core
 
-untar bifrost-framework-1.0.8-1
+untar bifrost-framework-1.0.9-1
 
 untar kernel-x86_32-2.6.38-rc8-3
 untar kernel-x86_64-2.6.38-rc8-3
