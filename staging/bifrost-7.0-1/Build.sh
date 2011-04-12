@@ -40,8 +40,13 @@ function chk_conflicts {
 function untar {
     if [ ! -f /var/spool/pkg/$1.tar.gz ]; then
 	pkg_build $1
-	exit 2
     fi
+    
+    if [ ! -f /var/spool/pkg/$1.tar.gz ]; then
+	echo "ERROR: could not find pkg $1"
+	exit 1
+    fi
+    
     [ "$2" ] && [ -e "$2" ] && echo "CONFLICT: \"$2\" from $1 is already installed and will be overwritten!"
     [ "$2" ] || (tar tvf /var/spool/pkg/$1.tar.gz | chk_conflicts $1)
     tar xf /var/spool/pkg/$1.tar.gz $2 || exit 1
@@ -49,18 +54,127 @@ function untar {
 rm -rf "$DST"
 mkdir -p "$DST"
 cd $DST
+
+# admin
+untar bc-1.06-1
+untar dialog-1.1-20100428-1
+untar e3-2.8-1
+untar gawk-3.1.8-1
+untar ipmask-1
+untar nano-2.2.4-1
+untar sed-4.2.1-1
+untar vim-7.3-1 ./usr/bin/vim && mv usr/bin/vim usr/bin/vi
+untar zile-2.3.14-1
+
+# bin64
+pkg_install mini-native-x86_64-0.9.30.1-1 || exit 2
+pkg_install passwd-file-1 || exit 2
+pkg_install git-1.7.1-2 || exit 2
+
+# core-net
+
+untar bind-9.7.0-P2-1 ./usr/bin/host
+untar bridge-utils-1.4-1
+untar dhcp-4.1-ESV-R2-1
+untar dhclient-script-1
+untar dhcpcd-4.0.15-1
+untar dnsmasq-2.52-1
+untar ethtool-v2.6.35-2
+untar iproute2-2.6.34-2
+untar iptables-1.4.8-1
+untar iputils-s20100418-2
+untar netkit-base-0.17-1 ./sbin/inetd
+untar net-tools-1.60-2
+untar ntp-4.2.6p2-1
+untar openssh-5.5p1-1
+untar traceroute-2.0.16-1
+untar whois_5.0.10-1
+untar wireless_tools.29-1
+
+# fileutils
+
+untar bzip2-bin-1.0.6-1 ./usr/bin/bzip2
+untar bzip2-bin-1.0.6-1 ./usr/bin/bzgrep
+untar bzip2-bin-1.0.6-1 ./usr/bin/bzmore
+untar bzip2-bin-1.0.6-1 ./usr/bin/bzdiff
+ln -s /usr/bin/bzip2 ./usr/bin/bunzip2
+ln -s /usr/bin/bzip2 ./usr/bin/bzcat
+untar diffutils-3.0-1
+untar file-5.04-1
+untar findutils-4.4.2-1
+untar git-1.7.1-3
+untar grep-2.6.3-1
+untar gzip-1.4-1
+untar less-436-1
+untar lsof-4.84-1
+untar tar-1.23-1
+untar which-2.20-1
+
+# hw
+
+untar cpuburn_1_4-1
+untar cpuid-20110305-1
+untar dmidecode-2.10-1 
+untar ipmitool-1.8.11-1
+untar mcelog-1.0pre3-1
+untar memtest86-3.5b-1
+untar pciutils-3.1.7-1
+untar sysfsutils-bin-2.1.0-1 ./usr/bin/systool
+untar sysfsutils-bin-2.1.0-1 ./usr/bin/dlist_test
+untar sysfsutils-bin-2.1.0-1 ./usr/bin/get_device
+untar sysfsutils-bin-2.1.0-1 ./usr/bin/get_driver
+untar sysfsutils-bin-2.1.0-1 ./usr/bin/get_module
+untar usbutils-001-1 ./usr/bin/lsusb
+untar usbutils-001-1 ./usr/bin/usbhid-dump
+untar usbutils-001-1 ./usr/share/usb.ids.gz
+untar usbutils-001-1 ./usr/bin/usb-devices
+
+# native
+
+untar allcaps-1-1
+untar cpuinfo-1.1-1
+untar cpu_pkts-1-1
+untar dev-populate-1.2-1
+untar eth-affinity-1.2.5-1
+untar ifinfo-1.6-1
+untar ifstat2-0.31-1
+untar iocethtool-0.2-1
+untar loop-1-1
+untar make_bifrost-1
+untar nsutil-0.62-1 ./sbin/ns
+untar nsutil-0.62-1 ./sbin/nsnetif
+untar nsutil-0.62-1 ./sbin/veth
+untar nsutil-0.62-1 ./sbin/macvlan
+untar remount-2-1
+untar rtstat-1
+untar schedlat-1.2-1
+untar tty_talk-1
+untar vers-1-1
+
+# net
+
+untar arping-2.09-1
+untar arp-monitor-1.1-1
+untar arpwatch-2.1a15-1
+untar conntrack-tools-0.9.14-2
+untar curl-7.20.1-1
+untar ipgrab-0.9.10-1
+untar ncftp-3.2.5-1 ./usr/bin/ncftp
+untar netperf-2.4.5-1
+untar nmap-5.21-1
+untar tcpdump-4.1.1-1 ./usr/sbin/tcpdump
+mkdir -p bin32
+mv ./usr/sbin/tcpdump bin32 || exit 1
+untar telnet-bsd-1.2-1
+untar vlan.1.9-1
+untar wget-1.12-1
+
+# core
+
 untar bifrost-framework-1.0.8-1
 
 untar kernel-x86_32-2.6.38-rc8-3
 untar kernel-x86_64-2.6.38-rc8-3
-
-untar meta-bifrost-bin64-1
-untar meta-bifrost-admin-2
-untar meta-bifrost-hw-2
-untar meta-bifrost-native-2
-untar meta-bifrost-core-net-1
-untar meta-bifrost-net-2
-untar meta-bifrost-fileutils-1
 
 untar bash-4.1-1
 untar binutils-2.20.1-1 ./usr/bin/size
