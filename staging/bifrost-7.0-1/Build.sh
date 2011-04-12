@@ -39,6 +39,7 @@ function chk_conflicts {
 # Install into dir under /var/tmp/install
 function untar {
     if [ ! -f /var/spool/pkg/$1.tar.gz ]; then
+	echo "## Trying to build $1"
 	pkg_build $1
     fi
     
@@ -71,9 +72,7 @@ untar vim-7.3-1 ./usr/bin/vim && mv usr/bin/vim usr/bin/vi
 untar zile-2.3.14-1
 
 # bin64
-pkg_install mini-native-x86_64-0.9.30.1-1 || exit 2
-pkg_install passwd-file-1 || exit 2
-pkg_install git-1.7.1-2 || exit 2
+untar meta-bifrost-bin64-1
 
 # core-net
 
