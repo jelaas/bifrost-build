@@ -101,6 +101,10 @@ pkg_src_fetch:
 pkg_uninstall:
  Removes the packages files. Also reinstalls any files that were backuped.
 
+pkg_depend:
+ Display dependencies, forward or reverse.
+
+
 Creating a package
 ------------------
 
@@ -138,3 +142,5 @@ the actual build environment. You might inadvertently insert unknown
 dependencies into the environment.
 
 Many package will support the DESTDIR variable for 'make install'.
+
+You can use the pkg_depend script to find out existing dependencies.
