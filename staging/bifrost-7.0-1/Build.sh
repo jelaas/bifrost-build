@@ -55,6 +55,10 @@ rm -rf "$DST"
 mkdir -p "$DST"
 cd $DST
 
+# framework: filesystem structure, scripts, configs etc
+
+untar bifrost-framework-1.0.9-1
+
 # admin
 untar bc-1.06-1
 untar dialog-1.1-20100428-1
@@ -170,8 +174,6 @@ untar vlan.1.9-1
 untar wget-1.12-1
 
 # core
-
-untar bifrost-framework-1.0.9-1
 
 untar kernel-x86_32-2.6.38-rc8-3
 untar kernel-x86_64-2.6.38-rc8-3
