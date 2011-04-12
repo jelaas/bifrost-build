@@ -62,6 +62,9 @@ while [ "$1" ]; do
     /var/lib/build/pkg_uninstall
     [ -d "/var/lib/build/staging/$pkg" ] && export PKGDIR="/var/lib/build/staging/$pkg"
     [ -d "/var/lib/build/all/$pkg" ] && export PKGDIR="/var/lib/build/all/$pkg"
+    DEPA=$(grep pkg_install $PKGDIR/Build.sh|wc -l)
+    DEPB=$(grep "untar " $PKGDIR/Build.sh|cut -d ' ' -f 1,2|sort|uniq|wc -l)
+    MR=$[ DEPA+DEPB+10 ]
     cd $PKGDIR
     
     while true; do
