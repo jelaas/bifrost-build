@@ -46,7 +46,7 @@ setarch linux64 /bin/chroot /home/build/mini-native-x86_64 mount proc -t proc /p
 setarch linux64 /bin/chroot /home/build/mini-native-x86_64 mount sysfs -t sysfs /sys
 
 echo Building 
-for F in ethtool-v2.6.35-2 strace-4.5.20-2 tcpdump-4.1.1-1; do
+for F in ethtool-v2.6.38-1 strace-4.5.20-2 tcpdump-4.1.1-1; do
     setarch linux64 /bin/chroot /home/build/mini-native-x86_64 /var/lib/build/pkg_build $F || exit 1
 done
 
