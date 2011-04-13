@@ -68,7 +68,7 @@ rm -rf "$DST"
 mkdir -p $DST
 cd $DST || exit 1
 
-untar ethtool-v2.6.35-2
+untar ethtool-v2.6.38-1
 untar strace-4.5.20-2
 untar tcpdump-4.1.1-1
 
