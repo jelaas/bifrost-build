@@ -75,6 +75,7 @@ untar tcpdump-4.1.1-1
 cd $DST
 tar czf /var/spool/pkg/$PKG.tar.gz .
 
+rm -rf $DST
 #########
 # Cleanup after a success
 cd /var/lib/build
