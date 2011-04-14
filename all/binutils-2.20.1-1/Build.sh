@@ -58,7 +58,7 @@ rm -rf usr/share
 #########
 # Make package
 cd $DST
-tar czf /var/spool/pkg/$PKG.tar.gz .
+tar czf /var/spool/pkg/$PKG.tar.gz --hard-dereference .
 
 #########
 # Cleanup after a success
