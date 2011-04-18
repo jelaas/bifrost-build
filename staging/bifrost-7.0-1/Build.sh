@@ -120,7 +120,7 @@ untar cpuid-20110305-1
 untar dmidecode-2.10-1 
 untar ipmitool-1.8.11-1
 untar mcelog-1.0pre3-1
-untar memtest86-3.5b-1
+untar memtest86+-4.10-1
 untar pciutils-3.1.7-1
 untar sysfsutils-bin-2.1.0-1 ./usr/bin/systool
 untar sysfsutils-bin-2.1.0-1 ./usr/bin/dlist_test
