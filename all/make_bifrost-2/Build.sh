@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SRCVER=make_bifrost
-PKG=$SRCVER-1 # with build version
+PKG=$SRCVER-2 # with build version
 
 # PKGDIR is set by 'pkg_build'. Usually "/var/lib/build/all/$PKG".
 PKGDIR=${PKGDIR:-/var/lib/build/all/$PKG}
