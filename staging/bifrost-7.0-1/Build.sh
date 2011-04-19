@@ -135,6 +135,7 @@ untar usbutils-001-1 ./usr/bin/usb-devices
 # native
 
 untar allcaps-1-1
+untar bifrost-upgrade-1
 untar cpuinfo-1.1-1
 untar cpu_pkts-1-1
 untar dev-populate-1.2-1
