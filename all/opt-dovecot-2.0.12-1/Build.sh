@@ -67,7 +67,11 @@ echo yes > $OPTDIR/etc/config.flags/dovecot
 cp -p $PKGDIR/rc $OPTDIR/rc.d/rc.dovecot
 [ -f $PKGDIR/README ] && cp -p $PKGDIR/README $OPTDIR
 
-cp $DST/opt/dovecot/share/doc/dovecot/example-config/dovecot.conf $DST/opt/dovecot/etc/dovecot.conf.sample
+mkdir -p $DST/opt/dovecot/etc/dovecot/conf.d
+cp $DST/opt/dovecot/share/doc/dovecot/example-config/dovecot.conf $DST/opt/dovecot/etc/dovecot/dovecot.conf.sample
+for f in $DST/opt/dovecot/share/doc/dovecot/example-config/conf.d/*; do
+    [ -f $f ] && cp $f $DST/opt/dovecot/etc/dovecot/conf.d/$(basename $f).sample
+done
 
 #########
 # Check result
