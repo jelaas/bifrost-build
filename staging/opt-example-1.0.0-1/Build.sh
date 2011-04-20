@@ -26,7 +26,7 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 #########
 # Install dependencies:
 # pkg_available dependency1-1 dependency2-1
-# pkg_install dependency1-1 || exit 1
+# pkg_install dependency1-1 || exit 2
 
 #########
 # Unpack sources into dir under /var/tmp/src
@@ -59,6 +59,7 @@ OPTDIR=$DST/opt/$PKG
 mkdir -p $OPTDIR/etc/config.flags
 mkdir -p $OPTDIR/rc.d
 echo yes > $OPTDIR/etc/config.flags/example
+echo $PKG > $OPTDIR/pkgversion
 cp -p $PKGDIR/rc $OPTDIR/rc.d/rc.example
 [ -f $PKGDIR/README ] && cp -p $PKGDIR/README $OPTDIR
 
