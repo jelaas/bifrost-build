@@ -24,6 +24,7 @@ function revdep {
 
 if [ "$rev" = y ]; then
 	grep "^pkg_install " /var/lib/build/all/$dep/Build.sh|cut -d ' ' -f 2|revdep
+	grep "^untar " /var/lib/build/all/$dep/Build.sh|cut -d ' ' -f 2|revdep
 	exit 0
 fi
 
@@ -32,6 +33,11 @@ for d in /var/lib/build/all/*; do
     [ -f $d/Build.sh ] || continue
     if grep -qs "^pkg_install $dep" $d/Build.sh; then
 	pkg=$(grep "^pkg_install $dep" $d/Build.sh|cut -d ' ' -f 2)
+	printf %${indent}s ""
+	echo "\"$p\" depends on \"$pkg\""
+    fi
+    if grep -qs "^untar $dep" $d/Build.sh; then
+	pkg=$(grep "^untar $dep" $d/Build.sh|cut -d ' ' -f 2)
 	printf %${indent}s ""
 	echo "\"$p\" depends on \"$pkg\""
     fi
