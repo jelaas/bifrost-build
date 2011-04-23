@@ -23,12 +23,16 @@ function revdep {
 }
 
 if [ "$rev" = y ]; then
-	grep "^pkg_install " /var/lib/build/all/$dep/Build.sh|cut -d ' ' -f 2|revdep
-	grep "^untar " /var/lib/build/all/$dep/Build.sh|cut -d ' ' -f 2|revdep
-	exit 0
+    f=""
+    [ -f /var/lib/build/all/$dep/Build.sh ] && f=/var/lib/build/all/$dep/Build.sh
+    [ -z "$f" ] && f=/var/lib/build/staging/$dep/Build.sh
+    
+    grep "^pkg_install " $f|cut -d ' ' -f 2|revdep
+    grep "^untar " $f|cut -d ' ' -f 2|sort|uniq|revdep
+    exit 0
 fi
 
-for d in /var/lib/build/all/*; do
+for d in /var/lib/build/all/* /var/lib/build/staging/*; do
     p=$(basename $d)
     [ -f $d/Build.sh ] || continue
     if grep -qs "^pkg_install $dep" $d/Build.sh; then
