@@ -1,0 +1,17 @@
+--- gdb/Makefile.in.orig	Sun Apr 24 20:21:52 2011
++++ gdb/Makefile.in	Sun Apr 24 20:26:14 2011
+@@ -372,12 +372,12 @@
+ INSTALLED_LIBS=-lbfd -lreadline -lopcodes -liberty \
+ 	$(XM_CLIBS) $(TM_CLIBS) $(NAT_CLIBS) $(GDBTKLIBS) @LIBS@ \
+ 	-lintl -liberty
+-CLIBS = $(SIM) $(BFD) $(READLINE) $(OPCODES) $(INTL) $(LIBIBERTY) \
++CLIBS = $(SIM) $(BFD) $(READLINE) $(OPCODES) $(LIBIBERTY) \
+ 	$(XM_CLIBS) $(TM_CLIBS) $(NAT_CLIBS) $(GDBTKLIBS) @LIBS@ \
+ 	$(LIBICONV) \
+ 	$(LIBIBERTY) $(WIN32LIBS)
+ CDEPS = $(XM_CDEPS) $(TM_CDEPS) $(NAT_CDEPS) $(SIM) $(BFD) $(READLINE) \
+-	$(OPCODES) $(INTL_DEPS) $(LIBIBERTY) $(CONFIG_DEPS)
++	$(OPCODES) $(LIBIBERTY) $(CONFIG_DEPS)
+ 
+ ADD_FILES = $(XM_ADD_FILES) $(TM_ADD_FILES) $(NAT_ADD_FILES)
+ ADD_DEPS = $(XM_ADD_FILES) $(TM_ADD_FILES) $(NAT_ADD_FILES)
