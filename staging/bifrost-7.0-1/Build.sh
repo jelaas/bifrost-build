@@ -58,7 +58,7 @@ cd $DST
 
 # framework: filesystem structure, scripts, configs etc
 
-untar bifrost-framework-1.0.9-1
+untar bifrost-framework-1.0.10-1
 
 # admin
 untar bc-1.06-1
