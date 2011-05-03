@@ -263,7 +263,7 @@ untar coreutils-7.6-1 ./bin/tty
 untar coreutils-7.6-1 ./bin/whoami
 untar coreutils-7.6-1 ./bin/yes
 untar coreutils-7.6-1 ./bin/base64
-untar cronie-1.4.4-1
+untar cronie-1.4.4-2
 untar e2fsprogs-1.41.11-1 ./sbin/e2fsck
 untar e2fsprogs-1.41.11-1 ./sbin/fsck.ext2
 untar e2fsprogs-1.41.11-1 ./sbin/fsck.ext3
