@@ -69,7 +69,7 @@ untar ipmask-1
 untar nano-2.2.4-1
 untar sed-4.2.1-1
 untar vim-7.3-1 ./usr/bin/vim && mv usr/bin/vim usr/bin/vi
-untar zile-2.3.14-1
+untar zile-2.3.14-2
 
 # bin64
 untar meta-bifrost-bin64-1
