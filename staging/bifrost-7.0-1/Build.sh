@@ -131,6 +131,7 @@ untar usbutils-001-1 ./usr/bin/lsusb
 untar usbutils-001-1 ./usr/bin/usbhid-dump
 untar usbutils-001-1 ./usr/share/usb.ids.gz
 untar usbutils-001-1 ./usr/bin/usb-devices
+untar rfcmd-0.1-1
 
 # native
 
