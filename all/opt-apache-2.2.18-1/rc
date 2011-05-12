@@ -1,0 +1,30 @@
+#!/bin/bash
+
+PKG=apache
+BINDIR=/opt/apache/bin
+
+case "$1" in
+    start)
+        printf "\nstarting: $PKG"
+	if [ ! -f /opt/apache/etc/httpd.conf ]; then
+		echo "Installing default httpd.conf"
+		[ -x /sbin/remount ] && remount w && echo "Root filesystem will be left read-only."
+		cp /opt/apache/etc/config.preconf/httpd.conf /opt/apache/etc/httpd.conf
+		cp /opt/apache/etc/config.preconf/index.html /opt/apache/htdocs/index.html
+		[ -x /sbin/remount ] && remount r
+	fi
+	$BINDIR/apachectl start
+        ;;
+    stop)
+        printf "\nstopping: $PKG"
+	$BINDIR/apachectl stop
+        ;;
+    restart)
+        $0 stop
+	$0 start
+	;;
+    *)
+        printf "\n\tUsage: $0 < start | stop | restart >\n\n"
+        ;;
+esac
+
