@@ -69,6 +69,7 @@ chmod +x $DST/opt/apache/rc.d/rc.httpd
 [ -f $PKGDIR/README ] && cp -p $PKGDIR/README $DST/opt/apache
 mv $DST/opt/apache/etc/httpd.conf $DST/opt/apache/etc/config.preconf/httpd.conf
 mv $DST/opt/apache/htdocs/index.html $DST/opt/apache/etc/config.preconf/index.html
+rm -rf $DST/opt/apache/etc/extra
 
 #########
 # Check result
