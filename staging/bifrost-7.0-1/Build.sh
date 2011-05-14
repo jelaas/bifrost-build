@@ -278,7 +278,6 @@ untar e2fsprogs-1.41.11-1 ./sbin/logsave
 untar e2fsprogs-1.41.11-1 ./sbin/e2image
 untar e2fsprogs-1.41.11-1 ./sbin/e2undo
 untar e2fsprogs-1.41.11-1 ./sbin/mklost+found
-untar e2fsprogs-1.41.11-1 ./sbin/uuidd
 untar e2fsprogs-1.41.11-1 ./sbin/mkfs.ext2
 untar e2fsprogs-1.41.11-1 ./sbin/mkfs.ext3
 untar e2fsprogs-1.41.11-1 ./sbin/mkfs.ext4
@@ -287,7 +286,6 @@ untar e2fsprogs-1.41.11-1 ./sbin/e2label
 untar e2fsprogs-1.41.11-1 ./sbin/resize2fs
 untar e2fsprogs-1.41.11-1 ./bin/chattr
 untar e2fsprogs-1.41.11-1 ./bin/lsattr
-untar e2fsprogs-1.41.11-1 ./bin/uuidgen
 untar kbd-1.15.2-2
 untar kexec-tools-2.0.2-rc2-1
 untar libcap-bin-2.19-1
