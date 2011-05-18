@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SRCVER=memtest86+-4.10
-PKG=$SRCVER-1 # with build version
+PKG=$SRCVER-2 # with build version
 
 # PKGDIR is set by 'pkg_build'. Usually "/var/lib/build/all/$PKG".
 PKGDIR=${PKGDIR:-/var/lib/build/all/$PKG}
