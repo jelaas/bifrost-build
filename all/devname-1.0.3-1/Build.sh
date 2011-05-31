@@ -57,7 +57,7 @@ make install DESTDIR=$DST # --with-install-prefix may be an alternative
 # Check result
 cd $DST || exit 1
 # [ -f usr/bin/myprog ] || exit 1
-(ldd bin/devset|grep -qs "not a dynamic executable") || exit 1
+(ldd bin/devname-set|grep -qs "not a dynamic executable") || exit 1
 
 #########
 # Clean up
