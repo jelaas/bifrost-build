@@ -132,7 +132,7 @@ untar usbutils-001-1 ./usr/bin/lsusb
 untar usbutils-001-1 ./usr/bin/usbhid-dump
 untar usbutils-001-1 ./usr/share/usb.ids.gz
 untar usbutils-001-1 ./usr/bin/usb-devices
-untar rfcmd-0.1-1
+untar rfcmd-0.1-2
 
 # native
 
@@ -154,7 +154,7 @@ untar nsutil-0.62-1 ./sbin/macvlan
 untar remount-2-1
 untar rtstat-1
 untar schedlat-1.2-1
-untar tty_talk-1
+untar tty_talk-2
 untar vers-1-1
 
 # net
