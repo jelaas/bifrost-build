@@ -26,7 +26,7 @@ index ea2272f..a707217 100644
  	.get_drvinfo		= niu_get_drvinfo,
  	.get_link		= ethtool_op_get_link,
 @@ -7934,8 +7929,6 @@ static const struct ethtool_ops niu_ethtool_ops = {
- 	.set_phys_id		= niu_set_phys_id,
+ 	.phys_id		= niu_phys_id,
  	.get_rxnfc		= niu_get_nfc,
  	.set_rxnfc		= niu_set_nfc,
 -	.set_flags		= niu_set_flags,
