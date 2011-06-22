@@ -73,7 +73,7 @@ untar zile-2.3.14-2
 untar sysstat-9.0.6.1-1 ./usr/bin/mpstat
 
 # bin64
-untar meta-bifrost-bin64-1
+untar meta-bifrost-bin64-2
 
 # core-net
 
@@ -83,7 +83,7 @@ untar dhcp-4.1-ESV-R2-1
 untar dhclient-script-1
 untar dhcpcd-4.0.15-1
 untar dnsmasq-2.52-1
-untar ethtool-v2.6.38-1
+untar ethtool-v2.6.38-2
 untar iproute2-2.6.34-2
 untar iptables-1.4.8-1
 untar iputils-s20100418-2
