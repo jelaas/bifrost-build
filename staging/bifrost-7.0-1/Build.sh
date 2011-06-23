@@ -154,7 +154,7 @@ untar nsutil-0.62-1 ./sbin/macvlan
 untar remount-2-1
 untar rtstat-1
 untar schedlat-1.2-1
-untar tty_talk-2
+untar tty_talk-3
 untar vers-1-1
 
 # net
