@@ -21,4 +21,4 @@ ARCH="-march=i586"
 [ "$(uname -m)" = x86_64 ] && ARCH="" # 64-bit needs no flags
 
 echo "Configure with: $OPTS $@"
-LIBS="-liconv" CXXFLAGS="$ARCH -Os -g" CFLAGS="$ARCH -Os -g" LDFLAGS="-static -ldevname" ./configure $OPTS $@
+LIBS="-liconv" CXXFLAGS="$ARCH -Os -g" CFLAGS="$ARCH -Os -g" LDFLAGS="-static -ldevtag" ./configure $OPTS $@
