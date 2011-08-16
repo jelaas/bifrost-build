@@ -73,7 +73,7 @@ untar zile-2.3.14-2
 untar sysstat-9.0.6.1-1 ./usr/bin/mpstat
 
 # bin64
-untar meta-bifrost-bin64-2
+untar meta-bifrost-bin64-3
 
 # core-net
 
