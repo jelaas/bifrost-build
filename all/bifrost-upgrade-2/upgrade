@@ -56,7 +56,7 @@ function checkbin {
 	 done
 }
 
-for path in /bin32/ /bin64/ /bin/ /sbin/ /usr/bin/ /usr/sbin/; do
+for path in /bin/ /sbin/ /usr/bin/ /usr/sbin/; do
     grep "^.$path" $P|checkbin
 done
 
