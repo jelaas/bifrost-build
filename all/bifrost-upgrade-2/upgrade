@@ -7,6 +7,7 @@ else
 fi
 
 V=$(cat ./etc/.version)
+BV=$(cat ./etc/.build)
 
 if [ -z "$V" ]; then
    echo "Cannot find version '/etc/.version'"
@@ -18,6 +19,7 @@ echo "Upgrading to $V"
 P=""
 [ -f "./Documentation/pkginfo/$V" ] && P="./Documentation/pkginfo/$V"
 [ -f "./Documentation/pkginfo/$V-1" ] && P="./Documentation/pkginfo/$V-1"
+[ "$BV" ] && [ -f "./Documentation/pkginfo/$BV" ] && P="./Documentation/pkginfo/$BV"
 
 if [ -z "$P" ]; then
    echo "Cannot find pkginfo '/Documentation/pkginfo/$V'"
