@@ -27,7 +27,7 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 # Install dependencies:
 # pkg_available dependency1-1 dependency2-1
 rm -rf /home/build/mini-native-x86_64
-pkg_install mini-native-x86_64-0.9.30.1-1 || exit 2
+pkg_install mini-native-x86_64-0.9.30.1-2 || exit 2
 pkg_install passwd-file-1 || exit 2
 pkg_install git-1.7.1-2 || exit 2
 
