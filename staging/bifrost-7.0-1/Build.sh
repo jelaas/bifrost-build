@@ -411,6 +411,7 @@ untar util-linux-ng-bin-2.17.2-2 ./bin/umount
 untar vlock-1.4-1 ./usr/bin/vlock && mv usr/bin/vlock bin/lock
 
 echo $SRCVER > etc/.version
+echo $PKG > etc/.build
 
 mkdir -p Documentation/pkginfo
 find . > Documentation/pkginfo/$PKG
