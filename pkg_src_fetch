@@ -32,12 +32,13 @@ while [ "$1" ]; do
     [ -d "/var/lib/build/all/$pkg" ] && export PKGDIR="/var/lib/build/all/$pkg"
     
     if [ "$PKGDIR" ] && [ -f "$PKGDIR/Fetch-source.sh" ]; then
+	echo "Fetching $pkg .. "
         if ! (cd $PKGDIR; PATH="/var/lib/build:$PATH" "./Fetch-source.sh" &> $TMPFILE); then
-                echo "## Failed to fetch source for $pkg!"
-		echo
-		cat $TMPFILE
-		echo
-        fi
+	    echo "## Failed to fetch source for $pkg!"
+	    echo
+	    cat $TMPFILE
+	    echo
+	fi
     fi
 done
 
