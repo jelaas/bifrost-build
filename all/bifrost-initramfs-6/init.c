@@ -331,14 +331,16 @@ int main(int argc, char **argv, char **envp)
 	/* parse kernel commandline options */
 	cmdline_parse();
 
-	if(cmdline.rootdelay > 0)
+	if(cmdline.rootdelay > 0) {
+		if(fstdout) fprintf(fstdout, "INIT: rootdelay, waiting %d seconds\n", cmdline.rootdelay);
 		sleep(cmdline.rootdelay);
+	}
 	
 	fsprobe_init();
 	while( (rootdev = fsprobe_get_devname_by_spec(ROOTFSLABEL)) == NULL ) {
 		retries++;
 		if(retries > 23) break;
-		fprintf(fstdout, "INIT: waiting for rootdevice to be available\n");
+		if(fstdout) fprintf(fstdout, "INIT: waiting for rootdevice to be available\n");
 		sleep(2);
 		fsprobe_init();
 	}
