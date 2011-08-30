@@ -23,6 +23,11 @@ int mount(const char *source, const char *target,
 
 #define ROOTFSLABEL "LABEL=bifrost"
 
+/*
+ * kernel commandline can be read from /proc/cmdline
+ *
+ */
+
 /* int pivot_root(const char *new_root, const char *put_old); */
 #define pivot_root(new_root,put_old) syscall(SYS_pivot_root,new_root,put_old)
 
