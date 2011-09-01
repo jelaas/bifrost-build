@@ -59,10 +59,14 @@ make install DESTDIR=$DST # --with-install-prefix may be an alternative
 OPTDIR=$DST/opt/mlmmj
 mkdir -p $OPTDIR/etc/config.flags
 mkdir -p $OPTDIR/rc.d
-echo yes > $OPTDIR/etc/config.flags/example
-echo $PKG > $OPTDIR/pkgversion
-cp -p $PKGDIR/rc $OPTDIR/rc.d/rc.example
-[ -f $PKGDIR/README ] && cp -p $PKGDIR/README $OPTDIR
+
+chmod +x $OPTDIR/bin/mlmmj-make-ml.sh
+cp README* $OPTDIR
+
+#echo yes > $OPTDIR/etc/config.flags/example
+#echo $PKG > $OPTDIR/pkgversion
+#cp -p $PKGDIR/rc $OPTDIR/rc.d/rc.example
+#[ -f $PKGDIR/README ] && cp -p $PKGDIR/README $OPTDIR
 
 #########
 # Check result
