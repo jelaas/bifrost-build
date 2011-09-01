@@ -12,6 +12,11 @@ from this build environment.
 The 'pkg_build' script will ensure a clean environment (all installed
 dependencies are uninstalled) before the package's own build script is run.
 
+Mailing List
+------------
+To subscribe to the bifrost-build mailing list send a mail to:
+bifrost-build+subscribe@tingstusource.mine.nu
+
 Installation:
 -------------
 Fetch the uclibc chroot tarball:
