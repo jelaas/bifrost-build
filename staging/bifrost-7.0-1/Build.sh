@@ -128,6 +128,7 @@ untar sysfsutils-bin-2.1.0-1 ./usr/bin/dlist_test
 untar sysfsutils-bin-2.1.0-1 ./usr/bin/get_device
 untar sysfsutils-bin-2.1.0-1 ./usr/bin/get_driver
 untar sysfsutils-bin-2.1.0-1 ./usr/bin/get_module
+untar usbreset-1
 untar usbutils-001-1 ./usr/bin/lsusb
 untar usbutils-001-1 ./usr/bin/usbhid-dump
 untar usbutils-001-1 ./usr/share/usb.ids.gz
