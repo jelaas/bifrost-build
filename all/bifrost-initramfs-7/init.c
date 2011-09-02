@@ -301,13 +301,14 @@ static int usbresetdev(const char *filename)
 	int fd, rc;
 	
 	fd = open(filename, O_WRONLY);
-	if (fd < 0) {
+	if (fd == -1) {
 		if(fstdout) fprintf(fstdout, "INIT: [USB] could not open %s\n", filename);
 		return 1;
 	}
 
 	rc = ioctl(fd, USBDEVFS_RESET, 0);
-	if (rc < 0) {
+	if (rc == -1) {
+		if(errno != EISDIR) if(fstdout) fprintf(fstdout, "INIT: [USB] %s reset failed: %s\n", filename, strerror(errno));
 		close(fd);
 		return 1;
 	}
