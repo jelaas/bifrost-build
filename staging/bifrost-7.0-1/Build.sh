@@ -180,8 +180,8 @@ untar wget-1.12-1
 
 # core
 
-untar kernel-x86_32-3.0.0-2
-untar kernel-x86_64-3.0.0-2
+untar kernel-x86_32-3.0.0-5
+untar kernel-x86_64-3.0.0-5
 
 untar bash-4.1-1
 untar binutils-2.20.1-1 ./usr/bin/size
