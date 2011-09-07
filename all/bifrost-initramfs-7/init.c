@@ -305,7 +305,7 @@ static int usbresetdev(const char *filename)
 		if(fstdout) fprintf(fstdout, "INIT: [USB] could not open %s\n", filename);
 		return 1;
 	}
-
+	
 	rc = ioctl(fd, USBDEVFS_RESET, 0);
 	if (rc == -1) {
 		if(errno != EISDIR) if(fstdout) fprintf(fstdout, "INIT: [USB] %s reset failed: %s\n", filename, strerror(errno));
@@ -326,8 +326,8 @@ static int usbreset()
 
 	if(fstdout) fprintf(fstdout, "INIT: [USB] performing USB reset on all ports\n");
 	
-	for(bus=0;bus<10;bus++) {
-		for(dev=0;dev<10;dev++) {
+	for(bus=1;bus<10;bus++) {
+		for(dev=1;dev<10;dev++) {
 			sprintf(fn, "/dev/bus/usb/%03d/%03d", bus, dev);
 			if(stat(fn, &statb)==0)
 				usbresetdev(fn);
@@ -459,13 +459,11 @@ int main(int argc, char **argv, char **envp)
 
 	/* e2fsck -y rootdev */
 	/* fork + exec("/e2fsck", "/e2fsck"-y", rootdev) */
-	if(!guess) {
-		if((pid=fork())==0) {
-			execl("/e2fsck", "/e2fsck", "-y", rootdev, NULL);
-			exit(0);
-		}
-		if(pid != -1) wait(NULL);
+	if((pid=fork())==0) {
+		execl("/e2fsck", "/e2fsck", "-y", rootdev, NULL);
+		exit(0);
 	}
+	if(pid != -1) wait(NULL);
 	
 	/* unlink /e2sck to save some memory */
 	if(unlink("/e2fsck")) {
