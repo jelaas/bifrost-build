@@ -62,6 +62,8 @@ mkdir -p $OPTDIR/rc.d
 
 chmod +x $OPTDIR/bin/mlmmj-make-ml.sh
 cp README* $OPTDIR
+cp TUNABLES $OPTDIR
+sed -i 's,/path/to/,/opt/mlmmj/bin/,' $OPTDIR/bin/mlmmj-make-ml.sh
 
 #echo yes > $OPTDIR/etc/config.flags/example
 #echo $PKG > $OPTDIR/pkgversion
