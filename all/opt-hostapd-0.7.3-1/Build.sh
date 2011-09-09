@@ -29,6 +29,7 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 # pkg_available dependency1-1 dependency2-1
 # pkg_install dependency1-1 || exit 2
 pkg_install openssl-0.9.8r-1 || exit 2
+pkg_install libnl-1.1-1 || exit 2
 
 #########
 # Unpack sources into dir under /var/tmp/src
@@ -53,7 +54,8 @@ sed -i "s,/usr/local/,$DST/opt/hostapd/," hostapd/Makefile
 # Compile
 cd hostapd || exit 1
 cp defconfig .config || exit 1
-echo "LIBS += -static" >> .config
+sed -i 's/#CONFIG_DRIVER_NL80211/CONFIG_DRIVER_NL80211/' .config
+echo "LIBS += -static -lnl -lm" >> .config
 echo "LIBS_c += -static" >> .config
 CFLAGS="-Wall -Os -march=i586" V=1 make || exit 1
 
