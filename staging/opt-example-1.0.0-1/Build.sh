@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SRCVER=example-1.0.0
-PKG=opt-example-1.0.0-1 # with build version
+PKG=opt-$SRCVER-1 # with build version
 
 # PKGDIR is set by 'pkg_build'. Usually "/var/lib/build/all/$PKG".
 PKGDIR=${PKGDIR:-/var/lib/build/all/$PKG}
@@ -41,7 +41,8 @@ libtool_fix-1
 
 #########
 # Configure
-B-configure-1 --prefix=/opt/$PKG --localstatedir=/var || exit 1
+OPTPREFIX=opt/$PKG
+B-configure-1 --prefix=/$OPTPREFIX --localstatedir=/var || exit 1
 [ -f config.log ] && cp -p config.log /var/log/config/$PKG-config.log
 
 #########
@@ -56,12 +57,13 @@ make || exit 1
 # Install into dir under /var/tmp/install
 rm -rf "$DST"
 make install DESTDIR=$DST # --with-install-prefix may be an alternative
-OPTDIR=$DST/opt/$PKG
+OPTDIR=$DST/$OPTPREFIX
 mkdir -p $OPTDIR/etc/config.flags
 mkdir -p $OPTDIR/rc.d
 echo yes > $OPTDIR/etc/config.flags/example
 echo $PKG > $OPTDIR/pkgversion
 cp -p $PKGDIR/rc $OPTDIR/rc.d/rc.example
+chmod +x $OPTDIR/rc.d/rc.example
 [ -f $PKGDIR/README ] && cp -p $PKGDIR/README $OPTDIR
 
 #########
@@ -74,8 +76,8 @@ cd $DST || exit 1
 # Clean up
 cd $DST || exit 1
 # rm -rf usr/share usr/man
-[ -d bin ] && strip bin/*
-[ -d usr/bin ] && strip usr/bin/*
+[ -d $OPTPREFIX/bin ] && strip $OPTPREFIX/bin/*
+[ -d $OPTPREFIX/usr/bin ] && strip $OPTPREFIX/usr/bin/*
 
 #########
 # Make package
