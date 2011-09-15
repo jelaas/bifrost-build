@@ -1,0 +1,379 @@
+lxc.conf
+     Name
+     lxc.conf — linux container conﬁguration ﬁle
+
+
+     Description
+
+     The linux containers (lxc) are always created before being used. This creation deﬁnes a set of system
+     resources to be virtualized / isolated when a process is using the container. By default, the pids, sysv ipc
+     and mount points are virtualized and isolated. The other system resources are shared across containers,
+     until they are explicitly deﬁned in the conﬁguration ﬁle. For example, if there is no network
+     conﬁguration, the network will be shared between the creator of the container and the container itself,
+     but if the network is speciﬁed, a new network stack is created for the container and the container can no
+     longer use the network of its ancestor.
+
+
+     The conﬁguration ﬁle deﬁnes the different system resources to be assigned for the container. At present,
+     the utsname, the network, the mount points, the root ﬁle system and the control groups are supported.
+
+
+     Each option in the conﬁguration ﬁle has the form key = value ﬁtting in one line. The ’#’ character means
+     the line is a comment.
+
+
+     Architecture
+
+     Allows to set the architecture for the container. For example, set a 32bits architecture for a container
+     running 32bits binaries on a 64bits host. That ﬁx the container scripts which rely on the architecture to
+     do some work like downloading the packages.
+
+     lxc.arch
+           Specify the architecture for the container.
+
+
+           Valid options are x86, i686, x86_64, amd64
+
+
+
+
+     Hostname
+
+     The utsname section deﬁnes the hostname to be set for the container. That means the container can set its
+     own hostname without changing the one from the system. That makes the hostname private for the
+     container.
+
+
+
+
+                                                                                                                 1
+                                                                                                  lxc.conf
+
+lxc.utsname
+
+     specify the hostname for the container
+
+
+
+Network
+
+The network section deﬁnes how the network is virtualized in the container. The network virtualization
+acts at layer two. In order to use the network virtualization, parameters must be speciﬁed to deﬁne the
+network interfaces of the container. Several virtual interfaces can be assigned and used in a container
+even if the system has only one physical network interface.
+
+lxc.network.type
+     specify what kind of network virtualization to be used for the container. Each time a
+     lxc.network.type ﬁeld is found a new round of network conﬁguration begins. In this way,
+     several network virtualization types can be speciﬁed for the same container, as well as assigning
+     several network interfaces for one container. The different virtualization types can be:
+
+
+     empty: will create only the loopback interface.
+
+
+     veth: a peer network device is created with one side assigned to the container and the other side is
+     attached to a bridge speciﬁed by the lxc.network.link. If the bridge is not speciﬁed, then the
+     veth pair device will be created but not attached to any bridge. Otherwise, the bridge has to be setup
+     before on the system, lxc won’t handle any conﬁguration outside of the container. By default lxc
+     choose a name for the network device belonging to the outside of the container, this name is
+     handled by lxc, but if you wish to handle this name yourself, you can tell lxc to set a speciﬁc name
+     with the lxc.network.veth.pair option.
+
+
+     vlan: a vlan interface is linked with the interface speciﬁed by the lxc.network.link and
+     assigned to the container. The vlan identiﬁer is speciﬁed with the option lxc.network.vlan.id.
+
+
+     macvlan: a macvlan interface is linked with the interface speciﬁed by the lxc.network.link
+     and assigned to the container. lxc.network.macvlan.mode speciﬁes the mode the macvlan will
+     use to communicate between different macvlan on the same upper device. The accepted modes are
+     private, the device never communicates with any other device on the same upper_dev (default),
+     vepa, the new Virtual Ethernet Port Aggregator (VEPA) mode, it assumes that the adjacent bridge
+     returns all frames where both source and destination are local to the macvlan port, i.e. the bridge is
+     set up as a reﬂective relay. Broadcast frames coming in from the upper_dev get ﬂooded to all
+     macvlan interfaces in VEPA mode, local frames are not delivered locallay, or bridge, it provides
+     the behavior of a simple bridge between different macvlan interfaces on the same port. Frames from
+     one interface to another one get delivered directly and are not sent out externally. Broadcast frames
+     get ﬂooded to all other bridge ports and to the external interface, but when they come back from a
+     reﬂective relay, we don’t deliver them again. Since we know all the MAC addresses, the macvlan
+     bridge mode does not require learning or STP like the bridge module does.
+
+
+
+
+                                                                                                          2
+                                                                                                    lxc.conf
+
+     phys: an already existing interface speciﬁed by the lxc.network.link is assigned to the
+     container.
+
+
+lxc.network.flags
+     specify an action to do for the network.
+
+
+     up: activates the interface.
+
+
+
+lxc.network.link
+
+     specify the interface to be used for real network trafﬁc.
+
+lxc.network.name
+     the interface name is dynamically allocated, but if another name is needed because the conﬁguration
+     ﬁles being used by the container use a generic name, eg. eth0, this option will rename the interface
+     in the container.
+
+lxc.network.hwaddr
+
+     the interface mac address is dynamically allocated by default to the virtual interface, but in some
+     cases, this is needed to resolve a mac address conﬂict or to always have the same link-local ipv6
+     address
+
+lxc.network.ipv4
+
+     specify the ipv4 address to assign to the virtualized interface. Several lines specify several ipv4
+     addresses. The address is in format x.y.z.t/m, eg. 192.168.1.123/24. The broadcast address should
+     be speciﬁed on the same line, right after the ipv4 address.
+
+lxc.network.ipv6
+     specify the ipv6 address to assign to the virtualized interface. Several lines specify several ipv6
+     addresses. The address is in format x::y/m, eg. 2003:db8:1:0:214:1234:fe0b:3596/64
+
+lxc.network.script.up
+
+     add a conﬁguration option to specify a script to be executed after creating and conﬁguring the
+     network used from the host side. The following arguments are passed to the script: container name
+     and conﬁg section name (net) Additional arguments depend on the conﬁg section employing a script
+     hook; the following are used by the network system: execution context (up), network type
+     (empty/veth/macvlan/phys), Depending on the network type, other arguments may be passed:
+     veth/macvlan/phys. And ﬁnally (host-sided) device name.
+
+
+
+New pseudo tty instance (devpts)
+
+For stricter isolation the container can have its own private instance of the pseudo tty.
+
+
+
+
+                                                                                                           3
+                                                                                                   lxc.conf
+
+lxc.pts
+
+     If set, the container will have a new pseudo tty instance, making this private to it. The value
+     speciﬁes the maximum number of pseudo ttys allowed for a pts instance (this limitation is not
+     implemented yet).
+
+
+
+Container system console
+
+If the container is conﬁgured with a root ﬁlesystem and the inittab ﬁle is setup to use the console, you
+may want to specify where goes the output of this console.
+
+lxc.console
+
+     Specify a path to a ﬁle where the console output will be written. The keyword ’none’ will simply
+     disable the console. This is dangerous once if have a rootfs with a console device ﬁle where the
+     application can write, the messages will fall in the host.
+
+
+
+Console through the ttys
+
+If the container is conﬁgured with a root ﬁlesystem and the inittab ﬁle is setup to launch a getty on the
+ttys. This option will specify the number of ttys to be available for the container. The number of getty in
+the inittab ﬁle of the container should not be greater than the number of ttys speciﬁed in this
+conﬁguration ﬁle, otherwise the excess getty sessions will die and respawn indeﬁnitly giving annoying
+messages on the console.
+
+lxc.tty
+     Specify the number of tty to make available to the container.
+
+
+
+Mount points
+
+The mount points section speciﬁes the different places to be mounted. These mount points will be private
+to the container and won’t be visible by the processes running outside of the container. This is useful to
+mount /etc, /var or /home for examples.
+
+lxc.mount
+     specify a ﬁle location in the fstab format, containing the mount informations. If the rootfs is an
+     image ﬁle or a device block and the fstab is used to mount a point somewhere in this rootfs, the path
+     of the rootfs mount point should be preﬁxed with the /usr/local/lib/lxc/rootfs default path
+     or the value of lxc.rootfs.mount if speciﬁed.
+
+lxc.mount.entry
+     specify a mount point corresponding to a line in the fstab format.
+
+
+
+
+                                                                                                           4
+                                                                                                    lxc.conf
+
+Root ﬁle system
+
+The root ﬁle system of the container can be different than that of the host system.
+
+lxc.rootfs
+
+     specify the root ﬁle system for the container. It can be an image ﬁle, a directory or a block device. If
+     not speciﬁed, the container shares its root ﬁle system with the host.
+
+lxc.rootfs.mount
+     where to recursively bind lxc.rootfs before pivoting. This is to ensure success of the
+     pivot_root(8) syscall. Any directory sufﬁces, the default should generally work.
+
+lxc.pivotdir
+
+     where to pivot the original root ﬁle system under lxc.rootfs, speciﬁed relatively to that. The
+     default is mnt. It is created if necessary, and also removed after unmounting everything from it
+     during container setup.
+
+
+
+Control group
+
+The control group section contains the conﬁguration for the different subsystem. lxc does not check the
+correctness of the subsystem name. This has the disadvantage of not detecting conﬁguration errors until
+the container is started, but has the advantage of permitting any future subsystem.
+
+lxc.cgroup.[subsystem name]
+
+     specify the control group value to be set. The subsystem name is the literal name of the control
+     group subsystem. The permitted names and the syntax of their values is not dictated by LXC,
+     instead it depends on the features of the Linux kernel running at the time the container is started, eg.
+     lxc.cgroup.cpuset.cpus
+
+
+
+Capabilities
+
+The capabilities can be dropped in the container if this one is run as root.
+
+lxc.cap.drop
+
+     Specify the capability to be dropped in the container. A single line deﬁning several capabilities with
+     a space separation is allowed. The format is the lower case of the capability deﬁnition without the
+     "CAP_" preﬁx, eg. CAP_SYS_MODULE should be speciﬁed as sys_module. See capabilities(7),
+
+
+
+
+                                                                                                           5
+                                                                                                   lxc.conf
+
+Examples
+
+In addition to the few examples given below, you will ﬁnd some other examples of conﬁguration ﬁle in
+/usr/local/share/doc/lxc/examples
+
+
+Network
+
+This conﬁguration sets up a container to use a veth pair device with one side plugged to a bridge br0
+(which has been conﬁgured before on the system by the administrator). The virtual network device
+visible in the container is renamed to eth0.
+
+ lxc.utsname = myhostname
+ lxc.network.type = veth
+ lxc.network.flags = up
+ lxc.network.link = br0
+ lxc.network.name = eth0
+ lxc.network.hwaddr = 4a:49:43:49:79:bf
+ lxc.network.ipv4 = 1.2.3.5/24 1.2.3.255
+ lxc.network.ipv6 = 2003:db8:1:0:214:1234:fe0b:3597
+
+
+
+
+Control group
+
+This conﬁguration will setup several control groups for the application, cpuset.cpus restricts usage of the
+deﬁned cpu, cpus.share prioritize the control group, devices.allow makes usable the speciﬁed devices.
+
+ lxc.cgroup.cpuset.cpus = 0,1
+ lxc.cgroup.cpu.shares = 1234
+ lxc.cgroup.devices.deny = a
+ lxc.cgroup.devices.allow = c 1:3 rw
+ lxc.cgroup.devices.allow = b 8:0 rw
+
+
+
+
+Complex conﬁguration
+
+This example show a complex conﬁguration making a complex network stack, using the control groups,
+setting a new hostname, mounting some locations and a changing root ﬁle system.
+
+ lxc.utsname = complex
+ lxc.network.type = veth
+ lxc.network.flags = up
+ lxc.network.link = br0
+ lxc.network.hwaddr = 4a:49:43:49:79:bf
+ lxc.network.ipv4 = 1.2.3.5/24 1.2.3.255
+ lxc.network.ipv6 = 2003:db8:1:0:214:1234:fe0b:3597
+
+
+
+
+                                                                                                          6
+                                                                                                 lxc.conf
+
+ lxc.network.ipv6 = 2003:db8:1:0:214:5432:feab:3588
+ lxc.network.type = macvlan
+ lxc.network.flags = up
+ lxc.network.link = eth0
+ lxc.network.hwaddr = 4a:49:43:49:79:bd
+ lxc.network.ipv4 = 1.2.3.4/24
+ lxc.network.ipv4 = 192.168.10.125/24
+ lxc.network.ipv6 = 2003:db8:1:0:214:1234:fe0b:3596
+ lxc.network.type = phys
+ lxc.network.flags = up
+ lxc.network.link = dummy0
+ lxc.network.hwaddr = 4a:49:43:49:79:ff
+ lxc.network.ipv4 = 1.2.3.6/24
+ lxc.network.ipv6 = 2003:db8:1:0:214:1234:fe0b:3297
+ lxc.cgroup.cpuset.cpus = 0,1
+ lxc.cgroup.cpu.shares = 1234
+ lxc.cgroup.devices.deny = a
+ lxc.cgroup.devices.allow = c 1:3 rw
+ lxc.cgroup.devices.allow = b 8:0 rw
+ lxc.mount = /etc/fstab.complex
+ lxc.mount.entry = /lib /root/myrootfs/lib none ro,bind 0 0
+ lxc.rootfs = /mnt/rootfs.complex
+ lxc.cap.drop = sys_module mknod setuid net_raw
+ lxc.cap.drop = mac_override
+
+
+
+
+See Also
+
+chroot(1), pivot_root(8), fstab(5)
+
+
+
+See Also
+
+lxc(1), lxc-create(1), lxc-destroy(1), lxc-start(1), lxc-stop(1), lxc-execute(1), lxc-kill(1),
+lxc-console(1), lxc-monitor(1), lxc-wait(1), lxc-cgroup(1), lxc-ls(1), lxc-ps(1), lxc-info(1),
+lxc-freeze(1), lxc-unfreeze(1), lxc.conf(5)
+
+
+
+Author
+
+Daniel Lezcano <daniel.lezcano@free.fr>
+
+
+
+
+                                                                                                        7

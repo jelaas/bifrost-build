@@ -1,0 +1,102 @@
+lxc-cgroup
+     Name
+     lxc-cgroup — manage the control group associated with a container
+
+
+     Synopsis
+     lxc-start -n name subsystem [value]
+
+
+
+     Description
+
+     lxc-cgroup get or set value from the control group associated with the container name. If no [value] is
+     speciﬁed, the value of the subsystem is displayed, otherwise it is set. The lxc-cgroup does not assume
+     the correctness of the subsystem name, it is up to the user to specify the right subsystem name.
+
+
+
+     Options
+     subsystem
+
+         Specify the subsystem control group name.
+
+     [value]
+
+         Specify the subsystem control group value to be set.
+
+
+
+     Common Options
+
+     These options are common to most of lxc commands.
+
+     -?, -h, --help
+
+         Print a longer usage message than normal.
+
+     --usage
+
+         Give the usage message
+
+     -q, --quiet
+
+         mute on
+
+     -o, --logfile=FILE
+
+         Output to an alternate log FILE . The default is no log.
+
+
+
+
+                                                                                                               1
+                                                                                                    lxc-cgroup
+
+-l, --logpriority=LEVEL
+
+     Set log priority to LEVEL. The default log priority is ERROR. Possible values are : FATAL, CRIT,
+     WARN, ERROR, NOTICE, INFO, DEBUG.
+
+
+     Note that this option is setting the priority of the events log in the alternate log ﬁle. It do not have
+     effect on the ERROR events log on stderr.
+
+
+-n, --name=NAME
+
+     Use container identiﬁer NAME . The container identiﬁer format is an alphanumeric string.
+
+
+
+Examples
+lxc-cgroup -n foo devices.list
+     display the allowed devices to be used.
+
+lxc-cgroup -n foo cpuset.cpus "0,3"
+     assign the processors 0 and 3 to the container.
+
+
+
+Diagnostic
+The container was not found
+     The container is not running.
+
+
+
+See Also
+
+lxc(1), lxc-create(1), lxc-destroy(1), lxc-start(1), lxc-stop(1), lxc-execute(1), lxc-kill(1),
+lxc-console(1), lxc-monitor(1), lxc-wait(1), lxc-cgroup(1), lxc-ls(1), lxc-ps(1), lxc-info(1),
+lxc-freeze(1), lxc-unfreeze(1), lxc.conf(5)
+
+
+
+Author
+
+Daniel Lezcano <daniel.lezcano@free.fr>
+
+
+
+
+                                                                                                                2

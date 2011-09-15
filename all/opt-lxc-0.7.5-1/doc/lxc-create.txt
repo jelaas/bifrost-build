@@ -1,0 +1,70 @@
+lxc-create
+     Name
+     lxc-create — creates a container
+
+
+     Synopsis
+     lxc-create -n name [-f conﬁg_ﬁle] [-t template]
+
+
+
+     Description
+
+     lxc-create creates a system object where is stored the conﬁguration informations and where can be
+     stored user information. The identiﬁer name is used to specify the container to be used with the different
+     lxc commands.
+
+
+     The object is a directory created in /usr/local/var/lib/lxc and identiﬁed by its name.
+
+
+     The object is the deﬁnition of the different resources an application can use or can see. The more the
+     conﬁguration ﬁle contains informations, the more the container is isolated and the more the application is
+     jailed.
+
+
+     If the conﬁguration ﬁle config_file is not speciﬁed, the container will be created with the default
+     isolation: processes, sysv ipc and mount points.
+
+
+
+     Options
+     -f config_file
+
+          Specify the conﬁguration ﬁle to conﬁgure the virtualization and isolation functionalities for the
+          container.
+
+     -t template
+          ’template’ is the short name of an existing ’lxc-template’ script that is called by lxc-create, eg.
+          busybox, debian, fedora, ubuntu or sshd. Refer to the examples in
+          /usr/local/lib/lxc/templates for details of the expected script structure.
+
+
+
+
+                                                                                                                1
+                                                                                                 lxc-create
+
+Diagnostic
+The container already exists
+     As the message mention it, you try to create a container but there is a container with the same name.
+     You can use the lxc-ls -l command to list the available containers on the system.
+
+
+
+See Also
+
+lxc(1), lxc-create(1), lxc-destroy(1), lxc-start(1), lxc-stop(1), lxc-execute(1), lxc-kill(1),
+lxc-console(1), lxc-monitor(1), lxc-wait(1), lxc-cgroup(1), lxc-ls(1), lxc-ps(1), lxc-info(1),
+lxc-freeze(1), lxc-unfreeze(1), lxc.conf(5)
+
+
+
+Author
+
+Daniel Lezcano <daniel.lezcano@free.fr>
+
+
+
+
+                                                                                                         2

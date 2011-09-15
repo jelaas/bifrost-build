@@ -1,0 +1,89 @@
+lxc-kill
+       Name
+       lxc-kill — Send a signal to the process 1 of the container.
+
+
+       Synopsis
+       lxc-kill --name=NAME SIGNUM
+
+
+
+       Description
+
+       lxc-kill send the SIGNUM signal to the ﬁrst process of the container.
+
+
+       The SIGNUM is a numeric value, the signal name is not supported.
+
+
+       If this command is used on an application container ran by lxc-execute, the lxc-init will receive the signal
+       and will forward it to the process 2 which is the command speciﬁed in the command line. See
+       lxc-execute (1). Obviously the SIGKILL and SIGSTOP signals are not able to be forwarded, (as per the
+       signal(7) man page).
+
+
+
+       Common Options
+
+       These options are common to most of lxc commands.
+
+       -?, -h, --help
+
+            Print a longer usage message than normal.
+
+       --usage
+            Give the usage message
+
+       -q, --quiet
+            mute on
+
+       -o, --logfile=FILE
+
+            Output to an alternate log FILE . The default is no log.
+
+       -l, --logpriority=LEVEL
+
+            Set log priority to LEVEL. The default log priority is ERROR. Possible values are : FATAL, CRIT,
+            WARN, ERROR, NOTICE, INFO, DEBUG.
+
+
+
+
+                                                                                                                 1
+                                                                                                        lxc-kill
+
+     Note that this option is setting the priority of the events log in the alternate log ﬁle. It do not have
+     effect on the ERROR events log on stderr.
+
+
+-n, --name=NAME
+     Use container identiﬁer NAME . The container identiﬁer format is an alphanumeric string.
+
+
+
+Examples
+
+To send the signal 26 to the process pi1 running in container 123 :
+
+        lxc-execute -n 123 -- pi1 -d 500000
+        lxc-kill --name=123 26
+
+
+
+
+See Also
+
+lxc(1), lxc-create(1), lxc-destroy(1), lxc-start(1), lxc-stop(1), lxc-execute(1), lxc-kill(1),
+lxc-console(1), lxc-monitor(1), lxc-wait(1), lxc-cgroup(1), lxc-ls(1), lxc-ps(1), lxc-info(1),
+lxc-freeze(1), lxc-unfreeze(1), lxc.conf(5)
+
+
+
+Author
+
+Daniel Lezcano <daniel.lezcano@free.fr>
+
+
+
+
+                                                                                                                2

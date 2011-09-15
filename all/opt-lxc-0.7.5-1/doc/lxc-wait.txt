@@ -1,0 +1,93 @@
+lxc-wait
+      Name
+      lxc-wait — wait for a speciﬁc container state
+
+
+      Synopsis
+      lxc-wait -n name -s states
+
+
+
+      Description
+
+      lxc-wait waits for a speciﬁc container state before exiting, this is useful for scripting.
+
+
+
+      Options
+      -s states
+
+           Specify the container state(s) to wait for. The container states can be ORed to specify several states.
+
+
+
+      Common Options
+
+      These options are common to most of lxc commands.
+
+      -?, -h, --help
+
+           Print a longer usage message than normal.
+
+      --usage
+
+           Give the usage message
+
+      -q, --quiet
+           mute on
+
+      -o, --logfile=FILE
+
+           Output to an alternate log FILE . The default is no log.
+
+      -l, --logpriority=LEVEL
+
+           Set log priority to LEVEL. The default log priority is ERROR. Possible values are : FATAL, CRIT,
+           WARN, ERROR, NOTICE, INFO, DEBUG.
+
+
+
+
+                                                                                                                 1
+                                                                                                       lxc-wait
+
+     Note that this option is setting the priority of the events log in the alternate log ﬁle. It do not have
+     effect on the ERROR events log on stderr.
+
+
+-n, --name=NAME
+     Use container identiﬁer NAME . The container identiﬁer format is an alphanumeric string.
+
+
+
+Examples
+lxc-wait -n foo -s RUNNING
+     exits when ’RUNNING’ is reached.
+
+lxc-wait -n foo -s ’RUNNING|STOPPED’
+     exits when ’RUNNING’ or ’STOPPED’ state is reached.
+
+
+
+Diagnostic
+The container was not found
+     The speciﬁed container was not created before with the lxc-create command.
+
+
+
+See Also
+
+lxc(1), lxc-create(1), lxc-destroy(1), lxc-start(1), lxc-stop(1), lxc-execute(1), lxc-kill(1),
+lxc-console(1), lxc-monitor(1), lxc-wait(1), lxc-cgroup(1), lxc-ls(1), lxc-ps(1), lxc-info(1),
+lxc-freeze(1), lxc-unfreeze(1), lxc.conf(5)
+
+
+
+Author
+
+Daniel Lezcano <daniel.lezcano@free.fr>
+
+
+
+
+                                                                                                                2

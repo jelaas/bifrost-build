@@ -1,0 +1,83 @@
+lxc-stop
+     Name
+     lxc-stop — stop the application running inside a container
+
+
+     Synopsis
+     lxc-stop -n name
+
+
+
+     Description
+
+     lxc-stop kills all the processes inside the container. This command should be used if the processes are no
+     longer accessible and can no be exited normally.
+
+
+
+     Common Options
+
+     These options are common to most of lxc commands.
+
+     -?, -h, --help
+
+           Print a longer usage message than normal.
+
+     --usage
+
+           Give the usage message
+
+     -q, --quiet
+
+           mute on
+
+     -o, --logfile=FILE
+
+           Output to an alternate log FILE . The default is no log.
+
+     -l, --logpriority=LEVEL
+           Set log priority to LEVEL. The default log priority is ERROR. Possible values are : FATAL, CRIT,
+           WARN, ERROR, NOTICE, INFO, DEBUG.
+
+
+           Note that this option is setting the priority of the events log in the alternate log ﬁle. It do not have
+           effect on the ERROR events log on stderr.
+
+
+
+
+                                                                                                                      1
+                                                                                                 lxc-stop
+
+-n, --name=NAME
+
+     Use container identiﬁer NAME . The container identiﬁer format is an alphanumeric string.
+
+
+
+Diagnostic
+The container is busy
+     The speciﬁed container is already running an application. You should stop it before reuse this
+     container or create a new one.
+
+The container was not found
+     The speciﬁed container was not created before with the lxc-create command.
+
+
+
+See Also
+
+lxc(1), lxc-create(1), lxc-destroy(1), lxc-start(1), lxc-stop(1), lxc-execute(1), lxc-kill(1),
+lxc-console(1), lxc-monitor(1), lxc-wait(1), lxc-cgroup(1), lxc-ls(1), lxc-ps(1), lxc-info(1),
+lxc-freeze(1), lxc-unfreeze(1), lxc.conf(5)
+
+
+
+Author
+
+Daniel Lezcano <daniel.lezcano@free.fr>
+
+
+
+
+                                                                                                       2

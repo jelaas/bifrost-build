@@ -1,0 +1,139 @@
+lxc-restart
+      Name
+      lxc-restart — restart a container from a ﬁle (not implemented yet)
+
+
+      Synopsis
+      lxc-restart [-f conﬁg_ﬁle][-s KEY=VAL] --stateﬁle=FILE --statefd=FD {--name=NAME }
+
+
+
+      Description
+
+      lxc-restart is a command to restart an application from the state read in the speciﬁed FILE , in a
+      container with the identiﬁer NAME . If the option --pause is speciﬁed, the application will be stopped
+      after the restart just before resuming execution. The command lxc-unfreeze will be needed to resume its
+      execution.
+
+
+
+      Restart Options
+      -S, --statefile=FILE
+
+           read the state of the container in this FILE . This option is exclusive with --statefd below.
+
+      -d, --statefd=FD
+
+           read the state of the container in this FD ﬁle descriptor. This option is exclusive with above
+           --statefile.
+
+      -p
+           Pause container processes after restart. The container will be stopped until you resume it with the
+           lxc-unfreeze command.
+
+      -f, --rcfile=config_file
+
+           Specify the conﬁguration ﬁle to conﬁgure the virtualization and isolation functionalities for the
+           container. This parameter should be speciﬁed if it was speciﬁed for the lxc-execute or lxc-start
+           commands or if the container conﬁguration has to be changed at restart. The latter may fail if the
+           needed resources are not available for the restart. If the container was created and conﬁgured with
+           lxc-create, this option is not needed, the conﬁguration will be automatically found.
+
+      -s KEY=VAL
+
+           Assign value VAL to conﬁguration variable KEY . This overrides any assignment done in
+           config_file.
+
+
+
+
+                                                                                                                 1
+                                                                                                     lxc-restart
+
+Common Options
+
+These options are common to most of lxc commands.
+
+-?, -h, --help
+
+     Print a longer usage message than normal.
+
+--usage
+
+     Give the usage message
+
+-q, --quiet
+
+     mute on
+
+-o, --logfile=FILE
+     Output to an alternate log FILE . The default is no log.
+
+-l, --logpriority=LEVEL
+     Set log priority to LEVEL. The default log priority is ERROR. Possible values are : FATAL, CRIT,
+     WARN, ERROR, NOTICE, INFO, DEBUG.
+
+
+     Note that this option is setting the priority of the events log in the alternate log ﬁle. It do not have
+     effect on the ERROR events log on stderr.
+
+
+-n, --name=NAME
+     Use container identiﬁer NAME . The container identiﬁer format is an alphanumeric string.
+
+
+
+Examples
+
+To start a new container 123 computing decimals of pi
+
+        lxc-execute -n 123 -- pi1 -d 500000
+        lxc-execute --name=123 -- pi1 -d 500000
+
+
+
+to checkpoint the same container in dump-death mode
+
+        lxc-checkpoint -n 123 -S /share/123/chkpt1 -k
+        lxc-checkpoint --name=123 --statefile=/share/123/chkpt1 -k
+
+
+
+and to restart the same container with a different id
+
+        lxc-restart -n 200 -S /share/123/chkpt1
+
+
+
+
+                                                                                                                2
+                                                                                                 lxc-restart
+
+        lxc-restart --name=200 --statefile=/share/123/chkpt1
+
+
+
+
+Notes
+
+Actually, this command does not operate. Its description helps to deﬁne a CLI api for future Checkpoint /
+Restart solution
+
+
+
+See Also
+
+lxc(1), lxc-create(1), lxc-destroy(1), lxc-start(1), lxc-stop(1), lxc-execute(1), lxc-kill(1),
+lxc-console(1), lxc-monitor(1), lxc-wait(1), lxc-cgroup(1), lxc-ls(1), lxc-ps(1), lxc-info(1),
+lxc-freeze(1), lxc-unfreeze(1), lxc.conf(5)
+
+
+
+Author
+
+Daniel Lezcano <daniel.lezcano@free.fr>
+
+
+
+
+                                                                                                          3
