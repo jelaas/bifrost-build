@@ -1,0 +1,522 @@
+lxc
+      Name
+      lxc — linux containers
+
+
+      Quick start
+
+      You are in a hurry, and you don’t want to read this man page. Ok, without warranty, here are the
+      commands to launch a shell inside a container with a predeﬁned conﬁguration template, it may work.
+      /usr/local/bin/lxc-execute -n foo -f /usr/local/share/doc/lxc/examples/lxc-macvlan.conf /bin/bash
+
+
+
+      Overview
+
+      The container technology is actively being pushed into the mainstream linux kernel. It provides the
+      resource management through the control groups aka process containers and resource isolation through
+      the namespaces.
+
+
+      The linux containers, lxc, aims to use these new functionalities to provide an userspace container object
+      which provides full resource isolation and resource control for an applications or a system.
+
+
+      The ﬁrst objective of this project is to make the life easier for the kernel developers involved in the
+      containers project and especially to continue working on the Checkpoint/Restart new features. The lxc is
+      small enough to easily manage a container with simple command lines and complete enough to be used
+      for other purposes.
+
+
+
+      Requirements
+
+      The lxc relies on a set of functionalities provided by the kernel which needs to be active. Depending of
+      the missing functionalities the lxc will work with a restricted number of functionalities or will simply
+      fails.
+
+
+      The following list gives the kernel features to be enabled in the kernel to have the full features container:
+
+             * General setup
+               * Control Group support
+                 -> Namespace cgroup subsystem
+                 -> Freezer cgroup subsystem
+                 -> Cpuset support
+                 -> Simple CPU accounting cgroup subsystem
+                 -> Resource counters
+                   -> Memory resource controllers for Control Groups
+
+
+
+
+                                                                                                                  1
+                                                                                                            lxc
+
+         * Group CPU scheduler
+           -> Basis for grouping tasks (Control Groups)
+         * Namespaces support
+           -> UTS namespace
+           -> IPC namespace
+           -> User namespace
+           -> Pid namespace
+           -> Network namespace
+       * Device Drivers
+         * Character devices
+           -> Support multiple instances of devpts
+         * Network device support
+           -> MAC-VLAN support
+           -> Virtual ethernet pair device
+       * Networking
+         * Networking options
+           -> 802.1d Ethernet Bridging
+       * Security options
+         -> File POSIX Capabilities
+
+
+
+The kernel version >= 2.6.27 shipped with the distros, will work with lxc, this one will have less
+functionalities but enough to be interesting. With the kernel 2.6.29, lxc is fully functional. The helper
+script lxc-checkconﬁg will give you information about your kernel conﬁguration.
+
+
+Before using the lxc, your system should be conﬁgured with the ﬁle capabilities, otherwise you will need
+to run the lxc commands as root.
+
+
+The control group can be mounted anywhere, eg: mount -t cgroup cgroup /cgroup. If you want to
+dedicate a speciﬁc cgroup mount point for lxc, that is to have different cgroups mounted at different
+places with different options but let lxc to use one location, you can bind the mount point with the lxc
+name, eg: mount -t cgroup lxc /cgroup4lxc or mount -t cgroup -ons,cpuset,freezer,devices lxc
+/cgroup4lxc
+
+
+
+Functional speciﬁcation
+
+A container is an object isolating some resources of the host, for the application or system running in it.
+
+
+The application / system will be launched inside a container speciﬁed by a conﬁguration that is either
+initially created or passed as parameter of the starting commands.
+
+
+How to run an application in a container ?
+
+
+Before running an application, you should know what are the resources you want to isolate. The default
+conﬁguration is to isolate the pids, the sysv ipc and the mount points. If you want to run a simple shell
+
+
+
+
+                                                                                                              2
+                                                                                                        lxc
+
+inside a container, a basic conﬁguration is needed, especially if you want to share the rootfs. If you want
+to run an application like sshd, you should provide a new network stack and a new hostname. If you
+want to avoid conﬂicts with some ﬁles eg. /var/run/httpd.pid, you should remount /var/run with
+an empty directory. If you want to avoid the conﬂicts in all the cases, you can specify a rootfs for the
+container. The rootfs can be a directory tree, previously bind mounted with the initial rootfs, so you can
+still use your distro but with your own /etc and /home
+
+
+Here is an example of directory tree for sshd:
+
+
+[root@lxc sshd]$ tree -d rootfs
+
+rootfs
+|-- bin
+|-- dev
+|   |-- pts
+|   ‘-- shm
+|        ‘-- network
+|-- etc
+|   ‘-- ssh
+|-- lib
+|-- proc
+|-- root
+|-- sbin
+|-- sys
+|-- usr
+‘-- var
+    |-- empty
+    |   ‘-- sshd
+    |-- lib
+    |   ‘-- empty
+    |        ‘-- sshd
+    ‘-- run
+        ‘-- sshd
+
+
+and the mount points ﬁle associated with it:
+
+ [root@lxc sshd]$ cat fstab
+
+ /lib /home/root/sshd/rootfs/lib none ro,bind 0                   0
+ /bin /home/root/sshd/rootfs/bin none ro,bind 0                   0
+ /usr /home/root/sshd/rootfs/usr none ro,bind 0                   0
+ /sbin /home/root/sshd/rootfs/sbin none ro,bind                   0 0
+
+
+
+
+How to run a system in a container ?
+
+
+
+
+                                                                                                          3
+                                                                                                      lxc
+
+Running a system inside a container is paradoxically easier than running an application. Why ? Because
+you don’t have to care about the resources to be isolated, everything need to be isolated, the other
+resources are speciﬁed as being isolated but without conﬁguration because the container will set them up.
+eg. the ipv4 address will be setup by the system container init scripts. Here is an example of the mount
+points ﬁle:
+
+ [root@lxc debian]$ cat fstab
+
+ /dev /home/root/debian/rootfs/dev none bind 0 0
+ /dev/pts /home/root/debian/rootfs/dev/pts none bind 0 0
+
+
+More information can be added to the container to facilitate the conﬁguration. For example, make
+accessible from the container the resolv.conf ﬁle belonging to the host.
+
+ /etc/resolv.conf /home/root/debian/rootfs/etc/resolv.conf none bind 0 0
+
+
+
+
+Container life cycle
+
+When the container is created, it contains the conﬁguration information. When a process is launched, the
+container will be starting and running. When the last process running inside the container exits, the
+container is stopped.
+
+
+In case of failure when the container is initialized, it will pass through the aborting state.
+
+   ---------
+  | STOPPED |<---------------
+   ---------                  |
+       |                     |
+     start                    |
+       |                     |
+       V                     |
+   ----------                 |
+  | STARTING |--error-        |
+   ----------          |      |
+       |              |      |
+       V              V      |
+   ---------    ----------    |
+  | RUNNING | | ABORTING | |
+   ---------    ----------    |
+       |              |      |
+  no process           |      |
+       |              |      |
+       V              |      |
+   ----------          |      |
+  | STOPPING |<-------        |
+   ----------                 |
+
+
+
+
+                                                                                                       4
+                                                                                                             lxc
+
+         |                        |
+             ---------------------
+
+
+
+
+Conﬁguration
+
+The container is conﬁgured through a conﬁguration ﬁle, the format of the conﬁguration ﬁle is described
+in lxc.conf(5)
+
+
+Creating / Destroying container (persistent container)
+
+A persistent container object can be created via the lxc-create command. It takes a container name as
+parameter and optional conﬁguration ﬁle and template. The name is used by the different commands to
+refer to this container. The lxc-destroy command will destroy the container object.
+
+    lxc-create -n foo
+    lxc-destroy -n foo
+
+
+
+
+Volatile container
+
+It is not mandatory to create a container object before to start it. The container can be directly started
+with a conﬁguration ﬁle as parameter.
+
+
+Starting / Stopping container
+
+When the container has been created, it is ready to run an application / system. This is the purpose of the
+lxc-execute and lxc-start commands. If the container was not created before starting the application, the
+container will use the conﬁguration ﬁle passed as parameter to the command, and if there is no such
+parameter either, then it will use a default isolation. If the application is ended, the container will be
+stopped also, but if needed the lxc-stop command can be used to kill the still running application.
+
+
+Running an application inside a container is not exactly the same thing as running a system. For this
+reason, there are two different commands to run an application into a container:
+
+    lxc-execute -n foo [-f config] /bin/bash
+    lxc-start -n foo [-f config] [/bin/bash]
+
+
+
+
+                                                                                                              5
+                                                                                                           lxc
+
+lxc-execute command will run the speciﬁed command into the container via an intermediate process,
+lxc-init. This lxc-init after launching the speciﬁed command, will wait for its end and all other
+reparented processes. (that allows to support daemons in the container). In other words, in the container,
+lxc-init has the pid 1 and the ﬁrst process of the application has the pid 2.
+
+
+lxc-start command will run directly the speciﬁed command into the container. The pid of the ﬁrst
+process is 1. If no command is speciﬁed lxc-start will run /sbin/init.
+
+
+To summarize, lxc-execute is for running an application and lxc-start is better suited for running a
+system.
+
+
+If the application is no longer responding, is inaccessible or is not able to ﬁnish by itself, a wild lxc-stop
+command will kill all the processes in the container without pity.
+
+    lxc-stop -n foo
+
+
+
+
+Connect to an available tty
+
+If the container is conﬁgured with the ttys, it is possible to access it through them. It is up to the
+container to provide a set of available tty to be used by the following command. When the tty is lost, it is
+possible to reconnect it without login again.
+
+    lxc-console -n foo -t 3
+
+
+
+
+Freeze / Unfreeze container
+
+Sometime, it is useful to stop all the processes belonging to a container, eg. for job scheduling. The
+commands:
+
+    lxc-freeze -n foo
+
+
+will put all the processes in an uninteruptible state and
+
+    lxc-unfreeze -n foo
+
+
+will resume them.
+
+
+
+
+                                                                                                             6
+                                                                                                           lxc
+
+This feature is enabled if the cgroup freezer is enabled in the kernel.
+
+
+Getting information about container
+
+When there are a lot of containers, it is hard to follow what has been created or destroyed, what is
+running or what are the pids running into a speciﬁc container. For this reason, the following commands
+may be usefull:
+
+    lxc-ls
+    lxc-ps --name foo
+    lxc-info -n foo
+
+
+
+
+lxc-ls lists the containers of the system. The command is a script built on top of ls, so it accepts the
+options of the ls commands, eg:
+
+    lxc-ls -C1
+
+
+will display the containers list in one column or:
+
+    lxc-ls -l
+
+
+will display the containers list and their permissions.
+
+
+lxc-ps will display the pids for a speciﬁc container. Like lxc-ls, lxc-ps is built on top of ps and accepts
+the same options, eg:
+
+lxc-ps --name foo --forest
+
+will display the processes hierarchy for the processes belonging the ’foo’ container.
+
+lxc-ps --lxc
+
+will display all the containers and their processes.
+
+
+lxc-info gives informations for a speciﬁc container, at present time, only the state of the container is
+displayed.
+
+
+Here is an example on how the combination of these commands allow to list all the containers and
+retrieve their state.
+
+    for i in $(lxc-ls -1); do
+      lxc-info -n $i
+    done
+
+
+
+
+                                                                                                              7
+                                                                                                            lxc
+
+
+
+And displaying all the pids of all the containers:
+
+    for i in $(lxc-ls -1); do
+      lxc-ps --name $i --forest
+    done
+
+
+
+
+lxc-netstat display network information for a speciﬁc container. This command is built on top of the
+netstat command and will accept its options
+
+
+The following command will display the socket informations for the container ’foo’.
+
+    lxc-netstat -n foo -tano
+
+
+
+
+Monitoring container
+
+It is sometime useful to track the states of a container, for example to monitor it or just to wait for a
+speciﬁc state in a script.
+
+
+lxc-monitor command will monitor one or several containers. The parameter of this command accept a
+regular expression for example:
+
+    lxc-monitor -n "foo|bar"
+
+
+will monitor the states of containers named ’foo’ and ’bar’, and:
+
+    lxc-monitor -n ".*"
+
+
+will monitor all the containers.
+
+
+For a container ’foo’ starting, doing some work and exiting, the output will be in the form:
+
+    ’foo’   changed     state      to   [STARTING]
+    ’foo’   changed     state      to   [RUNNING]
+    ’foo’   changed     state      to   [STOPPING]
+    ’foo’   changed     state      to   [STOPPED]
+
+
+
+
+                                                                                                             8
+                                                                                                       lxc
+
+lxc-wait command will wait for a speciﬁc state change and exit. This is useful for scripting to
+synchronize the launch of a container or the end. The parameter is an ORed combination of different
+states. The following example shows how to wait for a container if he went to the background.
+
+    # launch lxc-wait in background
+    lxc-wait -n foo -s STOPPED &
+    LXC_WAIT_PID=$!
+
+    # this command goes in background
+    lxc-execute -n foo mydaemon &
+
+    # block until the lxc-wait exits
+    # and lxc-wait exits when the container
+    # is STOPPED
+    wait $LXC_WAIT_PID
+    echo "’foo’ is finished"
+
+
+
+
+Setting the control group for container
+
+The container is tied with the control groups, when a container is started a control group is created and
+associated with it. The control group properties can be read and modiﬁed when the container is running
+by using the lxc-cgroup command.
+
+
+lxc-cgroup command is used to set or get a control group subsystem which is associated with a
+container. The subsystem name is handled by the user, the command won’t do any syntax checking on
+the subsystem name, if the subsystem name does not exists, the command will fail.
+
+
+
+    lxc-cgroup -n foo cpuset.cpus
+
+
+will display the content of this subsystem.
+
+    lxc-cgroup -n foo cpu.shares 512
+
+
+will set the subsystem to the speciﬁed value.
+
+
+
+
+Bugs
+
+The lxc is still in development, so the command syntax and the API can change. The version 1.0.0 will
+be the frozen version.
+
+
+
+
+                                                                                                            9
+                                                                                                 lxc
+
+See Also
+
+lxc(1), lxc-create(1), lxc-destroy(1), lxc-start(1), lxc-stop(1), lxc-execute(1), lxc-kill(1),
+lxc-console(1), lxc-monitor(1), lxc-wait(1), lxc-cgroup(1), lxc-ls(1), lxc-ps(1), lxc-info(1),
+lxc-freeze(1), lxc-unfreeze(1), lxc.conf(5)
+
+
+
+Author
+
+Daniel Lezcano <daniel.lezcano@free.fr>
+
+
+
+
+                                                                                                 10

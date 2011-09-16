@@ -1,0 +1,58 @@
+lxc-ls
+         Name
+         lxc-ls — list the containers existing on the system
+
+
+         Synopsis
+         lxc-ls [ls option]
+
+
+
+         Description
+
+         lxc-ls list the containers existing on the system.
+
+
+
+         Options
+         [ls options]
+
+              The option passed to lxc-ls are the same as the ls command.
+
+
+
+         Examples
+         lxc-ls -l
+              list all the container and their permissions.
+
+         lxc-ls -1
+              list all the containers and display the list in one column.
+
+
+
+         See Also
+
+         ls(1),
+
+
+
+         See Also
+
+         lxc(1), lxc-create(1), lxc-destroy(1), lxc-start(1), lxc-stop(1), lxc-execute(1), lxc-kill(1),
+         lxc-console(1), lxc-monitor(1), lxc-wait(1), lxc-cgroup(1), lxc-ls(1), lxc-ps(1), lxc-info(1),
+         lxc-freeze(1), lxc-unfreeze(1), lxc.conf(5)
+
+
+
+
+                                                                                                          1
+                                          lxc-ls
+
+Author
+
+Daniel Lezcano <daniel.lezcano@free.fr>
+
+
+
+
+                                              2

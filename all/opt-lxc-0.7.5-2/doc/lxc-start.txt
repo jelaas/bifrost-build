@@ -1,0 +1,121 @@
+lxc-start
+      Name
+      lxc-start — run an application inside a container.
+
+
+      Synopsis
+      lxc-start -n name [-f conﬁg_ﬁle] [-c console_ﬁle] [-d] [-s KEY=VAL] [command]
+
+
+
+      Description
+
+      lxc-start runs the speciﬁed command inside the container speciﬁed by name.
+
+
+      It will setup the container according to the conﬁguration previously deﬁned with the lxc-create command
+      or with the conﬁguration ﬁle parameter. If no conﬁguration is deﬁned, the default isolation is used.
+
+
+      The orphan process group and daemon are not supported by this command, use the lxc-execute
+      command instead.
+
+
+      If no command is speciﬁed, lxc-start will use the default "/sbin/init" command to run a system
+      container.
+
+
+
+      Options
+      -d, --daemon
+            Run the container as a daemon. As the container has no more tty, if an error occurs nothing will be
+            displayed, the log ﬁle can be used to check the error.
+
+      -f, --rcfile config_file
+
+            Specify the conﬁguration ﬁle to conﬁgure the virtualization and isolation functionalities for the
+            container.
+
+
+            This conﬁguration ﬁle if present will be used even if there is already a conﬁguration ﬁle present in
+            the previously created container (via lxc-create).
+
+
+      -c, --console console_file
+
+            Specify a ﬁle to output the container console. If the option is not speciﬁed the output will go the
+            terminal except if the -d is speciﬁed.
+
+
+
+
+                                                                                                                   1
+                                                                                                      lxc-start
+
+-s, --define KEY=VAL
+
+    Assign value VAL to conﬁguration variable KEY . This overrides any assignment done in
+    config_file.
+
+
+
+Common Options
+
+These options are common to most of lxc commands.
+
+-?, -h, --help
+
+    Print a longer usage message than normal.
+
+--usage
+
+    Give the usage message
+
+-q, --quiet
+
+    mute on
+
+-o, --logfile=FILE
+    Output to an alternate log FILE . The default is no log.
+
+-l, --logpriority=LEVEL
+    Set log priority to LEVEL. The default log priority is ERROR. Possible values are : FATAL, CRIT,
+    WARN, ERROR, NOTICE, INFO, DEBUG.
+
+
+    Note that this option is setting the priority of the events log in the alternate log ﬁle. It do not have
+    effect on the ERROR events log on stderr.
+
+
+-n, --name=NAME
+    Use container identiﬁer NAME . The container identiﬁer format is an alphanumeric string.
+
+
+
+Diagnostic
+The container is busy
+    The speciﬁed container is already running an application. You should stop it before reuse this
+    container or create a new one.
+
+
+
+
+                                                                                                               2
+                                                                                                 lxc-start
+
+See Also
+
+lxc(1), lxc-create(1), lxc-destroy(1), lxc-start(1), lxc-stop(1), lxc-execute(1), lxc-kill(1),
+lxc-console(1), lxc-monitor(1), lxc-wait(1), lxc-cgroup(1), lxc-ls(1), lxc-ps(1), lxc-info(1),
+lxc-freeze(1), lxc-unfreeze(1), lxc.conf(5)
+
+
+
+Author
+
+Daniel Lezcano <daniel.lezcano@free.fr>
+
+
+
+
+                                                                                                        3

@@ -1,0 +1,100 @@
+lxc-monitor
+     Name
+     lxc-monitor — monitor the container state
+
+
+     Synopsis
+     lxc-monitor -n name
+
+
+
+     Description
+
+     lxc-monitor monitors the state of the speciﬁed containers. The name can be a regular expression,
+     conforming with posix2, so it is possible to monitor all the containers, several of them or just one.
+
+
+
+     Common Options
+
+     These options are common to most of lxc commands.
+
+     -?, -h, --help
+          Print a longer usage message than normal.
+
+     --usage
+
+          Give the usage message
+
+     -q, --quiet
+
+          mute on
+
+     -o, --logfile=FILE
+
+          Output to an alternate log FILE . The default is no log.
+
+     -l, --logpriority=LEVEL
+
+          Set log priority to LEVEL. The default log priority is ERROR. Possible values are : FATAL, CRIT,
+          WARN, ERROR, NOTICE, INFO, DEBUG.
+
+
+          Note that this option is setting the priority of the events log in the alternate log ﬁle. It do not have
+          effect on the ERROR events log on stderr.
+
+
+
+
+                                                                                                                     1
+                                                                                                 lxc-monitor
+
+-n, --name=NAME
+
+     Use container identiﬁer NAME . The container identiﬁer format is an alphanumeric string.
+
+
+
+Examples
+lxc-monitor -n foo
+     will monitor the different states for container foo.
+
+lxc-monitor -n ’foo|bar’
+     will monitor the different states for container foo and bar.
+
+lxc-monitor -n ’[f|b].*’
+     will monitor the different states for container with the name beginning with letter ’f’ or ’b’.
+
+lxc-monitor -n ’.*’
+     will monitor the different states for all containers.
+
+
+
+Diagnostic
+The container was not found
+     The speciﬁed container was not created before with the lxc-create command.
+
+
+
+See Also
+
+regex(7),
+
+
+
+See Also
+
+lxc(1), lxc-create(1), lxc-destroy(1), lxc-start(1), lxc-stop(1), lxc-execute(1), lxc-kill(1),
+lxc-console(1), lxc-monitor(1), lxc-wait(1), lxc-cgroup(1), lxc-ls(1), lxc-ps(1), lxc-info(1),
+lxc-freeze(1), lxc-unfreeze(1), lxc.conf(5)
+
+
+
+Author
+
+Daniel Lezcano <daniel.lezcano@free.fr>
+
+
+
+
+                                                                                                          2

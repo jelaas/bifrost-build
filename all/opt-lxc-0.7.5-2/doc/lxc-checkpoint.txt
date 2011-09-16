@@ -1,0 +1,133 @@
+lxc-checkpoint
+     Name
+     lxc-checkpoint — checkpoint a running container (not implemented yet)
+
+
+     Synopsis
+     lxc-checkpoint --stateﬁle=FILE --statefd=FD --name=NAME [-k|-p]
+
+
+
+     Description
+
+     lxc-checkpoint is a command to checkpoint the speciﬁed container NAME and dumps its state into the ﬁle
+     FILE . If the option --kill is speciﬁed, the application running in the container will terminate after the
+     checkpoint just before resuming its execution. If the option --pause is speciﬁed, the application will be
+     stopped after the checkpoint just before resuming execution. The command lxc-unfreeze will resume its
+     execution.
+
+
+
+     Checkpoint Options
+     -S, --statefile=FILE
+
+          write the state of the container in this FILE . This option is exclusive with --statefd below.
+
+     -d, --statefd=FD
+
+          write the state of the container in this FD ﬁle descriptor. This option is exclusive with above
+          --statefile.
+
+     -k,--kill
+
+          Kill container processes after checkpoint. the processes are sent a SIGKILL signal.
+
+
+          This option is mutually exclusive with the following --pause option.
+
+
+     -p,--pause
+          Pause container processes after checkpoint. The container will be stopped until you resume it. This
+          option is mutually exclusive with previously mentionned --kill option.
+
+
+
+     Common Options
+
+     These options are common to most of lxc commands.
+
+
+
+
+                                                                                                             1
+                                                                                               lxc-checkpoint
+
+-?, -h, --help
+
+    Print a longer usage message than normal.
+
+--usage
+
+    Give the usage message
+
+-q, --quiet
+
+    mute on
+
+-o, --logfile=FILE
+    Output to an alternate log FILE . The default is no log.
+
+-l, --logpriority=LEVEL
+    Set log priority to LEVEL. The default log priority is ERROR. Possible values are : FATAL, CRIT,
+    WARN, ERROR, NOTICE, INFO, DEBUG.
+
+
+    Note that this option is setting the priority of the events log in the alternate log ﬁle. It do not have
+    effect on the ERROR events log on stderr.
+
+
+-n, --name=NAME
+    Use container identiﬁer NAME . The container identiﬁer format is an alphanumeric string.
+
+
+
+Examples
+
+To start a new container 123 computing decimals of pi
+
+       lxc-execute -n 123 -- pi1 -d 500000
+       lxc-execute --name=123 -- pi1 -d 500000
+
+
+
+to checkpoint the same container in dump-death mode
+
+       lxc-checkpoint -n 123 -S /share/123/chkpt1 -k
+       lxc-checkpoint --name=123 -S /share/123/chkpt1 -k
+
+
+
+to checkpoint the same container and pause it
+
+       lxc-checkpoint -n 123 -S /share/123/chkpt1 -p
+       lxc-checkpoint --name=123 -S /share/123/chkpt1 -p
+
+
+
+
+                                                                                                               2
+                                                                                            lxc-checkpoint
+
+Notes
+
+Actually, this command does not operate. Its description helps to deﬁne a CLI api for future Checkpoint /
+Restart solution
+
+
+
+See Also
+
+lxc(1), lxc-create(1), lxc-destroy(1), lxc-start(1), lxc-stop(1), lxc-execute(1), lxc-kill(1),
+lxc-console(1), lxc-monitor(1), lxc-wait(1), lxc-cgroup(1), lxc-ls(1), lxc-ps(1), lxc-info(1),
+lxc-freeze(1), lxc-unfreeze(1), lxc.conf(5)
+
+
+
+Author
+
+Daniel Lezcano <daniel.lezcano@free.fr>
+
+
+
+
+                                                                                                        3
