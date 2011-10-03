@@ -67,9 +67,9 @@ make install
 OPTDIR=$DST/opt/hostapd
 mkdir -p $OPTDIR/etc/config.flags
 mkdir -p $OPTDIR/rc.d
-echo yes > $OPTDIR/etc/config.flags/example
+echo yes > $OPTDIR/etc/config.flags/hostapd
 echo $PKG > $OPTDIR/pkgversion
-cp -p $PKGDIR/rc $OPTDIR/rc.d/rc.example
+cp -p $PKGDIR/rc $OPTDIR/rc.d/rc.hostapd
 [ -f $PKGDIR/README ] && cp -p $PKGDIR/README $OPTDIR
 
 cp -p $PKGDIR/hostapd.conf $OPTDIR/etc/hostapd.conf.sample
