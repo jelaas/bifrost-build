@@ -1,19 +1,17 @@
 #!/bin/bash
-
-PKG=example
-BINDIR=/opt/example/sbin
+PKG=hostapd
+BINDIR=/opt/hostapd/bin
 
 case "$1" in
     start)
-        printf "\nstarting: $PKG"
-        $BINDIR/example -d
-        ;;
+    printf "\nstarting: $PKG"
+    $BINDIR/hostapd -B /opt/hostapd/etc/hostapd.conf
+    ;;
     stop)
-        printf "\nstopping: $PKG"
-	killall example
-        ;;
+    printf "\nstopping: $PKG\n"
+    killall hostapd
+    ;;
     *)
-        printf "\n\tUsage: $0 < start | stop >\n\n"
-        ;;
+    printf "\n\tUsage: $0 < start | stop >\n\n"
+    ;;
 esac
-

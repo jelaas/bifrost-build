@@ -72,6 +72,8 @@ echo $PKG > $OPTDIR/pkgversion
 cp -p $PKGDIR/rc $OPTDIR/rc.d/rc.example
 [ -f $PKGDIR/README ] && cp -p $PKGDIR/README $OPTDIR
 
+cp -p $PKGDIR/hostapd.conf $OPTDIR/etc/hostapd.conf.sample
+
 #########
 # Check result
 cd $DST || exit 1
