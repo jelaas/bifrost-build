@@ -71,6 +71,7 @@ echo $PKG > $OPTDIR/pkgversion
 cp -p $PKGDIR/rc $OPTDIR/rc.d/rc.example
 [ -f $PKGDIR/README ] && cp -p $PKGDIR/README $OPTDIR
 cp -r $PKGDIR/doc $OPTDIR
+chmod +x $OPTDIR/bin/*
 
 #########
 # Check result
