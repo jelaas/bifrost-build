@@ -1,0 +1,22 @@
+#!/bin/bash
+PKG=wpa_supplicant
+BINDIR=/opt/$PKG/bin
+DEV=wlan0
+if [ -f /opt/wpa_supplicant/etc/config.data/dev ]; then
+    read DEV < /opt/wpa_supplicant/etc/config.data/dev
+fi
+
+case "$1" in
+    start)
+    printf "\nstarting: $PKG"
+    $BINDIR/wpa_supplicant -B -c /opt/wpa_supplicant/etc/wpa_supplicant.conf -i $DEV
+    # iwconf options can go here
+    ;;
+    stop)
+    printf "\nstopping: $PKG\n"
+    killall $PKG
+    ;;
+    *)
+    printf "\n\tUsage: $0 < start | stop >\n\n"
+    ;;
+esac
