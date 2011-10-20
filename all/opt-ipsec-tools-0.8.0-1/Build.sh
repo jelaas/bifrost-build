@@ -29,6 +29,7 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 # pkg_available dependency1-1 dependency2-1
 pkg_install openssl-0.9.8r-1 || exit 2
 pkg_install flex-2.5.35-1 || exit 2
+pkg_install groff-1.21-1 || exit 2
 
 #########
 # Unpack sources into dir under /var/tmp/src
@@ -76,6 +77,7 @@ cd $DST || exit 1
 #########
 # Clean up
 cd $DST || exit 1
+for f in $(find . -path \*man/man\*); do if [ -f $f ]; then groff -T utf8 -man $f > $f.txt; rm $f; fi; done
 rm -rf opt/ipsec/lib opt/ipsec/include
 strip opt/ipsec/sbin/*
 
