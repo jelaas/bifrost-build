@@ -1,6 +1,7 @@
 #!/bin/bash
 
-SRCVER=alix-3.0.0-5
+KERNEL=3.0.0-5
+SRCVER=alix-$KERNEL
 PKG=opt-$SRCVER-1 # with build version
 
 # PKGDIR is set by 'pkg_build'. Usually "/var/lib/build/all/$PKG".
@@ -26,10 +27,10 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 
 #########
 # Install dependencies:
-# pkg_available dependency1-1 dependency2-1
+pkg_available kernel-x86_32-$KERNEL || exit 2
 pkg_install egetty-0.2-1 || exit 2
-pkg_install kernel-x86_32-unsup-3.0.0-5 || exit 1
-pkg_install kernel-x86_32-wireless-3.0.0-5 || exit 1
+pkg_install kernel-x86_32-unsup-$KERNEL || exit 1
+pkg_install kernel-x86_32-wireless-$KERNEL || exit 1
 
 #########
 # Install into dir under /var/tmp/install
@@ -42,13 +43,13 @@ cp -p /sbin/egetty $DST/sbin
 cp -p $PKGDIR/inittab $DST/etc
 cp -p $PKGDIR/menu.lst $DST/boot/grub 
 cp -p $PKGDIR/51_alix.conf $DST/etc/eth-detect.d
-DIR=lib/modules/3.0.0-5-bifrost-x86_32/kernel/drivers/net
+DIR=lib/modules/$KERNEL-bifrost-x86_32/kernel/drivers/net
 mkdir -p $DST/$DIR $DST/$DIR/wireless/ath/ath5k
 for f in via-rhine.ko mii.ko wireless/ath/ath.ko wireless/ath/ath5k/ath5k.ko; do
 	cp -p /$DIR/$f $DST/$DIR/$f
 done
 
-DIR=lib/modules/3.0.0-5-bifrost-x86_32/kernel/net
+DIR=lib/modules/$KERNEL-bifrost-x86_32/kernel/net
 mkdir -p $DST/$DIR
 for f in wireless mac80211; do
 	cp -rp /$DIR/$f $DST/$DIR
