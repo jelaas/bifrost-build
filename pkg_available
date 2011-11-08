@@ -10,6 +10,9 @@ while [ "$1" ]; do
     if [ -z "$pkgfile" ]; then
 	echo "$pkg not found in spool"
 	rc=1
+	if [ "$RECURSIVEBUILD" = yes ]; then
+	    pkg_build $pkg
+	fi
     fi
     shift
 done
