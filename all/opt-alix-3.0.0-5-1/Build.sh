@@ -39,7 +39,6 @@ cd $DST
 
 cp -p /bin/econsole $DST/bin
 cp -p /sbin/egetty $DST/sbin
-cp -p $PKGDIR/passwd $DST/etc
 cp -p $PKGDIR/inittab $DST/etc
 cp -p $PKGDIR/menu.lst $DST/boot/grub 
 cp -p $PKGDIR/51_alix.conf $DST/etc/eth-detect.d
