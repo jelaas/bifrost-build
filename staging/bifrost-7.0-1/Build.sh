@@ -58,7 +58,7 @@ cd $DST
 
 # framework: filesystem structure, scripts, configs etc
 
-untar bifrost-framework-1.0.17-1
+untar bifrost-framework-1.0.18-1
 
 # admin
 untar bc-1.06-1
@@ -180,8 +180,8 @@ untar wget-1.12-1
 
 # core
 
-untar kernel-x86_32-3.0.0-5
-untar kernel-x86_64-3.0.0-5
+untar kernel-x86_32-3.0.0-6
+untar kernel-x86_64-3.0.0-6
 
 untar bash-4.1-1
 untar binutils-2.20.1-1 ./usr/bin/size
