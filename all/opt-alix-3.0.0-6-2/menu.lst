@@ -1,0 +1,25 @@
+# Grub on the serial port
+serial --unit=0 --speed=9600 --word=8 --parity=no --stop=1
+terminal serial
+
+# defaults to the first menu entry
+default 0
+
+timeout 5
+
+# uncomment the next line if you wish to use LBA (usual for large IDE drives)
+#lba32
+
+# Splashimage, provides a nice image for the background
+#splashimage /boot/grub/images/smgl-splash.xpm.gz
+
+# defines menu foreground/background, highlight foreground/background
+color  black/light-gray white/red
+
+title   kernel.default-x86_32-SERIALPORT
+root    (hd0,0)
+kernel  /boot/kernel.default-x86_32 rootdelay=10 console=ttyS0,9600n8 clocksource=tsc
+
+title  memtest
+kernel /boot/memtest.bin
+
