@@ -1,0 +1,101 @@
+                                                                          |
+                        make_bifrost-minihowto
+                         22nd December, 2010
+
+                          Markku Antikainen
+
+Revision: 2100-10-25:
+	  Use 0 indicating no swap space in example
+	  Updated to bifrost-rc-7.0-2.tar.gz	  
+
+
+What you need
+-------------
+
+* A Linux with dd, fdisk, and resize2fs
+* The make_bifrost script, in newer bifrost releases or /contrib directory
+* Current Bifrost/Linux package, eg. bifrost-rc-7.0-2.tar.gz
+  http://ftp.sunet.se/pub/os/Linux/distributions/bifrost/v7
+* USB-memory stick
+* Optional packets in tarballs (optional)
+
+
+Installation
+------------
+
+Step 1: Find the device name of USB stick
+
+Find the appropriate device name for the USB stick. Look in dmesg for
+something like:
+
+scsi 9:0:0:0: Direct-Access  SanDisk  Cruzer Micro  0.1  PQ: 0 ANSI: 2
+SCSI device sdb: 2001888 512-byte hdwr sectors (1025 MB)
+sdb: Write Protect is off
+sdb: Mode Sense: 03 00 00 00
+sdb: assuming drive cache: write through
+
+
+This gives the device name for the USB memory. In our case sdb. The
+script will use fdisk, mke2fs and grub to make a bootable Bifrost
+system.
+
+Step 2: Use the script to create bootable media
+
+Usage of the make_bifrost
+
+sudo ./make_bifrost <device name> <partition size> <boot image> [archives]
+
+<device name>     Device name of the USB device (eg. sda). Without the 
+                  preceeding "/dev/"!
+<partition size>  The size of the first (main) partition. Rest of the 
+                  space is used for swap partition. If set to 0, no swap 
+                  partition is created and all space is used for the first 
+                  partition.
+<boot image>      File name of a gziped image file containing a bootable 
+                  ext2 filesystem. Normally boot_image.gz, which is 
+                  included in this package.
+[archives]        List of tarball-archives to be installed. One of these
+                  should be the actual Bifrost archive (eg. 
+                  bifrost-rc-7.0-2.tar.gz).
+
+
+Example
+-------
+
+root@bt:~# ./make_bifrost sde 0 boot_image.gz bifrost-rc-7.0-2.tar.gz
+Will erase /dev/sde and load /root/boot_image.gz onto it
+Is this correct (yes is affirmative)?
+yes
+dd:ing the archive to the device
+2048+0 records in
+2048+0 records out
+8388608 bytes (8.4 MB) copied, 1.3561 s, 6.2 MB/s
+Rebuilding partition table on /dev/sde...
+Making filesystem with one main partition and one swap partition.
+e2fsck 1.41.3 (12-Oct-2008)
+Pass 1: Checking inodes, blocks, and sizes
+Pass 2: Checking directory structure
+Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+Pass 5: Checking group summary information
+bifrost: 24/2000 files (0.0% non-contiguous), 479/8000 blocks
+resize2fs 1.41.3 (12-Oct-2008)
+Resizing the filesystem on /dev/sde1 to 2056288 (1k) blocks.
+The filesystem on /dev/sde1 is now 2056193 blocks long.
+
+
+Disk /dev/sde: 8011 MB, 8011120640 bytes
+255 heads, 63 sectors/track, 973 cylinders
+Units = cylinders of 16065 * 512 = 8225280 bytes
+Disk identifier: 0x00085bd3
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sde1   *           1         256     2056288+  83  Linux
+/dev/sde2             257         973     5759302+  82  Linux swap / Solaris
+Making /dev/sde2 as a swap filesystem
+Setting up swapspace version 1, size = 5759296 KiB
+no label, UUID=1dc41c2c-8683-46ea-bb4d-d4607099e958
+Mounting /dev/sde1 on /tmp/makeusbmem-mp
+Adding optional package bifrost-rc-7.0-2.tar.gz
+Done - cleaning up.
+

@@ -1,0 +1,216 @@
+#!/bin/sh
+
+# makeusbmem is variant of makeflash this was written by Hans Liss/UU.
+# makeusbmem the usb variant was "created" by Robert Olsson/UU
+# Andreas Wallin/UU added grub.
+# Fixes from  Emil Pedersen <archive@ftp.sunet.se> 2007-02-01
+#   + fixes a "quote"-bug in tar-archive
+#   + unmounts disk on when exiting script
+#   + changes mounting to /tmp istf/ and takes it away 
+#     after (if it didn't exist before)
+#
+# makemedia -- next generation makeXXXX (Emil Pedersen/UU 20080914)
+#   o have a single script handle both USB and Flash (and possibly others)
+#   o allows the addition of extra packages at the same time
+#   o need to be run by root (unless som magic udev rules are used??)
+#
+# 2010-09-17: Modifications for MinNE by Markku Antikainen/KTH,Aalto
+#   o translate Swedish(!) comments to English
+#   o the bootable is now created by dd:ing the image of the Bifrost
+#     to the media. I.e. now this can be used on machines not having
+#     Legacy GRUB (e.g. GRUB2 OSes like recent Ubuntus)
+#   o mounted filesystems are umounted automatically (intented to ease 
+#     lives of Ubuntu users)
+#
+
+# Validate that the script is run as root
+[ $(id -u) != 0 ] && \
+    { printf "Need to run as root, be carefull with the arguments.\n\n"; exit; }
+
+# Options
+unconditional=0
+if [ "x$1" = "x-u" ]
+then
+    unconditional=1
+    shift
+fi
+
+# Validate the amount of arguments
+if [ \( -z "$1" \) -o \( -z "$2" \) -o \( -z "$3" \) ]
+then
+    echo ""
+    echo "Usage: $0 [-u] <target device> <partition size> <fs image> [archives]"
+    echo ""
+    echo "    -u              -- u = does not request confirmation"
+    echo "    target device   -- device to write the archive to, this varies a"
+    echo "                       lot from host to host, but is usualy NOT hda/sda"
+    echo "    partition size  -- size of the 1st partition in MiBs. Size *must* be"
+	echo "                       smaller than the total size of the media. Rest of the"
+    echo "                       space is used for swap partition. If the partition size"
+    echo "                       is set to 0, all of the available space is used for"
+    echo "                       partition 1 and swap partition is not created"
+    echo "    fs image        -- a gziped image of a bootable ext2 file system"
+    echo "                       (eg. boot_image.gz, which is included in this package)"
+    echo "    archives        -- packages (tarballs). This list should also include the"
+	echo "                       actual Bifrost package (eg. bifrost-6.1-beta3.tar.gz)"
+    echo ""
+    echo "  note that <device> should not containg the leading \"/dev/\""
+    exit 1
+fi
+
+dev=${1:?No target device name given}
+partitionsize=${2:?No partition size given}
+image=${3:?No image file name given}
+shift; shift; shift;
+
+MP=/tmp/makeusbmem-mp
+if [ ! -d $MP ]
+then
+	mkdir $MP
+	removemp=True
+fi
+if [ ! -b /dev/$dev ]
+then
+	echo "/dev/$dev does not exist or is no block device"
+	exit 1
+fi
+
+# Checking if some of the filesystems is mounted and
+# umounting them if there are such fs's
+if mount | grep "/dev/$dev" > /dev/null 2>&1
+then
+	echo "/dev/$dev contains mounted file systems. Trying to umount them..."
+		
+	mfs=`mount | grep "/dev/${dev}" | sed 's/\([^ ]\) .*/\1/'`
+	i=0
+	while [ ${#mfs} -gt 0 ]
+	do
+		echo "Trying to umount filesystem $mfs"
+		umount ${mfs}
+		if [ $? -ne 0 ]
+		then
+			echo "Cannot umount filesystem ${mfs}!"
+			exit 1
+		fi
+
+		i=$(($i+1))
+		if [ $i -gt 10 ]
+		then
+			echo "Maximum number of umount tries exceeded!"
+			exit 1
+		fi
+		mfs=`mount | grep "/dev/${dev}" | sed 's/\([^ ]\) .*/\1/'`
+	done
+	echo $mfs
+fi
+
+if [ ! -f $image ]
+then
+	echo "$image does not exist"
+	exit 1
+fi
+
+fc=`echo $image | cut -c1`
+if [ "$fc" != "/" -a "$fc" != "~" ]
+then
+	image="`pwd`/$image"
+fi
+if [ "$unconditional" -eq 0 ]
+then
+    echo "Will erase /dev/$dev and load $image onto it"
+    echo "Is this correct (yes is affirmative)?"
+    read ans
+    if [ "$ans" != "yes" ]
+    then
+		echo "OK, exiting."
+		exit
+    fi
+fi
+
+
+##########################################################
+# Copy the image and change the partition stuff
+
+echo "dd:ing the image to the device"
+zcat ${image} | dd of=/dev/${dev} bs=4096
+
+if [ $? -ne 0 ]
+then
+	echo "Error when doing dd. Quiting."
+	exit 1
+fi
+
+echo "Rebuilding partition table on /dev/$dev..."
+if [ "$partitionsize" -eq "0" ]
+then
+	/bin/echo "Making filesystem with only one partition."
+	# d n p 1   a 1 w
+	/bin/echo -e "d\nn\np\n1\n\n\na\n1\nx\nb\n1\n63\nw\n" > /tmp/params.$$
+else
+	echo "Making filesystem with one main partition and one swap partition."
+	# d n p 1  +${partitionsize}M a 1 n p 2   t 2 82 w
+	/bin/echo -e "d\nn\np\n1\n\n+${partitionsize}M\na\n1\nn\np\n2\n\n\nt\n2\n82\nw\n" > /tmp/params.$$
+fi
+
+/sbin/fdisk /dev/$dev  > /tmp/makeusbmem.$$ 2>&1 < /tmp/params.$$
+
+if [ "$?" -ne 0 ]
+then
+	echo ""
+	echo "Failed to create bootable!"
+	echo "Probable cause is that the image file is broken. Check the arguments, especially the image file name."
+
+	cat /tmp/makeusbmem.$$
+	rm /tmp/makeusbmem.$$
+	exit 1
+fi
+rm /tmp/params.$$
+rm /tmp/makeusbmem.$$
+
+sleep 1
+/sbin/e2fsck -f /dev/${dev}1 2>&1
+/sbin/resize2fs /dev/${dev}1
+/sbin/fdisk -l /dev/$dev
+
+if [ "$partitionsize" -ne "0" ]
+then
+	echo "Making /dev/${dev}2 as a swap filesystem"
+	mkswap /dev/${dev}2
+fi
+
+
+##########################################################
+# Mount the device
+
+echo "Mounting /dev/${dev}1 on $MP"
+if mount /dev/${dev}1 $MP > /tmp/makeusbmem.$$ 2>&1
+then
+	:
+else
+	echo "Failed!"
+	cat /tmp/makeusbmem.$$
+	rm /tmp/makeusbmem.$$
+	exit 1
+fi
+rm /tmp/makeusbmem.$$
+
+
+
+##########################################################
+# add extra packages, if any
+
+for pkg in $@; do
+	echo "Adding optional package $pkg"
+	tar -C $MP -xzf $pkg
+done
+
+
+##########################################################
+# Finalize
+
+echo "Done - cleaning up."
+umount $MP
+if [ "$removemp" = "True" ]; then
+	rmdir "$MP"
+fi
+
