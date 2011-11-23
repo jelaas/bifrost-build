@@ -475,13 +475,16 @@ int main(int argc, char **argv, char **envp)
 	}
 	sleep(1);
 
-	/* e2fsck -y rootdev */
-	/* fork + exec("/e2fsck", "/e2fsck"-y", rootdev) */
-	if((pid=fork())==0) {
-		execl("/e2fsck", "/e2fsck", "-y", rootdev, NULL);
-		exit(0);
+	/* if filesystem is of the ext family */
+	if(!strncmp(rootfstype, "ext", 3)) {
+		/* e2fsck -y rootdev */
+		/* fork + exec("/e2fsck", "/e2fsck"-y", rootdev) */
+		if((pid=fork())==0) {
+			execl("/e2fsck", "/e2fsck", "-y", rootdev, NULL);
+			exit(0);
+		}
+		if(pid != -1) wait(NULL);
 	}
-	if(pid != -1) wait(NULL);
 	
 	/* unlink /e2sck to save some memory */
 	if(unlink("/e2fsck")) {
