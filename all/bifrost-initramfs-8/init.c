@@ -476,7 +476,7 @@ int main(int argc, char **argv, char **envp)
 	sleep(1);
 
 	/* if filesystem is of the ext family */
-	if(!strncmp(rootfstype, "ext", 3)) {
+	if((!cmdline.rootfstype) || (!strncmp(cmdline.rootfstype, "ext", 3))) {
 		/* e2fsck -y rootdev */
 		/* fork + exec("/e2fsck", "/e2fsck"-y", rootdev) */
 		if((pid=fork())==0) {
