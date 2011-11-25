@@ -264,6 +264,25 @@ static int open_console()
 	return 0;
 }
 
+static void strgetarg(char **arg)
+{
+	char *p;
+	p = *arg;
+	if(*p == '"') {
+		p++;
+		*arg = p;
+		p = strchr(p, '"');
+		if(p) *p = 0;
+		return;
+	}
+	
+	p = strchr(*arg, ' ');
+	if(p) *p = 0;
+	p = strchr(*arg, '\n');
+	if(p) *p = 0;
+	return;
+}
+
 /*
  * kernel commandline can be read from /proc/cmdline
  */
@@ -285,20 +304,17 @@ static int cmdline_parse()
 			p = strstr(buf, "root=");
 			if(p) {
 				cmdline.rootdev = strdup(p+5);
-				p = strchr(cmdline.rootdev, ' ');
-				if(p) *p = 0;
+				strgetarg(&cmdline.rootdev);
 			}
 			p = strstr(buf, "rootfstype=");
 			if(p) {
 				cmdline.rootfstype = strdup(p+11);
-				p = strchr(cmdline.rootfstype, ' ');
-				if(p) *p = 0;
+				strgetarg(&cmdline.rootfstype);
 			}
 			p = strstr(buf, "rootfslabel=");
 			if(p) {
 				cmdline.rootfslabel = strdup(p+12);
-				p = strchr(cmdline.rootfslabel, ' ');
-				if(p) *p = 0;
+				strgetarg(&cmdline.rootfslabel);
 			}
 			p = strstr(buf, "usbreset");
 			if(p) {
@@ -377,7 +393,6 @@ int main(int argc, char **argv, char **envp)
 {
 	int fd_stdin=-1, fd_stdout=-1;
 	pid_t pid;
-	int guess = 0;
 	int retries = 0;
 	int rootmounted = 0;
 	char *rootdev = NULL;
@@ -469,7 +484,6 @@ int main(int argc, char **argv, char **envp)
 			fprintf(fstdout, "INIT: guessing that rootdev is /dev/sda1\n\n");
 		}
 		rootdev="/dev/sda1";
-		guess = 1;
 	} else {
 		if(fstdout) fprintf(fstdout, "INIT: using rootdev %s\n", rootdev);
 	}
