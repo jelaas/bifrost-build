@@ -2,7 +2,7 @@
 
 KERNEL=3.0.0-6
 SRCVER=alix-$KERNEL
-PKG=opt-$SRCVER-2 # with build version
+PKG=opt-$SRCVER-3 # with build version
 
 # PKGDIR is set by 'pkg_build'. Usually "/var/lib/build/all/$PKG".
 PKGDIR=${PKGDIR:-/var/lib/build/all/$PKG}
