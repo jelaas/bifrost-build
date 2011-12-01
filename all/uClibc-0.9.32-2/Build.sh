@@ -71,7 +71,7 @@ cd $DST || exit 1
 #########
 # Clean up
 cd $DST || exit 1
-# rm -rf usr/share usr/man
+rm -rf usr/lib/lib*so
 [ -d bin ] && strip bin/*
 [ -d usr/bin ] && strip usr/bin/*
 
