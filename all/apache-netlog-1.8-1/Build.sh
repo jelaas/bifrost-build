@@ -39,6 +39,7 @@ cd $(dirname $BUILDDIR); tar xf $SRC
 # Patch
 cd $BUILDDIR || exit 1
 sed -i 's/-lidn//' Makefile  || exit 1
+sed -i 's/-lrtmp//' Makefile  || exit 1
 sed -i 's/-Wall/-Wall -D_GNU_SOURCE/' Makefile || exit 1
 
 #########
