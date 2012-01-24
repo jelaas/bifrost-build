@@ -1,4 +1,7 @@
 #!/bin/bash
+# Contributed by:
+# Mozhdeh Kamel <mozhdeh@kth.se>
+#
 
 SRCVER=oasys-1.5.0
 PKG=$SRCVER-1 # with build version

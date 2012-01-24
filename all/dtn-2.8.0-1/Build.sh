@@ -1,4 +1,8 @@
 #!/bin/bash
+#
+# Contributed by:
+# Mozhdeh Kamel <mozhdeh@kth.se>
+#
 
 SRCVER=dtn-2.8.0
 PKG=$SRCVER-1 # with build version
