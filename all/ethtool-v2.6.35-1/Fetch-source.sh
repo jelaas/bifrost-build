@@ -11,7 +11,7 @@ if [ ! -s "$DST" ]; then
     pkg_install openssh-5.5p1-1 || exit 1
     cd /tmp
     rm -rf $VER
-    /opt/git/bin/git clone http://www.kernel.org/pub/scm/network/ethtool/ethtool.git $VER || exit 1
+    /opt/git/bin/git clone http://git.kernel.org/pub/scm/network/ethtool/ethtool.git $VER || exit 1
     cd $VER
     /opt/git/bin/git checkout $V || exit 1
     cd /tmp
