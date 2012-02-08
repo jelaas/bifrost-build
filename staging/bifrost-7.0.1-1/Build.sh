@@ -344,22 +344,22 @@ untar terminfo-5.7-1 ./usr/share/terminfo/x/xterm-nic
 untar terminfo-5.7-1 ./usr/share/terminfo/x/xterm-pcolor
 untar terminfo-5.7-1 ./usr/share/terminfo/x/xterms
 untar time-1.7-1
-untar util-linux-ng-bin-2.17.2-2 ./sbin/mkfs
-untar util-linux-ng-bin-2.17.2-2 ./sbin/mkswap
+untar util-linux-bin-2.20.1-1 ./sbin/mkfs
+untar util-linux-bin-2.20.1-1 ./sbin/mkswap
 untar util-linux-ng-bin-2.17.2-2 ./sbin/blockdev
 untar util-linux-ng-bin-2.17.2-2 ./sbin/fdisk
 untar util-linux-ng-bin-2.17.2-2 ./sbin/sfdisk
 untar util-linux-ng-bin-2.17.2-2 ./sbin/cfdisk
 untar util-linux-ng-bin-2.17.2-2 ./sbin/agetty
 untar util-linux-ng-bin-2.17.2-2 ./sbin/blkid
-untar util-linux-ng-bin-2.17.2-2 ./sbin/findfs
+untar util-linux-bin-2.20.1-1 ./sbin/findfs
 untar util-linux-ng-bin-2.17.2-2 ./sbin/ctrlaltdel
 untar util-linux-ng-bin-2.17.2-2 ./sbin/pivot_root
 untar util-linux-ng-bin-2.17.2-2 ./sbin/hwclock
 untar util-linux-ng-bin-2.17.2-2 ./sbin/losetup
-untar util-linux-ng-bin-2.17.2-2 ./sbin/swapon
-untar util-linux-ng-bin-2.17.2-2 ./sbin/swapoff
-untar util-linux-ng-bin-2.17.2-2 ./sbin/fsck
+untar util-linux-bin-2.20.1-1 ./sbin/swapon
+untar util-linux-bin-2.20.1-1 ./sbin/swapoff
+untar util-linux-bin-2.20.1-1 ./sbin/fsck
 untar util-linux-ng-bin-2.17.2-2 ./usr/bin/isosize
 untar util-linux-ng-bin-2.17.2-2 ./usr/bin/getopt
 untar util-linux-ng-bin-2.17.2-2 ./usr/bin/last
@@ -393,7 +393,7 @@ untar util-linux-ng-bin-2.17.2-2 ./usr/bin/rev
 untar util-linux-ng-bin-2.17.2-2 ./usr/bin/line
 untar util-linux-ng-bin-2.17.2-2 ./usr/bin/tailf
 untar util-linux-ng-bin-2.17.2-2 ./usr/bin/pg
-untar util-linux-ng-bin-2.17.2-2 ./usr/sbin/uuidd
+untar util-linux-bin-2.20.1-1 ./usr/sbin/uuidd
 untar util-linux-ng-bin-2.17.2-2 ./usr/sbin/readprofile
 untar util-linux-ng-bin-2.17.2-2 ./usr/sbin/ldattach
 untar util-linux-ng-bin-2.17.2-2 ./usr/sbin/rtcwake
@@ -408,8 +408,8 @@ untar util-linux-ng-bin-2.17.2-2 ./bin/kill
 untar util-linux-ng-bin-2.17.2-2 ./bin/dmesg
 untar util-linux-ng-bin-2.17.2-2 ./bin/arch
 untar util-linux-ng-bin-2.17.2-2 ./bin/more
-untar util-linux-ng-bin-2.17.2-2 ./bin/mount
-untar util-linux-ng-bin-2.17.2-2 ./bin/umount
+untar util-linux-bin-2.20.1-1 ./bin/mount
+untar util-linux-bin-2.20.1-1 ./bin/umount
 untar vlock-1.4-1 ./usr/bin/vlock && mv usr/bin/vlock bin/lock
 
 echo $SRCVER > etc/.version
