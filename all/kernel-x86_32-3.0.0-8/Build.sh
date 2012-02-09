@@ -37,7 +37,7 @@ pkg_install ncurses-lib-5.7-1 || exit 2
 pkg_install perl-5.10.1-1 || exit 2
 pkg_install passwd-file-1 || exit 2
 pkg_install module-init-tools-3.12-1 || exit 2
-pkg_install bifrost-initramfs-8 || exit 2
+pkg_install bifrost-initramfs-9 || exit 2
 pkg_install bash-4.1-1 || exit 2
 
 #########
