@@ -39,6 +39,9 @@ patch -p0 < $PKGDIR/lsblk.c.pat || exit 1
 patch -p0 < $PKGDIR/sysfs.c.pat || exit 1
 patch -p0 < $PKGDIR/sysfs.h.pat || exit 1
 
+sed -i 's/nomtab = 0/nomtab = 1/' mount/mount.c
+sed -i 's/nomtab = 0/nomtab = 1/' mount/umount.c
+
 sedit 's/versionsort/alphasort/' mount/lomount.c
 echo '#define program_invocation_short_name argv[0]' >> include/c.h
 echo '#define UL_SCNsA	"%ms"' >> include/c.h
