@@ -472,7 +472,15 @@ int main(int argc, char **argv, char **envp)
 	}
 	
 	if(!rootdev) {
-		if(cmdline.rootfslabel) rootfslabel = cmdline.rootfslabel;
+		if(cmdline.rootfslabel) {
+			if(strncmp(cmdline.rootfslabel, "LABEL=", 6)) {
+				rootfslabel = malloc(strlen("LABEL=") + strlen(cmdline.rootfslabel) + 1);
+				strcpy(rootfslabel, "LABEL=");
+				strcat(rootfslabel, cmdline.rootfslabel);
+			} else {
+				rootfslabel = cmdline.rootfslabel;
+			}
+		}
 		if(fstdout) fprintf(fstdout, "INIT: probing for rootdev labeled '%s'\n", rootfslabel);
 		fsprobe_init();
 		while( (rootdev = fsprobe_get_devname_by_spec(rootfslabel)) == NULL ) {
