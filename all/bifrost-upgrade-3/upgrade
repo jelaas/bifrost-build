@@ -1,0 +1,64 @@
+#!/bin/bash
+
+if [ "$1" ]; then
+    cd $1 || exit 1
+else
+    cd /
+fi
+
+V=$(cat ./etc/.version)
+BV=$(cat ./etc/.build)
+
+if [ -z "$V" ]; then
+   echo "Cannot find version '/etc/.version'"
+   exit 1
+fi
+
+echo "Upgrading to $V"
+
+P=""
+[ -f "./Documentation/pkginfo/$V" ] && P="./Documentation/pkginfo/$V"
+[ -f "./Documentation/pkginfo/$V-1" ] && P="./Documentation/pkginfo/$V-1"
+[ "$BV" ] && [ -f "./Documentation/pkginfo/$BV" ] && P="./Documentation/pkginfo/$BV"
+
+if [ -z "$P" ]; then
+   echo "Cannot find pkginfo '/Documentation/pkginfo/$V'"
+   exit 1
+fi
+
+echo
+echo "The upgrade process will remove redundant binaries from the system!"
+echo "Are you sure you wish to continue? y/n"
+read Q
+[ $Q = y ] || exit 0
+sleep 2
+remount w && READONLY=yes
+
+function checkone {
+	 local path bin
+
+	 [ -f $1 ] || return 1
+	 
+	 bin=$(basename $1)
+	 for path in /bin32 /bin64 /bin /sbin /usr/bin /usr/sbin; do
+	     [ .$path/$bin = $1 ] && continue
+	     if [ -f .$path/$bin ]; then
+	     	     echo "Removing duplicate $path/$bin of $1"
+	     	     rm -f .$path/$bin
+	     fi
+	 done
+}
+
+function checkbin {
+	 local bin
+	 while read bin; do
+	       checkone $bin
+	 done
+}
+
+for path in /bin/ /sbin/ /usr/bin/ /usr/sbin/; do
+    grep "^.$path" $P|checkbin
+done
+
+echo "Upgrade completed!"
+[ "$READONLY" = yes ] && remount r
