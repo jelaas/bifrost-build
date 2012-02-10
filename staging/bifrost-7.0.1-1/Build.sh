@@ -139,7 +139,7 @@ untar rfcmd-0.1-3
 # native
 
 untar allcaps-1-1
-untar bifrost-upgrade-2
+untar bifrost-upgrade-3
 untar cpuinfo-1.1-1
 untar cpu_pkts-1-1
 untar dev-populate-1.2-1
