@@ -143,8 +143,8 @@ untar bifrost-upgrade-3
 untar cpuinfo-1.1-1
 untar cpu_pkts-1-1
 untar dev-populate-1.2-1
-untar devtag-1.0.5-1 ./bin/devtag
-untar devtag-1.0.5-1 ./bin/devtagns
+untar devtag-1.0.6-1 ./bin/devtag
+untar devtag-1.0.6-1 ./bin/devtagns
 untar eth-affinity-1.2.6-1
 untar ifinfo-1.6-1
 untar ifstat2-0.31-1
