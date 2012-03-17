@@ -1,0 +1,19 @@
+#!/bin/bash
+
+PKG=mysqld
+BINDIR=/opt/mysql/sbin
+
+case "$1" in
+    start)
+        printf "\nstarting: $PKG"
+	$BINDIR/mysqld_safe --datadir=/var/lib/mysql --pid-file=/var/run/mysqld.pid 2>&1 > /dev/null
+        ;;
+    stop)
+        printf "\nstopping: $PKG"
+	killall mysqld
+        ;;
+    *)
+        printf "\n\tUsage: $0 < start | stop >\n\n"
+        ;;
+esac
+
