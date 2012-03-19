@@ -1,0 +1,21 @@
+#!/bin/bash
+
+PKG=mysqld
+BINDIR=/opt/mysql/bin
+
+case "$1" in
+    start)
+        printf "\nstarting: $PKG"
+	( unset -f echo
+	$BINDIR/mysqld_safe --datadir=/var/lib/mysql --pid-file=/var/run/mysqld.pid 2>&1 > /dev/null ) &
+        ;;
+    stop)
+        printf "\nstopping: $PKG"
+	read pid < /var/run/mysqld.pid
+	kill -0 $pid && kill $pid
+        ;;
+    *)
+        printf "\n\tUsage: $0 < start | stop >\n\n"
+        ;;
+esac
+
