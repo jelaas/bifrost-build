@@ -1,0 +1,189 @@
+diff --git a/ethtool.c b/ethtool.c
+index 2d6b7bf..0f08996 100644
+--- a/ethtool.c
++++ b/ethtool.c
+@@ -3366,7 +3366,8 @@ static int do_phy_diag(int fd, struct ifreq *ifr)
+ 	int err, ecal = 0, aw = 0;
+ 	double tmp, alt=0, aht=0, wlt=0, wht=0;
+ 	__u8 type, option, alarm[2] = {0,0} , warn[2] = {0,0};
+-	
++	float *f[5];
++	double s, o;
+ 
+ 	struct ethtool_phy_diag pd;
+ 
+@@ -3429,7 +3430,7 @@ static int do_phy_diag(int fd, struct ifreq *ifr)
+ 	
+ 	if(aw) {
+ 		alarm[0] = pd.alarm >> 8;
+-		alarm[1] = pd.alarm & 0x00FF;;
++		alarm[1] = pd.alarm & 0x00FF;
+ 
+ 		warn[0] = pd.warning >> 8;
+ 		warn[1] = pd.warning & 0x00FF;
+@@ -3441,24 +3442,22 @@ static int do_phy_diag(int fd, struct ifreq *ifr)
+ 	  fprintf(stdout, "Alarms, warnings in beginning of line, Ie. AH = Alarm High, WL == Warn Low etc\n");
+ 
+ 
+-#define ECAL(v, s, o) (( ((double) (s>>8)) + (s & 0xFF)) * (double) v + o)	
++#define ECAL(v, s, o) (( ((double) (s >> 8)) + ((s & 0xFF) >> 8)) * (double) v + o)
+ 
+ 	/* Temp */
+ 
+-	if (aw) {
++	if (ecal) {
+ 		tmp = ECAL(pd.temp, pd.temp_slope, pd.temp_offset);
+-		if(aw) {
+-			alt = ECAL(pd.temp_alt, pd.temp_slope, pd.temp_offset);
+-			aht = ECAL(pd.temp_aht, pd.temp_slope, pd.temp_offset);
+-			wlt = ECAL(pd.temp_wlt, pd.temp_slope, pd.temp_offset);
+-			wht = ECAL(pd.temp_wht, pd.temp_slope, pd.temp_offset);
+-		}
+-
+-	}
+-	else 
++	} else {
+ 		tmp =  (double) (pd.temp);
++	}
+ 
+ 	if(aw) {
++		alt = ECAL(pd.temp_alt, pd.temp_slope, pd.temp_offset);
++		aht = ECAL(pd.temp_aht, pd.temp_slope, pd.temp_offset);
++		wlt = ECAL(pd.temp_wlt, pd.temp_slope, pd.temp_offset);
++		wht = ECAL(pd.temp_wht, pd.temp_slope, pd.temp_offset);
++
+ 		if(alarm[0] & DOM_TYPE_TEMP_AH)
+ 			fprintf(stdout, "AH");
+ 		
+@@ -3482,43 +3481,37 @@ static int do_phy_diag(int fd, struct ifreq *ifr)
+ 
+ 	/* VCC */
+ 
+-	if (aw) {
++	if (ecal) {
+ 		tmp = ECAL(pd.vcc, pd.vcc_slope, pd.vcc_offset);
+-		if(aw) {
+-			alt = ECAL(pd.vcc_alt, pd.vcc_slope, pd.temp_offset);
+-			aht = ECAL(pd.vcc_aht, pd.vcc_slope, pd.temp_offset);
+-			wlt = ECAL(pd.vcc_wlt, pd.vcc_slope, pd.temp_offset);
+-			wht = ECAL(pd.vcc_wht, pd.vcc_slope, pd.temp_offset);
+-		}
++
++	} else {
++		tmp =  (double) (pd.vcc);
+ 	}
+-	else
+-		tmp =  (double) (pd.vcc); 
+ 	
+ 	fprintf(stdout, "\tVcc: %5.2f V\t", tmp/10000);
+-	if(1)
+-		fprintf(stdout, "\t\tThresh: Lo: %5.1f/%-5.1f  Hi: %5.1f/%-5.1f V\n",
+-			alt/10000, wlt/10000, wht/10000, aht/10000);
+ 
+-	else
+-		fprintf(stdout, "\n");
++	alt = ECAL(pd.vcc_alt, pd.vcc_slope, pd.temp_offset);
++	aht = ECAL(pd.vcc_aht, pd.vcc_slope, pd.temp_offset);
++	wlt = ECAL(pd.vcc_wlt, pd.vcc_slope, pd.temp_offset);
++	wht = ECAL(pd.vcc_wht, pd.vcc_slope, pd.temp_offset);
+ 
++	fprintf(stdout, "\t\tThresh: Lo: %5.1f/%-5.1f  Hi: %5.1f/%-5.1f V\n",
++		alt/10000, wlt/10000, wht/10000, aht/10000);
+ 
+ 	/* TX BIAS */
+ 
+-	if (aw) {
++	if (ecal) {
+ 		tmp = ECAL(pd.tx_bias, pd.tx_bias_slope, pd.tx_bias_offset);
+-		if(aw) {
+-			alt = ECAL(pd.tx_bias_alt, pd.tx_bias_slope, pd.temp_offset);
+-			aht = ECAL(pd.tx_bias_aht, pd.tx_bias_slope, pd.temp_offset);
+-			wlt = ECAL(pd.tx_bias_wlt, pd.tx_bias_slope, pd.temp_offset);
+-			wht = ECAL(pd.tx_bias_wht, pd.tx_bias_slope, pd.temp_offset);
+-		}
+-	}
+-	else
++	} else {
+ 		tmp =  (double) (pd.tx_bias); 
+-	
++	}
++
+ 	if(aw) {
+-	  
++		alt = ECAL(pd.tx_bias_alt, pd.tx_bias_slope, pd.temp_offset);
++		aht = ECAL(pd.tx_bias_aht, pd.tx_bias_slope, pd.temp_offset);
++		wlt = ECAL(pd.tx_bias_wlt, pd.tx_bias_slope, pd.temp_offset);
++		wht = ECAL(pd.tx_bias_wht, pd.tx_bias_slope, pd.temp_offset);
++
+ 		if(alarm[0] & DOM_TYPE_TX_BIAS_AH)
+ 			fprintf(stdout, "AH");
+ 		
+@@ -3543,17 +3536,18 @@ static int do_phy_diag(int fd, struct ifreq *ifr)
+ 
+ 	/* TX PWR */
+ 
+-	if (aw) {
++	if (ecal) {
+ 		tmp = ECAL(pd.tx_pwr, pd.tx_pwr_slope, pd.tx_pwr_offset);
++	} else {
++		tmp =  (double) (pd.tx_pwr);
++	}
++
++	if(aw) {
+ 		alt = ECAL(pd.tx_pwr_alt, pd.tx_pwr_slope, pd.temp_offset);
+ 		aht = ECAL(pd.tx_pwr_aht, pd.tx_pwr_slope, pd.temp_offset);
+ 		wlt = ECAL(pd.tx_pwr_wlt, pd.tx_pwr_slope, pd.temp_offset);
+ 		wht = ECAL(pd.tx_pwr_wht, pd.tx_pwr_slope, pd.temp_offset);
+-	}
+-	else
+-		tmp =  (double) (pd.tx_pwr); 
+-	if(aw) {
+-	  
++		
+ 		if(alarm[0] & DOM_TYPE_TX_PWR_AH)
+ 			fprintf(stdout, "AH");
+ 		
+@@ -3581,28 +3575,26 @@ static int do_phy_diag(int fd, struct ifreq *ifr)
+ 		fprintf(stdout, "\n");
+ 
+ 	/* RX PWR */
+-	if (aw) {
+-		/* Note factors is in floast cast to avoid conversion */
+-                float *f[5]; 
+-		double s, o;
+-
+-                f[0] = (float *) &pd.rx_pwr_cal[0];
+-                f[1] = (float *) &pd.rx_pwr_cal[1];
+-                f[2] = (float *) &pd.rx_pwr_cal[2];
+-                f[3] = (float *) &pd.rx_pwr_cal[3];
+-                f[4] = (float *) &pd.rx_pwr_cal[4];
+-		s = *f[4] + *f[3] + *f[2] + *f[1];
+-		o = *f[0];
+-		
++
++	/* Note factors is in float cast to avoid conversion */
++	f[0] = (float *) &pd.rx_pwr_cal[0];
++	f[1] = (float *) &pd.rx_pwr_cal[1];
++	f[2] = (float *) &pd.rx_pwr_cal[2];
++	f[3] = (float *) &pd.rx_pwr_cal[3];
++	f[4] = (float *) &pd.rx_pwr_cal[4];
++	s = *f[4] + *f[3] + *f[2] + *f[1];
++	o = *f[0];
++
++	if (ecal)
+ 		tmp = pd.rx_pwr * s + o;
++	else
++		tmp =  (double) (pd.rx_pwr);
++
++	if(aw) {
+ 		alt = pd.rx_pwr_alt * s + o;
+ 		aht = pd.rx_pwr_aht * s + o;
+ 		wlt = pd.rx_pwr_wlt * s + o;
+ 		wht = pd.rx_pwr_wht * s + o;
+-	}
+-	else 
+-		tmp =  (double) (pd.rx_pwr); 
+-	if(aw) {
+ 	  
+ 		if(alarm[1] & DOM_TYPE_RX_PWR_AH)
+ 			fprintf(stdout, "AH");
