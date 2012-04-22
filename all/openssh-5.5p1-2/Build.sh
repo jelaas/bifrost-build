@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SRCVER=openssh-5.5p1
-PKG=$SRCVER-1 # with build version
+PKG=$SRCVER-2 # with build version
 
 PKGDIR=${PKGDIR:-/var/lib/build/all/$PKG}
 SRC=/var/spool/src/$SRCVER.tar.gz
