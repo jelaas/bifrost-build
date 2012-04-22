@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SRCVER=curl-7.20.1
-PKG=$SRCVER-1 # with build version
+PKG=$SRCVER-2 # with build version
 
 PKGDIR=${PKGDIR:-/var/lib/build/all/$PKG}
 SRC=/var/spool/src/$SRCVER.tar.bz2
