@@ -28,6 +28,7 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 # Install dependencies:
 # pkg_available dependency1-1 dependency2-1
 # pkg_install dependency1-1 || exit 2
+# pkg_install groff-1.21-1 || exit 2 # Needed to convert man-pages: see below
 
 #########
 # Unpack sources into dir under /var/tmp/src
@@ -35,7 +36,7 @@ cd $(dirname $BUILDDIR); tar xf $SRC
 
 #########
 # Patch
-cd $BUILDDIR
+cd $BUILDDIR || exit 1
 libtool_fix-1
 # patch -p1 < $PKGDIR/mypatch.pat
 
@@ -67,6 +68,11 @@ chmod +x $OPTDIR/rc.d/rc.example
 [ -f $PKGDIR/README ] && cp -p $PKGDIR/README $OPTDIR
 
 #########
+# Convert man-pages
+cd $DST || exit 1
+# for f in $(find . -path \*man/man\*); do if [ -f $f ]; then groff -T utf8 -man $f > $f.txt; rm $f; fi; done
+
+#########
 # Check result
 cd $DST || exit 1
 # [ -f usr/bin/myprog ] || exit 1
@@ -77,6 +83,7 @@ cd $DST || exit 1
 cd $DST || exit 1
 # rm -rf usr/share usr/man
 [ -d $OPTPREFIX/bin ] && strip $OPTPREFIX/bin/*
+[ -d $OPTPREFIX/sbin ] && strip $OPTPREFIX/sbin/*
 [ -d $OPTPREFIX/usr/bin ] && strip $OPTPREFIX/usr/bin/*
 
 #########
