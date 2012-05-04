@@ -60,6 +60,7 @@ rm -rf "$DST"
 make install DESTDIR=$DST # --with-install-prefix may be an alternative
 OPTDIR=$DST/$OPTPREFIX
 mkdir -p $OPTDIR/etc/config.flags
+mkdir -p $OPTDIR/etc/config.preconf
 mkdir -p $OPTDIR/rc.d
 echo yes > $OPTDIR/etc/config.flags/example
 echo $PKG > $OPTDIR/pkgversion
