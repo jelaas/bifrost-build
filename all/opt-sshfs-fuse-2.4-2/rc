@@ -1,0 +1,62 @@
+#!/bin/bash
+
+PKG=sshfs
+BINDIR=/opt/example/sbin
+FUSERMOUNT="none"
+
+[ -f /bin/fusermount ] && FUSERMOUNT=/bin/fusermount
+[ -f /opt/fuse/bin/fusermount ] && FUSERMOUNT=/opt/fuse/bin/fusermount
+
+case "$1" in
+    start)
+        printf "\nstarting: $PKG "
+	for f in remote-mounts remote-account mount-options; do
+		if [ ! -f /opt/sshfs/etc/$f ]; then
+			echo "Installing default $f"
+			[ -x /sbin/remount ] && remount w && echo "Root filesystem will be left read-only."
+			cp /opt/sshfs/etc/config.preconf/$f /opt/sshfs/etc
+			[ -x /sbin/remount ] && remount r
+		fi
+	done
+	
+	read ACCOUNT < /opt/sshfs/etc/remote-account
+	read OPTIONS < /opt/sshfs/etc/mount-options	
+
+	cat /opt/sshfs/etc/remote-mounts|while read L; do
+		set $L EOF
+		[ "$1" = '#' ] && continue
+		[ "$1" ] || continue
+		[ "$2" ] || continue
+		[ "$3" ] || continue
+		THOST="$1"
+		REMOTE="$2"
+		LOCAL="$3"
+		[ -d "$LOCAL" ] || continue
+		[ "$(hostname)" = "$THOST" ] && continue
+		[ "$(hostname -s)" = "$THOST" ] && continue
+		grep -qs "${ACCOUNT}@$REMOTE $LOCAL " /proc/mounts || /opt/sshfs/bin/sshfs -o "$OPTIONS" "${ACCOUNT}@$REMOTE" "$LOCAL"
+	done
+        ;;
+    stop)
+        printf "\nstopping: $PKG"
+	cat /opt/sshfs/etc/remote-mounts|while read L; do
+		set $L EOF
+		[ "$1" = '#' ] && continue
+		[ "$1" ] || continue
+		[ "$2" ] || continue
+		[ "$3" ] || continue
+		THOST="$1"
+		REMOTE="$2"
+		LOCAL="$3"
+		[ -d "$LOCAL" ] || continue
+		[ "$(hostname)" = "$THOST" ] && continue
+		[ "$(hostname -s)" = "$THOST" ] && continue
+		[ -f "$FUSERMOUNT" ] && $FUSERMOUNT -u "$LOCAL"
+		[ "$FUSERMOUNT" = "none" ] && echo "Please install opt-fuse for fusermount command!"
+	done
+        ;;
+    *)
+        printf "\n\tUsage: $0 < start | stop >\n\n"
+        ;;
+esac
+

@@ -1,0 +1,2 @@
+# If servername is the same as $(hostname) then it is not mounted
+# servername server:path /local/path
