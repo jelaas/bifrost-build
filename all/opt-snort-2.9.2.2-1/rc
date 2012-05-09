@@ -1,0 +1,19 @@
+#!/bin/bash
+
+PKG=snort
+BINDIR=/opt/snort/bin
+
+case "$1" in
+    start)
+        printf "\nstarting: $PKG"
+        $BINDIR/snort
+        ;;
+    stop)
+        printf "\nstopping: $PKG"
+	killall snort
+        ;;
+    *)
+        printf "\n\tUsage: $0 < start | stop >\n\n"
+        ;;
+esac
+
