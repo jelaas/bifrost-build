@@ -1,0 +1,19 @@
+#!/bin/bash
+
+PKG=argus
+BINDIR=/opt/argus/sbin
+
+case "$1" in
+    start)
+        printf "\nstarting: $PKG"
+        $BINDIR/argus -d
+        ;;
+    stop)
+        printf "\nstopping: $PKG"
+	killall argus
+        ;;
+    *)
+        printf "\n\tUsage: $0 < start | stop >\n\n"
+        ;;
+esac
+
