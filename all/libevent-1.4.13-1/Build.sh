@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SRCVER=libevent-1.4.13-stable
-PKG=$SRCVER-1 # with build version
+PKG=libevent-1.4.13-1 # with build version
 
 # PKGDIR is set by 'pkg_build'. Usually "/var/lib/build/all/$PKG".
 PKGDIR=${PKGDIR:-/var/lib/build/all/$PKG}
