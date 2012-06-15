@@ -1,0 +1,19 @@
+#!/bin/bash
+
+PKG=bifrost-ctrl
+BINDIR=/opt/bifrost-ctrl/sbin
+
+case "$1" in
+    start)
+        printf "\nstarting: $PKG"
+        $BINDIR/bifrost-ctrl -d
+        ;;
+    stop)
+        printf "\nstopping: $PKG"
+	killall bifrost-ctrl
+        ;;
+    *)
+        printf "\n\tUsage: $0 < start | stop >\n\n"
+        ;;
+esac
+
