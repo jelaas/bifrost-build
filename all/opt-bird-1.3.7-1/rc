@@ -1,0 +1,25 @@
+#!/bin/bash
+
+PKG=bird
+BINDIR=/opt/bird/sbin
+
+case "$1" in
+    start)
+        printf "\nstarting: $PKG"
+	if [ ! -f /opt/bird/etc/bird.conf ]; then
+		echo "bird configuration '/opt/bird/etc/bird.conf' missing"
+		echo "sample config in '/opt/bird/etc/conf.preconf/bird.conf'"
+		return 1
+	else
+     	   $BINDIR/bird
+	fi
+        ;;
+    stop)
+        printf "\nstopping: $PKG"
+	killall bird
+        ;;
+    *)
+        printf "\n\tUsage: $0 < start | stop >\n\n"
+        ;;
+esac
+
