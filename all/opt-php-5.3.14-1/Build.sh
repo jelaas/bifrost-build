@@ -57,6 +57,7 @@ B-configure-1 --prefix=/opt/php-5.3\
 #########
 # Post configure patch
 # patch -p0 < $PKGDIR/Makefile.pat
+sed -i 's/-export-dynamic/-static/' Makefile
 
 #########
 # Compile
