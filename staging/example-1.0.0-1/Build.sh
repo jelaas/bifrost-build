@@ -29,6 +29,10 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 # pkg_available dependency1-1 dependency2-1
 # pkg_install dependency1-1 || exit 2
 
+# Compile against musl:
+# pkg_install musl-0.9.1-1 || exit 2 
+# export CC=musl-gcc
+
 #########
 # Unpack sources into dir under /var/tmp/src
 cd $(dirname $BUILDDIR); tar xf $SRC
