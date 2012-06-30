@@ -97,6 +97,7 @@ mv $OPTDIR/etc/exim.conf $OPTDIR/etc/config.preconf/exim.conf.default || exit 1
 echo yes > $OPTDIR/etc/config.flags/exim
 cp src/aliases.default $DST/opt/exim/etc/config.preconf/aliases.default || exit 1
 cp -p $PKGDIR/rc $OPTDIR/rc.d/rc.exim
+chmod a+x $OPTDIR/rc.d/rc.exim
 echo $PKG > $OPTDIR/pkgversion
 [ -f $PKGDIR/README ] && cp -p $PKGDIR/README $OPTDIR
 
