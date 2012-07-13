@@ -435,6 +435,7 @@ int chk_cfg_file(int *remounted, char *fn)
 			if(fstdout)
 				fprintf(fstdout, "INIT: failed to open %s for writing", dst);
 			sleep(1);
+			close(srcfd);
 			return -1;
 		}
 		while(1) {
