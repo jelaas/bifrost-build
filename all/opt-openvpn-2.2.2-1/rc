@@ -1,0 +1,19 @@
+#!/bin/bash
+
+PKG=openvpn
+BINDIR=/opt/openvpn/sbin
+
+case "$1" in
+    start)
+        printf "\nstarting: $PKG"
+        $BINDIR/openvpn
+        ;;
+    stop)
+        printf "\nstopping: $PKG"
+	killall openvpn
+        ;;
+    *)
+        printf "\n\tUsage: $0 < start | stop >\n\n"
+        ;;
+esac
+
