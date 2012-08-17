@@ -73,6 +73,8 @@ cd $DST || exit 1
 # rm -rf usr/share usr/man
 [ -d bin ] && strip bin/*
 [ -d usr/bin ] && strip usr/bin/*
+[ -d sbin ] && strip sbin/*
+[ -d usr/sbin ] && strip usr/sbin/*
 
 #########
 # Make package
