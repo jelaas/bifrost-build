@@ -1,0 +1,157 @@
+Experimental bfd support for quagga 
+-----------------------------------
+
+AUTHOR
+-------
+Jaroslaw Adam Gralak <jagralak@gmail.com>
+
+
+BFDD is an extension to free software Quagga Routing Suite,
+implements IETF's Bidirectional Forwarding Detection 
+protocol (version 1) as a stand alone user space daemon that provides 
+API via zebra protocol for existing routing protocols.
+
+* Supported drafts:
+- draft-ietf-bfd-base-06.txt
+- draft-ietf-bfd-multihop-05.txt
+- draft-ietf-bfd-v4v6-1hop-06.txt
+
+* Read INSTALL for building and installation instructions. 
+
+* BFDD and Quagga are free software programs. 
+See the file COPYING for copying conditions.
+
+* Currently only bgpd can take advantage of rapid failure detection, 
+support for other protocols will be added gradually (see TODO).
+
+* How to configure bgpd to use BFD.
+
+1. Assuming that installation was done successfully open two telnet
+sessions to bfdd and bgpd.
+
+telnet 127.0.0.1 2609
+telnet 127.0.0.1 2605
+
+2. In "router bgp AS" configuration mode issue:
+
+neighbor (A.B.C.D|X:X::X:X) fall-over bfd
+
+or
+
+neighbor (A.B.C.D|X:X::X:X) fall-over bfd sync
+
+if SYNC mode is desired.  SYNC mode do not allow to reestablish
+BGP session until BFD state is "Up". In other words when bfdd signalizes 
+failure ("Down" message) because of BFD neighbor/session down
+BGP has to wait for "Up" message before making an 
+attempt to establish new connection.
+By default such a synchronization is disabled for compatibility with
+other vendors implementations.
+
+You can also disable BFD for particular BGP session, using a "no"
+version of command. :
+
+no neighbor (A.B.C.D|X:X::X:X) fall-over bfd
+
+This basically shouldn't cause BGP session to go down, but if session
+is established between quagga and other vendor product - it is strongly
+advised to test this command first in lab environment for compatibility 
+reasons.
+
+3. Verify the BFD session state:
+
+from bfdd:
+show bfd neighbors
+
+possible states are: "AdminDown", "Down", "Init", "Up".
+
+from bgpd:
+show ip bgp neighbors
+
+The 2nd command does not show states of BFD's FSM but a BFD
+neighbor/session status from the bgpd point of view.
+Possible states are: 
+"Added"   - request for adding neighbor has been sent
+"Deleted" - neighbor will be deleted soon
+"Up"      - zebra/bfd reported that neighbor(session) is up
+"Down"    - zebra/bfd reported that neighbor(session) is down
+
+4. Multihop mode. Whenever "ebgp-multihop" knob is present BFD
+runs automatically in multi hop mode. Please note that
+transition from single hop to multi hop needs some time, i.e.
+session have to be first removed and added again, this takes some time.
+These change (adding/removing ebgp-multihop  knob) basically 
+shouldn't cause bgp session to go down, but similarly to activating
+deactivating BFD it is strongly advised to test it first.
+
+Generally speaking be careful changing multihop mode - not every
+BFD implementation understands what's going on (some of them do not
+support multi hop at all).
+
+5. Optionally you can tune transmit/receive intervals of BFD 
+control packets, in order to do that enter interface 
+configuration mode from bfdd command line and issue:
+
+bfd interval ?
+
+to get help.
+
+Please note that new intervals have to be negotiated first and 
+are not applied until the bfd session is "Up". 
+Whenever session expires, default intervals are restored.
+
+6. Optionally you can run BFD in passive mode. To do that you have
+to go into interface configuration mode (from bfdd cli) and issue:
+
+bfd passive
+
+Passive mode means that we do not going to send any BFD control packets
+until at least one valid packet will be received from our neighbor.
+
+Passive BFD have nothing to do with "passive" BGP mode, these two
+options are independent.
+
+
+7. In case of any problems you might want to troubleshoot BFD, 
+the best way would be to run tcpdump -vvvni <interface> udp and port <BFDport>
+
+BFDport depends on mode in which you are running BFD i.e. single hop
+or multihop.
+
+Also few debugging commands were introduced see "debug ?" for details.
+
+
+* Interoperability 
+
+Implementation was tested with recent versions of Juniper JUNOS.
+
+
+KNOWN BUGS AND LIMITATIONS
+--------------------------
+
+Although bfdd supports mentioned drafts (see README)
+some limitations are present:
+
+- GTSM (Generalized TTL Security Mechanism) is supported
+  for IPv4 based neighbors only if enabled during compilation.
+  Which means there is no GTSM by default. Which together will a lack
+  of authentication might be considered as a security hole.
+
+- Building was tested only on GNU/Linux (debian 4.0) so it's rather likely
+  that build will fail on different systems.
+
+- Demand mode wasn't tested at all, mainly because nobody supports it right now.
+
+- BFDD currently ignores interface add/del, address add/del messages
+  from zebra with all of the consequences.
+
+
+TODO
+----
+To be implemented:
+- authentication 
+- echo mode
+- support for ospfd 
+- support for ospf6d
+- support for isisid
+- draft-ietf-bfd-mib-03.txt

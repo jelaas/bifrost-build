@@ -1,0 +1,779 @@
+diff -Nupwbr quagga-0.99.9/bgpd/bgpd.c quagga-0.99.9-bfd-0.90.1/bgpd/bgpd.c
+--- quagga-0.99.9/bgpd/bgpd.c	2007-10-21 17:04:17.000000000 +0200
++++ quagga-0.99.9-bfd-0.90.1/bgpd/bgpd.c	2007-10-21 01:20:13.000000000 +0200
+@@ -1204,6 +1204,10 @@ peer_delete (struct peer *peer)
+   bgp_fsm_change_status (peer, Deleted);
+   bgp_timer_set (peer); /* stops all timers for Deleted */
+   
++  /* Delete BFD neighbor and stop the session */
++  if (CHECK_FLAG (peer->flags, PEER_FLAG_BFD))
++    bgp_bfd_neigh_del(peer);
++  
+   /* Delete from all peer list. */
+   if (! CHECK_FLAG (peer->sflags, PEER_STATUS_GROUP))
+     {
+@@ -2208,6 +2212,9 @@ struct peer_flag_action peer_flag_action
+     { PEER_FLAG_STRICT_CAP_MATCH,         0, peer_change_none },
+     { PEER_FLAG_DYNAMIC_CAPABILITY,       0, peer_change_reset },
+     { PEER_FLAG_DISABLE_CONNECTED_CHECK,  0, peer_change_reset },
++    { PEER_FLAG_MULTIHOP,                 0, peer_change_none },
++    { PEER_FLAG_BFD,                      0, peer_change_none },
++    { PEER_FLAG_BFD_SYNC,                 0, peer_change_none },
+     { 0, 0, 0 }
+   };
+ 
+@@ -2287,6 +2294,10 @@ peer_flag_modify_action (struct peer *pe
+     {
+       if (CHECK_FLAG (peer->flags, flag))
+ 	{
++	  /* If BFD is in use then stop it */
++	  if(CHECK_FLAG (peer->flags, PEER_FLAG_BFD))
++	      bgp_bfd_neigh_del(peer);
++
+ 	  if (CHECK_FLAG (peer->sflags, PEER_STATUS_NSF_WAIT))
+ 	    peer_nsf_stop (peer);
+ 
+@@ -2327,8 +2338,14 @@ peer_flag_modify_action (struct peer *pe
+ 		       BGP_NOTIFY_CEASE_CONFIG_CHANGE);
+     }
+   else
++  {
++    /* If BFD is configured  - start it */
++    if(CHECK_FLAG (peer->flags, PEER_FLAG_BFD))
++	      bgp_bfd_neigh_add(peer);
+     BGP_EVENT_ADD (peer, BGP_Stop);
+ }
++}
++
+ 
+ /* Change specified peer flag. */
+ static int
+@@ -2383,6 +2400,25 @@ peer_flag_modify (struct peer *peer, u_i
+   else
+     UNSET_FLAG (peer->flags, flag);
+  
++  /* BFD */
++  if(flag == PEER_FLAG_BFD_SYNC) 
++  {
++    if (set) 
++    { 
++      /* SYNC mode requires standard BFD to run */
++      SET_FLAG (peer->flags, PEER_FLAG_BFD);
++      SET_FLAG (peer->flags, PEER_FLAG_BFD_SYNC);
++    }
++    else
++      UNSET_FLAG (peer->flags, PEER_FLAG_BFD_SYNC);
++  }
++  if(flag == PEER_FLAG_BFD) {
++    if(set)
++      bgp_bfd_neigh_add(peer);
++    else 
++      bgp_bfd_neigh_del(peer);
++  }
++ 
+   if (! CHECK_FLAG (peer->sflags, PEER_STATUS_GROUP))
+     {
+       if (action.type == peer_change_reset)
+@@ -4405,6 +4441,20 @@ bgp_config_write_peer (struct vty *vty, 
+ 		   CHECK_FLAG (peer->flags, PEER_FLAG_LOCAL_AS_NO_PREPEND) ?
+ 		   " no-prepend" : "", VTY_NEWLINE);
+ 
++      /* fall-over bfd  */
++      if (CHECK_FLAG (peer->flags, PEER_FLAG_BFD_SYNC))
++      {
++        if (! peer_group_active (peer) ||
++	    ! CHECK_FLAG (g_peer->flags, PEER_FLAG_BFD_SYNC))
++	  vty_out (vty, " neighbor %s fall-over bfd sync%s", addr, VTY_NEWLINE);
++      } 
++      else if (CHECK_FLAG (peer->flags, PEER_FLAG_BFD)) 
++      {
++        if (! peer_group_active (peer) ||
++	    ! CHECK_FLAG (g_peer->flags, PEER_FLAG_BFD))
++	  vty_out (vty, " neighbor %s fall-over bfd%s", addr, VTY_NEWLINE);
++      }
++
+       /* Description. */
+       if (peer->desc)
+ 	vty_out (vty, " neighbor %s description %s%s", addr, peer->desc,
+diff -Nupwbr quagga-0.99.9/bgpd/bgp_debug.c quagga-0.99.9-bfd-0.90.1/bgpd/bgp_debug.c
+--- quagga-0.99.9/bgpd/bgp_debug.c	2007-10-21 17:04:17.000000000 +0200
++++ quagga-0.99.9-bfd-0.90.1/bgpd/bgp_debug.c	2007-10-21 01:20:13.000000000 +0200
+@@ -44,6 +44,7 @@ unsigned long conf_bgp_debug_keepalive;
+ unsigned long conf_bgp_debug_update;
+ unsigned long conf_bgp_debug_normal;
+ unsigned long conf_bgp_debug_zebra;
++unsigned long conf_bgp_debug_bfd;
+ 
+ unsigned long term_bgp_debug_fsm;
+ unsigned long term_bgp_debug_events;
+@@ -53,6 +54,7 @@ unsigned long term_bgp_debug_keepalive;
+ unsigned long term_bgp_debug_update;
+ unsigned long term_bgp_debug_normal;
+ unsigned long term_bgp_debug_zebra;
++unsigned long term_bgp_debug_bfd;
+ 
+ /* messages for BGP-4 status */
+ struct message bgp_status_msg[] = 
+@@ -69,6 +71,19 @@ struct message bgp_status_msg[] = 
+ };
+ int bgp_status_msg_max = BGP_STATUS_MAX;
+ 
++/* messages for BFD status */
++struct message bgp_bfd_status_msg[] = 
++{
++  { 0, "null" },
++  { PEER_BFD_STATUS_NEW, "New" },
++  { PEER_BFD_STATUS_ADDED, "Added" },
++  { PEER_BFD_STATUS_DELETED, "Deleted" },
++  { PEER_BFD_STATUS_UP, "Up" },
++  { PEER_BFD_STATUS_DOWN, "Down" },
++};
++int bgp_bfd_status_msg_max = BGP_PEER_BFD_STATUS_MAX;
++
++
+ /* BGP message type string. */
+ const char *bgp_type_str[] =
+ {
+@@ -638,6 +653,50 @@ ALIAS (no_debug_bgp_zebra,
+        BGP_STR
+        "BGP Zebra messages\n")
+ 
++
++DEFUN (debug_bgp_bfd,
++       debug_bgp_bfd_cmd,
++       "debug bgp bfd",
++       DEBUG_STR
++       BGP_STR
++       "BFD events\n")
++{
++  if (vty->node == CONFIG_NODE)
++    DEBUG_ON (bfd, BFD);
++  else
++    {
++      TERM_DEBUG_ON (bfd, BFD);
++      vty_out (vty, "BGP bfd debugging is on%s", VTY_NEWLINE);
++    }
++  return CMD_SUCCESS;
++}
++
++DEFUN (no_debug_bgp_bfd,
++       no_debug_bgp_bfd_cmd,
++       "no debug bgp bfd",
++       NO_STR
++       DEBUG_STR
++       BGP_STR
++       "BFD events\n")
++{
++  if (vty->node == CONFIG_NODE)
++    DEBUG_OFF (bfd, BFD);
++  else
++    {
++      TERM_DEBUG_OFF (bfd, BFD);
++      vty_out (vty, "BGP bfd debugging is off%s", VTY_NEWLINE);
++    }
++  return CMD_SUCCESS;
++}
++
++ALIAS (no_debug_bgp_bfd,
++       undebug_bgp_bfd_cmd,
++       "undebug bgp bfd",
++       UNDEBUG_STR
++       DEBUG_STR
++       BGP_STR
++       "BGP bfd events\n")
++
+ DEFUN (no_debug_bgp_all,
+        no_debug_bgp_all_cmd,
+        "no debug all bgp",
+@@ -654,6 +713,7 @@ DEFUN (no_debug_bgp_all,
+   TERM_DEBUG_OFF (fsm, FSM);
+   TERM_DEBUG_OFF (filter, FILTER);
+   TERM_DEBUG_OFF (zebra, ZEBRA);
++  TERM_DEBUG_OFF (bfd, BFD);
+   vty_out (vty, "All possible debugging has been turned off%s", VTY_NEWLINE);
+       
+   return CMD_SUCCESS;
+@@ -693,6 +753,8 @@ DEFUN (show_debugging_bgp,
+     vty_out (vty, "  BGP filter debugging is on%s", VTY_NEWLINE);
+   if (BGP_DEBUG (zebra, ZEBRA))
+     vty_out (vty, "  BGP zebra debugging is on%s", VTY_NEWLINE);
++  if (BGP_DEBUG (bfd, BFD))
++    vty_out (vty, "  BGP bfd debugging is on%s", VTY_NEWLINE);
+   vty_out (vty, "%s", VTY_NEWLINE);
+   return CMD_SUCCESS;
+ }
+@@ -754,6 +816,14 @@ bgp_config_write_debug (struct vty *vty)
+       write++;
+     }
+ 
++  if (CONF_BGP_DEBUG (bfd, BFD))
++    {
++      vty_out (vty, "debug bgp bfd%s", VTY_NEWLINE);
++      write++;
++    }
++
++
++
+   return write;
+ }
+ 
+@@ -787,6 +857,8 @@ bgp_debug_init (void)
+   install_element (CONFIG_NODE, &debug_bgp_normal_cmd);
+   install_element (ENABLE_NODE, &debug_bgp_zebra_cmd);
+   install_element (CONFIG_NODE, &debug_bgp_zebra_cmd);
++  install_element (ENABLE_NODE, &debug_bgp_bfd_cmd);
++  install_element (CONFIG_NODE, &debug_bgp_bfd_cmd);
+ 
+   install_element (ENABLE_NODE, &no_debug_bgp_fsm_cmd);
+   install_element (ENABLE_NODE, &undebug_bgp_fsm_cmd);
+@@ -809,6 +881,9 @@ bgp_debug_init (void)
+   install_element (ENABLE_NODE, &no_debug_bgp_zebra_cmd);
+   install_element (ENABLE_NODE, &undebug_bgp_zebra_cmd);
+   install_element (CONFIG_NODE, &no_debug_bgp_zebra_cmd);
++  install_element (ENABLE_NODE, &no_debug_bgp_bfd_cmd);
++  install_element (ENABLE_NODE, &undebug_bgp_bfd_cmd);
++  install_element (CONFIG_NODE, &no_debug_bgp_bfd_cmd);
+   install_element (ENABLE_NODE, &no_debug_bgp_all_cmd);
+   install_element (ENABLE_NODE, &undebug_bgp_all_cmd);
+ }
+diff -Nupwbr quagga-0.99.9/bgpd/bgp_debug.h quagga-0.99.9-bfd-0.90.1/bgpd/bgp_debug.h
+--- quagga-0.99.9/bgpd/bgp_debug.h	2007-10-21 17:04:17.000000000 +0200
++++ quagga-0.99.9-bfd-0.90.1/bgpd/bgp_debug.h	2007-10-21 01:20:13.000000000 +0200
+@@ -64,6 +64,7 @@ extern unsigned long conf_bgp_debug_keep
+ extern unsigned long conf_bgp_debug_update;
+ extern unsigned long conf_bgp_debug_normal;
+ extern unsigned long conf_bgp_debug_zebra;
++extern unsigned long conf_bgp_debug_bfd;
+ 
+ extern unsigned long term_bgp_debug_fsm;
+ extern unsigned long term_bgp_debug_events;
+@@ -73,6 +74,7 @@ extern unsigned long term_bgp_debug_keep
+ extern unsigned long term_bgp_debug_update;
+ extern unsigned long term_bgp_debug_normal;
+ extern unsigned long term_bgp_debug_zebra;
++extern unsigned long term_bgp_debug_bfd;
+ 
+ #define BGP_DEBUG_FSM                 0x01
+ #define BGP_DEBUG_EVENTS              0x01
+@@ -83,6 +85,7 @@ extern unsigned long term_bgp_debug_zebr
+ #define BGP_DEBUG_UPDATE_OUT          0x02
+ #define BGP_DEBUG_NORMAL              0x01
+ #define BGP_DEBUG_ZEBRA               0x01
++#define BGP_DEBUG_BFD                 0x01
+ 
+ #define BGP_DEBUG_PACKET_SEND         0x01
+ #define BGP_DEBUG_PACKET_SEND_DETAIL  0x02
+@@ -116,6 +119,8 @@ extern int bgp_dump_attr (struct peer *,
+ extern void bgp_notify_print (struct peer *, struct bgp_notify *, const char *);
+ 
+ extern struct message bgp_status_msg[];
++extern struct message bgp_bfd_status_msg[];
+ extern int bgp_status_msg_max;
++extern int bgp_bfd_status_msg_max;
+ 
+ #endif /* _QUAGGA_BGP_DEBUG_H */
+diff -Nupwbr quagga-0.99.9/bgpd/bgpd.h quagga-0.99.9-bfd-0.90.1/bgpd/bgpd.h
+--- quagga-0.99.9/bgpd/bgpd.h	2007-10-21 17:04:17.000000000 +0200
++++ quagga-0.99.9-bfd-0.90.1/bgpd/bgpd.h	2007-10-21 01:20:13.000000000 +0200
+@@ -309,6 +309,22 @@ struct peer
+   int shared_network;		/* Is this peer shared same network. */
+   struct bgp_nexthop nexthop;	/* Nexthop */
+ 
++  /* BFD section */
++  union sockunion *bfd_su_local;/* src address for transmission of BFD CP */
++  unsigned int bfd_ifindex;     /* interface for session */
++  int bfd_flags;                /* flags passed to zebra/bfd */
++  int bfd_status;               /* status of BFD session */
++#define PEER_BFD_STATUS_NEW     1 /* fall-over bfd command was executed 
++                                     but zebra/bfd weren't notied yet 
++				     (waiting for ESTABLISHED state) */
++#define PEER_BFD_STATUS_ADDED   2 /* request for adding neighbor has been sent*/
++#define PEER_BFD_STATUS_DELETED 3 /* neighbor will be deleted soon */
++#define PEER_BFD_STATUS_UP      5 /* zebra/bfd reported that 
++				     neighbor(session) is up */
++#define PEER_BFD_STATUS_DOWN    6 /* zebra/bfd reported that
++				     neighbor(session) is down */
++#define BGP_PEER_BFD_STATUS_MAX 7
++
+   /* Peer address family configuration. */
+   u_char afc[AFI_MAX][SAFI_MAX];
+   u_char afc_nego[AFI_MAX][SAFI_MAX];
+@@ -346,6 +362,9 @@ struct peer
+ #define PEER_FLAG_DYNAMIC_CAPABILITY        (1 << 5) /* dynamic capability */
+ #define PEER_FLAG_DISABLE_CONNECTED_CHECK   (1 << 6) /* disable-connected-check */
+ #define PEER_FLAG_LOCAL_AS_NO_PREPEND       (1 << 7) /* local-as no-prepend */
++#define PEER_FLAG_MULTIHOP                  (1 << 8) /* multihop */
++#define PEER_FLAG_BFD                       (1 << 10) /* fall-over bfd */
++#define PEER_FLAG_BFD_SYNC                  (1 << 11) /* fall-over bfd sync */
+ 
+   /* NSF mode (graceful restart) */
+   u_char nsf[AFI_MAX][SAFI_MAX];
+@@ -512,6 +531,7 @@ struct peer
+ #define PEER_DOWN_PASSIVE_CHANGE        20 /* neighbor passive command */
+ #define PEER_DOWN_MULTIHOP_CHANGE       21 /* neighbor multihop command */
+ #define PEER_DOWN_NSF_CLOSE_SESSION     22 /* NSF tcp session close */
++#define PEER_DOWN_BFD_NEIGHBOR_DOWN     23 /* BFD session to neighbor went down */
+ 
+   /* The kind of route-map Flags.*/
+   u_char rmap_type;
+diff -Nupwbr quagga-0.99.9/bgpd/bgp_fsm.c quagga-0.99.9-bfd-0.90.1/bgpd/bgp_fsm.c
+--- quagga-0.99.9/bgpd/bgp_fsm.c	2007-10-21 17:04:17.000000000 +0200
++++ quagga-0.99.9-bfd-0.90.1/bgpd/bgp_fsm.c	2007-10-21 01:20:13.000000000 +0200
+@@ -31,7 +31,9 @@ Software Foundation, Inc., 59 Temple Pla
+ #include "memory.h"
+ #include "plist.h"
+ 
++
+ #include "bgpd/bgpd.h"
++#include "bgp_zebra.h"
+ #include "bgpd/bgp_attr.h"
+ #include "bgpd/bgp_debug.h"
+ #include "bgpd/bgp_fsm.h"
+@@ -227,6 +229,13 @@ bgp_start_timer (struct thread *thread)
+     zlog (peer->log, LOG_DEBUG,
+ 	  "%s [FSM] Timer (start timer expire).", peer->host);
+ 
++  /* Check if peer uses BFD in SYNC mode and it's  BFD session is down.
++     If yes, do not send "BGP_Start" event because 
++     of possible link failure. */
++  if(CHECK_FLAG (peer->flags, PEER_FLAG_BFD_SYNC) 
++     && peer->bfd_status == PEER_BFD_STATUS_DOWN)
++    return 0;
++
+   THREAD_VAL (thread) = BGP_Start;
+   bgp_event (thread);  /* bgp_event unlocks peer */
+ 
+@@ -865,6 +874,10 @@ bgp_establish (struct peer *peer)
+ 	    || CHECK_FLAG (peer->af_cap[afi][safi], PEER_CAP_ORF_PREFIX_SM_OLD_RCV))
+ 	  SET_FLAG (peer->af_sflags[afi][safi], PEER_STATUS_ORF_WAIT_REFRESH);
+ 
++  /* Notify BFD about the session state, and start it if didn't started yet */
++  if (CHECK_FLAG (peer->flags, PEER_FLAG_BFD))
++    bgp_bfd_estab(peer);
++
+   bgp_announce_route_all (peer);
+ 
+   BGP_TIMER_ON (peer->t_routeadv, bgp_routeadv_timer, 1);
+diff -Nupwbr quagga-0.99.9/bgpd/bgp_vty.c quagga-0.99.9-bfd-0.90.1/bgpd/bgp_vty.c
+--- quagga-0.99.9/bgpd/bgp_vty.c	2007-10-21 17:04:17.000000000 +0200
++++ quagga-0.99.9-bfd-0.90.1/bgpd/bgp_vty.c	2007-10-21 01:20:13.000000000 +0200
+@@ -1653,6 +1653,58 @@ DEFUN (no_neighbor_passive,
+   return peer_flag_unset_vty (vty, argv[0], PEER_FLAG_PASSIVE);
+ }
+ 
++/* neighbor fall-over bfd. */
++DEFUN (neighbor_fall_over_bfd,
++       neighbor_fall_over_bfd_cmd,
++       NEIGHBOR_CMD2 "fall-over bfd",
++       NEIGHBOR_STR
++       NEIGHBOR_ADDR_STR2
++       "enable BFD protocol support for fall over.\n"
++       "use Biderectional Forwarding Detection.\n")
++{
++  return peer_flag_set_vty (vty, argv[0], PEER_FLAG_BFD);
++}
++
++DEFUN (no_neighbor_fall_over_bfd,
++       no_neighbor_fall_over_bfd_cmd,
++       NO_NEIGHBOR_CMD2 "fall-over bfd",
++       NO_STR
++       NEIGHBOR_STR
++       NEIGHBOR_ADDR_STR2
++       "disable BFD protocol support for fall over.\n"
++       "disable Biderectional Forwarding Detection.\n")
++{
++  return peer_flag_unset_vty (vty, argv[0], PEER_FLAG_BFD);
++}
++
++/* neighbor fall-over bfd sync. */
++DEFUN (neighbor_fall_over_bfd_sync,
++       neighbor_fall_over_bfd_sync_cmd,
++       NEIGHBOR_CMD2 "fall-over bfd sync",
++       NEIGHBOR_STR
++       NEIGHBOR_ADDR_STR2
++       "enable BFD protocol support for fall over.\n"
++       "use Biderectional Forwarding Detection.\n"
++       "synchronize BGP with BFD.\n")
++{
++  return peer_flag_set_vty (vty, argv[0], PEER_FLAG_BFD_SYNC);
++}
++
++DEFUN (no_neighbor_fall_over_bfd_sync,
++       no_neighbor_fall_over_bfd_sync_cmd,
++       NO_NEIGHBOR_CMD2 "fall-over bfd sync",
++       NO_STR
++       NEIGHBOR_STR
++       NEIGHBOR_ADDR_STR2
++       "disable BFD protocol support for fall over.\n"
++       "disable Biderectional Forwarding Detection.\n"
++       "disable synchroniation BGP/BFD.\n")
++{
++  return peer_flag_unset_vty (vty, argv[0], PEER_FLAG_BFD_SYNC);
++}
++
++
++
+ /* neighbor shutdown. */
+ DEFUN (neighbor_shutdown,
+        neighbor_shutdown_cmd,
+@@ -2583,6 +2635,9 @@ peer_ebgp_multihop_set_vty (struct vty *
+   else
+     VTY_GET_INTEGER_RANGE ("TTL", ttl, ttl_str, 1, 255);
+ 
++  SET_FLAG(peer->flags, PEER_FLAG_MULTIHOP);
++  if(CHECK_FLAG(peer->flags,PEER_FLAG_BFD))
++    bgp_bfd_mhop(peer);
+   peer_ebgp_multihop_set (peer, ttl);
+ 
+   return CMD_SUCCESS;
+@@ -2597,6 +2652,9 @@ peer_ebgp_multihop_unset_vty (struct vty
+   if (! peer)
+     return CMD_WARNING;
+ 
++  UNSET_FLAG(peer->flags, PEER_FLAG_MULTIHOP);
++  if(CHECK_FLAG(peer->flags,PEER_FLAG_BFD))
++    bgp_bfd_mhop(peer);
+   peer_ebgp_multihop_unset (peer);
+ 
+   return CMD_SUCCESS;
+@@ -7239,6 +7297,18 @@ bgp_show_peer (struct vty *vty, struct p
+     }
+   vty_out (vty, "%s", VTY_NEWLINE);
+   
++  /* BFD */
++  if(CHECK_FLAG(p->flags, PEER_FLAG_BFD)) 
++  {
++    vty_out(vty, "  Using BFD to detect fast fallover in ");
++    if(CHECK_FLAG(p->flags, PEER_FLAG_BFD_SYNC))
++      vty_out(vty, "sync mode");
++    else
++      vty_out(vty, "standard mode");
++    vty_out(vty, "%s  BFD last signalized state : %s%s",VTY_NEWLINE, LOOKUP(bgp_bfd_status_msg, p->bfd_status),VTY_NEWLINE);
++  }
++
++  
+   /* read timer */
+   vty_out (vty, "  Last read %s", peer_uptime (p->readtime, timebuf, BGP_UPTIME_LEN));
+ 
+@@ -9169,6 +9239,14 @@ bgp_vty_init (void)
+   install_element (BGP_NODE, &neighbor_passive_cmd);
+   install_element (BGP_NODE, &no_neighbor_passive_cmd);
+ 
++  /* "neighbor fall-over bfd" commands. */
++  install_element (BGP_NODE, &neighbor_fall_over_bfd_cmd);
++  install_element (BGP_NODE, &no_neighbor_fall_over_bfd_cmd);
++
++  /* "neighbor fall-over bfd sync" commands. */
++  install_element (BGP_NODE, &neighbor_fall_over_bfd_sync_cmd);
++  install_element (BGP_NODE, &no_neighbor_fall_over_bfd_sync_cmd);
++
+   /* "neighbor shutdown" commands. */
+   install_element (BGP_NODE, &neighbor_shutdown_cmd);
+   install_element (BGP_NODE, &no_neighbor_shutdown_cmd);
+diff -Nupwbr quagga-0.99.9/bgpd/bgp_zebra.c quagga-0.99.9-bfd-0.90.1/bgpd/bgp_zebra.c
+--- quagga-0.99.9/bgpd/bgp_zebra.c	2007-10-21 17:04:17.000000000 +0200
++++ quagga-0.99.9-bfd-0.90.1/bgpd/bgp_zebra.c	2007-10-21 01:20:13.000000000 +0200
+@@ -29,6 +29,8 @@ Boston, MA 02111-1307, USA.  */
+ #include "zclient.h"
+ #include "routemap.h"
+ #include "thread.h"
++#include "linklist.h"
++#include "bfd.h"
+ 
+ #include "bgpd/bgpd.h"
+ #include "bgpd/bgp_route.h"
+@@ -174,6 +176,265 @@ bgp_interface_down (int command, struct 
+   return 0;
+ }
+ 
++/* Update information about preferred mode i.e. single hop or multihop
++   if necessary */
++int
++bgp_bfd_mhop(struct peer *peer)
++{
++  /* if there is a mismatch between BFD mode 
++     send update to zebra/bfd to correct it*/
++  if( ( CHECK_FLAG(peer->flags, PEER_FLAG_MULTIHOP)            &&
++       !CHECK_FLAG(peer->bfd_flags,BFD_CNEIGH_FLAGS_MULTIHOP)) || 
++      (!CHECK_FLAG(peer->flags, PEER_FLAG_MULTIHOP)            &&
++        CHECK_FLAG(peer->bfd_flags, BFD_CNEIGH_FLAGS_MULTIHOP)) )
++  {
++    if (BGP_DEBUG(bfd, BFD)) 
++      zlog_debug("BFD multihop mode change detected");
++
++      /* If previous candidate has been registered, we have to delete
++         previous reservation first, in order to register new */
++      if(peer->bfd_status 
++	 && peer->bfd_status != PEER_BFD_STATUS_NEW)
++      {
++	bgp_bfd_neigh_del(peer);
++	peer->bfd_flags = 0;
++	peer->bfd_ifindex = 0;
++      }
++      bgp_bfd_neigh_add(peer);
++  }
++
++  return 0;
++}
++
++/* Called when BGP's FSM reaches Established state*/
++void 
++bgp_bfd_estab(struct peer *peer)
++{
++  /* Check if we have local(src) address ready */
++  if (peer->bfd_su_local) 
++  {
++    /* We BGP is using different addrees than before 
++       remove and add neighbor(session) to reflect
++       address change */
++    if(!sockunion_same(peer->bfd_su_local, peer->su_local))
++    {
++      bgp_bfd_neigh_del(peer);
++      //peer->bfd_flags = 0;
++      //peer->bfd_ifindex = 0;
++      bgp_bfd_neigh_add(peer);
++    }
++  } 
++  /* We do not have local addrees - this is the first run */
++  else
++    bgp_bfd_neigh_add(peer);
++}
++
++/* Add BFD neighbor to zebra/bfd to start the session */
++int
++bgp_bfd_neigh_add(struct peer *peer)
++{
++  peer->bfd_flags = 0;
++  peer->bfd_ifindex = 0;
++  if(CHECK_FLAG(peer->flags,PEER_FLAG_MULTIHOP))
++    SET_FLAG(peer->bfd_flags, BFD_CNEIGH_FLAGS_MULTIHOP);
++
++  if(peer->status == Established)
++  {
++    struct interface *ifp;
++    peer->bfd_su_local = sockunion_dup(peer->su_local);
++    ifp = if_lookup_by_sockunion_exact(peer->bfd_su_local);
++    peer->bfd_ifindex = ifp->ifindex;
++
++    if (BGP_DEBUG(zebra, ZEBRA)) 
++      zlog_debug("Zebra send: bfd cneigh add "
++		 "<raddr=%s, laddr=%s, ifindex=%d, flags=%d>",
++		 sockunion_su2str(&peer->su), sockunion_su2str(peer->bfd_su_local),
++		 peer->bfd_ifindex, peer->bfd_flags);
++
++    if(sockunion_family(&peer->su) == AF_INET)
++      zapi_ipv4_bfd_cneigh_add(zclient,
++	  (struct prefix_ipv4*)sockunion2hostprefix(&peer->su),
++	  (struct prefix_ipv4*)sockunion2hostprefix(peer->bfd_su_local),
++	  peer->bfd_ifindex,
++	  peer->bfd_flags);
++#ifdef HAVE_IPV6
++    else 
++      zapi_ipv6_bfd_cneigh_add(zclient,
++	  (struct prefix_ipv6*)sockunion2hostprefix(&peer->su),
++	  (struct prefix_ipv6*)sockunion2hostprefix(peer->bfd_su_local),
++	  peer->bfd_ifindex,
++	  peer->bfd_flags);
++#endif /* HAVE_IPV6 */
++    peer->bfd_status = PEER_BFD_STATUS_ADDED;
++  }
++  else
++    peer->bfd_status = PEER_BFD_STATUS_NEW;
++  return 0;
++}
++
++int
++bgp_bfd_neigh_del(struct peer *peer)
++{
++  if(peer->bfd_status != PEER_BFD_STATUS_NEW 
++     && peer->bfd_status !=  PEER_BFD_STATUS_DELETED)
++  {
++    
++    if (BGP_DEBUG(zebra, ZEBRA)) 
++      zlog_debug("Zebra send: bfd cneigh del "
++		 "<raddr=%s, laddr=%s, ifindex=%d, flags=%d>",
++		 sockunion_su2str(&peer->su), sockunion_su2str(peer->bfd_su_local),
++		 peer->bfd_ifindex, peer->bfd_flags);
++
++
++    if(sockunion_family(&peer->su) == AF_INET)
++      zapi_ipv4_bfd_cneigh_del(zclient,
++	  (struct prefix_ipv4*)sockunion2hostprefix(&peer->su),
++	  (struct prefix_ipv4*)sockunion2hostprefix(peer->bfd_su_local),
++	  peer->bfd_ifindex,
++	  peer->bfd_flags);
++#ifdef HAVE_IPV6
++    else 
++      zapi_ipv6_bfd_cneigh_del(zclient,
++	  (struct prefix_ipv6*)sockunion2hostprefix(&peer->su),
++	  (struct prefix_ipv6*)sockunion2hostprefix(peer->bfd_su_local),
++	  peer->bfd_ifindex,
++	  peer->bfd_flags);
++#endif /* HAVE_IPV6 */
++    sockunion_free(peer->bfd_su_local);
++    peer->bfd_status = PEER_BFD_STATUS_DELETED;
++  }
++  return 0;
++}
++
++static int
++bgp_bfd_neigh_up(struct bfd_cneigh *cneighp)
++{
++  struct bgp *bgp;
++  struct peer *peer;
++  struct listnode *node;
++  union sockunion *su;
++
++  if(!cneighp)
++    return -1;
++
++  if (BGP_DEBUG(zebra, ZEBRA))
++  { 
++    char rpbuf[BUFSIZ];
++    char lpbuf[BUFSIZ];
++    prefix2str(&cneighp->raddr,rpbuf,sizeof(rpbuf));
++    prefix2str(&cneighp->laddr,lpbuf,sizeof(lpbuf));
++    zlog_debug("Zebra rcvd: bfd neigh up "
++	       "<raddr=%s, laddr=%s, ifindex=%d, flags=%d>",
++	       rpbuf, lpbuf, cneighp->ifindex, cneighp->flags);
++  }
++  
++  su = hostprefix2sockunion (&cneighp->raddr);
++
++  for (ALL_LIST_ELEMENTS_RO (bm->bgp, node, bgp))
++  {
++    peer = peer_lookup (bgp, su);
++    if (!peer)
++      continue;
++
++    /* Check if peer uses BFD - if not return */
++    if(!CHECK_FLAG (peer->flags, PEER_FLAG_BFD))
++      return 0;
++
++    /* Ignore UP message when we are in UP state. We also don't want
++       to receive anything when we are just about to be deleted */
++    if(peer->bfd_status ==  PEER_BFD_STATUS_UP 
++       || peer->bfd_status == PEER_BFD_STATUS_DELETED) 
++      return 0;
++
++    if(peer->bfd_status == PEER_BFD_STATUS_DOWN)
++    {
++      /* start BGP */
++      if(peer->status == Idle)
++	 BGP_EVENT_ADD (peer, BGP_Start);
++    }
++    /* Change peer status to UP */
++    peer->bfd_status = PEER_BFD_STATUS_UP;
++  }
++  return 0;
++}
++
++static int
++bgp_bfd_neigh_down(struct bfd_cneigh *cneighp)
++{
++  struct bgp *bgp;
++  struct peer *peer;
++  struct listnode *node;
++  union sockunion *su;
++
++  if(!cneighp)
++    return -1;
++
++  if (BGP_DEBUG(zebra, ZEBRA) && cneighp)
++  { 
++    char rpbuf[BUFSIZ];
++    char lpbuf[BUFSIZ];
++    prefix2str(&cneighp->raddr,rpbuf,sizeof(rpbuf));
++    prefix2str(&cneighp->laddr,lpbuf,sizeof(lpbuf));
++    zlog_debug("Zebra rcvd: bfd neigh down "
++	       "<raddr=%s, laddr=%s, ifindex=%d, flags=%d>",
++	       rpbuf, lpbuf, cneighp->ifindex, cneighp->flags);
++  }
++  
++  su = hostprefix2sockunion (&cneighp->raddr);
++
++  for(ALL_LIST_ELEMENTS_RO (bm->bgp, node, bgp))
++  {
++    peer = peer_lookup (bgp, su);
++    if (!peer)
++      continue;
++    
++    /* Check if peer uses BFD - if not return */
++    if(!CHECK_FLAG (peer->flags, PEER_FLAG_BFD))
++      return 0;
++
++    /* Ignore DOWN message when we are in DOWN state. We also don't want
++       to receive anything when we are just about to be deleted */
++    if(peer->bfd_status ==  PEER_BFD_STATUS_DOWN 
++       || peer->bfd_status == PEER_BFD_STATUS_DELETED) 
++      return 0;
++
++    /* If we were in UP state, stop BGP */
++    if(peer->bfd_status == PEER_BFD_STATUS_UP)
++      BGP_EVENT_ADD (peer, BGP_Stop);
++    /* Change peer status to DOWN */
++    peer->bfd_status = PEER_BFD_STATUS_DOWN;
++  }
++
++  return 0;
++}
++
++static int
++bgp_ipv4_bfd_neigh_up (int command, struct zclient *zclient, zebra_size_t length)
++{
++  return bgp_bfd_neigh_up(ipv4_bfd_neigh_updown_read (zclient->ibuf));
++}
++
++static int
++bgp_ipv4_bfd_neigh_down (int command, struct zclient *zclient, zebra_size_t length)
++{
++  return bgp_bfd_neigh_down(ipv4_bfd_neigh_updown_read (zclient->ibuf));
++}
++
++#ifdef HAVE_IPV6
++static int
++bgp_ipv6_bfd_neigh_up (int command, struct zclient *zclient, zebra_size_t length)
++{
++  return bgp_bfd_neigh_up(ipv6_bfd_neigh_updown_read (zclient->ibuf));
++}
++
++static int
++bgp_ipv6_bfd_neigh_down (int command, struct zclient *zclient, zebra_size_t length)
++{
++  return bgp_bfd_neigh_down(ipv6_bfd_neigh_updown_read (zclient->ibuf));
++}
++#endif /* HAVE_IPV6 */
++
++
+ static int
+ bgp_interface_address_add (int command, struct zclient *zclient,
+ 			   zebra_size_t length)
+@@ -1069,9 +1330,13 @@ bgp_zebra_init (void)
+   zclient->ipv4_route_delete = zebra_read_ipv4;
+   zclient->interface_up = bgp_interface_up;
+   zclient->interface_down = bgp_interface_down;
++  zclient->ipv4_bfd_neigh_up = bgp_ipv4_bfd_neigh_up;
++  zclient->ipv4_bfd_neigh_down = bgp_ipv4_bfd_neigh_down;
+ #ifdef HAVE_IPV6
+   zclient->ipv6_route_add = zebra_read_ipv6;
+   zclient->ipv6_route_delete = zebra_read_ipv6;
++  zclient->ipv6_bfd_neigh_up = bgp_ipv6_bfd_neigh_up;
++  zclient->ipv6_bfd_neigh_down = bgp_ipv6_bfd_neigh_down;
+ #endif /* HAVE_IPV6 */
+ 
+   /* Interface related init. */
+diff -Nupwbr quagga-0.99.9/bgpd/bgp_zebra.h quagga-0.99.9-bfd-0.90.1/bgpd/bgp_zebra.h
+--- quagga-0.99.9/bgpd/bgp_zebra.h	2007-10-21 17:04:17.000000000 +0200
++++ quagga-0.99.9-bfd-0.90.1/bgpd/bgp_zebra.h	2007-10-21 01:20:13.000000000 +0200
+@@ -35,6 +35,11 @@ extern int bgp_redistribute_unset (struc
+ extern int bgp_redistribute_routemap_unset (struct bgp *, afi_t, int);
+ extern int bgp_redistribute_metric_unset (struct bgp *, afi_t, int);
+ 
++extern int bgp_bfd_neigh_add(struct peer *peer);
++extern int bgp_bfd_neigh_del(struct peer *peer);
++extern void bgp_bfd_estab(struct peer *peer);  
++extern int bgp_bfd_mhop(struct peer *peer);
++
+ extern struct interface *if_lookup_by_ipv4 (struct in_addr *);
+ extern struct interface *if_lookup_by_ipv4_exact (struct in_addr *);
+ #ifdef HAVE_IPV6
