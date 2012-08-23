@@ -1,0 +1,134 @@
+#!/bin/bash
+
+# Main purpose is creating a bootable diskimage for the Bifrost distribution.
+#
+# Keywords: Linux Distribution Grub2 Diskimage Bootable
+#
+# Jens Laas (UU),  2012
+
+IMG=/tmp/bifrost.img
+MP=/mnt/bifrost.img
+GRUBPKG=/grub-1.99-1.tar.gz 
+
+if [ -z "$1" ]; then
+	echo "Usage: $0 <distribution tarball>"
+	echo
+	echo "Creates a 1GB diskimage in /tmp."
+	echo "Partitions this image and puts the distribution tarball contents into the first partition."
+	echo "Installs grub2 and makes the image bootable."
+	echo
+	echo "The distribution should be useable as chroot where grub-mkconfig will run."
+	echo
+	echo "The tarballs must be made to be unpacked from the root '/' of the filesystem."
+	echo 
+	echo "The grub package can be built from the bifrost-build environment."
+	echo "See: https://github.com/jelaas/bifrost-build"
+	echo "     https://github.com/jelaas/bifrost-build/tree/master/all/grub-1.99-1"
+	echo "You might find a binary at: http://ftp.sunet.se/pub/os/Linux/distributions/bifrost/download/"
+	echo
+	echo "Kernel: Functionality of \"loop\" and \"dm-mod\" must be present in kernel or as module."
+	echo "NOTE: a tarball with grub2 must be available at $GRUBPKG if grub2 is not present in the distribution tarball."
+	echo
+	exit 0
+fi
+TARBALL="$1"
+
+if [ ! -f "$GRUBPKG" ]; then
+	echo "Warning! Could not find grub2 package at \'$GRUBPKG\'"
+fi
+if [ ! -f "$TARBALL" ]; then
+	echo "Could not find \'$TARBALL\'"
+	exit 1
+fi
+
+rc=0
+for E in sfdisk dd modprobe losetup dmsetup kpartx; do
+	[ -e /sbin/$E ] && continue
+	[ -e /usr/sbin/$E ] && continue
+	[ -e /bin/$E ] && continue
+	[ -e /usr/bin/$E ] && continue
+	echo "Please install $E"
+	rc=1
+done
+[ "$rc" = 1 ] && exit 1
+
+modprobe loop
+modprobe dm-mod
+
+losetup -d /dev/loop0 &> /dev/null
+losetup -d /dev/loop1 &> /dev/null
+umount $MP  &> /dev/null
+
+echo CREATING EMPTY DISKIMAGE
+dd if=/dev/zero of=$IMG bs=1G count=1
+
+echo CREATING LOOPDEVICE OF DISKIMAGE
+LOOPDEV=$(losetup --show -f $IMG)
+
+echo CREATING DISKIMAGE BLOCKDEVICE
+DEVNO=$(stat -c %t:%T $LOOPDEV)
+BYTES=$(stat -c %s $IMG)
+BLOCKS=$[ BYTES / 512 ]
+echo "0 $BLOCKS linear $DEVNO 0 | dmsetup create hda"
+echo "0 $BLOCKS linear $DEVNO 0" | dmsetup create hda
+
+echo FORMATTING DISK
+sfdisk --cylinders 977 --heads 64 --sectors 32 $IMG << EOF
+10 967 L *
+,0
+,0
+,0
+y
+EOF
+
+echo CREATING PARTITION BLOCKDEVICE
+kpartx -a /dev/mapper/hda
+
+mkfs.ext2 -m0 /dev/mapper/hda1 || exit 1
+
+echo SETTING FILESYSTEM LABEL
+e2label /dev/mapper/hda1 bifrost
+
+echo MOUNTING FILESYSTEM
+mkdir -p $MP
+mount /dev/mapper/hda1 $MP
+
+echo UNPACKING DISTRO
+cd $MP
+tar xf /bifrost*gz
+
+if [ ! -f sbin/grub-mkconfig ]; then
+	echo INSTALLING GRUB2
+	if [ ! -f "$GRUBPKG" ]; then
+		echo "Please put grub2 package at  \'GRUBPKG\'"
+	else
+		tar xf $GRUBPKG
+	fi
+fi
+mkdir -p $MP/boot/grub
+echo CREATING DEVICEMAP
+echo '(hd0) /dev/mapper/hda' > $MP/boot/grub/device.map
+echo '(hd0,msdos1) /dev/mapper/hda1' >> $MP/boot/grub/device.map
+echo INSTALLING GRUB
+grub-install --boot-directory=$MP/boot /dev/mapper/hda
+
+mount -t devtmpfs devtmpfs $MP/dev
+echo "CONFIGURING GRUB (running grub-mkconfig in chroot)"
+chroot $MP bash -c "grub-mkconfig > /boot/grub/grub.cfg"
+cd /
+echo UNMOUNTING FILESYSTEM
+umount $MP/dev
+umount $MP
+
+echo REMOVING PARTITION BLOCKDEVICE
+kpartx -d /dev/mapper/hda
+
+echo REMOVING DISKIMAGE BLOCKDEVICE
+dmsetup remove hda
+
+echo REMOVING LOOPDEVICE
+losetup -d $LOOPDEV
+
+echo IMAGE READY:
+ls -l $IMG
+echo "RUN: \"dd if=$IMG of=/dev/sdX\" to install on disk X"
