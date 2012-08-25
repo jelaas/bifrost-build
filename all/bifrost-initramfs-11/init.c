@@ -36,6 +36,7 @@ FILE *fstdout = NULL;
 struct {
 	int usbreset;
 	int async;
+	int install;
 	unsigned int rootdelay;
 	char *rootdev;
 	char *rootfstype;
@@ -289,6 +290,29 @@ static void strgetarg(char **arg)
 	return;
 }
 
+char *initstr(const char *haystack, const char *needle)
+{
+	char *p;
+	const char *h;
+	h = haystack;
+	
+	while(h && *h) {
+		p = strstr(h, needle);
+		if(!p) return NULL;
+		
+		if( (p == haystack) || (*(p-1) == ' ') ) {
+			if(needle[strlen(needle)-1] == '=') return p;
+			if(*(p+strlen(needle)) == ' ') return p;
+			if(*(p+strlen(needle)) == 0) return p;
+			if(*(p+strlen(needle)) == '=') return p;
+			return p;
+		}
+		h = p+1;
+	}
+	return NULL;
+}
+
+
 /*
  * kernel commandline can be read from /proc/cmdline
  */
@@ -303,37 +327,41 @@ static int cmdline_parse()
 		n = read(fd, buf, sizeof(buf)-1);
 		if(n > 0) {
 			buf[n] = 0;
-			p = strstr(buf, "rootdelay=");
+			p = initstr(buf, "rootdelay=");
 			if(p) {
 				cmdline.rootdelay = strtoul(p+10, NULL, 0);
 			}
-			p = strstr(buf, "root=");
+			p = initstr(buf, "root=");
 			if(p) {
 				cmdline.rootdev = strdup(p+5);
 				strgetarg(&cmdline.rootdev);
 			}
-			p = strstr(buf, "rootfstype=");
+			p = initstr(buf, "rootfstype=");
 			if(p) {
 				cmdline.rootfstype = strdup(p+11);
 				strgetarg(&cmdline.rootfstype);
 			}
-			p = strstr(buf, "init=");
+			p = initstr(buf, "init=");
 			if(p) {
 				cmdline.init = strdup(p+5);
 				strgetarg(&cmdline.init);
 			}
-			p = strstr(buf, "rootfslabel=");
+			p = initstr(buf, "rootfslabel=");
 			if(p) {
 				cmdline.rootfslabel = strdup(p+12);
 				strgetarg(&cmdline.rootfslabel);
 			}
-			p = strstr(buf, "usbreset");
+			p = initstr(buf, "usbreset");
 			if(p) {
 				cmdline.usbreset = 1;
 			}
-			p = strstr(buf, "async");
+			p = initstr(buf, "async");
 			if(p) {
 				cmdline.async = 1;
+			}
+			p = initstr(buf, "install");
+			if(p) {
+				cmdline.install = 1;
 			}
 		}
 		close(fd);
@@ -612,6 +640,24 @@ int main(int argc, char **argv, char **envp)
 	if(fstdout) fprintf(fstdout, "INIT: (%s) %s mounted.\n", rootfstype, rootdev);
 	sleep(1);
 
+	if(cmdline.install) {
+		if(fstdout) {
+			fprintf(fstdout, "INIT: INSTALL INVOKED!\nINIT: PROCEEDING IN 5 SECONDS!");
+			sleep(5);
+		}
+		
+		/* unpack install archive in initramfs root */
+
+		/* exec "/install" */
+		argv[0] = "/install";
+		if(fstdout)
+			fprintf(fstdout, "INIT: exec(\"/install\")");
+		execve(initprg, argv, envp);
+		if(fstdout)
+			fprintf(fstdout, "INIT: exec(\"/install\") failed");
+		sleep(10);
+	}
+	
 	if (mount("/dev", "/rootfs/dev", NULL, MS_MOVE, NULL) < 0) {
 		if(fstdout)
 			fprintf(fstdout, "INIT: failed to mount moving /dev to /rootfs/dev");
@@ -672,7 +718,7 @@ int main(int argc, char **argv, char **envp)
 		}
 	}
 
-	/* check if we need to copy default versiosn of some config files */
+	/* check if we need to copy default versions of some config files */
 	{
 		int remounted=0;
 		chk_cfg_file(&remounted, "ssh/ssh_config");
