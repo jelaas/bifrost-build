@@ -101,7 +101,7 @@ static int tar_extract(int fd)
 		mode=strtoul(th->mode,0,8);
 		if(siz) {
 			int ofd;
-			if(fstdout) fprintf(fstdout, "INSTALL: extracting '%s' [%c] %d bytes\n", filename, th->typeflag, siz);
+			if(fstdout) fprintf(fstdout, "INSTALL: extracting '%s' [%c] %zd bytes\n", filename, th->typeflag, siz);
 			ofd = open(th->name, O_CREAT|O_TRUNC|O_WRONLY, mode);
 			if(ofd == -1) {
 				if(fstdout) fprintf(fstdout, "INSTALL: failed to open '%s'\n", filename);
