@@ -48,6 +48,86 @@ struct {
 	unsigned long mountflags;
 } conf;
 
+struct tar_header {
+	char name[100];
+	char mode[8];
+	char uid[8];
+	char gid[8];
+	char size[12];
+	char mtime[12];
+	char chksum[8];
+	char typeflag;
+	char linkname[100];
+	char magic[6];
+	char version[2];
+	char uname[32];
+	char gname[32];
+	char devmajor[8];
+	char devminor[8];
+	char prefix[155];
+	char filler[12];
+};
+
+static int data(int fd, int len, int ofd)
+{
+	char buf[1024];
+	ssize_t n;
+
+	while(len) {
+		n = read(0, buf, len > 1024 ? 1024 : len);
+		if(n < 1) return 0;
+		if(ofd >= 0) write(ofd, buf, n);
+		len -= n;
+	}
+	return 0;
+}
+
+
+static int tar_extract(int fd)
+{
+	char filename[256];
+	char buf[1024];
+	struct tar_header *th;
+	ssize_t siz, nulsiz;
+	int mode;
+	
+	while(read(0,buf,512)==512) {
+		filename[0] = 0;
+		th=(struct tar_header*)buf;
+		if(th->name[0] == 0) break;
+		if (th->prefix[0]) strcat(filename, th->prefix);
+		strcat(filename, th->name);
+		siz=strtoull(th->size,0,8);
+		mode=strtoul(th->mode,0,8);
+		if(siz) {
+			int ofd;
+			if(fstdout) fprintf(fstdout, "INSTALL: extracting '%s' [%c] %d bytes\n", filename, th->typeflag, siz);
+			ofd = open(th->name, O_CREAT|O_TRUNC|O_WRONLY, mode);
+			if(ofd == -1) {
+				if(fstdout) fprintf(fstdout, "INSTALL: failed to open '%s'\n", filename);
+			}
+			data(fd, siz, ofd);
+			if(ofd != -1) {
+				close(ofd);
+			}
+			nulsiz = ((siz+512) & ~511) - siz;
+			data(fd, nulsiz, -1);
+		} else {
+			if(th->name[strlen(th->name)-1] == '/') {
+				mkdir(filename, mode|S_IFDIR);
+			}
+		}
+		if(th->typeflag == 2) {
+			if(fstdout) fprintf(fstdout, "INSTALL: creating link '%s' -> '%s'\n", th->linkname, filename);
+			if(symlink(th->linkname,filename)) {
+				if(fstdout) fprintf(fstdout, "INSTALL: symlink '%s' failed\n", filename);
+			}
+		}
+	}
+	return 0;
+}
+
+
 static char *canonicalize_dm_name(const char *ptname)
 {
 	FILE	*f;
@@ -260,6 +340,11 @@ static int open_console()
 	if(!fstdout) {
 		fd = open("/dev/console", O_WRONLY|O_NOCTTY|O_NDELAY);
 		if(fd >=0 ) {
+			/* put console fd at fd number 10 */
+			dup2(fd, 10);
+			close(fd);
+			fd=10;
+			
 #define INITMSG "INIT: console opened\n"
 			write(fd, INITMSG, strlen(INITMSG));
 			sleep(2);
@@ -448,20 +533,20 @@ int chk_cfg_file(int *remounted, char *fn)
 		}
 		if (mount("rootfs", "/", NULL, MS_REMOUNT|conf.mountflags, NULL) < 0) {
 			if(fstdout)
-				fprintf(fstdout, "INIT: failed to remount rootfs as read-write");
+				fprintf(fstdout, "INIT: failed to remount rootfs as read-write\n");
 			sleep(1);
 			return -1;
 		}
 		*remounted = 1;
 		if( (srcfd = open(src, O_RDONLY)) == -1 ) {
 			if(fstdout)
-				fprintf(fstdout, "INIT: failed to open %s for reading", src);
+				fprintf(fstdout, "INIT: failed to open %s for reading\n", src);
 			sleep(1);
 			return -1;
 		}
 		if( (dstfd = open(dst, O_WRONLY|O_CREAT|O_TRUNC)) == -1 ) {
 			if(fstdout)
-				fprintf(fstdout, "INIT: failed to open %s for writing", dst);
+				fprintf(fstdout, "INIT: failed to open %s for writing\n", dst);
 			sleep(1);
 			close(srcfd);
 			return -1;
@@ -642,30 +727,64 @@ int main(int argc, char **argv, char **envp)
 
 	if(cmdline.install) {
 		if(fstdout) {
-			fprintf(fstdout, "INIT: INSTALL INVOKED!\nINIT: PROCEEDING IN 5 SECONDS!");
+			fprintf(fstdout, "INIT: INSTALL INVOKED!\nINSTALL: PROCEEDING IN 5 SECONDS!\n");
 			sleep(5);
 		}
 		
 		/* unpack install archive in initramfs root */
+		{
+			int fd;
+			fd = open("/rootfs/install.tar", O_RDONLY);
+			if(fd == -1) {
+				if(fstdout) fprintf(fstdout, "INSTALL: failed to open '/rootfs/install.tar'\n");
+			} else {
+				if(fstdout) fprintf(fstdout, "INSTALL: '/rootfs/install.tar' opened ok\n");
+				tar_extract(fd);
+				close(fd);
+			}
+		}
+
+		/* Be nice and prepare stdin and stdout for the install program */
+		fd_stdin = open("/dev/console", O_RDONLY|O_NOCTTY);
+		if(fd_stdin == -1) {
+			if(fstdout)
+				fprintf(fstdout, "INSTALL: open(\"/dev/console\", O_RDONLY) failed: %s\n", strerror(errno));
+		} else {
+			if(fd_stdin != 0) {
+				dup2(fd_stdin, 0);
+				close(fd_stdin);
+			}
+		}
+		fd_stdout = open("/dev/console", O_WRONLY|O_NOCTTY);
+		if(fd_stdout == -1) {
+			if(fstdout)
+				fprintf(fstdout, "INSTALL: open(\"/dev/console\", O_WRONLY) failed: %s\n", strerror(errno));
+		} else { 
+			if(fd_stdout != 1) {
+				dup2(fd_stdout, 1);
+				dup2(fd_stdout, 2);
+				close(fd_stdout);
+			}
+		}
 
 		/* exec "/install" */
 		argv[0] = "/install";
 		if(fstdout)
-			fprintf(fstdout, "INIT: exec(\"/install\")");
+			fprintf(fstdout, "INSTALL: exec(\"/install\")\n");
 		execve(initprg, argv, envp);
 		if(fstdout)
-			fprintf(fstdout, "INIT: exec(\"/install\") failed");
+			fprintf(fstdout, "INSTALL: exec(\"/install\") failed\n");
 		sleep(10);
 	}
 	
 	if (mount("/dev", "/rootfs/dev", NULL, MS_MOVE, NULL) < 0) {
 		if(fstdout)
-			fprintf(fstdout, "INIT: failed to mount moving /dev to /rootfs/dev");
+			fprintf(fstdout, "INIT: failed to mount moving /dev to /rootfs/dev\n");
 		sleep(1);
 	}
 	if (mount("/proc", "/rootfs/proc", NULL, MS_MOVE, NULL) < 0) {
 		if(fstdout)
-			fprintf(fstdout, "INIT: failed to mount moving /proc to /rootfs/proc");
+			fprintf(fstdout, "INIT: failed to mount moving /proc to /rootfs/proc\n");
 		sleep(1);
 	}
 	if(chdir("/rootfs")) {
@@ -675,7 +794,7 @@ int main(int argc, char **argv, char **envp)
 	}
 	if (mount("/rootfs", "/", NULL, MS_MOVE, NULL) < 0) {
 		if(fstdout)
-			fprintf(fstdout, "INIT: failed to mount moving /rootfs to /");
+			fprintf(fstdout, "INIT: failed to mount moving /rootfs to /\n");
 		goto forever;
 	}
 
@@ -695,7 +814,25 @@ int main(int argc, char **argv, char **envp)
 			sleep(5);
 		}
 	}
-	
+
+	/* check if we need to copy default versions of some config files */
+	{
+		int remounted=0;
+		chk_cfg_file(&remounted, "ssh/ssh_config");
+		chk_cfg_file(&remounted, "ssh/sshd_config");
+		chk_cfg_file(&remounted, "inetd.conf");
+		chk_cfg_file(&remounted, "inittab");
+		chk_cfg_file(&remounted, "login.defs");
+		chk_cfg_file(&remounted, "limits");
+		chk_cfg_file(&remounted, "login.access");
+		if(remounted)
+			if (mount("rootfs", "/", NULL, MS_REMOUNT|MS_RDONLY|conf.mountflags, NULL) < 0) {
+				if(fstdout)
+					fprintf(fstdout, "INIT: failed to remount rootfs as read-only\n");
+				sleep(1);
+			}
+	}
+		
 	fd_stdin = open("/dev/console", O_RDONLY|O_NOCTTY);
 	if(fd_stdin == -1) {
 		if(fstdout)
@@ -718,24 +855,6 @@ int main(int argc, char **argv, char **envp)
 		}
 	}
 
-	/* check if we need to copy default versions of some config files */
-	{
-		int remounted=0;
-		chk_cfg_file(&remounted, "ssh/ssh_config");
-		chk_cfg_file(&remounted, "ssh/sshd_config");
-		chk_cfg_file(&remounted, "inetd.conf");
-		chk_cfg_file(&remounted, "inittab");
-		chk_cfg_file(&remounted, "login.defs");
-		chk_cfg_file(&remounted, "limits");
-		chk_cfg_file(&remounted, "login.access");
-		if(remounted)
-			if (mount("rootfs", "/", NULL, MS_REMOUNT|MS_RDONLY|conf.mountflags, NULL) < 0) {
-				if(fstdout)
-					fprintf(fstdout, "INIT: failed to remount rootfs as read-only");
-				sleep(1);
-			}
-	}
-	
 	if(fstdout)
 		fprintf(fstdout, "INIT: now execing \"%s\"\n", initprg);
 	sleep(1);
