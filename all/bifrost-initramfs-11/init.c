@@ -74,7 +74,7 @@ static int data(int fd, int len, int ofd)
 	ssize_t n;
 
 	while(len) {
-		n = read(0, buf, len > 1024 ? 1024 : len);
+		n = read(fd, buf, len > 1024 ? 1024 : len);
 		if(n < 1) return 0;
 		if(ofd >= 0) write(ofd, buf, n);
 		len -= n;
@@ -91,7 +91,7 @@ static int tar_extract(int fd)
 	ssize_t siz, nulsiz;
 	int mode;
 	
-	while(read(0,buf,512)==512) {
+	while(read(fd,buf,512)==512) {
 		filename[0] = 0;
 		th=(struct tar_header*)buf;
 		if(th->name[0] == 0) break;
