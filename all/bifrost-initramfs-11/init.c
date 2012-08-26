@@ -771,7 +771,7 @@ int main(int argc, char **argv, char **envp)
 		argv[0] = "/install";
 		if(fstdout)
 			fprintf(fstdout, "INSTALL: exec(\"/install\")\n");
-		execve(initprg, argv, envp);
+		execve(argv[0], argv, envp);
 		if(fstdout)
 			fprintf(fstdout, "INSTALL: exec(\"/install\") failed\n");
 		sleep(10);
