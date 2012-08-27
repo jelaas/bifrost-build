@@ -768,13 +768,17 @@ int main(int argc, char **argv, char **envp)
 		}
 
 		/* exec "/install" */
-		argv[0] = "/install";
+		{
+			char *iv[2];
+		iv[0] = "/install";
+		iv[1] = NULL;
 		if(fstdout)
 			fprintf(fstdout, "INSTALL: exec(\"/install\")\n");
-		execve(argv[0], argv, envp);
+		execve(iv[0], iv, envp);
 		if(fstdout)
 			fprintf(fstdout, "INSTALL: exec(\"/install\") failed\n");
 		sleep(10);
+		}
 	}
 	
 	if (mount("/dev", "/rootfs/dev", NULL, MS_MOVE, NULL) < 0) {
