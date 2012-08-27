@@ -95,7 +95,7 @@ mount /dev/mapper/hda1 $MP
 
 echo UNPACKING DISTRO
 cd $MP
-tar xf /bifrost*gz
+tar xf $TARBALL
 
 if [ ! -f sbin/grub-mkconfig ]; then
 	echo INSTALLING GRUB2
@@ -112,7 +112,7 @@ echo '(hd0,msdos1) /dev/mapper/hda1' >> $MP/boot/grub/device.map
 echo INSTALLING GRUB
 grub-install --boot-directory=$MP/boot /dev/mapper/hda
 
-mount -t devtmpfs devtmpfs $MP/dev
+mount -t devtmpfs devtmpfs $MP/dev || exit 1
 echo "CONFIGURING GRUB (running grub-mkconfig in chroot)"
 chroot $MP bash -c "grub-mkconfig > /boot/grub/grub.cfg"
 cd /
