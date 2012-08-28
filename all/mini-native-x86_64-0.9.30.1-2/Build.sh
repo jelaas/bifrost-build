@@ -72,6 +72,8 @@ setarch linux64 /bin/chroot $DST/home/build/mini-native-x86_64 ln -s /dev/fd/1 /
 setarch linux64 /bin/chroot $DST/home/build/mini-native-x86_64 ln -s /dev/fd/2 /dev/stderr
 
 echo Building tar
+setarch linux64 /bin/chroot $DST/home/build/mini-native-x86_64 /var/lib/build/pkg_build mkdir-1
+setarch linux64 /bin/chroot $DST/home/build/mini-native-x86_64 /var/lib/build/pkg_install --permanent mkdir-1
 setarch linux64 /bin/chroot $DST/home/build/mini-native-x86_64 /var/lib/build/pkg_build tar-1.23-1
 echo Installing tar
 setarch linux64 /bin/chroot $DST/home/build/mini-native-x86_64 /var/lib/build/pkg_install --permanent tar-1.23-1
