@@ -55,7 +55,7 @@ rm -rf usr/man usr/bin usr/lib usr/include
 #########
 # Make package
 cd $DST
-tar czf /var/spool/pkg/$PKG.tar.gz .
+tar czf /var/spool/pkg/$PKG.tar.gz --hard-dereference .
 
 #########
 # Cleanup after a success
