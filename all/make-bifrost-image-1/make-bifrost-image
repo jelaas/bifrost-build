@@ -79,12 +79,6 @@ BLOCKS=$[ BYTES / 512 ]
 echo "0 $BLOCKS linear $DEVNO 0 | dmsetup create $HDDEV"
 echo "0 $BLOCKS linear $DEVNO 0" | dmsetup create $HDDEV
 
-HDA=$(stat -L -c "0x%t 0x%T" /dev/mapper/$HDDEV)
-HDAP=$(stat -L -c "0x%t 0x%T" /dev/mapper/${HDDEV}1)
-
-mknod /dev/$HDDEV b $HDA
-mknod /dev/${HDDEV}1 b $HDAP
-
 echo FORMATTING DISK
 sfdisk --cylinders 977 --heads 64 --sectors 32 $IMG << EOF
 10 967 L *
@@ -97,6 +91,12 @@ EOF
 echo CREATING PARTITION BLOCKDEVICE
 kpartx -a /dev/mapper/$HDDEV
 sleep 1
+
+HDA=$(stat -L -c "0x%t 0x%T" /dev/mapper/$HDDEV)
+HDAP=$(stat -L -c "0x%t 0x%T" /dev/mapper/${HDDEV}1)
+
+mknod /dev/$HDDEV b $HDA
+mknod /dev/${HDDEV}1 b $HDAP
 
 echo CREATING FILESYSTEM
 mkfs.ext2 -m0 /dev/mapper/${HDDEV}1 || exit 1
