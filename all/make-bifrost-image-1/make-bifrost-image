@@ -9,6 +9,7 @@
 IMG=/tmp/bifrost.img
 MP=/mnt/bifrost.img
 GRUBPKG=/grub-1.99-1.tar.gz 
+HDDEV=hdx
 
 if [ -z "$1" ]; then
 	echo "Usage: $0 <distribution tarball>"
@@ -57,13 +58,13 @@ modprobe dm-mod
 
 umount $MP/dev  &> /dev/null
 umount $MP  &> /dev/null
-kpartx -d /dev/mapper/hda &> /dev/null
-dmsetup remove hda &> /dev/null
-dmsetup remove hda1 &> /dev/null
+kpartx -d /dev/mapper/$HDDEV &> /dev/null
+dmsetup remove $HDDEV &> /dev/null
+dmsetup remove ${HDDEV}1 &> /dev/null
 losetup -d /dev/loop0 &> /dev/null
 losetup -d /dev/loop1 &> /dev/null
-rm -f /dev/hda
-rm -f /dev/hda1
+rm -f /dev/$HDDEV
+rm -f /dev/${HDDEV}1
 
 echo CREATING EMPTY DISKIMAGE
 dd if=/dev/zero of=$IMG bs=1G count=1
@@ -75,14 +76,14 @@ echo CREATING DISKIMAGE BLOCKDEVICE
 DEVNO=$(stat -c %t:%T $LOOPDEV)
 BYTES=$(stat -c %s $IMG)
 BLOCKS=$[ BYTES / 512 ]
-echo "0 $BLOCKS linear $DEVNO 0 | dmsetup create hda"
-echo "0 $BLOCKS linear $DEVNO 0" | dmsetup create hda
+echo "0 $BLOCKS linear $DEVNO 0 | dmsetup create $HDDEV"
+echo "0 $BLOCKS linear $DEVNO 0" | dmsetup create $HDDEV
 
-HDA=$(stat -L -c "0x%t 0x%T" /dev/mapper/hda)
-HDAP=$(stat -L -c "0x%t 0x%T" /dev/mapper/hda1)
+HDA=$(stat -L -c "0x%t 0x%T" /dev/mapper/$HDDEV)
+HDAP=$(stat -L -c "0x%t 0x%T" /dev/mapper/${HDDEV}1)
 
-mknod /dev/hda b $HDA
-mknod /dev/hda1 b $HDAP
+mknod /dev/$HDDEV b $HDA
+mknod /dev/${HDDEV}1 b $HDAP
 
 echo FORMATTING DISK
 sfdisk --cylinders 977 --heads 64 --sectors 32 $IMG << EOF
@@ -94,18 +95,18 @@ y
 EOF
 
 echo CREATING PARTITION BLOCKDEVICE
-kpartx -a /dev/mapper/hda
+kpartx -a /dev/mapper/$HDDEV
 sleep 1
 
 echo CREATING FILESYSTEM
-mkfs.ext2 -m0 /dev/mapper/hda1 || exit 1
+mkfs.ext2 -m0 /dev/mapper/${HDDEV}1 || exit 1
 
 echo SETTING FILESYSTEM LABEL
-e2label /dev/mapper/hda1 bifrost
+e2label /dev/mapper/${HDDEV}1 bifrost
 
 echo MOUNTING FILESYSTEM
 mkdir -p $MP
-mount /dev/mapper/hda1 $MP || exit 1
+mount /dev/mapper/${HDDEV}1 $MP || exit 1
 
 echo UNPACKING DISTRO
 cd $MP
@@ -121,15 +122,15 @@ if [ ! -f sbin/grub-mkconfig ]; then
 fi
 mkdir -p $MP/boot/grub
 echo CREATING DEVICEMAP
-echo '(hd0) /dev/hda' > $MP/boot/grub/device.map
-echo '(hd0,msdos1) /dev/hda1' >> $MP/boot/grub/device.map
+echo "(hd0) /dev/$HDDEV" > $MP/boot/grub/device.map
+echo "(hd0,msdos1) /dev/${HDDEV}1" >> $MP/boot/grub/device.map
 
 echo MOUNTING DEV
 mount -t devtmpfs devtmpfs $MP/dev || exit 1
 
 echo INSTALLING GRUB
-echo grub-install --boot-directory=$MP/boot /dev/hda
-grub-install --boot-directory=$MP/boot /dev/hda || exit 1
+echo grub-install --boot-directory=$MP/boot /dev/$HDDEV
+grub-install --boot-directory=$MP/boot /dev/$HDDEV || exit 1
 
 echo "CONFIGURING GRUB (running grub-mkconfig in chroot)"
 echo chroot $MP bash -c "grub-mkconfig > /boot/grub/grub.cfg"
@@ -140,10 +141,10 @@ umount $MP/dev
 umount $MP
 
 echo REMOVING PARTITION BLOCKDEVICE
-kpartx -d /dev/mapper/hda
+kpartx -d /dev/mapper/$HDDEV
 
 echo REMOVING DISKIMAGE BLOCKDEVICE
-dmsetup remove hda
+dmsetup remove $HDDEV
 
 echo REMOVING LOOPDEVICE
 losetup -d $LOOPDEV
