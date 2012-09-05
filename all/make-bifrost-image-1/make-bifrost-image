@@ -62,6 +62,8 @@ dmsetup remove hda &> /dev/null
 dmsetup remove hda1 &> /dev/null
 losetup -d /dev/loop0 &> /dev/null
 losetup -d /dev/loop1 &> /dev/null
+rm -f /dev/hda
+rm -f /dev/hda1
 
 echo CREATING EMPTY DISKIMAGE
 dd if=/dev/zero of=$IMG bs=1G count=1
@@ -75,6 +77,12 @@ BYTES=$(stat -c %s $IMG)
 BLOCKS=$[ BYTES / 512 ]
 echo "0 $BLOCKS linear $DEVNO 0 | dmsetup create hda"
 echo "0 $BLOCKS linear $DEVNO 0" | dmsetup create hda
+
+HDA=$(stat -L -c "0x%t 0x%T" /dev/mapper/hda)
+HDAP=$(stat -L -c "0x%t 0x%T" /dev/mapper/hda1)
+
+mknod /dev/hda b $HDA
+mknod /dev/hda1 b $HDAP
 
 echo FORMATTING DISK
 sfdisk --cylinders 977 --heads 64 --sectors 32 $IMG << EOF
@@ -113,15 +121,15 @@ if [ ! -f sbin/grub-mkconfig ]; then
 fi
 mkdir -p $MP/boot/grub
 echo CREATING DEVICEMAP
-echo '(hd0) /dev/mapper/hda' > $MP/boot/grub/device.map
-echo '(hd0,msdos1) /dev/mapper/hda1' >> $MP/boot/grub/device.map
+echo '(hd0) /dev/hda' > $MP/boot/grub/device.map
+echo '(hd0,msdos1) /dev/hda1' >> $MP/boot/grub/device.map
 
 echo MOUNTING DEV
 mount -t devtmpfs devtmpfs $MP/dev || exit 1
 
 echo INSTALLING GRUB
-echo grub-install --boot-directory=$MP/boot /dev/mapper/hda
-grub-install --boot-directory=$MP/boot /dev/mapper/hda || exit 1
+echo grub-install --boot-directory=$MP/boot /dev/hda
+grub-install --boot-directory=$MP/boot /dev/hda || exit 1
 
 echo "CONFIGURING GRUB (running grub-mkconfig in chroot)"
 echo chroot $MP bash -c "grub-mkconfig > /boot/grub/grub.cfg"
