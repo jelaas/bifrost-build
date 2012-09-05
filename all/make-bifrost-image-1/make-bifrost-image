@@ -57,6 +57,7 @@ modprobe dm-mod
 
 umount $MP/dev  &> /dev/null
 umount $MP  &> /dev/null
+kpartx -d /dev/mapper/hda &> /dev/null
 dmsetup remove hda &> /dev/null
 dmsetup remove hda1 &> /dev/null
 losetup -d /dev/loop0 &> /dev/null
