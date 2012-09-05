@@ -135,8 +135,10 @@ grub-install --boot-directory=$MP/boot /dev/$HDDEV || exit 1
 echo "CONFIGURING GRUB (running grub-mkconfig in chroot)"
 echo chroot $MP bash -c "grub-mkconfig > /boot/grub/grub.cfg"
 chroot $MP bash -c "grub-mkconfig > /boot/grub/grub.cfg"
-cd /
+sed -i "s,root=/dev/${HDDEV}1,," $MP/boot/grub/grub.cfg
+
 echo UNMOUNTING FILESYSTEM
+cd /
 umount $MP/dev
 umount $MP
 
