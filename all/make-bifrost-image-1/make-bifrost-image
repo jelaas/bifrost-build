@@ -55,9 +55,12 @@ done
 modprobe loop
 modprobe dm-mod
 
+umount $MP/dev  &> /dev/null
+umount $MP  &> /dev/null
+dmsetup remove hda &> /dev/null
+dmsetup remove hda1 &> /dev/null
 losetup -d /dev/loop0 &> /dev/null
 losetup -d /dev/loop1 &> /dev/null
-umount $MP  &> /dev/null
 
 echo CREATING EMPTY DISKIMAGE
 dd if=/dev/zero of=$IMG bs=1G count=1
@@ -93,7 +96,7 @@ e2label /dev/mapper/hda1 bifrost
 
 echo MOUNTING FILESYSTEM
 mkdir -p $MP
-mount /dev/mapper/hda1 $MP
+mount /dev/mapper/hda1 $MP || exit 1
 
 echo UNPACKING DISTRO
 cd $MP
@@ -111,11 +114,14 @@ mkdir -p $MP/boot/grub
 echo CREATING DEVICEMAP
 echo '(hd0) /dev/mapper/hda' > $MP/boot/grub/device.map
 echo '(hd0,msdos1) /dev/mapper/hda1' >> $MP/boot/grub/device.map
+
+echo MOUNTING DEV
+mount -t devtmpfs devtmpfs $MP/dev || exit 1
+
 echo INSTALLING GRUB
 echo grub-install --boot-directory=$MP/boot /dev/mapper/hda
 grub-install --boot-directory=$MP/boot /dev/mapper/hda || exit 1
 
-mount -t devtmpfs devtmpfs $MP/dev || exit 1
 echo "CONFIGURING GRUB (running grub-mkconfig in chroot)"
 echo chroot $MP bash -c "grub-mkconfig > /boot/grub/grub.cfg"
 chroot $MP bash -c "grub-mkconfig > /boot/grub/grub.cfg"
