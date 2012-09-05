@@ -154,3 +154,4 @@ losetup -d $LOOPDEV
 echo IMAGE READY:
 ls -l $IMG
 echo "RUN: \"dd if=$IMG of=/dev/sdX\" to install on disk X"
+echo "RUN: \"VBoxManage convertfromraw $IMG bifrost.vdi --format vdi\" to convert to virtual disk"
