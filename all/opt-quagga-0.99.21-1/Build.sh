@@ -63,6 +63,7 @@ rm -rf "$DST"
 make install DESTDIR=$DST # --with-install-prefix may be an alternative
 mkdir -p $DST/opt/quagga/etc/config.flags
 mkdir -p $DST/opt/quagga/rc.d
+echo $PKG > $DST/opt/quagga/pkgversion
 echo yes > $DST/opt/quagga/etc/config.flags/quagga
 cp -p $PKGDIR/rc.quagga $DST/opt/quagga/rc.d
 cp -p $PKGDIR/README $DST/opt/quagga

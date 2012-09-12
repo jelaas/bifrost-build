@@ -63,6 +63,7 @@ make install DESTDIR=$DST # --with-install-prefix may be an alternative
 mkdir -p $DST/opt/apache/etc/config.flags
 mkdir -p $DST/opt/apache/etc/config.preconf
 mkdir -p $DST/opt/apache/rc.d
+echo $PKG > $DST/opt/apache/pkgversion
 echo yes > $DST/opt/apache/etc/config.flags/httpd
 cp -p $PKGDIR/rc $DST/opt/apache/rc.d/rc.httpd
 chmod +x $DST/opt/apache/rc.d/rc.httpd

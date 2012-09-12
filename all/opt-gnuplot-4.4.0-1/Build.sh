@@ -60,10 +60,11 @@ rm -rf "$DST"
 make install DESTDIR=$DST # --with-install-prefix may be an alternative
 OPTDIR=$DST/opt/gnuplot
 #mkdir -p $OPTDIR/etc/config.flags
-#mkdir -p $OPTDIR/rc.d
+mkdir -p $OPTDIR
 #echo yes > $OPTDIR/etc/config.flags/example
 #cp -p $PKGDIR/rc $OPTDIR/rc.d/rc.example
 #[ -f $PKGDIR/README ] && cp -p $PKGDIR/README $OPTDIR
+echo $PKG > $OPTDIR/pkgversion
 
 #########
 # Check result

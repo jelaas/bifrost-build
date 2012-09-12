@@ -50,6 +50,7 @@ rm -rf "$DST"
 make install DESTDIR=$DST # --with-install-prefix may be an alternative
 mkdir -p $DST/opt/minicom/etc
 touch $DST/opt/minicom/etc/minirc.dfl
+echo $PKG > $DST/opt/minicom/pkgversion
 
 #########
 # Check result

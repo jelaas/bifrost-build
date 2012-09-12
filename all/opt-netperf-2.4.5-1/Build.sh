@@ -41,6 +41,7 @@ make -j || exit 1
 # Install into dir under /var/tmp/install
 rm -rf "$DST"
 make install DESTDIR=$DST # --with-install-prefix may be an alternative
+echo $PKG > $DST/opt/netperf/pkgversion
 
 #########
 # Check result

@@ -66,6 +66,7 @@ OPTDIR=$DST/opt/mfs
 mkdir -p $OPTDIR/etc/config.flags
 mkdir -p $OPTDIR/rc.d
 echo yes > $OPTDIR/etc/config.flags/mfs
+echo $PKG > $OPTDIR/pkgversion
 cp -p $PKGDIR/rc $OPTDIR/rc.d/rc.mfs
 [ -f $PKGDIR/README ] && cp -p $PKGDIR/README $OPTDIR
 

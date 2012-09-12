@@ -74,6 +74,7 @@ cd $DST
 cp $PKGDIR/snmpd.conf opt/snmp/share/snmp || exit 1
 mkdir -p opt/snmp/etc/config.flags
 echo yes > opt/snmp/etc/config.flags/snmp
+echo $PKG > opt/snmp/pkgversion
 mkdir -p opt/snmp/rc.d
 cp $PKGDIR/rc.snmp opt/snmp/rc.d || exit 1
 

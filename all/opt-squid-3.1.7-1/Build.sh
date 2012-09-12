@@ -69,6 +69,7 @@ echo root > $OPTDIR/etc/config.data/suuser
 echo /var/log/squid > $OPTDIR/etc/config.data/logdir
 echo /var/cache/squid > $OPTDIR/etc/config.data/cachedir
 mkdir -p $OPTDIR/rc.d
+echo $PKG > $OPTDIR/pkgversion
 echo yes > $OPTDIR/etc/config.flags/squid
 cp -p $PKGDIR/rc $OPTDIR/rc.d/rc.squid
 [ -f $PKGDIR/README ] && cp -p $PKGDIR/README $OPTDIR
