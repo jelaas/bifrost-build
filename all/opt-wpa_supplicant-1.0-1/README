@@ -1,0 +1,23 @@
+wpa_supplicant notes for Bifrost.
+
+In most cases you'll need to create /etc/config.data/wlan0.nic
+most people use dhcpd here. You can copy the sample file.
+
+Also create /etc/config.flags/wlan0.nic with yes/no to control
+the usage according to bifrost setup.
+
+It's probably also wise to run wpa_supplicant by hand to make sure 
+ESSID and keys are correctly setup.
+
+Example: Tell wpa_supplicant to printout debug info on stdout and 
+not run in  background.
+
+/opt/bin/wpa_supplicant -d -c /opt/wpa_supplicant/etc/wpa_supplicant.conf -i wlan0 
+
+iwconfig options can be put in rc.wpa_supplicant
+
+yes in /opt/wpa_supplicant/etc/config.flags/wpa_supplicant for 
+automatic start.
+
+Default device is wlan0.
+You can change this by putting the devicename in '/opt/wpa_supplicant/etc/config.data/dev'.
