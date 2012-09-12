@@ -1,0 +1,60 @@
+1. nobody-entry  in the passwd-file for dnsmasq
+nobody:x:65534:65534:nobody:/var:/bin/false
+
+2. Config.flags to be activated
+/opt/hostapd/etc/config.flags/hostapd
+/etc/config.flags/wlan0.nic
+If NAT on any interface, also activate
+/etc/config.flags/dnsmasq
+/etc/config.flags/conntrack
+and edit cat /etc/dnsmasq.conf
+interface=eth1
+interface=eth2
+interface=wlan0
+dhcp-range=192.168.0.50,192.168.0.150,12h
+dhcp-range=192.168.10.50,192.168.10.150,12h
+dhcp-range=192.168.20.50,192.168.20.150,12h
+dhcp-leasefile=/tmp/dnsmasq.leases
+and  cat /filter/fwrules
+iptables  -t nat -A POSTROUTING -j MASQUERADE -o eth0
+
+3. hostapd config-file in /opt/hostapd/hostapd.conf
+Bifrost:/# cat /opt/hostapd/etc/hostapd.conf
+interface=wlan0
+driver=nl80211
+logger_syslog=-1
+logger_syslog_level=2
+logger_stdout=-1
+logger_stdout_level=2
+dump_file=/tmp/hostapd.dump
+ctrl_interface=/var/run/hostapd
+ctrl_interface_group=0
+channel=6
+macaddr_acl=0
+auth_algs=3
+eapol_key_index_workaround=0
+eap_server=0
+wpa=3
+ssid=bifrost-wifi
+wpa_passphrase=hades12
+wpa_key_mgmt=WPA-PSK
+wpa_pairwise=TKIP
+eapol_version=1
+
+4. hostapd startup-script in /opt/hostapd/rc.d/rc.hostapd
+#!/bin/bash
+PKG=hostapd
+BINDIR=/opt/hostapd/bin
+case "$1" in
+start)
+printf "\nstarting: $PKG"
+$BINDIR/hostapd -B /opt/hostapd/etc/hostapd.conf
+;;
+stop)
+printf "\nstopping: $PKG\n"
+killall hostapd
+;;
+*)
+printf "\n\tUsage: $0 < start | stop >\n\n"
+;;
+esac

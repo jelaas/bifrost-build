@@ -1,0 +1,17 @@
+#!/bin/bash
+PKG=hostapd
+BINDIR=/opt/hostapd/bin
+
+case "$1" in
+    start)
+    printf "\nstarting: $PKG"
+    $BINDIR/hostapd -B /opt/hostapd/etc/hostapd.conf
+    ;;
+    stop)
+    printf "\nstopping: $PKG\n"
+    killall hostapd
+    ;;
+    *)
+    printf "\n\tUsage: $0 < start | stop >\n\n"
+    ;;
+esac
