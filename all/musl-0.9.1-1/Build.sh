@@ -28,6 +28,7 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 # Install dependencies:
 # pkg_available dependency1-1 dependency2-1
 # pkg_install dependency1-1 || exit 2
+pkg_install binutils-2.20.1-1 || exit 2
 
 #########
 # Unpack sources into dir under /var/tmp/src
@@ -41,13 +42,12 @@ libtool_fix-1
 
 #########
 # Configure
-B-configure-1 --prefix=/opt/musl --bindir=/usr/bin || exit 1
+$PKGDIR/B-configure-1 --prefix=/opt/musl --bindir=/usr/bin || exit 1
 [ -f config.log ] && cp -p config.log /var/log/config/$PKG-config.log
 
 #########
 # Post configure patch
 # patch -p0 < $PKGDIR/Makefile.pat
-sed -i 's/,-Bsymbolic-functions//' Makefile
 
 #########
 # Compile
@@ -63,6 +63,10 @@ echo /opt/musl/lib > $DST/etc/ld-musl-i386.path
 echo /opt/musl/lib > $DST/etc/ld-musl-i486.path
 echo /opt/musl/lib > $DST/etc/ld-musl-i586.path
 echo /opt/musl/lib > $DST/etc/ld-musl-i686.path
+
+cd $DST || exit 1
+patch -p0 < $PKGDIR/musl-gcc.specs.pat || exit 1
+cp $PKGDIR/musl-gcc usr/bin/musl-gcc || exit 1
 
 #########
 # Check result
