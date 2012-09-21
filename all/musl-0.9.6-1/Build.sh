@@ -39,7 +39,6 @@ cd $(dirname $BUILDDIR); tar xf $SRC
 cd $BUILDDIR || exit 1
 libtool_fix-1
 # patch -p1 < $PKGDIR/mypatch.pat
-###sed -i 's/^shared=no/shared=yes/' configure
 
 #########
 # Configure
@@ -49,7 +48,6 @@ $PKGDIR/B-configure-1 --prefix=/opt/musl --bindir=/usr/bin || exit 1
 #########
 # Post configure patch
 # patch -p0 < $PKGDIR/Makefile.pat
-###sed -i 's/,-Bsymbolic-functions//' Makefile
 
 #########
 # Compile
@@ -65,6 +63,10 @@ echo /opt/musl/lib > $DST/etc/ld-musl-i386.path
 echo /opt/musl/lib > $DST/etc/ld-musl-i486.path
 echo /opt/musl/lib > $DST/etc/ld-musl-i586.path
 echo /opt/musl/lib > $DST/etc/ld-musl-i686.path
+
+cd $DST || exit 1
+patch -p0 < $PKGDIR/musl-gcc.specs.pat || exit 1
+cp $PKGDIR/musl-gcc usr/bin/musl-gcc || exit 1
 
 #########
 # Check result
