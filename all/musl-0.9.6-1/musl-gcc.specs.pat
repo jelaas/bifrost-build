@@ -16,4 +16,4 @@
 +%{shared|pie:crtendS.o%s;:/usr/gcc/lib/crtend.o%s} /opt/musl/lib/crtn.o
  
  *link:
- -dynamic-linker /lib/ld-musl-x86_64.so.1 -nostdlib %{shared:-shared} %{static:-static} %{rdynamic:-export-dynamic}
+ -dynamic-linker /lib/ld-musl-i386.so.1 -nostdlib %{shared:-shared} %{static:-static} %{rdynamic:-export-dynamic}
