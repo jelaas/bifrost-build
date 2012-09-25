@@ -38,7 +38,7 @@ cd $(dirname $BUILDDIR); tar xf $SRC
 # Patch
 cd $BUILDDIR || exit 1
 libtool_fix-1
-# patch -p1 < $PKGDIR/mypatch.pat
+patch -p1 < $PKGDIR/getaddrinfo.pat || exit 1
 
 #########
 # Configure
