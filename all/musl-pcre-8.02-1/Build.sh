@@ -10,7 +10,7 @@ DST="/var/tmp/install/$PKG"
 
 #########
 # Install dependencies:
-pkg_install musl-0.9.1-1 || exit 1
+pkg_install musl-0.9.6-1 || exit 1
 
 #########
 # Unpack sources into dir under /var/tmp/src
