@@ -71,7 +71,7 @@ mkdir -p $OPTDIR/rc.d
 echo yes > $OPTDIR/etc/config.flags/pmacct
 echo $PKG > $OPTDIR/pkgversion
 cp -p $PKGDIR/rc $OPTDIR/rc.d/rc.pmacct
-chmod +x $OPTDIR/rc.d/rc.example
+chmod +x $OPTDIR/rc.d/rc.pmacct
 [ -f $PKGDIR/README ] && cp -p $PKGDIR/README $OPTDIR
 cp QUICKSTART $OPTDIR
 cp README $OPTDIR
