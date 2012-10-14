@@ -1,0 +1,20 @@
+[global]
+   workgroup = MYGROUP
+   server string = Samba Server
+   security = user
+   hosts allow = 10. 127.
+   guest account = nobody
+   log file = /var/log/samba.%m
+   max log size = 500
+   interfaces = 10.0.0.1/24
+   dns proxy = no 
+;   locking = no
+   kernel oplocks = no
+;   socket options = TCP_NODELAY IPTOS_LOWDELAY SO_RCVBUF=65536 SO_SNDBUF=65536
+   socket options = TCP_NODELAY
+
+#============================ Share Definitions ==============================
+[homes]
+   comment = Home Directories
+   browseable = no
+   writable = yes

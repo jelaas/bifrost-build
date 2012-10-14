@@ -1,0 +1,29 @@
+#!/bin/bash
+
+PKG=samba
+
+# Remember to add users!
+# echo -e "PASSWORD\nPASSWORD" | /opt/samba/bin/pdbedit -u testuser -a -t
+# /opt/samba/bin/pdbedit -r -u testuser -h /home/testuser
+
+case "$1" in
+    start)
+        printf "\nstarting: $PKG"
+        /opt/samba/sbin/nmbd -d 2 --configfile /opt/samba/lib/smb.conf
+	sleep 1
+        /opt/samba/sbin/smbd -d 1 --configfile /opt/samba/lib/smb.conf
+        ;;
+    stop)
+        printf "\nstopping: $PKG"
+	killall nmbd
+	killall smbd
+        ;;
+    restart)
+        $0 stop
+        $0 start
+        ;;
+    *)
+        printf "\n\tUsage: $0 < start | stop >\n\n"
+        ;;
+esac
+
