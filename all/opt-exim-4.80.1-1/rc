@@ -1,0 +1,25 @@
+#!/bin/bash
+
+PKG=exim
+BINDIR=/opt/exim/bin
+
+case "$1" in
+    start)
+        printf "\nstarting: $PKG"
+	if [ ! -f /opt/exim/etc/exim.conf ]; then
+	    echo "exim configuration '/opt/exim/etc/exim.conf' missing"
+	    echo "sample config in '/opt/exim/etc/conf.preconf/exim.conf'"
+	    return 1
+	else
+            $BINDIR/exim -bd -q15m
+	fi
+        ;;
+    stop)
+        printf "\nstopping: $PKG"
+	killall exim
+        ;;
+    *)
+        printf "\n\tUsage: $0 < start | stop >\n\n"
+        ;;
+esac
+
