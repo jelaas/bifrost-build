@@ -1,0 +1,19 @@
+#!/bin/bash
+
+PKG=slapd
+BINDIR=/opt/openldap/libexec
+
+case "$1" in
+    start)
+        printf "\nstarting: $PKG"
+        $BINDIR/slapd -d
+        ;;
+    stop)
+        printf "\nstopping: $PKG"
+	killall slapd
+        ;;
+    *)
+        printf "\n\tUsage: $0 < start | stop >\n\n"
+        ;;
+esac
+
