@@ -100,7 +100,7 @@ cd $DST || exit 1
 #########
 # Clean up
 cd $DST || exit 1
-rm -rf opt/openldap/lib var
+rm -rf opt/openldap/lib var opt/openldap/include opt/openldap/share/man/man3
 mv opt/openldap/etc/openldap/slapd.conf opt/openldap/etc/config.preconf || exit 1
 mv opt/openldap/etc/openldap/slapd.ldif opt/openldap/etc/config.preconf || exit 1
 mv opt/openldap/etc/openldap/ldap.conf opt/openldap/etc/config.preconf || exit 1
