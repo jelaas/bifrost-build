@@ -60,6 +60,7 @@ B-configure-1 --prefix=/$OPTPREFIX --localstatedir=/var \
 	--enable-passwd=yes \
 	--enable-local \
 	--without-fetch \
+    --enable-ldap --enable-overlays --enable-relay \
  || exit 1
 [ -f config.log ] && cp -p config.log /var/log/config/$PKG-config.log
 
