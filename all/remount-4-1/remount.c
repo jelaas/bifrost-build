@@ -160,7 +160,7 @@ int main(int argc, char **argv)
 	
 	put(1, "Remounting the system disk:  ");
 	if(op == 'a') {
-		flags ^= MS_SYNCHRONOUS;
+		flags &= ~MS_SYNCHRONOUS;
 		put(1, "asynchronous\n");
 	}
 	if(op == 's') {
@@ -172,7 +172,7 @@ int main(int argc, char **argv)
 		put(1, "read-only\n");
 	}
 	if(op == 'w') {
-		flags ^= MS_RDONLY;
+		flags &= ~MS_RDONLY;
 		put(1, "writeable\n");
 	}
 	
