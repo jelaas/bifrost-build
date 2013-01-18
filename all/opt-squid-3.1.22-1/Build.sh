@@ -72,6 +72,7 @@ mkdir -p $OPTDIR/rc.d
 echo $PKG > $OPTDIR/pkgversion
 echo yes > $OPTDIR/etc/config.flags/squid
 cp -p $PKGDIR/rc $OPTDIR/rc.d/rc.squid
+chmod +x $OPTDIR/rc.d/rc.squid
 [ -f $PKGDIR/README ] && cp -p $PKGDIR/README $OPTDIR
 
 #########
