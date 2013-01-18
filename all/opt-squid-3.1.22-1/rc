@@ -1,0 +1,31 @@
+#!/bin/bash
+
+PKG=squid
+BINDIR=/opt/squid/sbin
+SUUSER=$(cat /opt/squid/etc/config.data/suuser)
+LOGDIR=$(cat /opt/squid/etc/config.data/logdir)
+CACHEDIR=$(cat /opt/squid/etc/config.data/cachedir)
+
+case "$1" in
+    start)
+	for F in access.log cache.log store.log; do
+		[ -f $LOGDIR/$F ] || touch $LOGDIR/$F
+		[ "$(stat -c %U $LOGDIR/$F)" != $SUUSER ] && chown $SUUSER $LOGDIR/$F
+	done
+	[ -d $CACHEDIR ] || mkdir -p $CACHEDIR
+	[ "$(stat -c %U $CACHEDIR)" != $SUUSER ] && chown -R $SUUSER $CACHEDIR
+	for F in mime.conf squid.conf msntauth.conf cachemgr.conf; do
+		[ -f /opt/squid/etc/$F ] || cp /opt/squid/etc/$F.default /opt/squid/etc/$F
+	done
+        printf "\nstarting: $PKG"
+        su "$SUUSER" -c "$BINDIR/squid -z -F"
+        ;;
+    stop)
+        printf "\nstopping: $PKG"
+	killall squid
+        ;;
+    *)
+        printf "\n\tUsage: $0 < start | stop >\n\n"
+        ;;
+esac
+
