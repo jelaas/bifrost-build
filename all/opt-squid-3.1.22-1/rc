@@ -18,10 +18,12 @@ case "$1" in
 		[ -f /opt/squid/etc/$F ] || cp /opt/squid/etc/$F.default /opt/squid/etc/$F
 	done
         printf "\nstarting: $PKG"
-        su "$SUUSER" -c "$BINDIR/squid -z -F"
+        su "$SUUSER" -c "$BINDIR/squid -z"
+        su "$SUUSER" -c "$BINDIR/squid -F"
         ;;
     stop)
         printf "\nstopping: $PKG"
+        su "$SUUSER" -c "$BINDIR/squid -k shutdown"
 	killall squid
         ;;
     *)
