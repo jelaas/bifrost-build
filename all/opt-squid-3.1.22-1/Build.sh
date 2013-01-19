@@ -34,14 +34,14 @@ cd $(dirname $BUILDDIR); tar xf $SRC
 
 #########
 # Patch
-cd $BUILDDIR
+cd $BUILDDIR || exit 1
 libtool_fix-1
 # patch -p1 < $PKGDIR/mypatch.pat
 sed -i "s:\$(localstatedir)/logs/squid\.pid:/var/run/squid\.pid:" src/Makefile.in
 
 #########
 # Configure
-B-configure-1 --prefix=$DST/opt/squid --localstatedir=$DST/var/cache/squid --enable-auth="basic" \
+B-configure-1 --prefix=/opt/squid --localstatedir=/var/cache/squid --enable-auth="basic" \
  --enable-digest-auth-helpers="" --enable-ntlm-auth-helpers="" --disable-loadable-modules\
  --disable-dependency-tracking --without-dl --with-large-files || exit 1
 [ -f config.log ] && cp -p config.log /var/log/config/$PKG-config.log
@@ -58,7 +58,7 @@ make || exit 1
 #########
 # Install into dir under /var/tmp/install
 rm -rf "$DST"
-make install
+make install DESTDIR=$DST 
 
 mkdir  -p  $DST/var/log/squid
 
