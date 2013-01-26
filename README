@@ -38,12 +38,7 @@ $ cd build
 $ cp -p util/chroot-i586.sh /home/build
 $ cp -p util/chroot-setup.sh /home/build/mini-native-i586/bin
 
-Do we need to install a newer bash? (bash version 3+)
-
-Usage:
-------
-
-Enter chroot:
+Now enter chroot:
 $ cd /home/build
 $ ./chroot-i586.sh
 $ cd /var/lib/build
@@ -53,6 +48,31 @@ $ ./pkg_build tar-1.23-1
 
 Note: the first time you install a package or a build script installs a
 dependency it will try to install GNU tar.
+
+Build and install newer bash and (optionally) the zile editor:
+$ ./pkg_build bash-4.1-1 zile-2.3.14-2 terminfo-5.7-1
+$ ./pkg_install --permanent bash-4.1-1
+$ ./pkg_install --permanent terminfo-5.7-1
+$ ./pkg_install --permanent zile-2.3.14-2
+
+Exit chroot:
+$ exit
+
+Done! The build environment is ready for use.
+
+Usage:
+------
+$ cd /home/build
+$ ./chroot-i586.sh
+$ cd /var/lib/build
+
+To build a package:
+$ ./pkg_build <package-name>
+or
+$ ./pkg_build /path/that/is/ignored/<package-name>
+
+The second way to give the package name is convenient when you use tab expansion.
+You can begin by typing ./all/ and the tab expand to the package you want.
 
 Package:
 --------
