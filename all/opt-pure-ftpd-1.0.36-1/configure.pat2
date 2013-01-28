@@ -1,0 +1,71 @@
+--- configure.orig	Mon Jan 28 14:06:47 2013
++++ configure	Mon Jan 28 14:09:32 2013
+@@ -4851,6 +4851,7 @@
+ else
+   ax_cv_check_cflags___fPIE=no
+ fi
++ax_cv_check_cflags___fPIE=no
+ rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
+   CFLAGS=$ax_check_save_flags
+ fi
+@@ -4882,6 +4883,7 @@
+ else
+   ax_cv_check_ldflags___fPIE=no
+ fi
++ax_cv_check_ldflags___fPIE=no
+ rm -f core conftest.err conftest.$ac_objext \
+     conftest$ac_exeext conftest.$ac_ext
+   LDFLAGS=$ax_check_save_flags
+@@ -6146,6 +6148,7 @@
+ else
+   ax_cv_check_ldflags___pie=no
+ fi
++ax_cv_check_ldflags___pie=no
+ rm -f core conftest.err conftest.$ac_objext \
+     conftest$ac_exeext conftest.$ac_ext
+   LDFLAGS=$ax_check_save_flags
+@@ -6153,7 +6156,7 @@
+ { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_ldflags___pie" >&5
+ $as_echo "$ax_cv_check_ldflags___pie" >&6; }
+ if test x"$ax_cv_check_ldflags___pie" = xyes; then :
+-  LDFLAGS="$LDFLAGS -pie"
++  LDFLAGS="$LDFLAGS"
+ else
+   :
+ fi
+@@ -6165,7 +6168,7 @@
+ else
+ 
+   ax_check_save_flags=$LDFLAGS
+-  LDFLAGS="$LDFLAGS  -z relro"
++  LDFLAGS="$LDFLAGS"
+   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+ /* end confdefs.h.  */
+ #include <stdio.h>
+@@ -6189,7 +6192,7 @@
+ { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_ldflags___z_relro" >&5
+ $as_echo "$ax_cv_check_ldflags___z_relro" >&6; }
+ if test x"$ax_cv_check_ldflags___z_relro" = xyes; then :
+-  LDFLAGS="$LDFLAGS -z relro"
++  LDFLAGS="$LDFLAGS"
+ else
+   :
+ fi
+@@ -6201,7 +6204,7 @@
+ else
+ 
+   ax_check_save_flags=$LDFLAGS
+-  LDFLAGS="$LDFLAGS  -z now"
++  LDFLAGS="$LDFLAGS"
+   cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+ /* end confdefs.h.  */
+ #include <stdio.h>
+@@ -6225,7 +6228,7 @@
+ { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ax_cv_check_ldflags___z_now" >&5
+ $as_echo "$ax_cv_check_ldflags___z_now" >&6; }
+ if test x"$ax_cv_check_ldflags___z_now" = xyes; then :
+-  LDFLAGS="$LDFLAGS -z now"
++  LDFLAGS="$LDFLAGS"
+ else
+   :
+ fi

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+PKG=pure-ftpd
+BINDIR=/opt/pure-ftpd/sbin
+
+case "$1" in
+    start)
+        printf "\nstarting: $PKG"
+        $BINDIR/pure-ftpd --daemonize --syslogfacility daemon --prohibitdotfilesread --prohibitdotfileswrite
+        ;;
+    stop)
+        printf "\nstopping: $PKG"
+	killall pure-ftpd
+        ;;
+    *)
+        printf "\n\tUsage: $0 < start | stop >\n\n"
+        ;;
+esac
+
