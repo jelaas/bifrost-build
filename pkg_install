@@ -6,6 +6,7 @@ PERMANENT=no
 FORCE=no
 LIST=no
 INTERNAL=no
+FROMPKG=""
 
 while [ "${1:0:1}" = "-" ]; do
     [ "$1" = --permanent ] && PERMANENT=yes && shift && continue
@@ -13,6 +14,7 @@ while [ "${1:0:1}" = "-" ]; do
     [ "$1" = -l ] && LIST=yes && shift && continue
     [ "$1" = --internal ] && INTERNAL=yes && shift && continue
     [ "$1" = --list ] && LIST=yes && shift && continue
+    [ "$1" = --frompkg ] && FROMPKG="$2" && shift 2 && continue
     break
 done
 
@@ -28,7 +30,7 @@ trap "rm -f $TMPFILE" EXIT
 [ "$LIST" = yes ] && (cat $STATEPKGS $PERMPKGS|tr -d ':') 2>/dev/null && exit 0
 
 if [ -z "$1" ]; then
-   echo "Usage: pkg_install [--permanent] [--force] [-l] <pkg>"
+   echo "Usage: pkg_install [--permanent] [--force] [-l] [--frompkg PKG] <pkg>"
    exit 0
 fi
 
@@ -51,7 +53,11 @@ fi
 if [ -z "$pkgfile" ]; then
    echo "$pkg not found in spool"
    if [ "$RECURSIVEBUILD" = yes ]; then
-       pkg_build $pkg
+       if [ "$FROMPKG" ]; then
+	   pkg_build "$FROMPKG"
+       else
+	   pkg_build $pkg
+       fi
        exit 1
    fi
    exit 1
