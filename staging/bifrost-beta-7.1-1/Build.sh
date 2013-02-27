@@ -359,10 +359,11 @@ untar terminfo-5.7-1 ./usr/share/terminfo/x/xterms
 untar time-1.7-1
 untar util-linux-ng-bin-2.17.2-2 ./sbin/mkfs
 untar util-linux-ng-bin-2.17.2-2 ./sbin/mkswap
+untar util-linux-bin-2.22.2-1 ./sbin/chcpu
 untar util-linux-ng-bin-2.17.2-2 ./sbin/blockdev
-untar util-linux-ng-bin-2.17.2-2 ./sbin/fdisk
-untar util-linux-ng-bin-2.17.2-2 ./sbin/sfdisk
-untar util-linux-ng-bin-2.17.2-2 ./sbin/cfdisk
+untar util-linux-bin-2.22.2-1 ./sbin/fdisk
+untar util-linux-bin-2.22.2-1 ./sbin/sfdisk
+untar util-linux-bin-2.22.2-1 ./sbin/cfdisk
 untar util-linux-ng-bin-2.17.2-2 ./sbin/agetty
 untar util-linux-ng-bin-2.17.2-2 ./sbin/blkid
 untar util-linux-ng-bin-2.17.2-2 ./sbin/findfs
@@ -399,7 +400,7 @@ untar util-linux-ng-bin-2.17.2-2 ./usr/bin/setsid
 untar util-linux-ng-bin-2.17.2-2 ./usr/bin/setarch
 untar util-linux-ng-bin-2.17.2-2 ./usr/bin/lscpu
 untar util-linux-ng-bin-2.17.2-2 ./usr/bin/fallocate
-untar util-linux-ng-bin-2.17.2-2 ./usr/bin/unshare
+untar util-linux-bin-2.22.2-1 ./usr/bin/unshare
 untar util-linux-ng-bin-2.17.2-2 ./usr/bin/column
 untar util-linux-ng-bin-2.17.2-2 ./usr/bin/hexdump
 untar util-linux-ng-bin-2.17.2-2 ./usr/bin/rev
@@ -414,8 +415,9 @@ untar util-linux-ng-bin-2.17.2-2 ./usr/sbin/rdev
 untar util-linux-ng-bin-2.17.2-2 ./usr/sbin/ramsize
 untar util-linux-ng-bin-2.17.2-2 ./usr/sbin/vidmode
 untar util-linux-ng-bin-2.17.2-2 ./usr/sbin/rootflags
-untar util-linux-ng-bin-2.17.2-2 ./usr/sbin/addpart
-untar util-linux-ng-bin-2.17.2-2 ./usr/sbin/delpart
+untar util-linux-bin-2.22.2-1 ./usr/sbin/resizepart
+untar util-linux-bin-2.22.2-1 ./usr/sbin/addpart
+untar util-linux-bin-2.22.2-1 ./usr/sbin/delpart
 untar util-linux-ng-bin-2.17.2-2 ./usr/sbin/partx
 untar util-linux-ng-bin-2.17.2-2 ./bin/kill
 untar util-linux-ng-bin-2.17.2-2 ./bin/dmesg
