@@ -194,7 +194,7 @@ untar LVM2.2.02.97-1 ./usr/sbin/dmsetup
 untar kernel-x86_32-3.6.0-2
 untar kernel-x86_64-3.6.0-3
 
-untar grub-1.99-1
+untar grub-1.99-2
 
 untar bash-4.1-1
 untar binutils-2.20.1-1 ./usr/bin/size
