@@ -418,7 +418,7 @@ untar util-linux-ng-bin-2.17.2-2 ./usr/sbin/rootflags
 untar util-linux-bin-2.22.2-1 ./usr/sbin/resizepart
 untar util-linux-bin-2.22.2-1 ./usr/sbin/addpart
 untar util-linux-bin-2.22.2-1 ./usr/sbin/delpart
-untar util-linux-ng-bin-2.17.2-2 ./usr/sbin/partx
+untar util-linux-bin-2.22.2-1 ./usr/sbin/partx
 untar util-linux-ng-bin-2.17.2-2 ./bin/kill
 untar util-linux-ng-bin-2.17.2-2 ./bin/dmesg
 untar util-linux-ng-bin-2.17.2-2 ./bin/arch
