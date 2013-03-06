@@ -153,7 +153,7 @@ untar ifstat2-0.31-1
 untar iocethtool-0.2-1
 untar loop-1-1
 untar make_bifrost-3
-untar make-bifrost-image-1
+untar make-bifrost-image-2
 untar nsutil-0.62-1 ./sbin/ns
 untar nsutil-0.62-1 ./sbin/nsnetif
 untar nsutil-0.62-1 ./sbin/veth
@@ -194,7 +194,7 @@ untar LVM2.2.02.97-1 ./usr/sbin/dmsetup
 untar kernel-x86_32-3.6.0-2
 untar kernel-x86_64-3.6.0-3
 
-untar grub-1.99-2
+untar grub-2.00-2
 
 untar bash-4.1-1
 untar binutils-2.20.1-1 ./usr/bin/size
