@@ -188,6 +188,7 @@ untar parted-3.1-1 ./usr/sbin/partprobe
 untar parted-3.1-1 ./usr/sbin/parted
 untar multipath-tools-0.4.9-1 ./sbin/kpartx
 untar LVM2.2.02.97-1 ./usr/sbin/dmsetup
+untar qemu-1.4.0-1 ./usr/bin/qemu-img
 
 # core
 
