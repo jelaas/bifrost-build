@@ -42,7 +42,7 @@ patch -p0 < $PKGDIR/spawn_h.pat || exit 1
 
 #########
 # Configure
-B-configure-1 --prefix=/usr --sysconfdir=/etc --without-pic --disable-threads|| exit 1
+B-configure-1 --prefix=/opt/musl --sysconfdir=/etc --without-pic --disable-threads|| exit 1
 [ -f config.log ] && cp -p config.log /var/log/config/$PKG-config.log
 
 #########

@@ -29,7 +29,7 @@ libtool_fix-1
 
 #########
 # Configure
-B-configure-2 --prefix=/usr --with-pic=no || exit 1
+B-configure-2 --prefix=/opt/musl --with-pic=no || exit 1
 
 #########
 # Post configure patch
