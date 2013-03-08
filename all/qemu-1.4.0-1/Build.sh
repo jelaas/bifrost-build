@@ -28,7 +28,7 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 # Install dependencies:
 # pkg_available dependency1-1 dependency2-1
 pkg_install Python-2.7-3 || exit 2
-pkg_install pkg-config-0.23-1 || exit 2
+pkg_install musl-pkg-config-0.23-1 || exit 2
 pkg_install musl-zlib-1.2.7-1 || exit 2
 pkg_install musl-glib-2.24.2-1 || exit 2
 pkg_install autoconf-2.65-1 || exit 2
@@ -58,7 +58,7 @@ patch -p0 < $PKGDIR/block.pat || exit 1
 #########
 # Configure
 B-configure-2 --prefix=/usr  --disable-system --disable-user --disable-bsd-user --disable-kvm \
-	--disable-vnc --disable-virtfs --static || exit 1
+	--disable-vnc --disable-virtfs --static --disable-guest-agent || exit 1
 [ -f config.log ] && cp -p config.log /var/log/config/$PKG-config.log
 
 #########
