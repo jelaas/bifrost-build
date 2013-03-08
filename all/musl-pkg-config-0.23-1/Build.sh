@@ -36,7 +36,7 @@ libtool_fix-1
 
 #########
 # Configure
-B-configure-1 --prefix=/opt/musl --bindir=/usr/bin || exit 1
+B-configure-1 --prefix=/opt/musl --bindir=/usr/bin --datarootdir=/usr/share || exit 1
 
 #########
 # Post configure patch
