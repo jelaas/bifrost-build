@@ -27,6 +27,11 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 #########
 # Install dependencies:
 # pkg_available dependency1-1 dependency2-1
+# pkg_install groff-1.21-1 || exit 2 # Needed to convert man-pages: see below
+
+# Compile against musl:
+pkg_install musl-0.9.9-1 || exit 2 
+export CC=musl-gcc
 pkg_install Python-2.7-3 || exit 2
 pkg_install musl-pkg-config-0.23-1 || exit 2
 pkg_install musl-zlib-1.2.7-1 || exit 2
@@ -36,11 +41,7 @@ pkg_install m4-1.4.14-1 || exit 2
 pkg_install automake-1.11.1-1 || exit 2
 pkg_install perl-5.10.1-2 || exit 2
 pkg_install libtool-2.4-1 || exit 2
-# pkg_install groff-1.21-1 || exit 2 # Needed to convert man-pages: see below
-
-# Compile against musl:
-pkg_install musl-0.9.9-1 || exit 2 
-export CC=musl-gcc
+pkg_install musl-fake-libintl-1 || exit 2
 
 echo /opt/musl/include/linux >> /var/state/installed_files
 ln -s /usr/include/linux /opt/musl/include/linux
@@ -53,7 +54,7 @@ cd $(dirname $BUILDDIR); tar xf $SRC
 # Patch
 cd $BUILDDIR || exit 1
 libtool_fix-1
-patch -p0 < $PKGDIR/block.pat || exit 1
+patch -p0 < $PKGDIR/block.c.pat || exit 1
 
 #########
 # Configure
