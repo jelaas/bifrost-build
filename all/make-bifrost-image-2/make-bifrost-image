@@ -6,15 +6,16 @@
 #
 # Jens Laas (UU),  2012-2013
 
-IMG=/home/build/bifrost.img
-MP=/mnt/bifrost.img
+IMAGEFS=/tmp/imagefs
+IMG=$IMAGEFS/bifrost.img
+MP=/tmp/bifrost.img
 GRUBPKG=/grub-2.00-2.tar.gz 
 HDDEV=hdx
 
 if [ -z "$1" ]; then
 	echo "Usage: $0 <distribution tarball>"
 	echo
-	echo "Creates a 1GB diskimage in /tmp."
+	echo "Creates a 1GB diskimage in $IMAGEFS."
 	echo "Partitions this image and puts the distribution tarball contents into the first partition."
 	echo "Installs grub2 and makes the image bootable."
 	echo
@@ -52,6 +53,11 @@ for E in sfdisk dd modprobe losetup dmsetup kpartx; do
 	rc=1
 done
 [ "$rc" = 1 ] && exit 1
+
+mkdir -p $IMAGEFS
+mkdir -p $MP
+umount $IMAGEFS &> /dev/null
+mount -n -t tmpfs -o size=2048m tmpfs $IMAGEFS || exit 1
 
 modprobe loop
 modprobe dm-mod
@@ -162,4 +168,4 @@ losetup -d $LOOPDEV
 echo IMAGE READY:
 ls -l $IMG
 echo "RUN: \"dd if=$IMG of=/dev/sdX\" to install on disk X"
-echo "RUN: \"VBoxManage convertfromraw $IMG bifrost.vdi --format vdi\" to convert to virtual disk"
+echo "RUN: \"qemu-img convert -O vmdk $IMG bifrost.vmdk\" to convert to virtual disk"
