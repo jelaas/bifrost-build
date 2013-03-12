@@ -100,7 +100,7 @@ function rmfiles {
     local rc=0
     cd /
     while read f; do
-	if [ -d "$f" ]; then
+	if [ -d "$f" -a ! -L "$f" ]; then
 	    /tmp/rmdir "$f" &>/dev/null
 	    continue
 	fi
