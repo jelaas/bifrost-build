@@ -3,6 +3,7 @@
 # Maximum number of recursive builds
 MR=15
 export RECURSIVEBUILD=yes
+unset CC
 
 [ -d /proc/self/fd ] || exit 1
 [ -d /dev/fd ] || exit 1
