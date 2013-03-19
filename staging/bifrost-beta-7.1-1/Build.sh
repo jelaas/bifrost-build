@@ -91,7 +91,7 @@ untar iptables-1.4.8-1
 untar iputils-s20100418-2
 untar netkit-base-0.17-1 ./sbin/inetd
 untar net-tools-1.60-2
-untar ntp-4.2.6p2-1
+untar ntp-4.2.6p5-1
 untar openssh-6.1p1-1
 untar traceroute-2.0.16-1
 untar whois_5.0.10-1
