@@ -58,7 +58,7 @@ cd $DST
 
 # framework: filesystem structure, scripts, configs etc
 
-untar bifrost-framework-1.0.24-1
+untar bifrost-framework-1.0.25-1
 cp $PKGDIR/CHANGELOG .
 
 # admin
@@ -82,7 +82,7 @@ untar bind-9.7.6-P2-1 ./usr/bin/host
 untar bridge-utils-1.4-1
 untar dhcp-4.1-ESV-R6-1
 untar dhclient-script-1
-untar dhcpcd-4.0.15-1
+untar dhcpcd-4.0.15-2
 untar dnsmasq-2.52-2
 untar ethtool-v3.6-1
 untar inetutils-1.9.1-1 ./bin/tftp
