@@ -26,6 +26,11 @@ if [ -z "$1" ]; then
    exit 0
 fi
 
+if [ -f /var/lib/build/conf/tmpfs ]; then
+    read BUILDTMPFS < /var/lib/build/conf/tmpfs
+fi
+[ "$BUILDTMPFS" = yes ] || BUILDTMPFS=no
+
 function checkpkg {
     local rc
 
@@ -75,8 +80,10 @@ while [ "$1" ]; do
 	exec 3>&1 > >(tee -a "/var/log/build/$pkg.log")
 	
 	echo "Building $pkg from $PKGDIR"
+	[ "$BUILDTMPFS" = yes ] && mount -t tmpfs tmpfs /var/tmp/src
 	PATH="/var/lib/build:$PATH" ./Build.sh 2>&1
 	rc=$?
+	[ "$BUILDTMPFS" = yes ] && umount /var/tmp/src
 	if [ $rc != 0 ]; then
 	    if [ "$RECURSIVEBUILD" = yes ]; then
 		if [ $rc = 2 ]; then
@@ -89,7 +96,7 @@ while [ "$1" ]; do
 		    echo "ATTN: Last build was \'$pkg\'."
 		fi
 	    fi
-	    echo "ERROR: Build unsuccessful [$rc]. See /var/log/build/$pkg.log"
+	    echo "ERROR: Build unsuccessful [$rc]. See /var/log/build/$pkg.log and /var/tmp/src"
 	else
 	    echo "$pkg done!"
 	fi
