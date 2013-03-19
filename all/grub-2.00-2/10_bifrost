@@ -21,7 +21,7 @@ prefix=/
 exec_prefix=${prefix}
 bindir=${exec_prefix}/bin
 libdir=${exec_prefix}/lib
-. ${libdir}/grub/grub-mkconfig_lib
+. /share/grub/grub-mkconfig_lib
 
 export TEXTDOMAIN=grub
 export TEXTDOMAINDIR=${prefix}/share/locale
