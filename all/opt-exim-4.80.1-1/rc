@@ -9,7 +9,7 @@ case "$1" in
 	if [ ! -f /opt/exim/etc/exim.conf ]; then
 	    echo "exim configuration '/opt/exim/etc/exim.conf' missing"
 	    echo "sample config in '/opt/exim/etc/conf.preconf/exim.conf'"
-	    return 1
+	    exit 1
 	else
             $BINDIR/exim -bd -q15m
 	fi
