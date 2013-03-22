@@ -21,7 +21,7 @@ function sedit {
 #########
 # Install dependencies:
 # pkg_available dependency1-1 dependency2-1
-pkg_install musl-0.9.9-1 || exit 2
+pkg_install musl-0.9.9-2 || exit 2
 pkg_install musl-devtag-1.0.7-1 || exit 2
 export CC=musl-gcc
 
