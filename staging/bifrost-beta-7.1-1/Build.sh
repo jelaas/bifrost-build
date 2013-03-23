@@ -224,7 +224,7 @@ untar coreutils-7.6-4 ./bin/cp
 untar coreutils-7.6-4 ./bin/dd
 untar coreutils-7.6-4 ./bin/du
 untar coreutils-7.6-4 ./bin/ln
-untar coreutils-7.6-4 ./bin/ls
+untar coreutils-7.6-5 ./bin/ls
 untar coreutils-7.6-4 ./bin/mkdir
 untar coreutils-7.6-4 ./bin/mkfifo
 untar coreutils-7.6-4 ./bin/mknod
