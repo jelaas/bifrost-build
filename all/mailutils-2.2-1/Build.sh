@@ -46,7 +46,7 @@ libtool_fix-1
 
 #########
 # Configure
-B-configure-2 --prefix=/usr --bindir=/bin --disable-cxx || exit 1
+B-configure-2 --sysconfdir=/etc --prefix=/usr --bindir=/bin --sbindir=/sbin --disable-cxx || exit 1
 [ -f config.log ] && cp -p config.log /var/log/config/$PKG-config.log
 
 #########
