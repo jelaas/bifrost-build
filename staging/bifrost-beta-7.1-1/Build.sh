@@ -86,7 +86,7 @@ untar dhcpcd-4.0.15-2
 untar dnsmasq-2.52-2
 untar ethtool-v3.6-1
 untar inetutils-1.9.1-1 ./bin/tftp
-untar iproute2-3.6.0-1
+untar iproute2-3.6.0-2
 untar iptables-1.4.8-1
 untar iputils-s20100418-2
 untar netkit-base-0.17-1 ./sbin/inetd
