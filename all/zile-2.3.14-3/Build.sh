@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SRCVER=zile-2.3.14
-PKG=$SRCVER-2 # with build version
+PKG=$SRCVER-3 # with build version
 
 PKGDIR=${PKGDIR:-/var/lib/build/all/$PKG}
 SRC=/var/spool/src/$SRCVER.tar.gz
