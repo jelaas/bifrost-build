@@ -309,6 +309,7 @@ untar kbd-1.15.2-2
 untar kexec-tools-2.0.2-rc2-1
 untar libcap-bin-2.19-1
 untar logrotate-3.7.3-1
+untar make-3.81-1
 untar module-init-tools-3.12-1
 untar ncurses-bin-5.7-1 ./usr/bin/clear
 untar numactl-2.0.6-1 ./bin/numactl
