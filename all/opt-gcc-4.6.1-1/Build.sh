@@ -51,7 +51,7 @@ libtool_fix-1
 # Configure
 
 $PKGDIR/B-configure-1 --build=i586-linux-uclibc --target=i586-linux-uclibc \
- --prefix=/opt/gcc --with-stage1-ldflags=-static --with-boot-ldflags=-static --disable-nls \
+ --prefix=/opt/dev-x86_32 --with-stage1-ldflags=-static --with-boot-ldflags=-static --disable-nls \
  --disable-libgomp --enable-threads=posix --enable-bootstrap --enable-languages=c,c++ || exit 1
 [ -f config.log ] && cp -p config.log /var/log/config/$PKG-config.log
 
@@ -77,10 +77,13 @@ cd $DST || exit 1
 #########
 # Clean up
 cd $DST || exit 1
-# rm -rf usr/share usr/man
-strip opt/gcc/libexec/gcc/i586-linux-uclibc/4.6.1/*
-[ -d bin ] && strip bin/*
-[ -d usr/bin ] && strip usr/bin/*
+rm opt/dev-x86_32/bin/gcc
+rm opt/dev-x86_32/bin/g++
+rm opt/dev-x86_32/bin/cpp
+rm opt/dev-x86_32/bin/c++
+rm opt/dev-x86_32/bin/gcov
+strip opt/dev-x86_32/libexec/gcc/i586-linux-uclibc/4.6.1/*
+strip opt/dev-x86_32/bin/*
 
 #########
 # Make package
