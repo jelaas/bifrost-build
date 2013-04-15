@@ -1,0 +1,2 @@
+#!/bin/bash
+PATH=$PATH:/opt/dev-x86_32/i686-pc-linux-gnu/bin exec "${REALGCC:-/opt/dev-x86_32/bin/i586-linux-uclibc-gcc}" "$@" -specs "/opt/dev-x86_32/lib/musl-gcc.specs"
