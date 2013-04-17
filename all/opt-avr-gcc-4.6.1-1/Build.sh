@@ -81,7 +81,7 @@ cd $DST || exit 1
 rm opt/dev-avr/bin/avr-gcc-4.6.1
 strip opt/dev-avr/libexec/gcc/avr/4.6.1/*
 strip opt/dev-avr/bin/*
-ln -s opt/dev-avr/bin/avr-as opt/dev-avr/libexec/gcc/avr/4.6.1/as 
+ln -s /opt/dev-avr/bin/avr-as opt/dev-avr/libexec/gcc/avr/4.6.1/as 
 
 #########
 # Make package
