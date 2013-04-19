@@ -113,6 +113,7 @@ untar grep-2.6.3-1
 untar gzip-1.4-1
 untar less-436-1
 untar lsof-4.84-1
+untar patch-2.7.1-1
 untar tar-1.23-1
 untar which-2.20-1
 
