@@ -76,11 +76,11 @@ cd $DST || exit 1
 #########
 # Clean up
 cd $DST || exit 1
-# rm -rf usr/share usr/man
-[ -d bin ] && strip bin/*
-[ -d usr/bin ] && strip usr/bin/*
-[ -d sbin ] && strip sbin/*
-[ -d usr/sbin ] && strip usr/sbin/*
+# rm -rf opt/musl/share
+# rm -rf opt/musl/man
+[ -d opt/musl/bin ] && strip opt/musl/bin/*
+[ -d opt/musl/sbin ] && strip opt/musl/sbin/*
+[ -d opt/musl/libexec ] && strip opt/musl/libexec/*
 
 #########
 # Make package
