@@ -1,0 +1,19 @@
+#!/bin/bash
+
+PKG=minidlna
+BINDIR=/opt/minidlna/sbin
+
+case "$1" in
+    start)
+        printf "\nstarting: $PKG"
+        $BINDIR/minidlna -d
+        ;;
+    stop)
+        printf "\nstopping: $PKG"
+	killall minidlna
+        ;;
+    *)
+        printf "\n\tUsage: $0 < start | stop >\n\n"
+        ;;
+esac
+
