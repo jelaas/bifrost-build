@@ -78,7 +78,7 @@ sed -i 's,-Wall,-I/opt/musl/include,' Makefile
 sed -i 's,-I/opt/musl/include/libavutil,,' Makefile
 sed -i '/minidlna:/s/$(LNXOBJS) $(LIBS)/$(LNXOBJS)/' Makefile
 
-sed -i 's/LIBS = -lpthread -lexif -ljpeg -lsqlite3 -lavformat -lavutil -lavcodec -lid3tag -lFLAC -logg -lvorbis/LIBS = -lvorbis -logg -lm -lsqlite3 -lpthread -lexif -ljpeg -lFLAC -lm -lid3tag -lz -lavformat -lavcodec -lavutil -lm/' Makefile
+sed -i 's/LIBS = -lpthread -lexif -ljpeg -lsqlite3 -lavformat -lavutil -lavcodec -lid3tag -lFLAC -logg -lvorbis/LIBS = -lvorbis -logg -lm -lsqlite3 -lpthread -lexif -ljpeg -lFLAC -lm -lid3tag -lz -lavformat -lavcodec -lavutil -lm -static/' Makefile
 
 sed -i 's,linux/limits.h,limits.h,' upnpglobalvars.c
 sed -i 's,linux/limits.h,limits.h,' utils.c
@@ -133,7 +133,7 @@ cd $DST || exit 1
 # Check result
 cd $DST || exit 1
 # [ -f usr/bin/myprog ] || exit 1
-# (ldd sbin/myprog|grep -qs "not a dynamic executable") || exit 1
+(ldd opt/minidlna/sbin/minidlna|grep -qs "not a dynamic executable") || exit 1
 
 #########
 # Clean up

@@ -6,7 +6,7 @@ BINDIR=/opt/minidlna/sbin
 case "$1" in
     start)
         printf "\nstarting: $PKG"
-        $BINDIR/minidlna -d
+        $BINDIR/minidlna -f /opt/minidlna/etc/minidlna.conf
         ;;
     stop)
         printf "\nstopping: $PKG"
