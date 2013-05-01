@@ -1,0 +1,257 @@
+.TH HOSTNAME 1 "2009-09-16" "net-tools" "Linux Programmer's Manual"
+
+.SH NAME
+hostname \- show or set the system's host name
+.br
+domainname \- show or set the system's NIS/YP domain name
+.br
+ypdomainname \- show or set the system's NIS/YP domain name
+.br
+nisdomainname \- show or set the system's NIS/YP domain name
+.br
+dnsdomainname \- show the system's DNS domain name
+.br
+
+.SH SYNOPSIS
+.B hostname
+.RB [ \-v ]
+.RB [ \-a ]
+.RB [ \-\-alias ]
+.RB [ \-d ]
+.RB [ \-\-domain ]
+.RB [ \-f ]
+.RB [ \-\-fqdn ]
+.RB [ \-A ]
+.RB [ \-\-all-fqdns ]
+.RB [ \-i ]
+.RB [ \-\-ip-address ]
+.RB [ \-I ]
+.RB [ \-\-all-ip-addresses ]
+.RB [ \-\-long ]
+.RB [ \-s ]
+.RB [ \-\-short ]
+.RB [ \-y ]
+.RB [ \-\-yp ]
+.RB [ \-\-nis ]
+.br
+.B hostname
+.RB [ \-v ]
+.RB [ \-b ]
+.RB [ \-\-boot ]
+.RB [ \-F\ filename ]
+.RB [ \-\-file\ filename ]
+.RB [ hostname ]
+.br
+.B hostname
+.RB [ \-v ]
+.RB [ \-h ]
+.RB [ \-\-help ]
+.RB [ \-V ]
+.RB [ \-\-version ]
+.PP
+.B domainname
+.RB [ nisdomain ]
+.RB [ \-F\ file ]
+.br
+.B ypdomainname
+.RB [ nisdomain ]
+.RB [ \-F\ file ]
+.br
+.B nisdomainname
+.RB [ nisdomain ]
+.RB [ \-F\ file ]
+.PP
+.B dnsdomainname
+.RB [ \-v ]
+
+.SH DESCRIPTION
+.B Hostname
+is used to display the system's DNS name, and to display or set its hostname or
+NIS domain name.
+
+.SS "GET NAME"
+When called without any arguments, the program displays the current
+names:
+.LP
+.B hostname
+will print the name of the system as returned by the
+.BR gethostname (2)
+function.
+.LP
+.B domainname
+will print the NIS domainname of the system.
+.BR domainname
+uses the
+.BR gethostname (2)
+function, while
+.BR ypdomainname
+and
+.BR nisdomainname
+use the
+.BR yp_get_default_domain (3).
+.LP
+.B dnsdomainname
+will print the domain part of the FQDN (Fully Qualified Domain Name). The
+complete FQDN of the system is returned with
+.BR "hostname \-\-fqdn"
+(but see the warnings in section
+.B "THE FQDN"
+below).
+
+.SS "SET NAME"
+When called with one argument or with the
+.B \-\-file
+option, the commands set the host name or the NIS/YP domain name.
+.BR hostname
+uses the
+.BR sethostname (2)
+function, while all of the three
+.BR domainname,
+.BR ypdomainname
+and
+.BR nisdomainname
+use
+.BR setdomainname (2).
+Note, that this is effective only until the next reboot.
+Edit /etc/hostname for permanent change.
+.LP
+Note, that only the super-user can change the names.
+.LP
+It is not possible to set the FQDN or the DNS domain name with the
+.B dnsdomainname
+command (see
+.B "THE FQDN"
+below).
+.LP
+The host name is usually set once at system startup in
+.I /etc/init.d/hostname.sh
+(normally by reading the contents of a file which contains
+the host name, e.g.
+.IR /etc/hostname ).
+
+.SS THE FQDN
+You can't change the FQDN (as returned by
+.BR "hostname \-\-fqdn" )
+or the DNS domain name (as returned by
+.BR "dnsdomainname" )
+with this command. The FQDN of the system is the name that the
+.BR resolver (3)
+returns for the host name.
+.LP
+Technically: The FQDN is the name
+.BR getaddrinfo (3)
+returns for the host name returned by
+.BR gethostname (2).
+The DNS domain name is the part after the first dot.
+.LP
+Therefore it depends on the configuration (usually in
+.IR /etc/host.conf )
+how you can change it. Usually (if the hosts file is parsed before DNS or
+NIS) you can change it in
+.IR /etc/hosts .
+.LP
+If a machine has multiple network interfaces/addresses or is used in a
+mobile environment, then it may either have multiple FQDNs/domain names
+or none at all. Therefore avoid using
+.BR "hostname \-\-fqdn" ,
+.BR "hostname \-\-domain"
+and
+.BR "dnsdomainname" .
+.BR "hostname \-\-ip-address"
+is subject to the same limitations so it should be avoided as well.
+
+.SH OPTIONS
+.TP
+.I "\-a, \-\-alias"
+Display the alias name of the host (if used). This option is deprecated
+and should not be used anymore.
+.TP
+.I "\-b, \-\-boot"
+Always set a hostname; this allows the file specified by \fI-F\fR to be
+non-existant or empty, in which case the default hostname \fIlocalhost\fR
+will be used if none is yet set.
+.TP
+.I "\-d, \-\-domain"
+Display the name of the DNS domain.  Don't use the command
+.B domainname
+to get the DNS domain name because it will show the NIS domain name and
+not the DNS domain name. Use
+.B dnsdomainname
+instead. Ssee the warnings in section
+.B "THE FQDN"
+above, and avoid using this option.
+.TP
+.I "\-F, \-\-file filename"
+Read the host name from the specified file. Comments (lines starting with
+a `#') are ignored.
+.TP
+.I "\-f, \-\-fqdn, \-\-long"
+Display the FQDN (Fully Qualified Domain Name). A FQDN consists of a
+short host name and the DNS domain name. Unless you are using bind or NIS
+for host lookups you can change the FQDN and the DNS domain name (which is
+part of the FQDN) in the \fI/etc/hosts\fR file. See the warnings in section
+.B "THE FQDN"
+above, and avoid using this option; use
+.BR "hostname \-\-all-fqdns"
+instead.
+.TP
+.I "\-A, \-\-all-fqdns"
+Displays all FQDNs of the machine. This option enumerates all configured
+network addresses on all configured network interfaces, and translates
+them to DNS domain names. Addresses that cannot be translated (i.e. because
+they do not have an appropriate reverse DNS entry) are skipped. Note that
+different addresses may resolve to the same name, therefore the output may
+contain duplicate entries. Do not make any assumptions about the order of the
+output.
+.TP
+.I "\-h, \-\-help"
+Print a usage message and exit.
+.TP
+.I "\-i, \-\-ip-address"
+Display the network address(es) of the host name. Note that this works only
+if the host name can be resolved. Avoid using this option; use
+.BR "hostname \-\-all-ip-addresses"
+instead.
+.TP
+.I "\-I, \-\-all-ip-addresses"
+Display all network addresses of the host. This option enumerates all
+configured addresses on all network interfaces. The loopback interface and IPv6
+link-local addresses are omitted. Contrary to option \fI-i\fR, this option
+does not depend on name resolution. Do not make any assumptions about the
+order of the output.
+.TP
+.I "\-s, \-\-short"
+Display the short host name. This is the host name cut at the first dot.
+.TP
+.I "\-V, \-\-version"
+Print version information on standard output and exit successfully.
+.TP
+.I "\-v, \-\-verbose"
+Be verbose and tell what's going on.
+.TP
+.I "\-y, \-\-yp, \-\-nis"
+Display the NIS domain name. If a parameter is given (or
+.B \-\-file name
+) then root can also set a new NIS domain.
+.SH NOTES
+The address families
+.B hostname
+tries when looking up the FQDN, aliases and network addresses of the
+host are determined by the configuration of your resolver.
+For instance, on GNU Libc systems, the resolver can be instructed to
+try IPv6 lookups first by using the
+.B inet6
+option in
+.BR /etc/resolv.conf .
+.SH FILES
+.B /etc/hosts
+
+.B /etc/hostname
+This file should only contain the hostname and not the full FQDN.
+.SH AUTHORS
+Peter Tobias, <tobias@et-inf.fho-emden.de>
+.br
+Bernd Eckenfels, <net-tools@lina.inka.de> (NIS and manpage).
+.br
+Michael Meskes, <meskes@debian.org>
+.br

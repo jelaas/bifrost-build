@@ -1,0 +1,92 @@
+'\" t
+.\"     Title: lastlog
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.75.2 <http://docbook.sf.net/>
+.\"      Date: 02/14/2011
+.\"    Manual: System Management Commands
+.\"    Source: System Management Commands
+.\"  Language: English
+.\"
+.TH "LASTLOG" "8" "02/14/2011" "System Management Commands" "System Management Commands"
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+lastlog \- reports the most recent login of all users or of a given user
+.SH "SYNOPSIS"
+.HP \w'\fBlastlog\fR\ 'u
+\fBlastlog\fR [\fIoptions\fR]
+.SH "DESCRIPTION"
+.PP
+
+\fBlastlog\fR
+formats and prints the contents of the last login log
+/var/log/lastlog
+file\&. The
+\fIlogin\-name\fR,
+\fIport\fR, and
+\fIlast login time\fR
+will be printed\&. The default (no flags) causes lastlog entries to be printed, sorted by their order in
+/etc/passwd\&.
+.SH "OPTIONS"
+.PP
+The options which apply to the
+\fBlastlog\fR
+command are:
+.PP
+\fB\-b\fR, \fB\-\-before\fR \fIDAYS\fR
+.RS 4
+Print only lastlog records older than
+\fIDAYS\fR\&.
+.RE
+.PP
+\fB\-h\fR, \fB\-\-help\fR
+.RS 4
+Display help message and exit\&.
+.RE
+.PP
+\fB\-t\fR, \fB\-\-time\fR \fIDAYS\fR
+.RS 4
+Print the lastlog records more recent than
+\fIDAYS\fR\&.
+.RE
+.PP
+\fB\-u\fR, \fB\-\-user\fR \fILOGIN\fR|\fIRANGE\fR
+.RS 4
+Print the lastlog record of the specified user(s)\&.
+.sp
+The users can be specified by a login name, a numerical user ID, or a
+\fIRANGE\fR
+of users\&. This
+\fIRANGE\fR
+of users can be specified with a min and max values (\fIUID_MIN\-UID_MAX\fR), a max value (\fI\-UID_MAX\fR), or a min value (\fIUID_MIN\-\fR)\&.
+.RE
+.PP
+If the user has never logged in the message
+\fI** Never logged in**\fR
+will be displayed instead of the port and time\&.
+.PP
+Only the entries for the current users of the system will be displayed\&. Other entries may exist for users that were deleted previously\&.
+.SH "NOTE"
+.PP
+The
+lastlog
+file is a database which contains info on the last login of each user\&. You should not rotate it\&. It is a sparse file, so its size on the disk is usually much smaller than the one shown by "\fBls \-l\fR" (which can indicate a really big file if you have in
+passwd
+users with a high UID)\&. You can display its real size with "\fBls \-s\fR"\&.
+.SH "FILES"
+.PP
+/var/log/lastlog
+.RS 4
+Database times of previous user logins\&.
+.RE
+.SH "CAVEATS"
+.PP
+Large gaps in UID numbers will cause the lastlog program to run longer with no output to the screen (i\&.e\&. if in lastlog database there is no entries for users with UID between 170 and 800 lastlog will appear to hang as it processes entries with UIDs 171\-799)\&.

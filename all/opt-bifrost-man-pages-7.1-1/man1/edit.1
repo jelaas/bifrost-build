@@ -1,0 +1,85 @@
+.\" Hey, Emacs!  This is an -*- nroff -*- source file.
+.\" run-mailcap and this manpage were written by Brian White and
+.\" have been placed in the public domain (the only true "free").
+.\"
+.TH RUN-MAILCAP 1 "1st Jan 2008" "Debian Project" "Run Mailcap Programs"
+.SH NAME
+run-mailcap, view, see, edit, compose, print \- execute programs via entries in the
+.I mailcap
+file
+.SH SYNOPSIS
+.B run-mailcap
+\-\-action=ACTION [\-\-option[=value]]
+[MIME-TYPE:[ENCODING:]]FILE [...]
+
+The
+.BR see ,
+.BR edit ,
+.B compose
+and
+.B print
+versions are just aliases that default to the view, edit, compose, and
+print actions (respectively).
+
+.SH DESCRIPTION
+.PP
+.B run-mailcap
+(or any of its aliases) will use the given action to process each
+mime-type/file in turn.  Each file is specified as its mime-type,
+its encoding (e.g. compression), and filename together, separated by
+colons.  If the mime-type is omitted, an attempt to determine the type
+is made by trying to match the file's extension with those in the
+.I mime.types
+files.  If the encoding is omitted, it will also be determined from
+the file's extensions.  Currently supported encodings are
+.B gzip
+(.gz),
+.B bzip
+(.bz),
+.B bzip2
+(.bz2), and
+.B compress
+(.Z).  A filename of "-" can be used to mean "standard input", but
+then a mime-type
+.B must
+be specified.
+
+Both the user's files (~/.mailcap; ~/.mime.types) and the system files
+(/etc/mailcap; /etc/mime.types) are searched in turn for information.
+.SS EXAMPLES
+  see picture.jpg
+  print output.ps.gz
+  compose text/html:index.htm
+  extract-mail-attachment msg.txt | see image/tiff:gzip:-
+.SS OPTIONS
+All options are in the form --<opt>=<value>.
+.TP
+.BI \-\-action=<action>
+Performs the specified action on the files.  Valid actions are
+.IR view ,
+.IR cat
+(like view but never paged) ,
+.IR compose ,
+.IR composetyped ,
+.I edit
+and
+.IR print .
+If no action is specified, the action will be determined by how the
+program was called.
+.TP
+.BI \-\-debug
+Turns on extra information to find out what is happening.
+.TP
+.BI \-\-nopager
+Ignores any "copiousoutput" directive and sends output to STDOUT.
+.TP
+.BI \-\-norun
+Displays the found command without actually executing it.
+.SH "SEE ALSO"
+.BR update-mime "(8)"
+.SH AUTHOR
+.B run-mailcap
+(and its aliases) was written by Brian White <bcwhite@pobox.com>.
+.SH COPYRIGHT
+.B run-mailcap
+(and its aliases) is in the public domain (the only true "free").

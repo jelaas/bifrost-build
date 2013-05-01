@@ -1,0 +1,172 @@
+'\" t
+.\"     Title: groupmod
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.75.2 <http://docbook.sf.net/>
+.\"      Date: 02/14/2011
+.\"    Manual: System Management Commands
+.\"    Source: System Management Commands
+.\"  Language: English
+.\"
+.TH "GROUPMOD" "8" "02/14/2011" "System Management Commands" "System Management Commands"
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+groupmod \- modify a group definition on the system
+.SH "SYNOPSIS"
+.HP \w'\fBgroupmod\fR\ 'u
+\fBgroupmod\fR [\fIoptions\fR] \fIGROUP\fR
+.SH "DESCRIPTION"
+.PP
+The
+\fBgroupmod\fR
+command modifies the definition of the specified
+\fIGROUP\fR
+by modifying the appropriate entry in the group database\&.
+.SH "OPTIONS"
+.PP
+The options which apply to the
+\fBgroupmod\fR
+command are:
+.PP
+\fB\-g\fR, \fB\-\-gid\fR \fIGID\fR
+.RS 4
+The group ID of the given
+\fIGROUP\fR
+will be changed to
+\fIGID\fR\&.
+.sp
+The value of
+\fIGID\fR
+must be a non\-negative decimal integer\&. This value must be unique, unless the
+\fB\-o\fR
+option is used\&. Values between 0 and 999 are typically reserved for system groups\&.
+.sp
+Any files that have the old group ID and must continue to belong to
+\fIGROUP\fR, must have their group ID changed manually\&.
+.RE
+.PP
+\fB\-h\fR, \fB\-\-help\fR
+.RS 4
+Display help message and exit\&.
+.RE
+.PP
+\fB\-n\fR, \fB\-\-new\-name\fR \fINEW_GROUP\fR
+.RS 4
+The name of the group will be changed from
+\fIGROUP\fR
+to
+\fINEW_GROUP\fR
+name\&.
+.RE
+.PP
+\fB\-o\fR, \fB\-\-non\-unique\fR
+.RS 4
+When used with the
+\fB\-g\fR
+option, allow to change the group
+\fIGID\fR
+to a non\-unique value\&.
+.RE
+.PP
+\fB\-p\fR, \fB\-\-password\fR \fIPASSWORD\fR
+.RS 4
+The encrypted password, as returned by
+\fBcrypt\fR(3)\&.
+.sp
+
+\fBNote:\fR
+This option is not recommended because the password (or encrypted password) will be visible by users listing the processes\&.
+.sp
+You should make sure the password respects the system\*(Aqs password policy\&.
+.RE
+.SH "CONFIGURATION"
+.PP
+The following configuration variables in
+/etc/login\&.defs
+change the behavior of this tool:
+.PP
+\fBMAX_MEMBERS_PER_GROUP\fR (number)
+.RS 4
+Maximum members per group entry\&. When the maximum is reached, a new group entry (line) is started in
+/etc/group
+(with the same name, same password, and same GID)\&.
+.sp
+The default value is 0, meaning that there are no limits in the number of members in a group\&.
+.sp
+This feature (split group) permits to limit the length of lines in the group file\&. This is useful to make sure that lines for NIS groups are not larger than 1024 characters\&.
+.sp
+If you need to enforce such limit, you can use 25\&.
+.sp
+Note: split groups may not be supported by all tools (even in the Shadow toolsuite)\&. You should not use this variable unless you really need it\&.
+.RE
+.SH "FILES"
+.PP
+/etc/group
+.RS 4
+Group account information\&.
+.RE
+.PP
+/etc/gshadow
+.RS 4
+Secure group account information\&.
+.RE
+.SH "EXIT VALUES"
+.PP
+The
+\fBgroupmod\fR
+command exits with the following values:
+.PP
+\fI0\fR
+.RS 4
+success
+.RE
+.PP
+\fI2\fR
+.RS 4
+invalid command syntax
+.RE
+.PP
+\fI3\fR
+.RS 4
+invalid argument to option
+.RE
+.PP
+\fI4\fR
+.RS 4
+specified group doesn\*(Aqt exist
+.RE
+.PP
+\fI6\fR
+.RS 4
+specified group doesn\*(Aqt exist
+.RE
+.PP
+\fI9\fR
+.RS 4
+group name already in use
+.RE
+.PP
+\fI10\fR
+.RS 4
+can\*(Aqt update group file
+.RE
+.SH "SEE ALSO"
+.PP
+
+\fBchfn\fR(1),
+\fBchsh\fR(1),
+\fBpasswd\fR(1),
+\fBgpasswd\fR(8),
+\fBgroupadd\fR(8),
+\fBgroupdel\fR(8),
+\fBuseradd\fR(8),
+\fBuserdel\fR(8),
+\fBusermod\fR(8)\&.

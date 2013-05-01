@@ -1,0 +1,167 @@
+.TH WATCH 1 "2009 May 11" " " "Linux User's Manual"
+.SH NAME
+watch \- execute a program periodically, showing output fullscreen
+.SH SYNOPSIS
+.na
+.B watch
+.RB [ \-bdehpvtx ]
+.RB [ \-n
+.IR seconds ]
+.RB [ \-\-beep ]
+.RB [ \-\-differences[=\fIcumulative\fP]]
+.RB [ \-\-errexit ]
+.RB [ \-\-exec ]
+.RB [ \-\-help ]
+.RB [ \-\-interval=\fIseconds\fP]
+.RB [ \-\-no\-title ]
+.RB [ \-\-precise ]
+.RB [ \-\-version ]
+.I command
+.SH DESCRIPTION
+.B watch
+runs
+.I command
+repeatedly, displaying its output and errors (the first screenfull).  This 
+allows you to
+watch the program output change over time.  By default, the program is run
+every 2 seconds; use 
+.B \-n
+or
+.B \-\-interval
+to specify a different interval. Normally, this interval is interpreted
+as the amout of time between the completion of one run of
+.I command
+and the beginning of the next run. However, with the
+.I \-p
+or
+.I \-\-precise
+option, you can make
+.BR watch
+attempt to run
+.I command
+every
+.I interval
+seconds. Try it with
+.B ntptime
+and notice how the fractional seconds stays
+(nearly) the same, as opposed to normal mode where they continuously
+increase.
+.PP
+The
+.B \-d
+or
+.B \-\-differences
+flag will highlight the differences between successive updates.  Using
+.B \-\-differences=\fIcumulative\fP
+makes highlighting "sticky", presenting a running display of all
+positions that have ever changed.  The
+.B \-t
+or
+.B \-\-no\-title
+option turns off the header showing the interval, command, and current
+time at the top of the display, as well as the following blank line.  The
+.I \-b
+or 
+.I \-\-beep
+option causes the command to beep if it has a non-zero exit.
+.PP
+.B watch
+will normally run until interrupted. If you want
+.B watch
+to exit on an error from the program running use the
+.I \-e
+or
+.I \-\-errexit
+options, which will cause 
+.B watch
+to exit if the return value from the program is non-zero.
+
+.SH NOTE
+Note that
+.I command
+is given to "sh \-c"
+which means that you may need to use extra quoting to get the desired effect.
+You can disable this with the 
+.I -x
+or 
+.I --exec
+option, which passes the command to exec(2) instead.
+.PP
+Note that POSIX option processing is used (i.e., option processing stops at
+the first non\-option argument).  This means that flags after
+.I command
+don't get interpreted by
+.BR watch
+itself.
+.SH EXAMPLES
+.PP
+To watch for mail, you might do
+.IP
+watch \-n 60 from
+.PP
+To watch the contents of a directory change, you could use
+.IP
+watch \-d ls \-l
+.PP
+If you're only interested in files owned by user joe, you might use 
+.IP
+watch \-d 'ls \-l | fgrep joe'
+.PP
+To see the effects of quoting, try these out
+.IP
+watch echo $$
+.br
+watch echo '$$'
+.br
+watch echo "'"'$$'"'"
+.PP
+To see the effect of precision time keeping, try adding 
+.I \-p
+to
+.IP
+watch \-n 10 sleep 1
+.PP
+You can watch for your administrator to install the latest kernel with
+.IP
+watch uname \-r
+.PP
+(Note that
+.I \-p
+isn't guaranteed to work across reboots, especially in the face of
+.B ntpdate
+or other bootup time-changing mechanisms)
+.SH BUGS
+Upon terminal resize, the screen will not be correctly repainted until the
+next scheduled update.  All
+.B \-\-differences
+highlighting is lost on that update as well.
+.PP
+Non-printing characters are stripped from program output.  Use "cat -v" as
+part of the command pipeline if you want to see them.
+.PP
+.I \-\-precise
+mode doesn't yet have advanced temporal distortion technology to
+compensate for a
+.I command
+that takes more than
+.I interval
+seconds to execute.
+.B watch
+also can get into a state where it rapid-fires as many executions of
+.I command
+as it can to catch up from a previous executions running longer than
+.I interval
+(for example,
+.B netstat
+taking ages on a DNS lookup).
+.SH AUTHORS
+The original
+.B watch
+was written by Tony Rems <rembo@unisoft.com> in 1991, with mods and
+corrections by Francois Pinard.  It was reworked and new features added by
+Mike Coleman <mkc@acm.org> in 1999.  The beep, exec, and error handling 
+features were added by Morty Abzug <morty@frakir.org> in 2008.
+On a not so dark and stormy morning
+in March of 2003, Anthony DeRobertis <asd@suespammers.org> got sick of
+his watches that should update every minute eventually updating many
+seconds after the minute started, and added microsecond precision.

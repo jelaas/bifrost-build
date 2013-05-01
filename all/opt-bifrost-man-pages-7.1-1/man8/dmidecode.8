@@ -1,0 +1,219 @@
+.TH DMIDECODE 8 "February 2007" "dmidecode"
+.SH NAME
+dmidecode \- \s-1DMI\s0 table decoder
+.SH SYNOPSIS
+.B dmidecode
+.RB [ OPTIONS ]
+
+.SH DESCRIPTION
+.B dmidecode
+is a tool for dumping a computer's \s-1DMI\s0 (some say \s-1SMBIOS\s0) table
+contents in a human-readable format. This table contains a description of the
+system's hardware components, as well as other useful pieces of information
+such as serial numbers and \s-1BIOS\s0 revision. Thanks to this table, you can
+retrieve this information without having to probe for the actual hardware.
+While this is a good point in terms of report speed and safeness, this also
+makes the presented information possibly unreliable.
+
+The \s-1DMI\s0 table doesn't only describe what the system is currently made
+of, it also can report the possible evolutions (such as the fastest supported
+\s-1CPU\s0 or the maximal amount of memory supported).
+
+\s-1SMBIOS\s0 stands for System Management \s-1BIOS\s0, while \s-1DMI\s0
+stands for Desktop Management Interface. Both standards are tightly related
+and developed by the \s-1DMTF\s0 (Desktop Management Task Force).
+
+As you run it,
+.B dmidecode
+will try to locate the \s-1DMI\s0 table. If it succeeds, it will then parse
+this table and display a list of records like this one:
+
+Handle 0x0002, DMI type 2, 8 bytes.
+Base Board Information
+        Manufacturer: Intel
+        Product Name: C440GX+
+        Version: 727281-001
+        Serial Number: INCY92700942
+
+Each record has:
+.IP \(bu "\w'\(bu'u+1n"
+A handle. This is a unique identifier, which allows records to
+reference each other. For example, processor records usually reference
+cache memory records using their handles.
+.IP \(bu
+A type. The \s-1SMBIOS\s0 specification defines different types of elements
+a computer can be made of. In this example, the type is 2, which
+means that the record contains "Base Board Information".
+.IP \(bu
+A size. Each record has a 4-byte header (2 for the handle, 1 for the type,
+1 for the size), the rest is used by the record data. This value doesn't
+take text strings into account (these are placed at the end of the record),
+so the actual length of the record may be (and is often) greater than the
+displayed value.
+.IP \(bu
+Decoded values. The information presented of course depends on the type
+of record. Here, we learn about the board's manufacturer, model, version
+and serial number.
+
+.SH OPTIONS
+.TP
+.BR "-d" ", " "--dev-mem FILE"
+Read memory from device \fBFILE\fR (default: \fB/dev/mem\fR)
+.TP
+.BR "-q" ", " "--quiet"
+Be less verbose. Unknown, inactive and \s-1OEM\s0-specific entries are not
+displayed. Meta-data and handle references are hidden. Mutually exclusive
+with \fB--dump\fR.
+.TP
+.BR "-s" ", " "--string KEYWORD"
+Only display the value of the \s-1DMI\s0 string identified by \fBKEYWORD\fR.
+\fBKEYWORD\fR must be a keyword from the following list: \fBbios-vendor\fR,
+\fBbios-version\fR, \fBbios-release-date\fR,
+\fBsystem-manufacturer\fR, \fBsystem-product-name\fR,
+\fBsystem-version\fR, \fBsystem-serial-number\fR,
+\fBsystem-uuid\fR,
+\fBbaseboard-manufacturer\fR, \fBbaseboard-product-name\fR,
+\fBbaseboard-version\fR, \fBbaseboard-serial-number\fR,
+\fBbaseboard-asset-tag\fR, \fBchassis-manufacturer\fR,
+\fBchassis-type\fR,
+\fBchassis-version\fR, \fBchassis-serial-number\fR,
+\fBchassis-asset-tag\fR, \fBprocessor-family\fR,
+\fBprocessor-manufacturer\fR,
+\fBprocessor-version\fR, \fBprocessor-frequency\fR.
+Each keyword corresponds to a given \s-1DMI\s0 type and a given offset
+within this entry type.
+Not all strings may be meaningful or even defined on all systems. Some
+keywords may return more than one result on some systems (e.g.
+\fBprocessor-version\fR on a multi-processor system).
+If \fBKEYWORD\fR is not provided or not valid, a list of all valid
+keywords is printed and
+.B dmidecode
+exits with an error.
+This option cannot be used more than once, and implies \fB--quiet\fR.
+Mutually exclusive with \fB--type\fR and \fB--dump\fR.
+.TP
+.BR "-t" ", " "--type TYPE"
+Only display the entries of type \fBTYPE\fR. \fBTYPE\fR can be either a
+\s-1DMI\s0 type number, or a comma-separated list of type numbers, or a
+keyword from the following list: \fBbios\fR, \fBsystem\fR,
+\fBbaseboard\fR, \fBchassis\fR, \fBprocessor\fR, \fBmemory\fR,
+\fBcache\fR, \fBconnector\fR, \fBslot\fR. Refer to the DMI TYPES section
+below for details.
+If this option is used more than once, the set of displayed entries will be
+the union of all the given types.
+If \fBTYPE\fR is not provided or not valid, a list of all valid keywords
+is printed and
+.B dmidecode
+exits with an error.
+Mutually exclusive with \fB--string\fR.
+.TP
+.BR "-u" ", " "--dump"
+Do not decode the entries, dump their contents as hexadecimal instead.
+Note that this is still a text output, no binary data will be thrown upon
+you. The strings attached to each entry are displayed as both
+hexadecimal and \s-1ASCII\s0. This option is mainly useful for debugging.
+Mutually exclusive with \fB--quiet\fR and \fB--string\fR.
+.TP
+.BR "-h" ", " "--help"
+Display usage information and exit
+.TP
+.BR "-V" ", " "--version"
+Display the version and exit
+
+.SH "DMI TYPES"
+The \s-1SMBIOS\s0 specification defines the following \s-1DMI\s0 types:
+
+.TS
+r l
+__
+r l.
+Type	Information
+0	BIOS
+1	System
+2	Base Board
+3	Chassis
+4	Processor
+5	Memory Controller
+6	Memory Module
+7	Cache
+8	Port Connector
+9	System Slots
+10	On Board Devices
+11	OEM Strings
+12	System Configuration Options
+13	BIOS Language
+14	Group Associations
+15	System Event Log
+16	Physical Memory Array
+17	Memory Device
+18	32-bit Memory Error
+19	Memory Array Mapped Address
+20	Memory Device Mapped Address
+21	Built-in Pointing Device
+22	Portable Battery
+23	System Reset
+24	Hardware Security
+25	System Power Controls
+26	Voltage Probe
+27	Cooling Device
+28	Temperature Probe
+29	Electrical Current Probe
+30	Out-of-band Remote Access
+31	Boot Integrity Services
+32	System Boot
+33	64-bit Memory Error
+34	Management Device
+35	Management Device Component
+36	Management Device Threshold Data
+37	Memory Channel
+38	IPMI Device
+39	Power Supply
+.TE
+
+Additionally, type 126 is used for disabled entries and type 127 is an
+end-of-table marker. Types 128 to 255 are for \s-1OEM\s0-specific data.
+.B dmidecode
+will display these entries by default, but it can only decode them
+when the vendors have contributed documentation or code for them.
+
+Keywords can be used instead of type numbers with \fB--type\fR.
+Each keyword is equivalent to a list of type numbers:
+
+.TS
+l l
+__
+l l.
+Keyword	Types
+bios	0, 13
+system	1, 12, 15, 23, 32
+baseboard	2, 10
+chassis	3
+processor	4
+memory	5, 6, 16, 17
+cache	7
+connector	8
+slot	9
+.TE
+
+Keywords are matched case-insensitively. The following command lines are equivalent:
+.IP \(bu "\w'\(bu'u+1n"
+dmidecode --type 0 --type 13
+.IP \(bu
+dmidecode --type 0,13
+.IP \(bu
+dmidecode --type bios
+.IP \(bu
+dmidecode --type BIOS
+
+.SH FILES
+.I /dev/mem
+.SH BUGS
+More often than not, information contained in the \s-1DMI\s0 tables is inaccurate,
+incomplete or simply wrong.
+.SH AUTHORS
+Alan Cox, Jean Delvare
+.SH "SEE ALSO"
+.BR biosdecode (8),
+.BR mem (4),
+.BR ownership (8),
+.BR vpddecode (8)

@@ -1,0 +1,220 @@
+.TH ARP 8 "2007-12-01" "net\-tools" "Linux Programmer's Manual"
+.SH NAME
+arp \- manipulate the system ARP cache
+.SH SYNOPSIS
+.B arp 
+.RB [ \-vn ] 
+.RB [ \-H 
+.IR type ] 
+.RB [ \-i
+.IR if ] 
+.RB [ \-a ] 
+.RI [ hostname ]
+.PP
+.B arp 
+.RB [ \-v ]
+.RB [ \-i
+.IR if ] 
+.B \-d 
+.I hostname
+.RB [ pub ]
+.PP
+.B arp 
+.RB [ \-v ] 
+.RB [ \-H
+.IR type ] 
+.RB [ \-i
+.IR if ] 
+.B \-s
+.I hostname hw_addr
+.RB [ temp ] 
+.PP
+.B arp 
+.RB [ \-v ] 
+.RB [ \-H
+.IR type ] 
+.RB [ \-i
+.IR if ] 
+.B \-s
+.I hostname hw_addr
+.RB [ netmask
+.IR nm ] 
+.B pub
+.PP
+.B arp 
+.RB [ \-v ] 
+.RB [ \-H
+.IR type ] 
+.RB [ \-i
+.IR if ] 
+.B \-Ds 
+.I hostname
+.I ifname
+.RB [ netmask
+.IR nm ] 
+.B pub
+.PP
+.B arp 
+.RB [ \-vnD ]
+.RB [ \-H 
+.IR type ] 
+.RB [ \-i
+.IR if ]
+.B \-f 
+.RI [ filename ]
+
+.SH DESCRIPTION
+.B Arp
+manipulates or displays the kernel's IPv4 network neighbour cache. It can add
+entries to the table, delete one or display the current content.
+
+.B ARP
+stands for Address Resolution Protocol, which is used to find the media
+access control address of a network neighbour for a given IPv4 Address.
+.SH MODES
+.B arp
+with no mode specifier will print the current content of the table. It is
+possible to limit the number of entries printed, by specifying an hardware
+address type, interface name or host address.
+
+.B arp -d
+.I address
+will delete a ARP table entry. Root or netadmin priveledge is required to do
+this. The entry is found by IP address. If a hostname is given, it will be
+resolved before looking up the entry in the ARP table.
+
+.B arp -s
+.I address hw_addr
+is used to set up a new table entry. The format of the 
+.I hw_addr
+parameter is dependent on the hardware class, but for most classes one can
+assume that the usual presentation can be used.  For the Ethernet class,
+this is 6 bytes in hexadecimal, separated by colons. When adding proxy arp
+entries (that is those with the
+.BR pub lish 
+flag set a 
+.B netmask 
+may be specified to proxy arp for entire subnets. This is not good
+practice, but is supported by older kernels because it can be
+useful. If the
+.B temp
+flag is not supplied entries will be permanent stored into the ARP
+cache. To simplyfy setting up entries for one of your own network interfaces, you can use the
+.B "arp \-Ds"
+.I address ifname
+form. In that case the hardware address is taken from the interface with the
+specified name.
+
+.br
+.SH OPTIONS
+.TP
+.B "\-v, \-\-verbose"
+Tell the user what is going on by being verbose.
+.TP
+.B "\-n, \-\-numeric"
+shows numerical addresses instead of trying to determine symbolic host, port
+or user names.
+.TP
+.B "\-H type, \-\-hw\-type type"
+When setting or reading the ARP cache, this optional parameter tells
+.B arp
+which class of entries it should check for.  The default value of
+this parameter is
+.B ether
+(i.e. hardware code 0x01 for IEEE 802.3 10Mbps Ethernet).
+Other values might include network technologies such as
+.RB "ARCnet (" arcnet ")"
+,
+.RB "PROnet (" pronet ")"
+,
+.RB "AX.25 (" ax25 ")"
+and
+.RB "NET/ROM (" netrom ")."
+.TP
+.B \-a
+Use alternate BSD style output format (with no fixed columns).
+.TP
+.B "\-D, \-\-use-device"
+Instead of a hw_addr, the given argument is the name of an interface. 
+.B arp
+will use the MAC address of that interface for the table entry. This is usually the best option to set up a proxy ARP entry to yourself.
+.TP
+.B "\-i If, \-\-device If"
+Select an interface. When dumping the ARP cache only entries matching
+the specified interface will be printed. When setting a permanent or
+.B temp
+ARP entry this interface will be associated with the entry; if this
+option is not used, the kernel will guess based on the routing
+table. For
+.B pub
+entries the specified interface is the interface on which ARP requests will
+be answered. 
+.br
+.B NOTE:
+This has to be different from the interface to which the IP
+datagrams will be routed.
+.B NOTE:
+As of kernel 2.2.0 it is no longer possible to set an ARP entry for an 
+entire subnet. Linux instead does automagic proxy arp when a route
+exists and it is forwarding. See 
+.BR arp (7)
+for details. Also the
+.B dontpub
+option which is available for delete and set operations cannot be 
+used with 2.4 and newer kernels.
+.TP
+.B "\-f filename, \-\-file filename"
+Similar to the
+.B \-s
+option, only this time the address info is taken from file
+.B filename.
+This can be used if ARP entries for a lot of hosts have to be
+set up.  The name of the data file is very often
+.IR /etc/ethers , 
+but this is not official. If no filename is specified /etc/ethers
+is used as default.
+.sp 1
+The format of the file is simple; it
+only contains ASCII text lines with a hostname, and a hardware
+address separated by whitespace. Additionally the 
+.BR "pub" , " temp" " and" " netmask"
+flags can be used.
+.LP
+In all places where a
+.B hostname
+is expected, one can also enter an
+.B "IP address"
+in dotted-decimal notation.
+.P
+As a special case for compatibility the order of the hostname and 
+the hardware address can be exchanged.
+.LP 
+Each complete entry in the ARP cache will be marked with the
+.B C
+flag. Permanent entries are marked with
+.B M
+and published entries have the
+.B P
+flag.
+.SH EXSAMPLES
+.B /usr/sbin/arp -i eth0 -Ds 10.0.0.2 eth1 pub
+
+This will answer ARP requests for 10.0.0.2 on eth0 with the MAC address for
+eth1.
+
+.B /usr/sbin/arp -i eth1 -d 10.0.0.1
+
+Delete the ARP table entry for 10.0.0.1 on interface eth1. This will match
+published proxy ARP entries and permanent entries.
+.SH FILES
+.I /proc/net/arp
+.br
+.I /etc/networks
+.br
+.I /etc/hosts
+.br
+.I /etc/ethers
+.SH SEE ALSO
+rarp(8), route(8), ifconfig(8), netstat(8)
+.SH AUTHORS
+Fred N. van Kempen <waltje@uwalt.nl.mugnet.org>, Bernd Eckenfels <net\-tools@lina.inka.de>.

@@ -1,0 +1,253 @@
+'\" t
+.\"     Title: newusers
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.75.2 <http://docbook.sf.net/>
+.\"      Date: 02/14/2011
+.\"    Manual: System Management Commands
+.\"    Source: System Management Commands
+.\"  Language: English
+.\"
+.TH "NEWUSERS" "8" "02/14/2011" "System Management Commands" "System Management Commands"
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+newusers \- update and create new users in batch
+.SH "SYNOPSIS"
+.HP \w'\fBnewusers\fR\ 'u
+\fBnewusers\fR [\fIoptions\fR\ \fInew_users\fR]
+.SH "DESCRIPTION"
+.PP
+The
+\fBnewusers\fR
+command reads a file of user name and clear\-text password pairs and uses this information to update a group of existing users or to create new users\&. Each line is in the same format as the standard password file (see
+\fBpasswd\fR(5)) with the exceptions explained below:
+.PP
+pw_name:pw_passwd:pw_uid:pw_gid:pw_gecos:pw_dir:pw_shell
+.PP
+\fIpw_name\fR
+.RS 4
+This is the name of the user\&.
+.sp
+It can be the name of a new user or the name of an existing user (or an user created before by
+\fBnewusers\fR)\&. In case of an existing user, the user\*(Aqs information will be changed, otherwise a new user will be created\&.
+.RE
+.PP
+\fIpw_passwd\fR
+.RS 4
+This field will be encrypted and used as the new value of the encrypted password\&.
+.RE
+.PP
+\fIpw_uid\fR
+.RS 4
+This field is used to define the UID of the user\&.
+.sp
+If the field is empty, an new (unused) UID will be defined automatically by
+\fBnewusers\fR\&.
+.sp
+If this field contains a number, this number will be used as the UID\&.
+.sp
+If this field contains the name of an existing user (or the name of an user created before by
+\fBnewusers\fR), the UID of the specified user will be used\&.
+.sp
+If the UID of an existing user is changed, the files ownership of the user\*(Aqs file should be fixed manually\&.
+.RE
+.PP
+\fIpw_gid\fR
+.RS 4
+This field is used to define the primary group ID for the user\&.
+.sp
+If this field contains the name of an existing group (or a group created before by
+\fBnewusers\fR), the GID of this group will be used as the primary group ID for the user\&.
+.sp
+If this field is a number, this number will be used as the primary group ID of the user\&. If no groups exist with this GID, a new group will be created with this GID, and the name of the user\&.
+.sp
+If this field is empty, a new group will be created with the name of the user and a GID will be automatically defined by
+\fBnewusers\fR
+to be used as the primary group ID for the user and as the GID for the new group\&.
+.sp
+If this field contains the name of a group which does not exist (and was not created earlier wbefore by
+\fBnewusers\fR), a new group will be created with the specified name and a GID will be automatically defined by
+\fBnewusers\fR
+to be used as the primary group ID for the user and Gs the ID for the new group\&.
+.RE
+.PP
+\fIpw_gecos\fR
+.RS 4
+This field is copied in the GECOS field of the user\&.
+.RE
+.PP
+\fIpw_dir\fR
+.RS 4
+This field is used to define the home directory of the user\&.
+.sp
+If this field does not specify an existing directory, the specified directory is created, with ownership set to the user being created or updated and its primary group\&.
+.sp
+If the home directory of an existing user is changed,
+\fBnewusers\fR
+does not move or copy the content of the old directory to the new location\&. This should be done manually\&.
+.RE
+.PP
+\fIpw_shell\fR
+.RS 4
+This field defines the shell of the user\&. No checks are performed on this field\&.
+.RE
+.PP
+
+\fBnewusers\fR
+first tries to create or change all the specified users, and then write these changes to the user or group databases\&. If an error occurs (except in the final writes to the databases), no changes are committed to the databases\&.
+.PP
+During this first pass, users are created with a locked password (and passwords are not changed for the users which are not created)\&. A second pass is used to update the passwords using PAM\&. Failures to update a password are reported, but will not stop the other password updates\&.
+.PP
+This command is intended to be used in a large system environment where many accounts are updated at a single time\&.
+.SH "OPTIONS"
+.PP
+The options which apply to the
+\fBnewusers\fR
+command are:
+.PP
+\fB\-h\fR, \fB\-\-help\fR
+.RS 4
+Display help message and exit\&.
+.RE
+.PP
+\fB\-r\fR, \fB\-\-system\fR
+.RS 4
+Create a system account\&.
+.sp
+System users will be created with no aging information in
+/etc/shadow, and their numeric identifiers are choosen in the
+\fBSYS_UID_MIN\fR\-\fBSYS_UID_MAX\fR
+range, defined in
+login\&.defs, instead of
+\fBUID_MIN\fR\-\fBUID_MAX\fR
+(and their
+\fBGID\fR
+counterparts for the creation of groups)\&.
+.RE
+.SH "CAVEATS"
+.PP
+The input file must be protected since it contains unencrypted passwords\&.
+.SH "CONFIGURATION"
+.PP
+The following configuration variables in
+/etc/login\&.defs
+change the behavior of this tool:
+.PP
+\fBGID_MAX\fR (number), \fBGID_MIN\fR (number)
+.RS 4
+Range of group IDs used for the creation of regular groups by
+\fBuseradd\fR,
+\fBgroupadd\fR, or
+\fBnewusers\fR\&.
+.RE
+.PP
+\fBMAX_MEMBERS_PER_GROUP\fR (number)
+.RS 4
+Maximum members per group entry\&. When the maximum is reached, a new group entry (line) is started in
+/etc/group
+(with the same name, same password, and same GID)\&.
+.sp
+The default value is 0, meaning that there are no limits in the number of members in a group\&.
+.sp
+This feature (split group) permits to limit the length of lines in the group file\&. This is useful to make sure that lines for NIS groups are not larger than 1024 characters\&.
+.sp
+If you need to enforce such limit, you can use 25\&.
+.sp
+Note: split groups may not be supported by all tools (even in the Shadow toolsuite)\&. You should not use this variable unless you really need it\&.
+.RE
+.PP
+\fBPASS_MAX_DAYS\fR (number)
+.RS 4
+The maximum number of days a password may be used\&. If the password is older than this, a password change will be forced\&. If not specified, \-1 will be assumed (which disables the restriction)\&.
+.RE
+.PP
+\fBPASS_MIN_DAYS\fR (number)
+.RS 4
+The minimum number of days allowed between password changes\&. Any password changes attempted sooner than this will be rejected\&. If not specified, \-1 will be assumed (which disables the restriction)\&.
+.RE
+.PP
+\fBPASS_WARN_AGE\fR (number)
+.RS 4
+The number of days warning given before a password expires\&. A zero means warning is given only upon the day of expiration, a negative value means no warning is given\&. If not specified, no warning will be provided\&.
+.RE
+.PP
+\fBSYS_GID_MAX\fR (number), \fBSYS_GID_MIN\fR (number)
+.RS 4
+Range of group IDs used for the creation of system groups by
+\fBuseradd\fR,
+\fBgroupadd\fR, or
+\fBnewusers\fR\&.
+.RE
+.PP
+\fBSYS_UID_MAX\fR (number), \fBSYS_UID_MIN\fR (number)
+.RS 4
+Range of user IDs used for the creation of system users by
+\fBuseradd\fR
+or
+\fBnewusers\fR\&.
+.RE
+.PP
+\fBUID_MAX\fR (number), \fBUID_MIN\fR (number)
+.RS 4
+Range of user IDs used for the creation of regular users by
+\fBuseradd\fR
+or
+\fBnewusers\fR\&.
+.RE
+.PP
+\fBUMASK\fR (number)
+.RS 4
+The file mode creation mask is initialized to this value\&. If not specified, the mask will be initialized to 022\&.
+.sp
+
+\fBuseradd\fR
+and
+\fBnewusers\fR
+use this mask to set the mode of the home directory they create
+.RE
+.SH "FILES"
+.PP
+/etc/passwd
+.RS 4
+User account information\&.
+.RE
+.PP
+/etc/shadow
+.RS 4
+Secure user account information\&.
+.RE
+.PP
+/etc/group
+.RS 4
+Group account information\&.
+.RE
+.PP
+/etc/gshadow
+.RS 4
+Secure group account information\&.
+.RE
+.PP
+/etc/login\&.defs
+.RS 4
+Shadow password suite configuration\&.
+.RE
+.PP
+/etc/pam\&.d/newusers
+.RS 4
+PAM configuration for
+\fBnewusers\fR\&.
+.RE
+.SH "SEE ALSO"
+.PP
+
+\fBlogin.defs\fR(5),
+\fBpasswd\fR(1),
+\fBuseradd\fR(8)\&.
