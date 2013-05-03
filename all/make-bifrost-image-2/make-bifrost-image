@@ -120,7 +120,13 @@ mount /dev/mapper/${HDDEV}1 $MP || exit 1
 
 echo UNPACKING DISTRO
 cd $MP
-tar xf $TARBALL
+if ! tar xf $TARBALL; then
+    echo "WARNING: fail to unpack the distribution tarball"
+    sleep 20
+fi
+echo UNPACKING DONE. LISTING SOME FILES
+ls -l|head -n 10
+sleep 5
 
 if [ ! -f sbin/grub-mkconfig ]; then
 	echo INSTALLING GRUB2
