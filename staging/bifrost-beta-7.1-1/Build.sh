@@ -284,28 +284,29 @@ untar coreutils-7.6-4 ./bin/whoami
 untar coreutils-7.6-4 ./bin/yes
 untar coreutils-7.6-4 ./bin/base64
 untar cronie-1.4.4-2
-untar e2fsprogs-1.42.5-1 ./sbin/e2fsck
+untar e2fsprogs-1.42.5-2 ./sbin/e2fsck
 ln -s /sbin/e2fsck ./sbin/fsck.ext2
 ln -s /sbin/e2fsck ./sbin/fsck.ext3
 ln -s /sbin/e2fsck ./sbin/fsck.ext4
 ln -s /sbin/e2fsck ./sbin/fsck.ext4dev
-untar e2fsprogs-1.42.5-1 ./sbin/mke2fs
-untar e2fsprogs-1.42.5-1 ./sbin/badblocks
-untar e2fsprogs-1.42.5-1 ./sbin/tune2fs
-untar e2fsprogs-1.42.5-1 ./sbin/dumpe2fs
-untar e2fsprogs-1.42.5-1 ./sbin/logsave
-untar e2fsprogs-1.42.5-1 ./sbin/e2image
-untar e2fsprogs-1.42.5-1 ./sbin/e2undo
-untar e2fsprogs-1.42.5-1 ./sbin/mklost+found
+untar e2fsprogs-1.42.5-2 ./sbin/mke2fs
+untar e2fsprogs-1.42.5-2 ./sbin/badblocks
+untar e2fsprogs-1.42.5-2 ./sbin/tune2fs
+untar e2fsprogs-1.42.5-2 ./sbin/dumpe2fs
+untar e2fsprogs-1.42.5-2 ./sbin/logsave
+untar e2fsprogs-1.42.5-2 ./sbin/e2image
+untar e2fsprogs-1.42.5-2 ./sbin/e2undo
+untar e2fsprogs-1.42.5-2 ./sbin/mklost+found
 ln -s /sbin/mke2fs ./sbin/mkfs.ext2
 ln -s /sbin/mke2fs ./sbin/mkfs.ext3
 ln -s /sbin/mke2fs ./sbin/mkfs.ext4
 ln -s /sbin/mke2fs ./sbin/mkfs.ext4dev
 ln -s /sbin/tune2fs ./sbin/e2label
 ln -s /sbin/tune2fs ./sbin/findfs
-untar e2fsprogs-1.42.5-1 ./sbin/resize2fs
-untar e2fsprogs-1.42.5-1 ./bin/chattr
-untar e2fsprogs-1.42.5-1 ./bin/lsattr
+untar e2fsprogs-1.42.5-2 ./sbin/resize2fs
+untar e2fsprogs-1.42.5-2 ./bin/chattr
+untar e2fsprogs-1.42.5-2 ./bin/lsattr
+untar e2fsprogs-1.42.5-2 ./etc/mke2fs.conf
 untar kbd-1.15.2-2
 untar kexec-tools-2.0.2-rc2-1
 untar libcap-bin-2.19-1
