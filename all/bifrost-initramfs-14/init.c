@@ -695,19 +695,33 @@ int main(int argc, char **argv, char **envp)
 
 	/* if filesystem is of the ext family */
 	if((!cmdline.rootfstype) || (!strncmp(cmdline.rootfstype, "ext", 3))) {
+		int status = 0;
+		int fsckok = 0;
 		/* e2fsck -y rootdev */
 		/* fork + exec("/e2fsck", "/e2fsck"-y", rootdev) */
 		if((pid=fork())==0) {
 			execl("/e2fsck", "/e2fsck", "-y", rootdev, NULL);
 			exit(0);
 		}
-		if(pid != -1) wait(NULL);
-		if(cmdline.autoresize) {
-			if((pid=fork())==0) {
-				execl("/resize2fs", "/resize2fs", rootdev, NULL);
-				exit(0);
+		if(pid != -1) {
+			wait(&status);
+			if(WIFEXITED(status)) {
+				fprintf(fstdout, "INIT: e2fsck exited normally with exit code: %d\n", WEXITSTATUS(status));
+				if(WEXITSTATUS(status)==0) fsckok=1;
+			} else {
+				fprintf(fstdout, "INIT: e2fsck exited abnormally\n");
 			}
-			if(pid != -1) wait(NULL);
+		}
+		if(fsckok) {
+			if(cmdline.autoresize) {
+				sync();
+				if((pid=fork())==0) {
+					execl("/resize2fs", "/resize2fs", "-f", rootdev, NULL);
+					exit(0);
+				}
+				if(pid != -1) wait(NULL);
+				sync();
+			}
 		}
 	}
 	
