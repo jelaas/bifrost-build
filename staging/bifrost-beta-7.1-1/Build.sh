@@ -193,8 +193,8 @@ untar qemu-1.4.0-1 ./usr/bin/qemu-img
 
 # core
 
-untar kernel-x86_32-3.6.0-4
-untar kernel-x86_64-3.6.0-5
+untar kernel-x86_32-3.6.0-5
+untar kernel-x86_64-3.6.0-6
 
 untar grub-2.00-2
 
