@@ -1,3 +1,26 @@
+Bifrost 7.1: changes since 7.0
+------------------------------
+
+Framework:
+- qdisc
+- upgrade improvements
+- initramfs improvements. autoexpand of root partition.
+- can now build and create bootable media from within bifrost
+- dhcp, better support with readonly rootfs
+
+Kernel:
+Based on version 3.6.0.
+- New options enabled:
+
+New programs:
+- disk section
+- grub2
+
+Notable program updates:
+- e2fsprogs
+- pciutils
+
+
 Changes since 7.0.2
 -------------------
 
