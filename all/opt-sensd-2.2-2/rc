@@ -1,0 +1,25 @@
+#!/bin/bash
+
+PKG=sensd
+BINDIR=/opt/sensor/bin
+DEV=/dev/ttyUSB0
+
+case "$1" in
+    start)
+        printf "\nstarting: $PKG"
+	if [ ! -f /opt/sensor/etc/sensd.conf ]; then
+		echo "Installing default sensd.conf"
+		cp /opt/sensor/etc/config.preconf/sensd.conf /opt/sensor/etc/sensd.conf
+	fi
+	. /opt/sensor/etc/sensd.conf
+        $BINDIR/sensd "$DEV"
+        ;;
+    stop)
+        printf "\nstopping: $PKG"
+	killall sensd
+        ;;
+    *)
+        printf "\n\tUsage: $0 < start | stop >\n\n"
+        ;;
+esac
+
