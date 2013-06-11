@@ -1,0 +1,19 @@
+# 2.0.12: /opt/dovecot/etc/dovecot/dovecot.conf
+# OS: Linux 2.6.38-rc7 x86_64 Source Mage GNU/Linux 0.9.6.1 i486-pc-linux-gnu 
+base_dir = /var/run/dovecot/
+default_login_user = dovecot
+disable_plaintext_auth = no
+passdb {
+  driver = shadow
+}
+protocols = imap
+service imap-login {
+  inet_listener imap {
+    address = *
+    port = 143
+  }
+}
+ssl = no
+userdb {
+  driver = passwd
+}
