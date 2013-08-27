@@ -2,24 +2,44 @@ Bifrost 7.1: changes since 7.0
 ------------------------------
 
 Framework:
-- qdisc
-- upgrade improvements
+- Per interface qdisc configuration with a few simple qdiscs: codel, sfq, sfb.
+  See /etc/qdisc.
+- Upgrade improvements. Defaults for all system files in /etc/conf.preconf.
 - initramfs improvements. autoexpand of root partition.
-- can now build and create bootable media from within bifrost
-- dhcp, better support with readonly rootfs
+- You can now build and create bootable media from within bifrost.
+- DHCP: better support with readonly rootfs.
+- eth-detect for a few new devices.
+- If separate /var partition, perform fsck before mount.
+
+Documentation:
+  Created /Documentation/Bifrost/Install.txt
+  Updated/Documentation/Bifrost/Upgrade.txt
 
 Kernel:
 Based on version 3.6.0.
 - New options enabled:
+  CONFIG_CRYPTO_USER=m
+  CONFIG_L2TP_ETH=y
+  CONFIG_NET_SCH_CODEL=m
+  CONFIG_OPENVSWITCH=m
+  CONFIG_PPPOL2TP=m
+  CONFIG_PPP_MULTILINK=y
+  CONFIG_VMWARE_BALLOON=m
 
 New programs:
-- disk section
+- disk section: partprobe, parted, dmsetup. Needed for generating disk-image.
 - grub2
+- patch
+- make
 
 Notable program updates:
+- UTF8 support in: zile, bash, ls etc.
+- iproute2
+- ethtool
 - e2fsprogs
 - pciutils
-
+- openssh
+- openssl
 
 Changes since 7.0.2
 -------------------
