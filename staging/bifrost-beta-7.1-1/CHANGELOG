@@ -7,6 +7,8 @@ Framework:
 - Upgrade improvements. Defaults for all system files in /etc/conf.preconf.
 - initramfs improvements. autoexpand of root partition.
 - You can now build and create bootable media from within bifrost.
+  Unfortunately the grub-installation part does not work. You need to do this
+  manually afterwards. See /Documentation/Bifrost/Install.txt
 - DHCP: better support with readonly rootfs.
 - eth-detect for a few new devices.
 - If separate /var partition, perform fsck before mount.
