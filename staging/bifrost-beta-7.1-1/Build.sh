@@ -58,7 +58,7 @@ cd $DST
 
 # framework: filesystem structure, scripts, configs etc
 
-untar bifrost-framework-1.0.25-1
+untar bifrost-framework-1.0.26-1
 cp $PKGDIR/CHANGELOG .
 
 # admin
@@ -154,7 +154,7 @@ untar ifstat2-0.31-1
 untar iocethtool-0.2-1
 untar loop-1-1
 untar make_bifrost-3
-untar make-bifrost-image-3
+untar make-bifrost-image-4
 untar nsutil-0.62-1 ./sbin/ns
 untar nsutil-0.62-1 ./sbin/nsnetif
 untar nsutil-0.62-1 ./sbin/veth
