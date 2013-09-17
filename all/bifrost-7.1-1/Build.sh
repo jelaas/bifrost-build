@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SRCVER=bifrost-beta-7.1
+SRCVER=bifrost-7.1
 PKG=$SRCVER-1 # with build version
 
 # PKGDIR is set by 'pkg_build'. Usually "/var/lib/build/$PKG".
