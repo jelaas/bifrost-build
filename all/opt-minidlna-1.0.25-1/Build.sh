@@ -121,6 +121,7 @@ mkdir -p $OPTDIR/rc.d
 echo yes > $OPTDIR/etc/config.flags/minidlna
 echo $PKG > $OPTDIR/pkgversion
 cp -p $PKGDIR/rc $OPTDIR/rc.d/rc.minidlna
+cp $PKGDIR/minidlna.conf $OPTDIR/etc/config.preconf
 chmod +x $OPTDIR/rc.d/rc.minidlna
 [ -f $PKGDIR/README ] && cp -p $PKGDIR/README $OPTDIR
 
