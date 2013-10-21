@@ -3,7 +3,7 @@
 TMPFILE=/tmp/B-conf.$$
 OPTS=""
 trap "rm -f $TMPFILE" EXIT
-
+#LDFLAGS=-lc
 ./configure --help > $TMPFILE
 for opt in disable-nls enable-static-link disable-shared-plugins disable-dynamicplugin disable-tls disable-pie; do
     grep -qs $opt $TMPFILE && OPTS="$OPTS --$opt"

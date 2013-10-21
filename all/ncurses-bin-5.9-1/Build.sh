@@ -1,31 +1,32 @@
 #!/bin/bash
 
-SRCVER=pcre-8.02
-PKG=$SRCVER-1 # with build version
+SRCVER=ncurses-5.9
+PKG=ncurses-bin-5.9-1 # with build version
 
 PKGDIR=${PKGDIR:-/var/lib/build/all/$PKG}
-SRC=/var/spool/src/$SRCVER.tar.bz2
-CDIR=/var/tmp/src
+SRC=/var/spool/src/$SRCVER.tar.gz
+BUILDDIR=/var/tmp/src/$SRCVER
 DST="/var/tmp/install/$PKG"
 
 #########
 # Install dependencies:
-# pkg_install dependency-1.1 || exit 1
+# pkg_available dependency1-1 dependency2-1
+# pkg_install dependency1-1 || exit 1
 
 #########
 # Unpack sources into dir under /var/tmp/src
-#./Fetch-source.sh || exit 1
-#cd $CDIR; tar xf $SRC
+./Fetch-source.sh || exit 1
+cd $(dirname $BUILDDIR); tar xf $SRC
 
 #########
 # Patch
-cd $CDIR/$SRCVER
-#libtool_fix-1
+cd $BUILDDIR
+libtool_fix-1
 # patch -p1 < $PKGDIR/mypatch.pat
 
 #########
 # Configure
-#B-configure-1 --enable-static=yes --enable-shared=no --prefix=/usr --bindir=/bin --enable-utf8 --enable-unicode-properties|| exit 1
+B-configure-1 --prefix=/usr || exit 1
 
 #########
 # Post configure patch
@@ -33,7 +34,7 @@ cd $CDIR/$SRCVER
 
 #########
 # Compile
-#make -j || exit 1
+make -j || exit 1
 
 #########
 # Install into dir under /var/tmp/install
@@ -49,9 +50,8 @@ cd $DST
 #########
 # Clean up
 cd $DST
-rm -rf usr/share usr/man
-rm -rf usr/share
-rm -f bin/pcretest bin/pcregrep
+rm -rf usr/man usr/share usr/lib usr/include 
+rm -f usr/bin/ncurses5-config
 [ -d bin ] && strip bin/*
 [ -d usr/bin ] && strip usr/bin/*
 
@@ -63,7 +63,7 @@ tar czf /var/spool/pkg/$PKG.tar.gz .
 #########
 # Cleanup after a success
 cd /var/lib/build
-#[ "$DEVEL" ] || rm -rf "$DST"
-#[ "$DEVEL" ] || rm -rf "$CDIR/$SRCVER"
+[ "$DEVEL" ] || rm -rf "$DST"
+[ "$DEVEL" ] || rm -rf "$BUILDDIR"
 pkg_uninstall
 exit 0
