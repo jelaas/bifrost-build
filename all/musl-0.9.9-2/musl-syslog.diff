@@ -1,0 +1,50 @@
+diff --git a/src/misc/syslog.c b/src/misc/syslog.c
+index 8de34f8..ef8dcfb 100644
+--- a/src/misc/syslog.c
++++ b/src/misc/syslog.c
+@@ -8,6 +8,7 @@
+ #include <signal.h>
+ #include <string.h>
+ #include <pthread.h>
++#include <limits.h>
+ #include "libc.h"
+ 
+ static int lock[2];
+@@ -71,14 +72,11 @@ static void _vsyslog(int priority, const char *message, va_list ap)
+ 	struct tm tm;
+ 	char buf[256];
+ 	int pid;
+-	int l, l2;
++	size_t l, l2;
+ 
+ 	if (log_fd < 0) {
+ 		__openlog(log_ident, log_opt | LOG_NDELAY, log_facility);
+-		if (log_fd < 0) {
+-			UNLOCK(lock);
+-			return;
+-		}
++		if (log_fd < 0) return;
+ 	}
+ 
+ 	now = time(NULL);
+@@ -90,14 +88,13 @@ static void _vsyslog(int priority, const char *message, va_list ap)
+ 		priority, timebuf,
+ 		log_ident ? log_ident : "",
+ 		"["+!pid, pid, "]"+!pid);
++	if (l >= sizeof buf) l = sizeof buf - 1;
+ 	l2 = vsnprintf(buf+l, sizeof buf - l, message, ap);
+-	if (l2 >= 0) {
+-		l += l2;
+-		if (buf[l-1] != '\n') buf[l++] = '\n';
+-		sendto(log_fd, buf, l, 0, (void *)&log_addr, 11);
+-	}
+-
+-	UNLOCK(lock);
++	if (l2 > INT_MAX) return;
++	l += l2;
++	if (l >= sizeof buf) l = sizeof buf - 1;
++	if (buf[l-1] != '\n') buf[l++] = '\n';
++	sendto(log_fd, buf, l, 0, (void *)&log_addr, 11);
+ }
+ 
+ void __vsyslog(int priority, const char *message, va_list ap)

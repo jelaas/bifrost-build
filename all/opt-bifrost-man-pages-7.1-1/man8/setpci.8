@@ -1,0 +1,207 @@
+.TH setpci 8 "10 April 2008" "pciutils-3.0.0" "The PCI Utilities"
+.IX setpci
+.SH NAME
+setpci \- configure PCI devices
+.SH SYNOPSIS
+.B setpci
+.RB [ options ]
+.B devices
+.BR operations ...
+
+.SH DESCRIPTION
+.PP
+.B setpci
+is a utility for querying and configuring PCI devices.
+
+All numbers are entered in hexadecimal notation.
+
+Root privileges are necessary for almost all operations, excluding reads
+of the standard header of the configuration space on some operating systems.
+Please see
+.BR lspci(8)
+for details on access rights.
+
+.SH OPTIONS
+
+.SS General options
+.TP
+.B -v
+Tells
+.I setpci
+to be verbose and display detailed information about configuration space accesses.
+.TP
+.B -f
+Tells
+.I setpci
+not to complain when there's nothing to do (when no devices are selected).
+This option is intended for use in widely-distributed configuration scripts
+where it's uncertain whether the device in question is present in the machine
+or not.
+.TP
+.B -D
+`Demo mode' -- don't write anything to the configuration registers.
+It's useful to try
+.B setpci -vD
+to see what your complex sequence of
+.B setpci
+operations does before you actually execute it.
+.TP
+.B --version
+Shows
+.I setpci
+version. This option should be used stand-alone.
+
+.SS PCI access options
+.PP
+The PCI utilities use the PCI library to talk to PCI devices (see
+\fBpcilib\fP(7) for details). You can use the following options to
+influence its behavior:
+.TP
+.B -A <method>
+The library supports a variety of methods to access the PCI hardware.
+By default, it uses the first access method available, but you can use
+this option to override this decision. See \fB-A help\fP for a list of
+available methods and their descriptions.
+.TP
+.B -O <param>=<value>
+The behavior of the library is controlled by several named parameters.
+This option allows to set the value of any of the parameters. Use \fB-O help\fP
+for a list of known parameters and their default values.
+.TP
+.B -H1
+Use direct hardware access via Intel configuration mechanism 1.
+(This is a shorthand for \fB-A intel-conf1\fP.)
+.TP
+.B -H2
+Use direct hardware access via Intel configuration mechanism 2.
+(This is a shorthand for \fB-A intel-conf2\fP.)
+.TP
+.B -G
+Increase debug level of the library.
+
+.SH DEVICE SELECTION
+.PP
+Before each sequence of operations you need to select which devices you wish that
+operation to affect.
+.TP
+.B -s [[[[<domain>]:]<bus>]:][<slot>][.[<func>]]
+Show only devices in the specified domain (in case your machine has several host bridges,
+they can either share a common bus number space or each of them can address a PCI domain
+of its own; domains are numbered from 0 to ffff), bus (0 to ff), slot (0 to 1f) and function (0 to 7).
+Each component of the device address can be omitted or set to "*", both meaning "any value". All numbers are
+hexadecimal.  E.g., "0:" means all devices on bus 0, "0" means all functions of device 0
+on any bus, "0.3" selects third function of device 0 on all buses and ".4" shows only
+the fourth function of each device.
+.TP
+.B -d [<vendor>]:[<device>]
+Select devices with specified vendor and device ID. Both ID's are given in
+hexadecimal and may be omitted or given as "*", both meaning "any value".
+
+.SH OPERATIONS
+.PP
+To query value of a configuration register, just name it (either by typing its name or
+by typing register address with optional
+.BR .B ,
+.B .W
+or
+.B .L
+suffix specifying register width as byte, word or longword).
+.PP
+To set a register, write
+.BR reg = values
+where
+.B reg
+is the same as you would use to query the register and
+.B values
+is a comma-separated list of values you want to write starting with the given
+address. Each value to be written can be specified either as a hexadecimal number
+or as a
+.BR bits : mask
+pair which causes the bits corresponding to binary ones in the
+.B mask
+to be changed to values of the corresponding bits in the
+.B bits
+.
+
+.SH REGISTER NAMES
+.PP
+.B setpci
+knows the following configuration register names. See PCI bus specifications for their precise
+meaning or consult
+.B header.h
+or
+.B /usr/include/linux/pci.h
+for a couple of comments.
+.PP
+.nf
+VENDOR_ID
+DEVICE_ID
+COMMAND
+STATUS
+REVISION
+CLASS_PROG
+CLASS_DEVICE
+CACHE_LINE_SIZE
+LATENCY_TIMER
+HEADER_TYPE
+BIST
+BASE_ADDRESS_0
+BASE_ADDRESS_1
+BASE_ADDRESS_2
+BASE_ADDRESS_3
+BASE_ADDRESS_4
+BASE_ADDRESS_5
+CARDBUS_CIS
+SUBSYSTEM_VENDOR_ID
+SUBSYSTEM_ID
+ROM_ADDRESS
+INTERRUPT_LINE
+INTERRUPT_PIN
+MIN_GNT
+MAX_LAT
+PRIMARY_BUS
+SECONDARY_BUS
+SUBORDINATE_BUS
+SEC_LATENCY_TIMER
+IO_BASE
+IO_LIMIT
+SEC_STATUS
+MEMORY_BASE
+MEMORY_LIMIT
+PREF_MEMORY_BASE
+PREF_MEMORY_LIMIT
+PREF_BASE_UPPER32
+PREF_LIMIT_UPPER32
+IO_BASE_UPPER16
+IO_LIMIT_UPPER16
+BRIDGE_ROM_ADDRESS
+BRIDGE_CONTROL
+CB_CARDBUS_BASE
+CB_CAPABILITIES
+CB_SEC_STATUS
+CB_BUS_NUMBER
+CB_CARDBUS_NUMBER
+CB_SUBORDINATE_BUS
+CB_CARDBUS_LATENCY
+CB_MEMORY_BASE_0
+CB_MEMORY_LIMIT_0
+CB_MEMORY_BASE_1
+CB_MEMORY_LIMIT_1
+CB_IO_BASE_0
+CB_IO_BASE_0_HI
+CB_IO_LIMIT_0
+CB_IO_LIMIT_0_HI
+CB_IO_BASE_1
+CB_IO_BASE_1_HI
+CB_IO_LIMIT_1
+CB_IO_LIMIT_1_HI
+CB_SUBSYSTEM_VENDOR_ID
+CB_SUBSYSTEM_ID
+CB_LEGACY_MODE_BASE
+
+.SH SEE ALSO
+.BR lspci (8),
+.BR pcilib (7)
+
+.SH AUTHOR
+The PCI Utilities are maintained by Martin Mares <mj@ucw.cz>.

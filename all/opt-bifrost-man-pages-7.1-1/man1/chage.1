@@ -1,0 +1,162 @@
+'\" t
+.\"     Title: chage
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.75.2 <http://docbook.sf.net/>
+.\"      Date: 02/14/2011
+.\"    Manual: User Commands
+.\"    Source: User Commands
+.\"  Language: English
+.\"
+.TH "CHAGE" "1" "02/14/2011" "User Commands" "User Commands"
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+chage \- change user password expiry information
+.SH "SYNOPSIS"
+.HP \w'\fBchage\fR\ 'u
+\fBchage\fR [\fIoptions\fR] [\fILOGIN\fR]
+.SH "DESCRIPTION"
+.PP
+The
+\fBchage\fR
+command changes the number of days between password changes and the date of the last password change\&. This information is used by the system to determine when a user must change his/her password\&.
+.SH "OPTIONS"
+.PP
+The options which apply to the
+\fBchage\fR
+command are:
+.PP
+\fB\-d\fR, \fB\-\-lastday\fR \fILAST_DAY\fR
+.RS 4
+Set the number of days since January 1st, 1970 when the password was last changed\&. The date may also be expressed in the format YYYY\-MM\-DD (or the format more commonly used in your area)\&.
+.RE
+.PP
+\fB\-E\fR, \fB\-\-expiredate\fR \fIEXPIRE_DATE\fR
+.RS 4
+Set the date or number of days since January 1, 1970 on which the user\*(Aqs account will no longer be accessible\&. The date may also be expressed in the format YYYY\-MM\-DD (or the format more commonly used in your area)\&. A user whose account is locked must contact the system administrator before being able to use the system again\&.
+.sp
+Passing the number
+\fI\-1\fR
+as the
+\fIEXPIRE_DATE\fR
+will remove an account expiration date\&.
+.RE
+.PP
+\fB\-h\fR, \fB\-\-help\fR
+.RS 4
+Display help message and exit\&.
+.RE
+.PP
+\fB\-I\fR, \fB\-\-inactive\fR \fIINACTIVE\fR
+.RS 4
+Set the number of days of inactivity after a password has expired before the account is locked\&. The
+\fIINACTIVE\fR
+option is the number of days of inactivity\&. A user whose account is locked must contact the system administrator before being able to use the system again\&.
+.sp
+Passing the number
+\fI\-1\fR
+as the
+\fIINACTIVE\fR
+will remove an account\*(Aqs inactivity\&.
+.RE
+.PP
+\fB\-l\fR, \fB\-\-list\fR
+.RS 4
+Show account aging information\&.
+.RE
+.PP
+\fB\-m\fR, \fB\-\-mindays\fR \fIMIN_DAYS\fR
+.RS 4
+Set the minimum number of days between password changes to
+\fIMIN_DAYS\fR\&. A value of zero for this field indicates that the user may change his/her password at any time\&.
+.RE
+.PP
+\fB\-M\fR, \fB\-\-maxdays\fR \fIMAX_DAYS\fR
+.RS 4
+Set the maximum number of days during which a password is valid\&. When
+\fIMAX_DAYS\fR
+plus
+\fILAST_DAY\fR
+is less than the current day, the user will be required to change his/her password before being able to use his/her account\&. This occurrence can be planned for in advance by use of the
+\fB\-W\fR
+option, which provides the user with advance warning\&.
+.sp
+Passing the number
+\fI\-1\fR
+as
+\fIMAX_DAYS\fR
+will remove checking a password\*(Aqs validity\&.
+.RE
+.PP
+\fB\-W\fR, \fB\-\-warndays\fR \fIWARN_DAYS\fR
+.RS 4
+Set the number of days of warning before a password change is required\&. The
+\fIWARN_DAYS\fR
+option is the number of days prior to the password expiring that a user will be warned his/her password is about to expire\&.
+.RE
+.PP
+If none of the options are selected,
+\fBchage\fR
+operates in an interactive fashion, prompting the user with the current values for all of the fields\&. Enter the new value to change the field, or leave the line blank to use the current value\&. The current value is displayed between a pair of
+\fI[ ]\fR
+marks\&.
+.SH "NOTE"
+.PP
+The
+\fBchage\fR
+program requires a shadow password file to be available\&.
+.PP
+The
+\fBchage\fR
+command is restricted to the root user, except for the
+\fB\-l\fR
+option, which may be used by an unprivileged user to determine when his/her password or account is due to expire\&.
+.SH "FILES"
+.PP
+/etc/passwd
+.RS 4
+User account information\&.
+.RE
+.PP
+/etc/shadow
+.RS 4
+Secure user account information\&.
+.RE
+.SH "EXIT VALUES"
+.PP
+The
+\fBchage\fR
+command exits with the following values:
+.PP
+\fI0\fR
+.RS 4
+success
+.RE
+.PP
+\fI1\fR
+.RS 4
+permission denied
+.RE
+.PP
+\fI2\fR
+.RS 4
+invalid command syntax
+.RE
+.PP
+\fI15\fR
+.RS 4
+can\*(Aqt find the shadow password file
+.RE
+.SH "SEE ALSO"
+.PP
+
+\fBpasswd\fR(5),
+\fBshadow\fR(5)\&.

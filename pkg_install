@@ -84,6 +84,7 @@ function movefiles {
 	    continue
 	fi
 	if [ -e "$f" ]; then
+	    grep -qs "^$f$" $STATE && continue
 	    if [ -f $MOVEFILES ]; then
 		tar tf $MOVEFILES "$f" &>/dev/null && continue
 	    fi
@@ -100,7 +101,7 @@ function rmfiles {
     local rc=0
     cd /
     while read f; do
-	if [ -d "$f" ]; then
+	if [ -d "$f" -a ! -L "$f" ]; then
 	    /tmp/rmdir "$f" &>/dev/null
 	    continue
 	fi

@@ -1,0 +1,107 @@
+.TH init 8 2010-02-04 "Upstart"
+.\"
+.SH NAME
+init \- Upstart process management daemon
+.\"
+.SH SYNOPSIS
+.B init
+.RI [ OPTION ]...
+.\"
+.SH DESCRIPTION
+.B init
+is the parent of all processes on the system, it is executed by the kernel
+and is responsible for starting all other processes; it is the parent of
+all processes whose natural parents have died and it is responsible for
+reaping those when they die.
+
+Processes managed by
+.B init
+are known as jobs and are defined by files in the
+.I /etc/init
+directory.  See
+.BR init (5)
+for more details on configuring Upstart.
+.\"
+.SS Events
+.BR init (8)
+is an event-based init daemon.  This means that jobs will be automatically
+started and stopped by changes that occur to the system state, including
+as a result of jobs starting and stopping.
+
+This is different to dependency-based init daemons which start a specified
+set of goal jobs, and resolve the order in which they should be started and
+other jobs required by iterating their dependencies.
+
+For more information on starting and stopping jobs, as well as emitting
+events that will automatically start and stop jobs, see the manual page for
+the
+.BR initctl (8)
+tool.
+
+The primary event is the
+.BR startup (7)
+event, emitted when the daemon has finished loading its configuration.
+Other useful events are the
+.BR starting (7),
+.BR started (7),
+.BR stopping (7)
+and
+.BR stopped (7)
+events emitted as jobs change state.
+.\"
+.SS System V compatibility
+The Upstart
+.BR init (8)
+daemon does not keep track of runlevels itself, instead they are implemented
+entirely by its userspace tools.  The event emitted to signify a change
+of runlevel is the
+.BR runlevel (7)
+event.  For more information see its manual page.
+.\"
+.SH OPTIONS
+Options are passed to
+.BR init (8)
+by placing them on the kernel command-line.
+.\"
+.TP
+.B --verbose
+Outputs verbose messages about job state changes and event emissions to the
+system console or log, useful for debugging boot.
+.\"
+.SH NOTES
+.B init
+is not normally executed by a user process, and expects to have a process
+id of 1.  If this is not the case, it will actually execute
+.BR telinit (8)
+and pass all arguments to that.  See that manual page for further details.
+.\"
+.SH FILES
+.\"
+.I /etc/init.conf
+
+.I /etc/init/*.conf
+.\"
+.SH AUTHOR
+Written by Scott James Remnant
+.RB < scott@netsplit.com >
+.\"
+.SH REPORTING BUGS
+Report bugs at
+.RB < https://launchpad.net/upstart/+bugs >
+.\"
+.SH COPYRIGHT
+Copyright \(co 2010 Canonical Ltd.
+.br
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+.\"
+.SH SEE ALSO
+.BR init (5)
+.BR initctl (8)
+.BR telinit (8)
+.BR runlevel (7)
+.BR startup (7)
+.BR starting (7)
+.BR started (7)
+.BR stopping (7)
+.BR stopped (7)

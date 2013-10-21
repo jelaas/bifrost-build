@@ -31,7 +31,7 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 # pkg_install groff-1.21-1 || exit 2 # Needed to convert man-pages: see below
 
 # Compile against musl:
-# pkg_install musl-0.9.1-1 || exit 2 
+# pkg_install musl-0.9.10-1 || exit 2 
 # export CC=musl-gcc
 
 #########
@@ -47,7 +47,7 @@ libtool_fix-1
 #########
 # Configure
 OPTPREFIX=opt/$PKG
-B-configure-1 --prefix=/$OPTPREFIX --localstatedir=/var || exit 1
+B-configure-3 --prefix=/$OPTPREFIX --localstatedir=/var || exit 1
 [ -f config.log ] && cp -p config.log /var/log/config/$PKG-config.log
 
 #########

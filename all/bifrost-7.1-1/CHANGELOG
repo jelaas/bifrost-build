@@ -1,0 +1,249 @@
+Bifrost 7.1: changes since 7.0
+------------------------------
+
+Framework:
+- Per interface qdisc configuration with a few simple qdiscs: codel, sfq, sfb.
+  See /etc/qdisc.
+- Upgrade improvements. Defaults for all system files in /etc/conf.preconf.
+- initramfs improvements. autoexpand of root partition.
+- You can now build and create bootable media from within bifrost.
+  Unfortunately the grub-installation part does not work. You need to do this
+  manually afterwards. See /Documentation/Bifrost/Install.txt
+- DHCP: better support with readonly rootfs.
+- eth-detect for a few new devices.
+- If separate /var partition, perform fsck before mount.
+
+Documentation:
+  Created /Documentation/Bifrost/Install.txt
+  Updated/Documentation/Bifrost/Upgrade.txt
+
+Kernel:
+Based on version 3.6.0.
+- New options enabled:
+  CONFIG_CRYPTO_USER=m
+  CONFIG_L2TP_ETH=y
+  CONFIG_NET_SCH_CODEL=m
+  CONFIG_OPENVSWITCH=m
+  CONFIG_PPPOL2TP=m
+  CONFIG_PPP_MULTILINK=y
+  CONFIG_VMWARE_BALLOON=m
+
+New programs:
+- disk section: partprobe, parted, dmsetup. Needed for generating disk-image.
+- grub2
+- patch
+- make
+
+Notable program updates:
+- UTF8 support in: zile, bash, ls etc.
+- iproute2
+- ethtool
+- e2fsprogs
+- pciutils
+- openssh
+- openssl
+
+Changes since 7.0.2
+-------------------
+
+    openssl update. Version openssl-0.9.8x-1.
+
+    eth-affinty bugfix
+
+    Kernel update: device mapper support, latest initramfs
+
+    New script for creating a bootable Bifrost disk-image: make-bifrost-image
+
+Security:
+- bind-9.7.6-P2
+- dhcp-4.1-ESV-R6
+
+Updated openssl dependency for:
+- openssh
+- openssl
+
+New binaries (device mapper support):
++ partprobe
++ parted
++ kpartx
++ dmsetup
+
+Changes since 7.0.1
+-------------------
+
+    configure bugfix.
+
+    ethtool DOM patch from Oleg A. Arkhangelsky
+      Externally calibrated sfps fix.
+
+    openssl update. Version openssl-0.9.8v-1.
+
+Updated openssl dependency for:
+- openssh
+- curl
+- nmap
+- wget
+- openssl
+
+New binary:
++ tftp
+
+Changes since 7.0
+-------------------
+
+    bifrost-upgrade-3 - small fixes
+
+    mount and umount defaults to not write to /etc/mtab
+    (we have /proc/mounts as /etc/mtab)
+
+    update pciutils - with new pciids
+
+ - flowctl usage at boot. now works.
+ - some docs
+ - couple of small fixes.
+ - eth-detect : I350 Gigabit:igb:Intel 1 Gigabit, multiq
+
+Kernel update: kernel-x86_32-3.0.0-8, kernel-x86_64-3.0.0-8
+ security patch. usb_serial_option=m.
+ initramfs support init=<initprg>
+
+New since 6.x series.
+---------------------
+
+The Bifrost core distribution is now built completely from the bifrost-build system.
+This means everything in the system is completely tracked. Sources, versions, build instructions and dependencies. See "https://github.com/jelaas/bifrost-build".
+
+A new configure script based on dialog is now included. Makes basic system configuration a bit more fancier.
+
+'devtag': Device tagging to keep track of devices. Currently only supports USB-devices. 
+
+The included kernels (32 and 64 bit) are based on 3.0.0 from net-next.
+Patches are:
+- ixgbe RSS patch (free CPU 0 from bulk traffic)
+- igxbe sfp patch (allow any sfp, not just intels)
+- DOM support for ixgbe and igb (use ethtool to access)
+- pktgen receiver patch (better statistics from pktgen)
+- e1000 and e1000e copybreak patch
+- slub_nomerge enabled by default
+- niu bugfixes: rx_channel, rx_bytes
+- backported bugfixes for fib_trie, ipv4/raw.c, inetpeer, niu and tcp_output.c.
+
+Kernel modules are sorted into a few different packages: supported, unsupported, firmware, vmlinux and wireless.
+"Supported" is the core package with kernel and the supported driver modules.
+"Firmware" is for all firmware.
+"Wireless" is for wireless device drivers.
+"Vmlinux" is for the uncompressed kernel and system map.
+"Unsupported" is for everything else not in the above categories..
+
+Initramfs is used at boot time to find the boot partition by label, run fsck and then mount the boot partition. The initramfs is a cpio archive included in the kernel image.
+
+ipmi support included (ipmitool).
+
+A new script make_bifrost included to create new bootable bifrost storage devices.
+
+/sbin/backup: the backup script is now configurable ('/etc/config.data/backup.conf').
+
+A few utilities for namespace support: ns, nsnetif, veth, macvlan.
+
+iocethtool: for generic ethtool ioctl access.
+
+cpuinfo: script friendly cpu information.
+
+ifinfo: script friendly network interface information.
+
+cpu_pkts: monitor received packet distribution over cpus.
+
+bifrost-upgrade: script to ease upgrading from a previous version of bifrost.
+
+rfcmd: (for talking to tellsticks I believe).
+
+tty_talk: sends command on serial port and prints response on stdout.
+
+opt-get: very simple package downloader/installer.
+
+New since 6.0.x series.
+-----------------------
+
+Static binaries. All binaries now linked statically against either uclibc or dietlibc. Dynamic libraries removed from system.
+
+More old (hopefully not used anymore) cruft removed.
+
+Support for loading drivers for misc hardware via device-detect.
+
+Configuration now preserved better over upgrades. This is done via default files and setting default values to missing flags.
+
+eth-affinity can now reserve CPUs from being used in the network receive and transmit path.
+
+Daemons now run by default on CPU 0 which is freed from network traffic.
+
+Namespace support added to kernel.
+
+Bifrost can now with the help of 'allcaps'-program "boot" inside a namespace container. This in preparation for virtual router support.
+
+Bifrost optional lxc package exists for doing basic container/namespace things.
+http://laas.mine.nu/jens/bifrost/lxc-0.6.3-static.tgz
+
+
+Initial DOM support for igb and ixgbe driver. Use inclused ethtool.
+HW support for atom-based cpu's. 
+
+32-bit kernel included for experiments and education. Also USB-to-ethernet 
+gadget added.
+
+eth-detect support for Intel cards 82599 added
+
+l7 directory removed. Not supported. --ro
+
+
+Bifrost 6.0  (Bifrost Software Distribution)
+--------------------------------------------
+
+Some of the news.
+
+ftp://robur.slu.se:/pub/Linux/bifrost/v6/bifrost-6.0rc6.tgz
+
+LABEL=bifrost is used for mounting and fsck of rootfs.
+
+VLAN scripts are added. Contribution by Pehr Söderman <Pehrs@kth.se>
+See /etc/docs/vlan-interfaces.txt.
+
+New log possibilities, framework for coping logs between ramdisk and
+USB-storage. See config.flags/ramlog. Also from Pehr.
+
+Possible to control size of ramdisk. See config.data/tmpsize
+
+Many utilities are updated and many are built with uclibc. There are new 
+/bin64 and /bin32 directories included in PATH according to kernel arch. 
+Scripts are cleaned up.
+
+Kernel 2.6.29-r2 with many patches configured for 64-bit NUNA arch. Tested 
+with Opteron and Intel Duo. So far we only support 64-bit kernel.
+
+Kernel has multiqueue support for routing/forwarding. The driver supporting
+multiqueue is ixgbe (Intel 10g 82598 chip) niu (SUN neptune 10g and 1g board)
+and the igb (Intel 82576 chip) drivers.
+
+Automatic driver module loading via PCI probing. See /etc/eth-detect.conf
+(you can of course add needed tags). Modpobe follows eth-detect.conf order.
+
+eth-affinity to setup IRQ affinity among multiqueue capable NIC's. Normally 
+run at start.
+
+ifstat2 is improved and have defaults for 10g.
+
+'zile' --  A new emacs like editor.
+'edit' now replaced with nano.
+
+Some emerging support for TCAM classifier support in the niu driver via  
+ethtool. (Note. A byte order bug for IP/Ports etc)
+
+pktgen can be configured to use multiqueue NIC's.
+
+An optional oprofile package can profile a running system at very little cost.
+Very useful for troubleshooting and network and performance understanding.
+
+And bugs of course
+
+Enjoy
+Robert, Jens, Emil
+

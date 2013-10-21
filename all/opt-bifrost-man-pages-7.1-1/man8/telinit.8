@@ -1,0 +1,134 @@
+.TH telinit 8 2009-07-09 "Upstart"
+.\"
+.SH NAME
+telinit \- change system runlevel
+.\"
+.SH SYNOPSIS
+.B telinit
+.RI [ OPTION ]...
+.I RUNLEVEL
+.\"
+.SH DESCRIPTION
+.B telinit
+may be used to change the system runlevel.
+
+The
+.I RUNLEVEL
+argument should be one of the multi-user runlevels
+.BR 2-5 ,
+.B 0
+to halt the system,
+.B 6
+to reboot the system or
+.B 1
+to bring the system down into single-user mode.
+
+Normally you would use the
+.BR shutdown (8)
+tool to halt or reboot the system, or to bring it down to single-user mode.
+
+.I RUNLEVEL
+may also be
+.BR S " or " s
+which will place the system directly into single-user mode without actually
+stopping processes first, you probably won't want that.
+
+The runlevel is changed by emitting the
+.BR runlevel (7)
+event, which includes the new runlevel in the
+.B RUNLEVEL
+environment variable as well as the previous runlevel (obtained from the
+environment or from
+.IR /var/run/utmp )
+in the
+.B PREVLEVEL variable.
+
+.B telinit
+will write the new runlevel to
+.I /var/run/utmp
+and append a new entry to
+.I /var/log/wtmp.
+\"
+.SS Other commands
+.B telinit
+may be also used to send basic commands to the
+.BR init (8)
+daemon for compatibility with System V.  These are:
+.\"
+.TP
+.BR Q " or " q
+to request that
+.BR init (8)
+reload its configuration.  This is rarely necessary since Upstart watches
+its configuration with
+.BR inotify (7)
+and is deprecated by the
+.BR initctl (8)
+.B reload-configuration
+command.
+.\"
+.TP
+.BR U " or " u
+to request that the
+.BR init (8)
+daemon re-execute itself.  This is not recommended since Upstart is currently
+unable to preserve its state, but is necessary when upgrading system
+libraries.
+.\"
+.SH OPTIONS
+.TP
+.BI "-e " KEY=VALUE
+This specifies an additional environment variable to be included in the event
+along with
+.B RUNLEVEL
+and
+.BR PREVLEVEL .
+.\"
+.SH ENVIRONMENT
+.TP
+.B RUNLEVEL
+.B telinit
+will read the current runlevel from this environment variable if set in
+preference to reading from
+.I /var/run/utmp
+.\"
+.SH FILES
+.TP
+.I /var/run/utmp
+Where the current runlevel will be read from; this file will also be updated
+with the new runlevel.
+.\"
+.TP
+.I /var/log/wtmp
+A new runlevel record will be appended to this file for the new runlevel.
+.\"
+.SH NOTES
+The Upstart
+.BR init (8)
+daemon does not keep track of runlevels itself, instead they are implemented
+entirely by its userspace tools.
+
+See
+.BR runlevel (7)
+for more details.
+.\"
+.SH AUTHOR
+Written by Scott James Remnant
+.RB < scott@netsplit.com >
+.\"
+.SH REPORTING BUGS
+Report bugs at
+.RB < https://launchpad.net/upstart/+bugs >
+.\"
+.SH COPYRIGHT
+Copyright \(co 2009 Canonical Ltd.
+.br
+This is free software; see the source for copying conditions.  There is NO
+warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+.\"
+.SH SEE ALSO
+.BR runlevel (7)
+.BR init (8)
+.BR initctl (8)
+.BR shutdown (8)
+.BR runlevel (8)

@@ -1,0 +1,205 @@
+.\" A man page for updatedb(8). -*- nroff -*-
+.\"
+.\" Copyright (C) 2005, 2007, 2008 Red Hat, Inc. All rights reserved.
+.\"
+.\" This copyrighted material is made available to anyone wishing to use,
+.\" modify, copy, or redistribute it subject to the terms and conditions of the
+.\" GNU General Public License v.2.
+.\"
+.\" This program is distributed in the hope that it will be useful, but WITHOUT
+.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+.\" more details.
+.\"
+.\" You should have received a copy of the GNU General Public License along
+.\" with this program; if not, write to the Free Software Foundation, Inc.,
+.\" 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+.\"
+.\" Author: Miloslav Trmac <mitr@redhat.com>
+.TH updatedb 8 "Jun 2008" mlocate
+
+.SH NAME
+updatedb \- update a database for mlocate
+
+.SH SYNOPSIS
+
+\fBupdatedb\fR [\fIOPTION\fR]...
+
+.SH DESCRIPTION
+.B updatedb
+creates or updates a database used by
+.BR locate (1).
+If the database already exists,
+its data is reused
+to avoid rereading directories that have not changed.
+
+.B updatedb
+is usually run daily by
+.BR cron (8)
+to update the default database.
+
+.SH EXIT STATUS
+.B updatedb
+returns with exit status 0 on success, 1 on error.
+
+.SH OPTIONS
+The \fBPRUNE_BIND_MOUNTS\fR, \fBPRUNEFS\fR,
+.B PRUNENAMES
+and
+.B PRUNEPATHS
+variables, which are modified by some of the options, are documented in detail
+in
+.BR updatedb.conf (5).
+
+.TP
+\fB\-f\fR, \fB\-\-add-prunefs\fB \fIFS\fR
+Add entries in white-space-separated list \fIFS\fR to \fBPRUNEFS\fR.
+
+.TP
+\fB\-n\fR, \fB\-\-add-prunenames\fB \fINAMES\fR
+Add entries in white-space-separated list \fINAMES\fR to \fBPRUNENAMES\fR.
+
+.TP
+\fB\-e\fR, \fB\-\-add-prunepaths\fB \fIPATHS\fR
+Add entries in white-space-separated list \fIPATHS\fR to \fBPRUNEPATHS\fR.
+
+.TP
+\fB\-U\fR, \fB\-\-database\-root\fR \fIPATH\fR
+Store only results of scanning the file system subtree rooted at \fIPATH\fR to
+the generated database.
+The whole file system is scanned by default.
+
+.BR locate (1)
+outputs entries as absolute path names which don't contain symbolic links,
+regardless of the form of \fIPATH\fR.
+
+.TP
+\fB\-\-debug\-pruning\fR
+Write debugging information about pruning decisions to standard error output.
+
+.TP
+\fB\-h\fR, \fB\-\-help\fR
+Write a summary of the available options to standard output
+and exit successfully.
+
+.TP
+\fB\-o\fR, \fB\-\-output\fR \fIFILE\fR
+Write the database to
+.I FILE
+instead of using the default database.
+
+.TP
+\fB\-\-prune\-bind\-mounts\fR \fIFLAG\fR
+Set
+.B PRUNE_BIND_MOUNTS
+to \fIFLAG\fR, overriding the configuration file.
+
+.TP
+\fB\-\-prunefs\fR \fIFS\fR
+Set \fBPRUNEFS\fR to \fIFS\fR, overriding the configuration file.
+
+.TP
+\fB\-\-prunenames\fR \fINAMES\fR
+Set \fBPRUNENAMES\fR to \fINAMES\fR, overriding the configuration file.
+
+.TP
+\fB\-\-prunepaths\fR \fIPATHS\fR
+Set \fBPRUNEPATHS\fR to \fIPATHS\fR, overriding the configuration file.
+
+.TP
+\fB\-l\fR, \fB\-\-require\-visibility\fR \fIFLAG\fR
+Set the \*(lqrequire file visibility before reporting it\*(rq flag in the
+generated database to \fIFLAG\fR.
+
+If
+.I FLAG
+is
+.B 0
+or \fBno\fR,
+or if the database file is readable by "others"
+or it is not owned by \fBmlocate\fR,
+.BR locate (1)
+outputs the database entries even if the user running
+.BR locate (1)
+could not have read the directory necessary to find out the file described
+by the database entry.
+
+If
+.I FLAG
+is
+.B 1
+or
+.B yes
+(the default),
+.BR locate (1)
+checks the permissions of parent directories of each entry
+before reporting it to the invoking user.
+To make the file existence truly hidden from other users, the database
+group is set to
+.B mlocate
+and the database permissions prohibit reading the database by users using
+other means than
+.BR locate (1),
+which is set-gid \fBmlocate\fR.
+
+Note that the visibility flag is checked only if the database is owned by
+.B mlocate
+and it is not readable by "others".
+
+.TP
+\fB\-v\fR, \fB\-\-verbose\fR
+Output path names of files to standard output, as soon as they are found.
+
+.TP
+\fB\-V\fR, \fB\-\-version\fR
+Write information about the version and licence of
+.B locate
+on standard output and exit successfully.
+
+.SH EXAMPLES
+To create a private mlocate database as an user other than \fBroot\fR,
+run
+.RS
+.B updatedb -l 0 \-o
+.I db_file
+.B \-U
+.I source_directory
+.RE
+Note that all users that can read
+.I db_file
+can get the complete list of files in the subtree of \fIsource_directory\fR.
+
+.SH FILES
+.TP
+\fB/etc/updatedb.conf\fR
+A configuration file.  See
+.BR updatedb.conf (5).
+
+.TP
+\fB/var/lib/mlocate/mlocate.db\fR
+The database updated by default.
+
+.SH SECURITY
+Databases built with
+.B \-\-require\-visibility no
+allow users to find names of files and directories of other users,
+which they would not otherwise be able to do.
+
+.SH NOTES
+The accompanying
+.BR locate (1)
+utility was designed to be compatible to
+.B slocate
+and attempts to be compatible to
+.SM GNU
+.B locate
+where possible.
+This is not the case for \fBupdatedb\fR.
+
+.SH AUTHOR
+Miloslav Trmac <mitr@redhat.com>
+
+.SH SEE ALSO
+.BR locate (1),
+.BR mlocate.db (5),
+.BR updatedb.conf (5)

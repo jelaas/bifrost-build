@@ -1,0 +1,75 @@
+'\" t
+.\"     Title: chpasswd
+.\"    Author: [FIXME: author] [see http://docbook.sf.net/el/author]
+.\" Generator: DocBook XSL Stylesheets v1.75.2 <http://docbook.sf.net/>
+.\"      Date: 02/14/2011
+.\"    Manual: System Management Commands
+.\"    Source: System Management Commands
+.\"  Language: English
+.\"
+.TH "CHPASSWD" "8" "02/14/2011" "System Management Commands" "System Management Commands"
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+chpasswd \- update passwords in batch mode
+.SH "SYNOPSIS"
+.HP \w'\fBchpasswd\fR\ 'u
+\fBchpasswd\fR [\fIoptions\fR]
+.SH "DESCRIPTION"
+.PP
+The
+\fBchpasswd\fR
+command reads a list of user name and password pairs from standard input and uses this information to update a group of existing users\&. Each line is of the format:
+.PP
+
+\fIuser_name\fR:\fIpassword\fR
+.SS ""
+.PP
+The supplied passwords must be in clear\-text\&.
+.PP
+PAM is used to update the password in the system database according to the PAM chpasswd configuration\&.
+.PP
+When
+\fBchpasswd\fR
+fails to update a password, it continues updating the passwords of the next users, and will return an error code on exit\&.
+.PP
+This command is intended to be used in a large system environment where many accounts are created at a single time\&.
+.SH "OPTIONS"
+.PP
+The options which apply to the
+\fBchpasswd\fR
+command are:
+.PP
+\fB\-S\fR, \fB\-\-stdout\fR
+.RS 4
+Report encrypted passwords to stdout instead of updating password file\&.
+.RE
+.PP
+\fB\-h\fR, \fB\-\-help\fR
+.RS 4
+Display help message and exit\&.
+.RE
+.SH "CAVEATS"
+.PP
+Remember to set permissions or umask to prevent readability of unencrypted files by other users\&.
+.SH "FILES"
+.PP
+/etc/pam\&.d/chpasswd
+.RS 4
+PAM configuration for
+\fBchpasswd\fR\&.
+.RE
+.SH "SEE ALSO"
+.PP
+
+\fBpasswd\fR(1),
+\fBnewusers\fR(8),
+\fBuseradd\fR(8)\&.
