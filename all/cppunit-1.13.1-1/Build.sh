@@ -1,17 +1,12 @@
 #!/bin/bash
 
-VER=4.6.1
-SRCAVER=gcc-core-$VER
-SRCBVER=gcc-g++-$VER
-PKG=gcc-$VER-2 # with build version
+SRCVER=cppunit-1.13.1
+PKG=$SRCVER-1 # with build version
 
 # PKGDIR is set by 'pkg_build'. Usually "/var/lib/build/all/$PKG".
 PKGDIR=${PKGDIR:-/var/lib/build/all/$PKG}
-SRCA=/var/spool/src/$SRCAVER.tar.gz
-[ -f /var/spool/src/$SRCAVER.tar.bz2 ] && SRCA=/var/spool/src/$SRCAVER.tar.bz2
-SRCB=/var/spool/src/$SRCBVER.tar.gz
-[ -f /var/spool/src/$SRCBVER.tar.bz2 ] && SRCB=/var/spool/src/$SRCBVER.tar.bz2
-BUILDDIR=/var/tmp/src/gcc-$VER
+SRC=/var/spool/src/$SRCVER.tar.gz
+BUILDDIR=/var/tmp/src/$SRCVER
 DST="/var/tmp/install/$PKG"
 
 #########
@@ -25,35 +20,30 @@ function sedit {
 
 #########
 # Fetch sources
-./Fetch-source.sh || exit $?
+./Fetch-source.sh || exit 1
 pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 
 #########
 # Install dependencies:
-# pkg_available dependency1-1 dependency2-1
-# pkg_install dependency1-1 || exit 2
-pkg_install gmp-4.3.2-1 || exit 2
-pkg_install mpfr-2.4.2-1 || exit 2
-pkg_install mpc-0.8.1-1 || exit 2
-pkg_install gawk-3.1.8-1 || exit 2
-
+#pkg_available m4-1.4.14-1 perl-5.10.1-1
+#pkg_install m4-1.4.14-1 || exit 2
+#pkg_install perl-5.10.1-1 || exit 2
 #########
 # Unpack sources into dir under /var/tmp/src
-cd $(dirname $BUILDDIR); tar xf $SRCA; tar xf $SRCB
+cd $(dirname $BUILDDIR); tar zxf $SRC
 
 #########
 # Patch
-cd $BUILDDIR || exit 1
+cd $BUILDDIR
 libtool_fix-1
 # patch -p1 < $PKGDIR/mypatch.pat
 
+#sedit 's/\nTEST_EMACS\n/\nTEST_EMACS="no"\n/g' configure
+#sedit 's/TEST_EMACS=\$EMACS/TEST_EMACS="no"/g' configure
+
 #########
 # Configure
-
-$PKGDIR/B-configure-1 --build=i586-linux-uclibc --target=i586-linux-uclibc \
- --prefix=/usr --with-stage1-ldflags=-static --with-boot-ldflags=-static --disable-nls \
- --disable-libgomp --enable-threads=posix --enable-bootstrap --enable-languages=c,c++ || exit 1
-[ -f config.log ] && cp -p config.log /var/log/config/$PKG-config.log
+B-configure-1 --prefix=/usr || exit 1
 
 #########
 # Post configure patch
@@ -61,7 +51,7 @@ $PKGDIR/B-configure-1 --build=i586-linux-uclibc --target=i586-linux-uclibc \
 
 #########
 # Compile
-make bootstrap || exit 1
+make || exit 1
 
 #########
 # Install into dir under /var/tmp/install
@@ -70,21 +60,20 @@ make install DESTDIR=$DST # --with-install-prefix may be an alternative
 
 #########
 # Check result
-cd $DST || exit 1
+cd $DST
 # [ -f usr/bin/myprog ] || exit 1
 # (ldd sbin/myprog|grep -qs "not a dynamic executable") || exit 1
 
 #########
 # Clean up
-cd $DST || exit 1
-# rm -rf usr/share usr/man
-strip usr/libexec/gcc/i586-linux-uclibc/4.6.1/*
+cd $DST
+rm -rf usr/share/man usr/share/info
 [ -d bin ] && strip bin/*
 [ -d usr/bin ] && strip usr/bin/*
 
 #########
 # Make package
-cd $DST || exit 1
+cd $DST
 tar czf /var/spool/pkg/$PKG.tar.gz .
 
 #########

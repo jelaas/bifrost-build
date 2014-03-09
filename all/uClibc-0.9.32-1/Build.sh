@@ -84,6 +84,6 @@ tar czf /var/spool/pkg/$PKG.tar.gz .
 # Cleanup after a success
 cd /var/lib/build
 [ "$DEVEL" ] || rm -rf "$DST"
-[ "$DEVEL" ] || rm -rf "$BUILDDIR"
+#[ "$DEVEL" ] || rm -rf "$BUILDDIR"
 pkg_uninstall
 exit 0

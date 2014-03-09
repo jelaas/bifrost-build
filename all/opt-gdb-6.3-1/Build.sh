@@ -47,15 +47,16 @@ libtool_fix-1
 
 #########
 # Configure
-B-configure-1 --prefix=/opt/gdb || exit 1
+#B-configure-1
+./configure --prefix=/opt/gdb --with-mpfr --with-gmp || exit 1
 [ -f config.log ] && cp -p config.log /var/log/config/$PKG-config.log
 
 #########
 # Post configure patch
 # patch -p0 < $PKGDIR/Makefile.pat
-patch -p0 < $PKGDIR/gdb_Makefile_intl.pat
-sed -i "s/rdynamic/static/" gdb/config/i386/linux64.mh
-sed -i "s/rdynamic/static/" gdb/config/i386/linux.mh
+#patch -p0 < $PKGDIR/gdb_Makefile_intl.pat
+#sed -i "s/rdynamic/static/" gdb/config/i386/linux64.mh
+#sed -i "s/rdynamic/static/" gdb/config/i386/linux.mh
 
 #########
 # Compile
@@ -71,7 +72,7 @@ make install DESTDIR=$DST # --with-install-prefix may be an alternative
 # Check result
 cd $DST || exit 1
 # [ -f usr/bin/myprog ] || exit 1
-(ldd opt/gdb/bin/gdb|grep -qs "not a dynamic executable") || exit 1
+#(ldd opt/gdb/bin/gdb|grep -qs "not a dynamic executable") || exit 1
 
 #########
 # Clean up

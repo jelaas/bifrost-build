@@ -1,12 +1,17 @@
 #!/bin/bash
 
-SRCVER=libtool-2.4
-PKG=$SRCVER-1 # with build version
+VER=4.6.1
+SRCAVER=gcc-core-$VER
+SRCBVER=gcc-g++-$VER
+PKG=gcc-$VER-3 # with build version
 
 # PKGDIR is set by 'pkg_build'. Usually "/var/lib/build/all/$PKG".
 PKGDIR=${PKGDIR:-/var/lib/build/all/$PKG}
-SRC=/var/spool/src/$SRCVER.tar.gz
-BUILDDIR=/var/tmp/src/$SRCVER
+SRCA=/var/spool/src/$SRCAVER.tar.gz
+[ -f /var/spool/src/$SRCAVER.tar.bz2 ] && SRCA=/var/spool/src/$SRCAVER.tar.bz2
+SRCB=/var/spool/src/$SRCBVER.tar.gz
+[ -f /var/spool/src/$SRCBVER.tar.bz2 ] && SRCB=/var/spool/src/$SRCBVER.tar.bz2
+BUILDDIR=/var/tmp/src/gcc-$VER
 DST="/var/tmp/install/$PKG"
 
 #########
@@ -18,29 +23,46 @@ function sedit {
     rm /tmp/sedit.$$
 }
 
+#<<COMMENT1
 #########
 # Fetch sources
-./Fetch-source.sh || exit 1
+./Fetch-source.sh || exit $?
 pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 
 #########
 # Install dependencies:
 # pkg_available dependency1-1 dependency2-1
-# pkg_install dependency1-1 || exit 1
+# pkg_install dependency1-1 || exit 2
+pkg_install gmp-4.3.2-1 || exit 2
+pkg_install mpfr-2.4.2-1 || exit 2
+pkg_install mpc-0.8.1-1 || exit 2
+pkg_install gawk-3.1.8-1 || exit 2
 
 #########
 # Unpack sources into dir under /var/tmp/src
-cd $(dirname $BUILDDIR); tar xf $SRC
-
+cd $(dirname $BUILDDIR); tar xf $SRCA; tar xf $SRCB
+#COMMENT1
 #########
 # Patch
-cd $BUILDDIR
+cd $BUILDDIR || exit 1
+
+#<<COMMENT2
+
 libtool_fix-1
 # patch -p1 < $PKGDIR/mypatch.pat
 
 #########
 # Configure
-B-configure-1 --prefix=/usr --enable-static --enable-shared=no || exit 1
+
+sed -i 's,gcc_no_link=yes,gcc_no_link=no,' ./libstdc++-v3/configure
+
+#export LDFLAGS=-static
+#export CC="$CC -static"
+
+
+$PKGDIR/B-configure-1 --build=i586-linux-uclibc --target=i586-linux-uclibc \
+ --prefix=/usr --with-stage1-ldflags=-static --with-boot-ldflags=-static --disable-nls \
+ --disable-libgomp --enable-threads=posix --enable-bootstrap --enable-languages=c,c++ || exit 1
 [ -f config.log ] && cp -p config.log /var/log/config/$PKG-config.log
 
 #########
@@ -49,12 +71,13 @@ B-configure-1 --prefix=/usr --enable-static --enable-shared=no || exit 1
 
 #########
 # Compile
-make || exit 1
+BOOT_LDFLAGS="-static" LDFLAGS="-static" make bootstrap || exit 1
 
 #########
 # Install into dir under /var/tmp/install
 rm -rf "$DST"
-make install DESTDIR=$DST # --with-install-prefix may be an alternative
+#COMMENT2
+BOOT_LDFLAGS="-static" LDFLAGS="-static" make install DESTDIR=$DST # --with-install-prefix may be an alternative
 
 #########
 # Check result
@@ -66,6 +89,7 @@ cd $DST || exit 1
 # Clean up
 cd $DST || exit 1
 # rm -rf usr/share usr/man
+strip usr/libexec/gcc/i586-linux-uclibc/4.6.1/*
 [ -d bin ] && strip bin/*
 [ -d usr/bin ] && strip usr/bin/*
 

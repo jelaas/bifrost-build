@@ -1,17 +1,19 @@
 #!/bin/bash
 
-SRCVER=curl-devel-7.20.1
+SRCVER=git-1.8.2.3
 PKG=$SRCVER-1 # with build version
 
 PKGDIR=${PKGDIR:-/var/lib/build/all/$PKG}
-SRC=/var/spool/src/curl-7.20.1.tar.bz2
-BUILDDIR=/var/tmp/src/curl-7.20.1
+SRC=/var/spool/src/$SRCVER.tar.bz2
+BUILDDIR=/var/tmp/src/$SRCVER
 DST="/var/tmp/install/$PKG"
 
 #########
 # Install dependencies:
-pkg_install openssl-0.9.8y-1 || exit 2
-pkg_install zlib-1.2.6-1 || exit 2
+#pkg_available openssl-0.9.8n-2 zlib-1.2.5-1 curl-devel-7.20.1-1
+#pkg_install openssl-0.9.8n-2 || exit 2
+#pkg_install zlib-1.2.5-1 || exit 2
+#pkg_install curl-devel-7.20.1-1 || exit 2
 
 #########
 # Unpack sources into dir under /var/tmp/src
@@ -26,21 +28,31 @@ libtool_fix-1
 
 #########
 # Configure
-$PKGDIR/B-configure-1 --prefix=/usr --without-ca-bundle --with-ca-path=/etc/ssl/certs || exit 1
+LIBS="-lz -lssl -lcrypto" CXXFLAGS="-march=i586 -Os -g" CFLAGS="-march=i586 -Os -g" LDFLAGS="-static -lssl -lcrypto" ./configure --prefix=/opt/git --with-curl || exit 1
 
 #########
 # Post configure patch
 # patch -p0 < $PKGDIR/Makefile.pat
+echo "NO_PERL=YesPlease" >> config.mak
+echo "NO_NSEC=YesPlease" >> config.mak
+echo "NO_PTHREADS=YesPlease" >> config.mak
+echo "NO_TCLTK=YesPlease" >> config.mak
+echo "NO_PYTHON=YesPlease" >> config.mak
+#echo "NO_=YesPlease" >> config.mak
+
+sed 's/-lcurl/-lcurl -lssl -lcrypto -ldl/g' Makefile > /tmp/m.$$
+cp -f /tmp/m.$$ Makefile; rm /tmp/m.$$
+sed 's/xof/xf/g' templates/Makefile > /tmp/m.$$
+cp -f /tmp/m.$$ templates/Makefile; rm /tmp/m.$$
 
 #########
 # Compile
-make -j || exit 1
+make V=1 || exit 1
 
 #########
 # Install into dir under /var/tmp/install
 rm -rf "$DST"
 make install DESTDIR=$DST # --with-install-prefix may be an alternative
-chmod +x $DST/usr/bin/curl-config
 
 #########
 # Check result
@@ -51,10 +63,9 @@ cd $DST
 #########
 # Clean up
 cd $DST
-rm -f usr/bin/curl
-rm -rf usr/share
-#[ -d bin ] && strip bin/*
-#[ -d usr/bin ] && strip usr/bin/*
+strip opt/git/bin/*
+strip opt/git/libexec/git-core/*
+
 
 #########
 # Make package

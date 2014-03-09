@@ -38,6 +38,9 @@ cd $BUILDDIR
 libtool_fix-1
 # patch -p1 < $PKGDIR/mypatch.pat
 
+sedit 's/\nTEST_EMACS\n/\nTEST_EMACS="no"\n/g' configure
+sedit 's/TEST_EMACS=\$EMACS/TEST_EMACS="no"/g' configure
+
 #########
 # Configure
 B-configure-1 --prefix=/usr || exit 1

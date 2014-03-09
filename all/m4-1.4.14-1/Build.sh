@@ -25,6 +25,8 @@ cd $BUILDDIR
 libtool_fix-1
 # patch -p1 < $PKGDIR/mypatch.pat
 
+patch -p1 < $PKGDIR/threads.patch
+
 #########
 # Configure
 B-configure-1 --prefix=/usr || exit 1
