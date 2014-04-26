@@ -1,0 +1,19 @@
+#!/bin/bash
+
+PKG=example
+BINDIR=/opt/example/sbin
+
+case "$1" in
+    start)
+        printf "\nstarting: $PKG"
+        $BINDIR/example -d
+        ;;
+    stop)
+        printf "\nstopping: $PKG"
+	killall example
+        ;;
+    *)
+        printf "\n\tUsage: $0 < start | stop >\n\n"
+        ;;
+esac
+
