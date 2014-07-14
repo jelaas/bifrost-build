@@ -1,3 +1,10 @@
+Bifrost 7.1.1: changes since 7.1
+--------------------------------
+
+Notable program updates:
+- whois, compiled with musl. Now works.
+- updated dnsmasq
+
 Bifrost 7.1: changes since 7.0
 ------------------------------
 
