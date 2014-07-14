@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SRCVER=example-1.0.0
+SRCVER=musl-1.1.3
 PKG=$SRCVER-1 # with build version
 
 # PKGDIR is set by 'pkg_build'. Usually "/var/lib/build/all/$PKG".
@@ -28,25 +28,21 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 # Install dependencies:
 # pkg_available dependency1-1 dependency2-1
 # pkg_install dependency1-1 || exit 2
-# pkg_install groff-1.21-1 || exit 2 # Needed to convert man-pages: see below
-
-# Compile against musl:
-# pkg_install musl-1.1.3-1 || exit 2 
-# export CC=musl-gcc
+pkg_install binutils-2.20.1-1 || exit 2
 
 #########
 # Unpack sources into dir under /var/tmp/src
-cd $(dirname $BUILDDIR); tar xf $SRC
+cd $(dirname $BUILDDIR); tar xf $SRC || exit 1
 
 #########
 # Patch
 cd $BUILDDIR || exit 1
 libtool_fix-1
-# patch -p1 < $PKGDIR/mypatch.pat
+#patch -p0 < $PKGDIR/time_h.pat || exit 1
 
 #########
 # Configure
-B-configure-3 --prefix=/usr || exit 1
+$PKGDIR/B-configure-1 --prefix=/opt/musl --bindir=/usr/bin --disable-shared|| exit 1
 [ -f config.log ] && cp -p config.log /var/log/config/$PKG-config.log
 
 #########
@@ -61,11 +57,23 @@ make || exit 1
 # Install into dir under /var/tmp/install
 rm -rf "$DST"
 make install DESTDIR=$DST # --with-install-prefix may be an alternative
+mkdir -p $DST/etc
+echo /opt/musl/lib > $DST/etc/ld-musl-x86_64.path
+echo /opt/musl/lib > $DST/etc/ld-musl-i386.path
+echo /opt/musl/lib > $DST/etc/ld-musl-i486.path
+echo /opt/musl/lib > $DST/etc/ld-musl-i586.path
+echo /opt/musl/lib > $DST/etc/ld-musl-i686.path
 
-#########
-# Convert man-pages
 cd $DST || exit 1
-# for f in $(find . -path \*man/man\*); do if [ -f $f ]; then groff -T utf8 -man $f > $f.txt; rm $f; fi; done
+cp opt/musl/lib/musl-gcc.specs opt/musl/lib/musl-gcc.specs.orig
+patch -p0 < $PKGDIR/musl-gcc.specs.pat || exit 1
+
+echo ::::: musl-gcc.specs ::::::
+diff -u opt/musl/lib/musl-gcc.specs.orig opt/musl/lib/musl-gcc.specs
+echo ::::: musl-gcc ::::::
+diff -u usr/bin/musl-gcc $PKGDIR/musl-gcc
+echo :::::::::::
+cp $PKGDIR/musl-gcc usr/bin/musl-gcc || exit 1
 
 #########
 # Check result
@@ -79,8 +87,6 @@ cd $DST || exit 1
 # rm -rf usr/share usr/man
 [ -d bin ] && strip bin/*
 [ -d usr/bin ] && strip usr/bin/*
-[ -d sbin ] && strip sbin/*
-[ -d usr/sbin ] && strip usr/sbin/*
 
 #########
 # Make package
