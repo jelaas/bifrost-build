@@ -181,7 +181,7 @@ mkdir -p bin32
 mv ./usr/sbin/tcpdump bin32 || exit 1
 untar telnet-bsd-1.2-1
 untar vlan.1.9-1
-untar wget-1.12-2
+untar wget-1.15-1
 
 # disk
 
