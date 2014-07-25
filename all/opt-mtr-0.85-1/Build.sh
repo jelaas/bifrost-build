@@ -28,7 +28,7 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 # Install dependencies:
 # pkg_available dependency1-1 dependency2-1
 # pkg_install dependency1-1 || exit 2
-# pkg_install groff-1.21-1 || exit 2 # Needed to convert man-pages: see below
+pkg_install groff-1.21-1 || exit 2 # Needed to convert man-pages: see below
 
 pkg_install m4-1.4.14-1 || exit 2
 pkg_install autoconf-2.65-1 || exit 2
@@ -59,7 +59,7 @@ sed -i 's/WANTS_GLIB=yes/WANTS_GLIB=no/' configure
 
 #########
 # Configure
-OPTPREFIX=opt/$PKG
+OPTPREFIX=opt/mtr
 B-configure-3 --prefix=/$OPTPREFIX --localstatedir=/var --disable-ipv6 || exit 1
 [ -f config.log ] && cp -p config.log /var/log/config/$PKG-config.log
 
@@ -77,19 +77,14 @@ make || exit 1
 rm -rf "$DST"
 make install DESTDIR=$DST # --with-install-prefix may be an alternative
 OPTDIR=$DST/$OPTPREFIX
-mkdir -p $OPTDIR/etc/config.flags
-mkdir -p $OPTDIR/etc/config.preconf
-mkdir -p $OPTDIR/rc.d
-echo yes > $OPTDIR/etc/config.flags/example
+mkdir -p $OPTDIR
 echo $PKG > $OPTDIR/pkgversion
-cp -p $PKGDIR/rc $OPTDIR/rc.d/rc.example
-chmod +x $OPTDIR/rc.d/rc.example
 [ -f $PKGDIR/README ] && cp -p $PKGDIR/README $OPTDIR
 
 #########
 # Convert man-pages
 cd $DST || exit 1
-# for f in $(find . -path \*man/man\*); do if [ -f $f ]; then groff -T utf8 -man $f > $f.txt; rm $f; fi; done
+for f in $(find . -path \*man/man\*); do if [ -f $f ]; then groff -T utf8 -man $f > $f.txt; rm $f; fi; done
 
 #########
 # Check result
