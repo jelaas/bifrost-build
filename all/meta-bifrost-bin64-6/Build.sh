@@ -71,6 +71,7 @@ cd $DST || exit 1
 untar ethtool-v3.6-1
 untar strace-4.5.20-2
 untar tcpdump-4.1.1-1
+untar binutils-x86_64-2.20.1-1
 
 cd $DST
 tar czf /var/spool/pkg/$PKG.tar.gz .
