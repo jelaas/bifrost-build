@@ -1,9 +1,19 @@
 Bifrost 7.1.1: changes since 7.1
 --------------------------------
 
+Security:
+Kernel.
+Openssl updated for openssh, curl and wget.
+
+Kernel:
+Security patches.
+Patch for fibergecko.
+
 Notable program updates:
 - whois, compiled with musl. Now works.
-- updated dnsmasq
+- dnsmasq
+- pciutils
+- select binutils that arch-dependent added for 64bit arch.
 
 Bifrost 7.1: changes since 7.0
 ------------------------------
