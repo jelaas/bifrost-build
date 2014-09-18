@@ -3,6 +3,20 @@ Bifrost 7.2: changes since 7.1.1
 
 - schedlat. Possibility to set process priority
 
+TODO:
+ - kernel 3.17
+ - teamd
+ - nftables
+ - iptables
+ - ethtool
+ - HPSA module
+
+ * extlinux for boot ?
+   Solve compilation problems. Maybe easier in a new buildsystem.
+ * modernization path for buildsystem ?
+   The miniroots are getting long in the tooth.
+   The new system should be contained within the old.
+
 Bifrost 7.1.1: changes since 7.1
 --------------------------------
 
