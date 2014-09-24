@@ -1,0 +1,41 @@
+#!/bin/bash
+
+
+printf "\n\t$0\t-- SEEMS MISSCONFIGURED\n\n"
+printf "\tYou need to configure the services you want handled\n"
+printf "\tand remove these lines.  (Obviously you will also need\n"
+printf "\tto configure the services themself.)\n\n"
+exit 0
+
+
+BINDIR=/opt/quagga/sbin
+
+case "$1" in
+    start)
+        printf "\nstarting: quagga (zebra)"
+        $BINDIR/zebra -d                # quaggas binary still named zebra...
+
+        # printf "\nstarting: ospfd"
+        # $BINDIR/ospfd -d
+
+        printf "\nstarting: bgpd"
+        $BINDIR/bgpd -d
+        ;;
+    stop)
+        printf "\nstopping: bgpd"
+        killall bgpd
+        sleep 1
+
+        # printf "\nstopping: ospfd"
+        # killall ospfd
+        # sleep 1
+
+        printf "\nstopping: quagga"
+        killall zebra
+        sleep 1
+        ;;
+    *)
+        printf "\n\tUsage: $0 < start | stop >\n\n"
+        ;;
+esac
+
