@@ -58,7 +58,7 @@ cd $DST
 
 # framework: filesystem structure, scripts, configs etc
 
-untar bifrost-framework-1.0.26-1
+untar bifrost-framework-1.0.27-1
 cp $PKGDIR/CHANGELOG .
 
 # admin
