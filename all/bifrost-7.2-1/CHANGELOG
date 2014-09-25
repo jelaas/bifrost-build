@@ -12,6 +12,8 @@ TODO:
  - ethtool
  - HPSA module
  - import changes from 7.1.1 to 7.2
+ - initramfs: can we start init from a mounted tmpfs on /sbin/init ?
+              that way we wont hold a filedescriptor open on rootfs
 
  * extlinux for boot ?
    Solve compilation problems. Maybe easier in a new buildsystem.
