@@ -5,11 +5,13 @@ Bifrost 7.2: changes since 7.1.1
 
 TODO:
  - kernel 3.17
+  - depmod. crashes with 3.16 ?
  - teamd
  - nftables
  - iptables
  - ethtool
  - HPSA module
+ - import changes from 7.1.1 to 7.2
 
  * extlinux for boot ?
    Solve compilation problems. Maybe easier in a new buildsystem.
