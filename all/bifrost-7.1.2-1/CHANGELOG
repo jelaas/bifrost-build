@@ -3,6 +3,8 @@ Bifrost 7.1.2: changes since 7.1.1
 
 Bugfixes:
 - openssh wrote incorrect utmp entries
+- bash security update
+- .ssh links for root user
 
 Bifrost 7.1.1: changes since 7.1
 --------------------------------
