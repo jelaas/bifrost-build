@@ -198,7 +198,7 @@ untar kernel-x86_64-3.6.0-7
 
 untar grub-2.00-2
 
-untar bash-4.1-5
+untar bash-4.1-6
 untar binutils-2.20.1-1 ./usr/bin/size
 untar binutils-2.20.1-1 ./usr/bin/objdump
 untar binutils-2.20.1-1 ./usr/bin/ar
