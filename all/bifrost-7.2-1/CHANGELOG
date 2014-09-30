@@ -4,7 +4,7 @@ Bifrost 7.2: changes since 7.1.1
 - schedlat. Possibility to set process priority
 
 TODO:
- - kernel 3.17
+ - kernel 3.17. make sure latest initramfs >= 15
   - depmod. crashes with 3.16 ?
  - teamd
  - nftables
@@ -12,8 +12,9 @@ TODO:
  - ethtool
  - HPSA module
  - import changes from 7.1.1 to 7.2
- - initramfs: can we start init from a mounted tmpfs on /sbin/init ?
-              that way we wont hold a filedescriptor open on rootfs
+ - bifrost-upgrade. restart services after upgrade. detect (deleted)
+   remount r after upgrade should be possible.
+   Maybe let bifrost-upgrade take a tarball as argument.
 
  * extlinux for boot ?
    Solve compilation problems. Maybe easier in a new buildsystem.
