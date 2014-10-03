@@ -72,11 +72,14 @@ OPTDIR=$DST/$OPTPREFIX
 mkdir -p $OPTDIR/etc/config.flags
 mkdir -p $OPTDIR/etc/config.preconf
 mkdir -p $OPTDIR/rc.d
-echo yes > $OPTDIR/etc/config.flags/example
+echo yes > $OPTDIR/etc/config.flags/l2tpns
 echo $PKG > $OPTDIR/pkgversion
-cp -p $PKGDIR/rc $OPTDIR/rc.d/rc.example
-chmod +x $OPTDIR/rc.d/rc.example
+cp -p $PKGDIR/rc $OPTDIR/rc.d/rc.l2tpns
+chmod +x $OPTDIR/rc.d/rc.l2tpns
 [ -f $PKGDIR/README ] && cp -p $PKGDIR/README $OPTDIR
+mv $OPTDIR/etc/l2tpns/startup-config $OPTDIR/etc/l2tpns/startup-config.sample
+mv $OPTDIR/etc/l2tpns/ip_pool $OPTDIR/etc/l2tpns/ip_pool.sample
+mv $OPTDIR/etc/l2tpns/users $OPTDIR/etc/l2tpns/users.sample
 
 #########
 # Convert man-pages

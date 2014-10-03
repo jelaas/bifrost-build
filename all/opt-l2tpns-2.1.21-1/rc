@@ -1,16 +1,16 @@
 #!/bin/bash
 
-PKG=example
-BINDIR=/opt/example/sbin
+PKG=l2tpns
+BINDIR=/opt/l2tpns/sbin
 
 case "$1" in
     start)
         printf "\nstarting: $PKG"
-        $BINDIR/example -d
+        $BINDIR/l2tpns -d
         ;;
     stop)
         printf "\nstopping: $PKG"
-	killall example
+	killall l2tpns
         ;;
     *)
         printf "\n\tUsage: $0 < start | stop >\n\n"
