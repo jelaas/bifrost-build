@@ -17,6 +17,8 @@ TODO:
  - bifrost-upgrade. restart services after upgrade. detect (deleted)
    remount r after upgrade should be possible.
    Maybe let bifrost-upgrade take a tarball as argument.
+ - framework:
+    - add /etc/modprobe.d
 
  * extlinux for boot ?
    Solve compilation problems. Maybe easier in a new buildsystem.
