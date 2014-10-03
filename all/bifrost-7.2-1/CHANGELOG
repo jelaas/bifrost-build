@@ -6,12 +6,14 @@ Bifrost 7.2: changes since 7.1.1
 TODO:
  - kernel 3.17. make sure latest initramfs >= 15
   - depmod. crashes with 3.16 ?
+  - e1000e: param.c:#define DEFAULT_ITR 3 -> 0
+
  - teamd
  - nftables
  - iptables
  - ethtool
  - HPSA module
- - import changes from 7.1.1 to 7.2
+ - import changes 7 -> 7.1.2 to 7.2
  - bifrost-upgrade. restart services after upgrade. detect (deleted)
    remount r after upgrade should be possible.
    Maybe let bifrost-upgrade take a tarball as argument.
