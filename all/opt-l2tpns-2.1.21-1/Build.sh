@@ -43,7 +43,7 @@ pkg_install musl-libcli-1.9.7-1 || exit 2
 # Unpack sources into dir under /var/tmp/src
 cd $(dirname $BUILDDIR); tar xf $SRC
 rm -rf $BUILDDIR.orig
-cp -rp $BUILDDIR $BUILDDIR.orig
+#cp -rp $BUILDDIR $BUILDDIR.orig
 
 #########
 # Patch
