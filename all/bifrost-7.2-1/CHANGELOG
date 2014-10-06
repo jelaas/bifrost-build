@@ -5,12 +5,14 @@ Bifrost 7.2: changes since 7.1.1
 
 TODO:
  - kernel 3.17. make sure latest initramfs >= 15
-  - depmod. crashes with 3.16 ?
+  - depmod. crashes with 3.16 ? module-init-tools 3.15
   - e1000e: param.c:#define DEFAULT_ITR 3 -> 0
+  - + X25 ?
 
  - teamd
  - nftables
  - iptables
+ - bonding: module parameter max_bonds=0 (so bond0 is not created)
  - ethtool
  - HPSA module
  - import changes 7 -> 7.1.2 to 7.2
