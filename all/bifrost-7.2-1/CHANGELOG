@@ -7,14 +7,15 @@ TODO:
  - kernel 3.17. make sure latest initramfs >= 15
   - depmod. crashes with 3.16 ? module-init-tools 3.15
   - e1000e: param.c:#define DEFAULT_ITR 3 -> 0
+  - igb: igb.h IGB_DEFAULT_ITR = 0
+  - bonding: module parameter max_bonds=0 (so bond0 is not created)
   - + X25 ?
+  - HPSA module
 
  - teamd
  - nftables
  - iptables
- - bonding: module parameter max_bonds=0 (so bond0 is not created)
  - ethtool
- - HPSA module
  - import changes 7 -> 7.1.2 to 7.2
  - bifrost-upgrade. restart services after upgrade. detect (deleted)
    remount r after upgrade should be possible.
