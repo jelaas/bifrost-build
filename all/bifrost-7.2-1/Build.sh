@@ -58,7 +58,7 @@ cd $DST
 
 # framework: filesystem structure, scripts, configs etc
 
-untar bifrost-framework-1.0.26-1
+untar bifrost-framework-1.0.27-1
 cp $PKGDIR/CHANGELOG .
 
 # admin
@@ -92,7 +92,7 @@ untar iputils-s20100418-2; chmod +s ./sbin/ping; chmod +s ./sbin/ping6
 untar netkit-base-0.17-1 ./sbin/inetd
 untar net-tools-1.60-2
 untar ntp-4.2.6p5-1
-untar openssh-6.1p1-2
+untar openssh-6.1p1-3
 untar traceroute-2.0.16-1; chmod +s ./bin/traceroute
 untar whois_5.0.10-2
 untar wireless_tools.29-1
@@ -198,7 +198,7 @@ untar kernel-x86_64-3.6.0-7
 
 untar grub-2.00-2
 
-untar bash-4.1-4
+untar bash-4.1-7
 untar binutils-2.20.1-1 ./usr/bin/size
 untar binutils-2.20.1-1 ./usr/bin/objdump
 untar binutils-2.20.1-1 ./usr/bin/ar
@@ -312,7 +312,7 @@ untar kexec-tools-2.0.2-rc2-1
 untar libcap-bin-2.19-1
 untar logrotate-3.7.3-1
 untar make-3.81-1
-untar module-init-tools-3.12-1
+untar module-init-tools-3.15-1
 untar ncurses-bin-5.7-1 ./usr/bin/clear
 untar numactl-2.0.6-1 ./bin/numactl
 untar openssl-0.9.8y-1 ./usr/bin/openssl
