@@ -11,6 +11,7 @@ TODO:
   - e1000e: param.c:#define DEFAULT_ITR 3 -> 0
   - igb: igb.h IGB_DEFAULT_ITR = 0
   - bonding: module parameter max_bonds=0 (so bond0 is not created)
+    include/uapi/linux/if_bonding.h:#define BOND_DEFAULT_MAX_BONDS  1
   - + X25 ?
   - HPSA module
 
