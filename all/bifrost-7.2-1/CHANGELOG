@@ -3,6 +3,7 @@ Bifrost 7.2: changes since 7.1.1
 
 - schedlat. Possibility to set process priority
 - allcaps. Later kernels report undefined capability bits as zero not '1'.
+- nftables
 
 TODO:
  - kernel 3.17. make sure latest initramfs >= 15
