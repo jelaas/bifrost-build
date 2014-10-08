@@ -25,7 +25,8 @@ TODO:
    Maybe let bifrost-upgrade take a tarball as argument.
  - framework:
     - add /etc/modprobe.d
- - umount of /sbin/init fails at reboot (busy). how can we avoid this?
+    - rc.6 umount of /sbin/init fails at reboot (busy). how can we avoid this?
+      -tnorootfs will fix this. The mount should actually be tmpfs, so this is strange
 
  * extlinux for boot ?
    Solve compilation problems. Maybe easier in a new buildsystem.
