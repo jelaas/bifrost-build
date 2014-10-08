@@ -25,6 +25,7 @@ TODO:
    Maybe let bifrost-upgrade take a tarball as argument.
  - framework:
     - add /etc/modprobe.d
+ - umount of /sbin/init fails at reboot (busy). how can we avoid this?
 
  * extlinux for boot ?
    Solve compilation problems. Maybe easier in a new buildsystem.
