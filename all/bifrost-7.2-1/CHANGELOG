@@ -4,6 +4,7 @@ Bifrost 7.2: changes since 7.1.1
 - schedlat. Possibility to set process priority
 - allcaps. Later kernels report undefined capability bits as zero not '1'.
 - nftables
+- teamd
 
 TODO:
  - kernel 3.17. make sure latest initramfs >= 15
@@ -15,9 +16,8 @@ TODO:
   - + X25 ?
   - HPSA module
 
- - teamd
- - nftables
  - iptables
+ - iproute2
  - ethtool
  - import changes 7 -> 7.1.2 to 7.2
  - bifrost-upgrade. restart services after upgrade. detect (deleted)
