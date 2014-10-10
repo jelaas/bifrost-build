@@ -6,6 +6,11 @@ Bifrost 7.2: changes since 7.1.1
 - nftables
 - teamd
 
+ - framework:
+    - add /etc/modprobe.d
+    - rc.6 umount of /sbin/init fails at reboot (busy). how can we avoid this?
+      -tnorootfs will fix this. The mount should actually be tmpfs, so this is strange
+
 TODO:
  - kernel 3.17. make sure latest initramfs >= 15
   - depmod. crashes with 3.16 ? module-init-tools 3.15
@@ -23,10 +28,6 @@ TODO:
  - bifrost-upgrade. restart services after upgrade. detect (deleted)
    remount r after upgrade should be possible.
    Maybe let bifrost-upgrade take a tarball as argument.
- - framework:
-    - add /etc/modprobe.d
-    - rc.6 umount of /sbin/init fails at reboot (busy). how can we avoid this?
-      -tnorootfs will fix this. The mount should actually be tmpfs, so this is strange
 
  * extlinux for boot ?
    Solve compilation problems. Maybe easier in a new buildsystem.
