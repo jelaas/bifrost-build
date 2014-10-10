@@ -1,19 +1,21 @@
-Bifrost 7.2: changes since 7.1.1
+Bifrost 7.2: changes since 7.1.2
 --------------------------------
 
 - schedlat. Possibility to set process priority
 - allcaps. Later kernels report undefined capability bits as zero not '1'.
 - nftables
 - teamd
+- module-init-tools. crashes with 3.16 ? module-init-tools 3.15
 
- - framework:
-    - add /etc/modprobe.d
-    - rc.6 umount of /sbin/init fails at reboot (busy). how can we avoid this?
-      -tnorootfs will fix this. The mount should actually be tmpfs, so this is strange
+- import changes 7 -> 7.1.2 to 7.2
 
-TODO:
+- framework:
+   - add /etc/modprobe.d
+   - rc.6 umount of /sbin/init fails at reboot (busy). how can we avoid this?
+     -tnorootfs will fix this. The mount should actually be tmpfs, so this is strange
+
+TESTING
  - kernel 3.17. make sure latest initramfs >= 15
-  - depmod. crashes with 3.16 ? module-init-tools 3.15
   - e1000e: param.c:#define DEFAULT_ITR 3 -> 0
   - igb: igb.h IGB_DEFAULT_ITR = 0
   - bonding: module parameter max_bonds=0 (so bond0 is not created)
@@ -21,10 +23,11 @@ TODO:
   - + X25 ?
   - HPSA module
 
+TODO:
+
  - iptables
  - iproute2
  - ethtool
- - import changes 7 -> 7.1.2 to 7.2
  - bifrost-upgrade. restart services after upgrade. detect (deleted)
    remount r after upgrade should be possible.
    Maybe let bifrost-upgrade take a tarball as argument.
@@ -34,6 +37,14 @@ TODO:
  * modernization path for buildsystem ?
    The miniroots are getting long in the tooth.
    The new system should be contained within the old.
+
+Bifrost 7.1.2: changes since 7.1.1
+----------------------------------
+
+Bugfixes:
+- openssh wrote incorrect utmp entries
+- bash security update
+- .ssh links for root user
 
 Bifrost 7.1.1: changes since 7.1
 --------------------------------
