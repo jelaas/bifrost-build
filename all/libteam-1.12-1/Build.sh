@@ -89,11 +89,9 @@ cd $DST || exit 1
 #########
 # Clean up
 cd $DST || exit 1
-# rm -rf opt/musl/share
+rm -rf share lib include
 # rm -rf opt/musl/man
-[ -d opt/musl/bin ] && strip opt/musl/bin/*
-[ -d opt/musl/sbin ] && strip opt/musl/sbin/*
-[ -d opt/musl/libexec ] && strip opt/musl/libexec/*
+[ -d bin ] && strip bin/*
 
 #########
 # Make package
