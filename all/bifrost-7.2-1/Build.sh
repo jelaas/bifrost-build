@@ -86,7 +86,7 @@ untar dhcpcd-4.0.15-2
 untar dnsmasq-2.71-1
 untar ethtool-v3.6-1
 untar inetutils-1.9.1-1 ./bin/tftp
-untar iproute2-3.6.0-2
+untar iproute2-3.17.0-1
 untar iptables-1.4.21-1
 untar iputils-s20100418-2; chmod +s ./sbin/ping; chmod +s ./sbin/ping6
 untar libteam-1.12-1
