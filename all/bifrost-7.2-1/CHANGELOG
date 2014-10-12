@@ -22,10 +22,10 @@ TESTING
     include/uapi/linux/if_bonding.h:#define BOND_DEFAULT_MAX_BONDS  1
   - + X25 ?
   - HPSA module
+ - iptables 1.4.21
 
 TODO:
 
- - iptables
  - iproute2
  - ethtool
  - bifrost-upgrade. restart services after upgrade. detect (deleted)
