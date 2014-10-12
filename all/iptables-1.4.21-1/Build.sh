@@ -32,6 +32,11 @@ export CC=musl-gcc
 pkg_install musl-kernel-headers-3.17.0-1 || exit 2
 pkg_install musl-pkg-config-0.23-1 || exit 2
 
+pkg_install musl-libnetfilter_conntrack-1.0.4-1 || exit 2
+pkg_install musl-libnfnetlink-1.0.1-1 || exit 2
+pkg_install musl-libmnl-1.0.3-1 || exit 2
+pkg_install musl-libpcap-1.6.2-1 || exit 2
+
 #########
 # Unpack sources into dir under /var/tmp/src
 cd $(dirname $BUILDDIR); tar xf $SRC
@@ -44,7 +49,7 @@ patch -p1 < $PKGDIR/musl.pat || exit 1
 
 #########
 # Configure
-B-configure-3 --prefix=/usr || exit 1
+LIBS="-lnetfilter_conntrack -lmnl -lnfnetlink" B-configure-3 --prefix=/usr --enable-libipq --enable-bpf-compiler || exit 1
 
 #########
 # Post configure patch
