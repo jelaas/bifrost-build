@@ -13,6 +13,7 @@ Bifrost 7.2: changes since 7.1.2
    - add /etc/modprobe.d
    - rc.6 umount of /sbin/init fails at reboot (busy). how can we avoid this?
      -tnorootfs will fix this. The mount should actually be tmpfs, so this is strange
+   - /etc/config.hooks
 
 TESTING
  - kernel 3.17. make sure latest initramfs >= 15
@@ -24,10 +25,10 @@ TESTING
   - HPSA module
  - iptables 1.4.21
  - iproute2 3.17.0-1
+ - ethtool
 
 TODO:
 
- - ethtool
  - bifrost-upgrade. restart services after upgrade. detect (deleted)
    remount r after upgrade should be possible.
    Maybe let bifrost-upgrade take a tarball as argument.
