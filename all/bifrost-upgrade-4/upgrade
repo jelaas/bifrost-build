@@ -1,0 +1,94 @@
+#!/bin/bash
+
+if [ "$1" != reexec ]; then
+    if [ "$1" ]; then
+	cd $1 || exit 1
+    else
+	cd /
+    fi
+    exec ./usr/sbin/bifrost-upgrade reexec
+    exit
+fi
+
+V=$(cat ./etc/.version)
+BV=$(cat ./etc/.build)
+
+if [ -z "$V" ]; then
+   echo "Cannot find version '/etc/.version'"
+   exit 1
+fi
+
+echo "Upgrading to $V"
+
+P=""
+[ -f "./Documentation/pkginfo/$V" ] && P="./Documentation/pkginfo/$V"
+[ -f "./Documentation/pkginfo/$V-1" ] && P="./Documentation/pkginfo/$V-1"
+[ "$BV" ] && [ -f "./Documentation/pkginfo/$BV" ] && P="./Documentation/pkginfo/$BV"
+
+if [ -z "$P" ]; then
+   echo "Cannot find pkginfo '/Documentation/pkginfo/$V'"
+   exit 1
+fi
+
+echo
+echo "The upgrade process will remove redundant binaries from the system!"
+echo "Are you sure you wish to continue? y/n"
+read Q
+[ $Q = y ] || exit 0
+sleep 2
+remount w && READONLY=yes
+
+function checkone {
+	 local path bin
+
+	 [ -f $1 ] || return 1
+	 
+	 bin=$(basename $1)
+	 for path in /bin32 /bin64 /bin /sbin /usr/bin /usr/sbin; do
+	     [ .$path/$bin = $1 ] && continue
+	     if [ -f .$path/$bin ]; then
+	     	     echo "Removing duplicate $path/$bin of $1"
+	     	     rm -f .$path/$bin
+	     fi
+	 done
+}
+
+function checkbin {
+	 local bin
+	 while read bin; do
+	       checkone $bin
+	 done
+}
+
+for path in /bin/ /sbin/ /usr/bin/ /usr/sbin/; do
+    grep "^.$path" $P|checkbin
+done
+
+echo
+echo "The upgrade process will now restart system services!"
+echo "Are you sure you wish to continue? y/n"
+read Q
+[ $Q = y ] || exit 0
+sleep 2
+
+for p in /proc/[0-9]*; do 
+    exe=$(readlink $p/exe)
+    for f in /sbin/agetty /sbin/syslogd /sbin/klogd /usr/sbin/sshd /sbin/dnsmasq /sbin/ifstat2 /sbin/dhcpcd; do
+	[ "$exe" = "$f (deleted)" ] || continue
+	[ "$f" = /sbin/agetty ] && killall agetty && sleep 1 && continue
+	[ "$f" = /sbin/syslogd ] && (/etc/rc.d/rc.syslog stop;/etc/rc.d/rc.syslog start) && sleep 1 && continue
+	[ "$f" = /sbin/klogd ] && (/etc/rc.d/rc.syslog stop;/etc/rc.d/rc.syslog start) && sleep 1 && continue
+	[ "$f" = /usr/sbin/sshd ] && (/etc/rc.d/rc.sshd stop; /etc/rc.d/rc.sshd start) && sleep 1 && continue
+	[ "$f" = /sbin/dnsmasq ] && (/etc/rc.d/rc.dnsmasq stop; /etc/rc.d/rc.dnsmasq start) && sleep 1 && continue
+	[ "$f" = /sbin/ifstat2 ] && (/etc/rc.d/rc.ifstat2 stop; /etc/rc.d/rc.ifstat2 start) && sleep 1 && continue
+	[ "$f" = /sbin/dhcpcd ] && (/etc/rc.d/rc.dhcp stop; /etc/rc.d/rc.dhcp start) && sleep 1 && contuinue
+    done
+done
+
+if ! lsof|grep -q " (deleted)"; then
+    echo "Remaining files that may hinder remounting rootfs read-only:"
+    lsof|grep " (deleted)"
+fi
+
+echo "Upgrade completed!"
+[ "$READONLY" = yes ] && remount r
