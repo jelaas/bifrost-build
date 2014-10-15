@@ -1,0 +1,22 @@
+The init program supports the following boot parameters:
+
+rootfstype=NNN
+ Mount rootfs as this type of filesystem. Default is 'ext2'.
+
+rootfslabel=NNN
+ Give an alternative label of the rootfs. The default is 'bifrost'.
+
+rootdelay=N
+ Wait this many seconds before probing for rootfs partition.
+
+root=NNN
+ Override autodetection of rootfs partition.
+
+init=NNN
+ Run this program instead of /sbin/init.
+
+usbreset
+ init will perform usbreset on all usb-ports.
+
+async
+ Mount the root filesystems with asynchronous writes enabled.
