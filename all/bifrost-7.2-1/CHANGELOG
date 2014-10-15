@@ -26,12 +26,14 @@ TESTING
  - iptables 1.4.21
  - iproute2 3.17.0-1
  - ethtool
+ - bifrost-upgrade.
+  - restart services after upgrade. detect (deleted)
+    remount r after upgrade should be possible.
 
 TODO:
 
- - bifrost-upgrade. restart services after upgrade. detect (deleted)
-   remount r after upgrade should be possible.
-   Maybe let bifrost-upgrade take a tarball as argument.
+ - bifrost-upgrade.
+  -  Maybe let bifrost-upgrade take a tarball as argument.
 
  * extlinux for boot ?
    Solve compilation problems. Maybe easier in a new buildsystem.
