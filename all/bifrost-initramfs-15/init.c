@@ -857,11 +857,14 @@ int main(int argc, char **argv, char **envp)
 		if( (ofd = open("/sbin/init", O_WRONLY|O_CREAT|O_TRUNC, 0755)) == -1) {
 			if(fstdout) fprintf(fstdout, "INIT: open(\"/sbin/init\", O_WRONLY|O_CREAT|O_TRUNC) failed: %s\n", strerror(errno));
 			sleep(1);
+			close(fd);
 			goto noinitcopy;
 		}
 		if(data(fd, siz, ofd)) {
 			if(fstdout) fprintf(fstdout, "INIT: datacopy of /sbin/init failed: %s\n", strerror(errno));
 			sleep(1);
+			close(fd);
+			close(ofd);
 			goto noinitcopy;
 		}
 		close(fd);
