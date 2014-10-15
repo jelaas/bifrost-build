@@ -85,7 +85,7 @@ for p in /proc/[0-9]*; do
     done
 done
 
-if ! lsof|grep -q " (deleted)"; then
+if lsof|grep -q " (deleted)"; then
     echo "Remaining files that may hinder remounting rootfs read-only:"
     lsof|grep " (deleted)"
 fi
