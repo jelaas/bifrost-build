@@ -201,14 +201,14 @@ untar kernel-x86_64-3.17.0-1
 untar grub-2.00-2
 
 untar bash-4.1-7
-untar binutils-2.20.1-1 ./usr/bin/size
-untar binutils-2.20.1-1 ./usr/bin/objdump
-untar binutils-2.20.1-1 ./usr/bin/ar
-untar binutils-2.20.1-1 ./usr/bin/strings
-untar binutils-2.20.1-1 ./usr/bin/ranlib
-untar binutils-2.20.1-1 ./usr/bin/readelf
-untar binutils-2.20.1-1 ./usr/bin/nm
-untar binutils-2.20.1-1 ./usr/bin/strip
+untar binutils-2.20.1-1 ./usr/bin/size && mv ./usr/bin/size ./bin32/size
+untar binutils-2.20.1-1 ./usr/bin/objdump && mv ./usr/bin/objdump ./bin32/objdump
+untar binutils-2.20.1-1 ./usr/bin/ar && mv ./usr/bin/ar ./bin32/ar
+untar binutils-2.20.1-1 ./usr/bin/strings && mv ./usr/bin/strings ./bin32/strings
+untar binutils-2.20.1-1 ./usr/bin/ranlib && mv ./usr/bin/ranlib ./bin32/ranlib
+untar binutils-2.20.1-1 ./usr/bin/readelf && mv ./usr/bin/readelf ./bin32/readelf
+untar binutils-2.20.1-1 ./usr/bin/nm && mv ./usr/bin/nm ./bin32/nm
+untar binutils-2.20.1-1 ./usr/bin/strip && mv ./usr/bin/strip ./bin32/strip
 untar coreutils-7.6-4 ./bin/install
 untar coreutils-7.6-4 ./bin/uname
 untar coreutils-7.6-4 ./bin/chroot
