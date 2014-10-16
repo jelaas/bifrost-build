@@ -1,13 +1,26 @@
 #!/bin/bash
 
-if [ "$1" != reexec ]; then
-    if [ "$1" ]; then
-	cd $1 || exit 1
-    else
-	cd /
+REEXEC=no
+[ "$1" = reexec ] && shift && REEXEC=yes
+
+if [ "$REEXEC" = no -a "$1" ]; then
+    if ! [ -f "$1" ]; then
+	echo "$1 is not a distribution tarball"
+	exit 1
     fi
+
+    remount w
+    mount LABEL=bifrost /mnt || exit 1
+    cd /mnt || exit 1
+    touch /init.tmp || exit 1
+    mount --move /sbin/init /init.tmp || exit 1
+    tar xf "$1" || exit 1
     exec ./usr/sbin/bifrost-upgrade reexec
-    exit
+    exit 1
+fi
+
+if [ "$REEXEC" = no -a -z "$1" ]; then
+    cd /
 fi
 
 V=$(cat ./etc/.version)
@@ -64,6 +77,10 @@ for path in /bin/ /sbin/ /usr/bin/ /usr/sbin/; do
     grep "^.$path" $P|checkbin
 done
 
+if [ "$REEXEC" = yes ]; then
+    umount /mnt
+fi
+
 echo
 echo "The upgrade process will now restart system services!"
 echo "Are you sure you wish to continue? y/n"
@@ -82,7 +99,7 @@ for p in /proc/[0-9]*; do
 	[ "$f" = /sbin/dnsmasq ] && (/etc/rc.d/rc.dnsmasq stop; /etc/rc.d/rc.dnsmasq start) && sleep 1 && continue
 	[ "$f" = /sbin/ifstat2 ] && (/etc/rc.d/rc.ifstat2 stop; /etc/rc.d/rc.ifstat2 start) && sleep 1 && continue
 	[ "$f" = /sbin/dhcpcd ] && (/etc/rc.d/rc.dhcp stop; /etc/rc.d/rc.dhcp start) && sleep 1 && continue
-	[ "$f" = /usr/sbin/crond ] && (/etc/rc.d/rc.dhcp stop; killall crond; /etc/rc.d/rc.dhcp start) && sleep 1 && continue
+	[ "$f" = /usr/sbin/crond ] && (/etc/rc.d/rc.cron stop; /etc/rc.d/rc.cron start) && sleep 1 && continue
     done
 done
 
