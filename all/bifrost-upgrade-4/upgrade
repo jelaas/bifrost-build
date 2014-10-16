@@ -73,7 +73,7 @@ sleep 2
 
 for p in /proc/[0-9]*; do 
     exe=$(readlink $p/exe)
-    for f in /sbin/agetty /sbin/syslogd /sbin/klogd /usr/sbin/sshd /sbin/dnsmasq /sbin/ifstat2 /sbin/dhcpcd; do
+    for f in /sbin/agetty /sbin/syslogd /sbin/klogd /usr/sbin/sshd /sbin/dnsmasq /sbin/ifstat2 /sbin/dhcpcd /usr/sbin/crond; do
 	[ "$exe" = "$f (deleted)" ] || continue
 	[ "$f" = /sbin/agetty ] && killall agetty && sleep 1 && continue
 	[ "$f" = /sbin/syslogd ] && (/etc/rc.d/rc.syslog stop;/etc/rc.d/rc.syslog start) && sleep 1 && continue
@@ -81,7 +81,8 @@ for p in /proc/[0-9]*; do
 	[ "$f" = /usr/sbin/sshd ] && (/etc/rc.d/rc.sshd stop; /etc/rc.d/rc.sshd start) && sleep 1 && continue
 	[ "$f" = /sbin/dnsmasq ] && (/etc/rc.d/rc.dnsmasq stop; /etc/rc.d/rc.dnsmasq start) && sleep 1 && continue
 	[ "$f" = /sbin/ifstat2 ] && (/etc/rc.d/rc.ifstat2 stop; /etc/rc.d/rc.ifstat2 start) && sleep 1 && continue
-	[ "$f" = /sbin/dhcpcd ] && (/etc/rc.d/rc.dhcp stop; /etc/rc.d/rc.dhcp start) && sleep 1 && contuinue
+	[ "$f" = /sbin/dhcpcd ] && (/etc/rc.d/rc.dhcp stop; /etc/rc.d/rc.dhcp start) && sleep 1 && continue
+	[ "$f" = /usr/sbin/crond ] && (/etc/rc.d/rc.dhcp stop; killall crond; /etc/rc.d/rc.dhcp start) && sleep 1 && continue
     done
 done
 
