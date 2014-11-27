@@ -1,0 +1,19 @@
+#!/bin/bash
+
+PKG=example
+BINDIR=/opt/example/sbin
+
+case "$1" in
+    start)
+        printf "\nstarting: $PKG"
+        $BINDIR/example -c /opt/pptpd/etc/pptpd.conf -o /opt/pptpd/etc/ppp.options
+        ;;
+    stop)
+        printf "\nstopping: $PKG"
+	killall example
+        ;;
+    *)
+        printf "\n\tUsage: $0 < start | stop >\n\n"
+        ;;
+esac
+
