@@ -6,11 +6,11 @@ BINDIR=/opt/pptpd/sbin
 case "$1" in
     start)
         printf "\nstarting: $PKG"
-        $BINDIR/example -c /opt/pptpd/etc/pptpd.conf -o /opt/pptpd/etc/ppp.options -e /opt/ppp/sbin/pppd
+        $BINDIR/$PKG -c /opt/pptpd/etc/pptpd.conf -o /opt/pptpd/etc/ppp.options -e /opt/ppp/sbin/pppd
         ;;
     stop)
         printf "\nstopping: $PKG"
-	killall example
+	killall $PKG
         ;;
     *)
         printf "\n\tUsage: $0 < start | stop >\n\n"
