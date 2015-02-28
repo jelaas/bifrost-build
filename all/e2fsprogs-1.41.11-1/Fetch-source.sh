@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SRC=e2fsprogs-1.41.11.tar.gz
-DST=/tmp/bifrost-build/e2fsprogs-1.41.11-1/$SRC
+DST=/var/spool/src/$SRC
 
 [ -s "$DST" ] || wget -O $DST http://surfnet.dl.sourceforge.net/project/e2fsprogs/e2fsprogs/1.41.11/$SRC   \
               || wget -O $DST http://ftp.jaist.ac.jp/pub/sourceforge/e/e2/e2fsprogs/e2fsprogs/1.41.11/$SRC \
