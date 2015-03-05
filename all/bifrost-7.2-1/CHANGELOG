@@ -16,7 +16,7 @@ Bifrost 7.2: changes since 7.1.2
    - /etc/config.hooks
 
 TESTING
- - kernel 3.17. make sure latest initramfs >= 15
+ - kernel 3.18. make sure latest initramfs >= 15
   - e1000e: param.c:#define DEFAULT_ITR 3 -> 0
   - igb: igb.h IGB_DEFAULT_ITR = 0
   - bonding: module parameter max_bonds=0 (so bond0 is not created)
