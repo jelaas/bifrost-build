@@ -1,4 +1,4 @@
- #!/bin/bash
+#!/bin/bash
 
 SRC=strace-4.5.20.tar.bz2
 DST=/var/spool/src/$SRC

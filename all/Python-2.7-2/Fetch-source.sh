@@ -1,4 +1,4 @@
- #!/bin/bash
+#!/bin/bash
 
 SRC=Python-2.7.tar.bz2
 DST=/var/spool/src/$SRC
