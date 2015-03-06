@@ -29,14 +29,14 @@ TESTING
  - bifrost-upgrade.
   - restart services after upgrade. detect (deleted)
     remount r after upgrade should be possible.
+ * extlinux for boot ?
+   Solve compilation problems. Maybe easier in a new buildsystem.
 
 TODO:
 
  - bifrost-upgrade.
   -  Maybe let bifrost-upgrade take a tarball as argument.
 
- * extlinux for boot ?
-   Solve compilation problems. Maybe easier in a new buildsystem.
  * modernization path for buildsystem ?
    The miniroots are getting long in the tooth.
    The new system should be contained within the old.
