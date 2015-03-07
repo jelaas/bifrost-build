@@ -123,12 +123,15 @@ sleep 5
 
 echo MOUNTING DEV
 mount -t devtmpfs devtmpfs $MP/dev || exit 1
+mount -t proc proc $MP/proc || exit 1
 mknod $MP/dev/$HDDEV b $HDA
 mknod $MP/dev/${HDDEV}1 b $HDAP
 
 echo INSTALLING EXTLINUX
 cat $MP/usr/lib/syslinux/mbr.bin > $LOOPDEV
-chroot $MP bash -c "extlinux --install /boot/extlinux"
+chroot $MP bash -c "extlinux --install /boot/extlinux" && echo extlinux run ok
+chroot $MP bash -c "ls -l /boot/extlinux"
+chroot $MP bash -c "ls -l /dev/${HDDEV}1"
 
 echo CONFIGURING EXTLINUX
 chroot $MP bash -c "[ -e /boot/extlinux/extlinux.conf ] || cp -f /boot/extlinux/extlinux.conf.default /boot/extlinux/extlinux.conf"
@@ -136,6 +139,7 @@ chroot $MP bash -c "[ -e /boot/extlinux/extlinux.conf ] || cp -f /boot/extlinux/
 echo UNMOUNTING FILESYSTEM
 cd /
 umount $MP/dev
+umount $MP/proc
 umount $MP
 
 echo REMOVING PARTITION BLOCKDEVICE
