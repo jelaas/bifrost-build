@@ -31,6 +31,7 @@ TESTING
     remount r after upgrade should be possible.
  * extlinux for boot ?
    Solve compilation problems. Maybe easier in a new buildsystem.
+ - make-bifrost-image use extlinux
 
 TODO:
 
@@ -40,7 +41,6 @@ TODO:
  * modernization path for buildsystem ?
    The miniroots are getting long in the tooth.
    The new system should be contained within the old.
- - make-bifrost-image use extlinux
  - update Install.txt with extlinux
 
 Bifrost 7.1.2: changes since 7.1.1
