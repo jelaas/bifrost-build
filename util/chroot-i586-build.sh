@@ -1,4 +1,6 @@
-[ $(id -u) == 0 ] || { printf "\n  Oops, needs wo be run as root due to chroot\n\n"; exit 1; }
+#!/bin/sh
+
+[ X"$(id -u)" = X"0" ] || { printf "\n  Oops, needs wo be run as root due to chroot\n\n"; exit 1; }
 
 BASEDIR=$( dirname $( readlink -f $0 ) )
 
