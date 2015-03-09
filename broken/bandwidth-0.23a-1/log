@@ -1,0 +1,9 @@
++---Trace-----------------------------
+Building bandwidth-0.23a-1 from /var/lib/build/all/bandwidth-0.23a-1
+Installing nasm-2.08.02-1: . Done!
+gzip: invalid magic
+tar: Child returned status 1
+tar: Error is not recoverable: exiting now
+./Build.sh: line 37: cd: /var/tmp/src/bandwidth-0.23a: No such file or directory
+make: *** No rule to make target `bandwidth32'.  Stop.
++-------------------------------------

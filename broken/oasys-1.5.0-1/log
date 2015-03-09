@@ -1,0 +1,18 @@
++---Trace-----------------------------
+Building oasys-1.5.0-1 from /var/lib/build/all/oasys-1.5.0-1
+Installing autoconf-2.65-1: . Done!
+Installing ncurses-lib-5.7-1: .. Done!
+Installing gcc-4.6.1-2: ............ Done!
+Installing STLport-5.2.1-1: ...... Done!
+Installing fake-execinfo_h-1: . Done!
+Installing uClibc-0.9.32-1: . Done!
+Installing db-4.7.25-1: ........ Done!
+Installing m4-1.4.14-1: . Done!
+Installing tcl8.5.10-1: ... Done!
+Installing perl-5.10.1-2: ....... Done!
+Installing Python-2.7-2: ................ Done!
+mysql-lib-5.0.92-1 not found in spool
+/var/lib/build/all/mysql-lib-5.0.92-1 does not exist
+ATTN: Maximum number of recursive builds (25) exceeded!
+ATTN: Last build was \'oasys-1.5.0-1\'.
++-------------------------------------
