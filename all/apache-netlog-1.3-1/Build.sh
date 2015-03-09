@@ -28,6 +28,7 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 # pkg_available dependency1-1 dependency2-1
 pkg_install curl-devel-7.20.1-1 || exit 2
 pkg_install openssl-0.9.8q-1 || exit 2
+pkg_install zlib-1.2.5-1 || exit 2
 
 
 #########

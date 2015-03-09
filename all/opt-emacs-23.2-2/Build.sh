@@ -24,7 +24,8 @@ pkg_install passwd-file-1 || exit 2
 pkg_install group-file-1 || exit 2
 pkg_install musl-ncurses-lib-5.7-1 || exit 2
 pkg_install terminfo-5.7-1 || exit 2
-pkg_install musl-0.9.9-2 || exit 2 
+pkg_install musl-0.9.9-2 || exit 2
+pkg_install util-linux-bin-2.22.2-1 || exit 2
 export CC=musl-gcc
 
 #########
@@ -38,6 +39,7 @@ cd $BUILDDIR
 libtool_fix-1
 # patch -p1 < $PKGDIR/mypatch.pat
 sed -i 's/GNU_LINUX/GLIBC_CRAP/' src/print.c
+sed -i 's/$(RUN_TEMACS)/setarch i386 -R $(RUN_TEMACS)/' src/Makefile.in
 
 #########
 # Configure
@@ -46,6 +48,7 @@ B-configure-1 --prefix=/opt/emacs --with-xpm=no --with-jpeg=no --with-png=no --w
 #########
 # Post configure patch
 patch -p0 < $PKGDIR/emacs_c_abort.pat || exit 1
+sed -i 's/setarch 1/setarch i386/' src/Makefile
 
 #########
 # Compile
