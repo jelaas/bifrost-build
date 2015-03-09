@@ -10,7 +10,7 @@ while read L; do
 	for unsup in net/batman-adv net/ceph/libceph.ko block/DAC960.ko block/cciss.ko \
 		     drivers/ide drivers/gpio /staging/ /virtio/ /openvswitch/ drivers/power/ \
  		     /leds/ input/misc/ input/mouse/ drivers/spi/ powercap usb-serial-simple \
-		     dm-persistent-data dm-cache /bcache/ /ntb/ /rds/ vmw_vsock \
+		     dm-persistent-data dm-cache /bcache/ /ntb/ /rds/ \
                      raid6 block/nbd acerhdf ; do
 		if [[ $L =~ $unsup ]]; then
 			strip --strip-unneeded $L
@@ -53,7 +53,7 @@ while read L; do
 		continue
 	done
 
-	for supported in team e1000 igb ixgbe i40e vxlan mdio libphy tulip veth macvlan tg3 niu ixgb bonding; do
+	for supported in team e1000 igb ixgbe i40e vxlan mdio libphy tulip veth macvlan tg3 niu ixgb bonding vmxnet; do
 		[[ $L =~ $supported ]] && n=1
 	done
 	[ $n = 1 ] && continue
