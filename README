@@ -1,3 +1,10 @@
+ABOUT
+-----
+
+This is a custom version of bifrost-build for autobuilds at
+http://archive.minos.io/static/bifrost, the original project lives
+at https://github.com/jelaas/bifrost-build.
+
  BUILD ENVIRONMENT FOR BIFROST
 -------------------------------
 
@@ -11,11 +18,6 @@ from this build environment.
 
 The 'pkg_build' script will ensure a clean environment (all installed
 dependencies are uninstalled) before the package's own build script is run.
-
-Mailing List
-------------
-To subscribe to the bifrost-build mailing list send a mail to:
-bifrost-build+subscribe@tingstusource.mine.nu
 
 Installation:
 -------------
@@ -36,7 +38,9 @@ $ git clone git://github.com/jelaas/bifrost-build.git build
 Install helpful scripts:
 $ cd build
 $ cp -p util/chroot-i586.sh /home/build
+$ cp -p util/chroot-i586-build.sh /home/build
 $ cp -p util/chroot-setup.sh /home/build/mini-native-i586/bin
+$ cp -p util/chroot-build.sh /home/build/mini-native-i586/bin
 
 Now enter chroot:
 $ cd /home/build
@@ -73,6 +77,14 @@ $ ./pkg_build /path/that/is/ignored/<package-name>
 
 The second way to give the package name is convenient when you use tab expansion.
 You can begin by typing ./all/ and the tab expand to the package you want.
+
+Additionally the ./chroot-i586-build.sh script can be used to build packages from
+outside the chroot:
+
+$ cd /home/build
+$ ./chroot-i586-build.sh zip30-1
+
+The results are saved at ./mini-native-i586/var/spool/pkg/
 
 Package:
 --------
@@ -114,7 +126,7 @@ pkg_available:
 pkg_build:
  Makes sure a working environment exists. Uninstalls any previously installed
  packages (dependencies). Calls the 'Build.sh' script for the package.
- 
+
 pkg_install:
  Installs a package. Keeps track of which files are installed. Also takes
  backup copies of any files that will be overwritten.
@@ -128,7 +140,6 @@ pkg_uninstall:
 
 pkg_depend:
  Display dependencies, forward or reverse.
-
 
 Creating a package
 ------------------
@@ -175,4 +186,3 @@ Configuration
 
 If the file /var/lib/build/conf/tmpfs contains "yes" then all building will
  be done within a tmpfs filesystem (mounted on /var/tmp/src).
-
