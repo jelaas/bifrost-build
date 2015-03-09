@@ -1,0 +1,157 @@
+#!/bin/bash
+
+# Main purpose is creating a bootable diskimage for the Bifrost distribution.
+#
+# Keywords: Linux Distribution Extlinux Diskimage Bootable
+#
+# Jens Laas (UU),  2012-2015
+
+IMAGEFS=/tmp/imagefs
+IMG=$IMAGEFS/bifrost.img
+MP=/tmp/bifrost.img
+HDDEV=hdx
+
+if [ -z "$1" ]; then
+	echo "Usage: $0 <distribution tarball>"
+	echo
+	echo "Creates a 1GB diskimage in $IMAGEFS."
+	echo "Partitions this image and puts the distribution tarball contents into the first partition."
+	echo "Installs extlinux and makes the image bootable."
+	echo
+	echo "The tarballs must be made to be unpacked from the root '/' of the filesystem."
+	echo 
+	echo "Kernel: Functionality of \"loop\" and \"dm-mod\" must be present in kernel or as module."
+	echo
+	exit 0
+fi
+remount w
+TARBALL="$1"
+
+if [ "${TARBALL:0:1}" != / ]; then
+	TARBALL="/$TARBALL"
+fi
+if [ ! -f "$TARBALL" ]; then
+	echo "Could not find \'$TARBALL\'"
+	exit 1
+fi
+
+rc=0
+for E in sfdisk dd modprobe losetup dmsetup kpartx; do
+	[ -e /sbin/$E ] && continue
+	[ -e /usr/sbin/$E ] && continue
+	[ -e /bin/$E ] && continue
+	[ -e /usr/bin/$E ] && continue
+
+	echo "Please install $E"
+	rc=1
+done
+[ "$rc" = 1 ] && exit 1
+
+mkdir -p $IMAGEFS
+mkdir -p $MP
+umount $IMAGEFS &> /dev/null
+mount -n -t tmpfs -o size=2048m tmpfs $IMAGEFS || exit 1
+
+modprobe loop
+modprobe dm-mod
+
+umount $MP/dev  &> /dev/null
+umount $MP  &> /dev/null
+dmsetup remove $HDDEV &> /dev/null
+dmsetup remove ${HDDEV}1 &> /dev/null
+losetup -d /dev/loop0 &> /dev/null
+losetup -d /dev/loop1 &> /dev/null
+rm -f /dev/$HDDEV
+rm -f /dev/${HDDEV}1
+
+[ "$2" ] && exit 0
+
+echo CREATING EMPTY DISKIMAGE
+echo dd if=/dev/zero of=$IMG bs=100M count=10
+[ -f "$IMG" ] || dd if=/dev/zero of=$IMG bs=100M count=10
+
+echo CREATING LOOPDEVICE OF DISKIMAGE
+LOOPDEV=$(losetup --show -f $IMG)
+
+echo CREATING DISKIMAGE BLOCKDEVICE
+DEVNO=$(stat -c %t:%T $LOOPDEV)
+BYTES=$(stat -c %s $IMG)
+BLOCKS=$[ BYTES / 512 ]
+echo "0 $BLOCKS linear $DEVNO 0 | dmsetup create $HDDEV"
+echo "0 $BLOCKS linear $DEVNO 0" | dmsetup create $HDDEV
+HDA=$(stat -L -c "0x%t 0x%T" /dev/mapper/$HDDEV)
+mknod /dev/$HDDEV b $HDA
+
+echo FORMATTING DISK
+sfdisk --cylinders 977 --heads 64 --sectors 32 $IMG << EOF
+10 967 L *
+,0
+,0
+,0
+y
+EOF
+
+echo CREATING PARTITION BLOCKDEVICE
+[ -e /dev/$HDDEV ] || exit 1
+START=$(partx -g /dev/$HDDEV -o START)
+SECTORS=$(partx -g /dev/$HDDEV -o SECTORS)
+echo "0 $SECTORS linear /dev/$HDDEV $START | dmsetup create ${HDDEV}1"
+echo "0 $SECTORS linear /dev/$HDDEV $START" | dmsetup create ${HDDEV}1
+sleep 1
+HDAP=$(stat -L -c "0x%t 0x%T" /dev/mapper/${HDDEV}1)
+mknod /dev/${HDDEV}1 b $HDAP
+
+echo CREATING FILESYSTEM
+mkfs.ext2 -m0 -O resize_inode /dev/mapper/${HDDEV}1 || exit 1
+
+echo SETTING FILESYSTEM LABEL
+e2label /dev/mapper/${HDDEV}1 bifrost
+
+echo MOUNTING FILESYSTEM
+mkdir -p $MP
+mount /dev/mapper/${HDDEV}1 $MP || exit 1
+
+echo UNPACKING DISTRO
+cd $MP
+if ! tar xf $TARBALL; then
+    echo "WARNING: fail to unpack the distribution tarball"
+    sleep 20
+fi
+echo UNPACKING DONE. LISTING SOME FILES
+ls -l|head -n 10
+sleep 5
+
+echo MOUNTING DEV
+mount -t devtmpfs devtmpfs $MP/dev || exit 1
+mount -t proc proc $MP/proc || exit 1
+mknod $MP/dev/$HDDEV b $HDA
+mknod $MP/dev/${HDDEV}1 b $HDAP
+
+echo INSTALLING EXTLINUX
+cat $MP/usr/lib/syslinux/mbr.bin > $LOOPDEV
+chroot $MP bash -c "extlinux --install /boot/extlinux" && echo extlinux run ok
+chroot $MP bash -c "ls -l /boot/extlinux"
+chroot $MP bash -c "ls -l /dev/${HDDEV}1"
+
+echo CONFIGURING EXTLINUX
+chroot $MP bash -c "[ -e /boot/extlinux/extlinux.conf ] || cp -f /boot/extlinux/extlinux.conf.default /boot/extlinux/extlinux.conf"
+
+echo UNMOUNTING FILESYSTEM
+cd /
+umount $MP/dev
+umount $MP/proc
+umount $MP
+
+echo REMOVING PARTITION BLOCKDEVICE
+dmsetup remove ${HDDEV}1
+
+echo REMOVING DISKIMAGE BLOCKDEVICE
+dmsetup remove $HDDEV
+
+echo REMOVING LOOPDEVICE
+losetup -d $LOOPDEV
+
+echo IMAGE READY:
+ls -l $IMG
+echo "RUN: \"dd if=$IMG of=/dev/sdX\" to install on disk X"
+echo "RUN: \"qemu-img convert -O vmdk $IMG bifrost.vmdk\" to convert to virtual disk"
