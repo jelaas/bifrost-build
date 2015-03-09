@@ -11,7 +11,7 @@ if [ ! -s "$DST" ]; then
     pkg_install openssh-5.5p1-1 || exit 2
     cd /tmp
     rm -rf $VER
-    /opt/git/bin/git clone git://lxc.git.sourceforge.net/gitroot/lxc/lxc $VER || exit 1
+    /opt/git/bin/git clone git://github.com/lxc/lxc $VER || exit 1
     cd $VER
     /opt/git/bin/git checkout lxc-$V || exit 1
     cd /tmp

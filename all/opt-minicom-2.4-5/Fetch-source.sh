@@ -2,7 +2,7 @@
 
 SRC=minicom-2.4.tar.gz
 DST=/var/spool/src/$SRC
-MD5=d41d8cd98f00b204e9800998ecf8427e
+MD5=700976a3c2dcc8bbd50ab9bb1c08837b
 
-[ -s "$DST" ] || wget --no-check-certificate -O $DST http://alioth.debian.org/download.php/3195/$SRC \
+[ -s "$DST" ] || wget -O $DST http://pkgs.fedoraproject.org/repo/pkgs/minicom/minicom-2.4.tar.gz/700976a3c2dcc8bbd50ab9bb1c08837b/$SRC \
  || ../../wget-finder -O $DST $SRC:$MD5

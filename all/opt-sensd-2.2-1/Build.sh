@@ -29,7 +29,8 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 # pkg_available dependency1-1 dependency2-1
 # pkg_install dependency1-1 || exit 2
 # pkg_install groff-1.21-1 || exit 2 # Needed to convert man-pages: see below
-pkg_install musl-0.9.1-1 || exit 2
+#pkg_install musl-0.9.1-1 || exit 2
+pkg_install musl-0.9.10-2 || exit 2
 
 #########
 # Unpack sources into dir under /var/tmp/src
@@ -51,6 +52,8 @@ OPTPREFIX=opt/sensor
 
 #########
 # Compile
+sedit 's:sys/fcntl.h:fcntl.h:g' sensd/sensd.c
+sedit 's:termio.h:termios.h:g'  sensd/sensd.c
 CC=musl-gcc make CFLAGS="-march=i586 -Os -Wall" || exit 1
 
 #########
