@@ -14,8 +14,6 @@ Bifrost 7.2: changes since 7.1.2
    - rc.6 umount of /sbin/init fails at reboot (busy). how can we avoid this?
      -tnorootfs will fix this. The mount should actually be tmpfs, so this is strange
    - /etc/config.hooks
-
-TESTING
  - kernel 3.18. make sure latest initramfs >= 15
   - e1000e: param.c:#define DEFAULT_ITR 3 -> 0
   - igb: igb.h IGB_DEFAULT_ITR = 0
@@ -29,19 +27,9 @@ TESTING
  - bifrost-upgrade.
   - restart services after upgrade. detect (deleted)
     remount r after upgrade should be possible.
- * extlinux for boot ?
-   Solve compilation problems. Maybe easier in a new buildsystem.
+ * extlinux for boot
  - make-bifrost-image use extlinux
  - update Install.txt with extlinux
-
-TODO:
-
- - bifrost-upgrade.
-  -  Maybe let bifrost-upgrade take a tarball as argument.
-
- * modernization path for buildsystem ?
-   The miniroots are getting long in the tooth.
-   The new system should be contained within the old.
 
 Bifrost 7.1.2: changes since 7.1.1
 ----------------------------------
