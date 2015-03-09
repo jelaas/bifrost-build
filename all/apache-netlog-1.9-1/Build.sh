@@ -41,6 +41,7 @@ cd $BUILDDIR || exit 1
 sed -i 's/-lidn//' Makefile  || exit 1
 sed -i 's/-lrtmp//' Makefile  || exit 1
 sed -i 's/-Wall/-Wall -D_GNU_SOURCE/' Makefile || exit 1
+sed -i 's/$(COMMIT)/$(COMMIT) | head -1/' Makefile || exit 1
 
 #########
 # Configure

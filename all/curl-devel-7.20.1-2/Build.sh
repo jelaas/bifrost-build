@@ -10,7 +10,7 @@ DST="/var/tmp/install/$PKG"
 
 #########
 # Install dependencies:
-pkg_install openssl-0.9.8v-2 || exit 2
+pkg_install openssl-0.9.8v-1 || exit 2
 pkg_install zlib-1.2.6-1 || exit 2
 
 #########
