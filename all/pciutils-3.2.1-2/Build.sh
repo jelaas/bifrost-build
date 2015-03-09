@@ -53,6 +53,7 @@ make ZLIB=yes DNS=no PREFIX="/usr" SBINDIR=/sbin SHARED=no OPT="-Os -march=i586"
 # Install into dir under /var/tmp/install
 rm -rf "$DST"
 make install DESTDIR=$DST PREFIX="/usr" SBINDIR=/sbin SHARED=no
+mkdir -p $DST/usr/lib || exit 1
 cp $PKGDIR/pci.ids.gz $DST/usr/lib/pci.ids.gz || exit 1
 
 #########
