@@ -128,7 +128,7 @@ untar ipmitool-1.8.11-1
 untar lmbench2-1 ./usr/bin/lat_mem_rd
 untar mcelog-1.0pre3-1
 untar memtest86+-4.10-2
-untar pciutils-3.2.1-1
+untar pciutils-3.2.1-2
 untar sysfsutils-bin-2.1.0-1 ./usr/bin/systool
 untar sysfsutils-bin-2.1.0-1 ./usr/bin/dlist_test
 untar sysfsutils-bin-2.1.0-1 ./usr/bin/get_device
