@@ -65,7 +65,7 @@ cd $DST
 #########
 # Clean up
 cd $DST
-rm -rf usr/man
+rm -rf usr/share
 strip sbin/*
 
 #########
