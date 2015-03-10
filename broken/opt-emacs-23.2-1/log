@@ -1,0 +1,613 @@
++---Trace-----------------------------
+Building opt-emacs-23.2-1 from /var/lib/build/all/opt-emacs-23.2-1
+Installing passwd-file-1: . Done!
+Installing group-file-1: . Done!
+Installing ncurses-lib-5.7-1: .. Done!
+Installing terminfo-5.7-1: . Done!
+Configure with:  --prefix=/opt/emacs
+checking build system type... i686-pc-linux-gnu
+checking host system type... i686-pc-linux-gnu
+checking for gcc... gcc
+checking for C compiler default output file name... a.out
+checking whether the C compiler works... yes
+checking whether we are cross compiling... no
+checking for suffix of executables... 
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to accept ISO C89... none needed
+checking how to run the C preprocessor... gcc -E
+checking for grep that handles long lines and -e... /usr/bin/grep
+checking for egrep... /usr/bin/grep -E
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking minix/config.h usability... no
+checking minix/config.h presence... no
+checking for minix/config.h... no
+checking whether it is safe to define __EXTENSIONS__... yes
+checking whether gcc understands -Wno-pointer-sign... yes
+checking whether gcc understands -Wdeclaration-after-statement... yes
+checking whether ln -s works... yes
+checking how to run the C preprocessor... gcc -E
+checking for a BSD-compatible install... /usr/bin/install -c
+checking for ranlib... ranlib
+checking for install-info... no
+checking for install-info... no
+checking for install-info... :
+checking for gzip... /usr/bin/gzip
+checking for makeinfo... no
+checking for -znocombreloc... yes
+configure: checking the machine- and system-dependent files to find out
+ - which libraries the lib-src programs will want, and
+ - whether the GNU malloc routines are usable...
+checking for special C compiler options needed for large files... no
+checking for _FILE_OFFSET_BITS value needed for large files... 64
+checking machine/soundcard.h usability... no
+checking machine/soundcard.h presence... no
+checking for machine/soundcard.h... no
+checking sys/soundcard.h usability... yes
+checking sys/soundcard.h presence... yes
+checking for sys/soundcard.h... yes
+checking soundcard.h usability... no
+checking soundcard.h presence... no
+checking for soundcard.h... no
+checking for _oss_ioctl in -lossaudio... no
+checking for pkg-config... no
+checking sys/select.h usability... yes
+checking sys/select.h presence... yes
+checking for sys/select.h... yes
+checking sys/timeb.h usability... yes
+checking sys/timeb.h presence... yes
+checking for sys/timeb.h... yes
+checking sys/time.h usability... yes
+checking sys/time.h presence... yes
+checking for sys/time.h... yes
+checking for unistd.h... (cached) yes
+checking utime.h usability... yes
+checking utime.h presence... yes
+checking for utime.h... yes
+checking linux/version.h usability... yes
+checking linux/version.h presence... yes
+checking for linux/version.h... yes
+checking sys/systeminfo.h usability... no
+checking sys/systeminfo.h presence... no
+checking for sys/systeminfo.h... no
+checking termios.h usability... yes
+checking termios.h presence... yes
+checking for termios.h... yes
+checking limits.h usability... yes
+checking limits.h presence... yes
+checking for limits.h... yes
+checking for string.h... (cached) yes
+checking for stdlib.h... (cached) yes
+checking termcap.h usability... yes
+checking termcap.h presence... yes
+checking for termcap.h... yes
+checking stdio_ext.h usability... yes
+checking stdio_ext.h presence... yes
+checking for stdio_ext.h... yes
+checking fcntl.h usability... yes
+checking fcntl.h presence... yes
+checking for fcntl.h... yes
+checking for strings.h... (cached) yes
+checking coff.h usability... no
+checking coff.h presence... no
+checking for coff.h... no
+checking pty.h usability... yes
+checking pty.h presence... yes
+checking for pty.h... yes
+checking sys/mman.h usability... yes
+checking sys/mman.h presence... yes
+checking for sys/mman.h... yes
+checking sys/param.h usability... yes
+checking sys/param.h presence... yes
+checking for sys/param.h... yes
+checking sys/vlimit.h usability... no
+checking sys/vlimit.h presence... no
+checking for sys/vlimit.h... no
+checking sys/resource.h usability... yes
+checking sys/resource.h presence... yes
+checking for sys/resource.h... yes
+checking locale.h usability... yes
+checking locale.h presence... yes
+checking for locale.h... yes
+checking sys/_mbstate_t.h usability... no
+checking sys/_mbstate_t.h presence... no
+checking for sys/_mbstate_t.h... no
+checking sys/utsname.h usability... yes
+checking sys/utsname.h presence... yes
+checking for sys/utsname.h... yes
+checking pwd.h usability... yes
+checking pwd.h presence... yes
+checking for pwd.h... yes
+checking utmp.h usability... yes
+checking utmp.h presence... yes
+checking for utmp.h... yes
+checking if personality LINUX32 can be set... yes
+checking for term.h... yes
+checking for ANSI C header files... (cached) yes
+checking whether time.h and sys/time.h may both be included... yes
+checking whether sys_siglist is declared... no
+checking whether __sys_siglist is declared... no
+checking for sys/wait.h that is POSIX.1 compatible... yes
+checking for struct utimbuf... yes
+checking return type of signal handlers... void
+checking for speed_t... yes
+checking for struct timeval... yes
+checking for struct exception... yes
+checking sys/socket.h usability... yes
+checking sys/socket.h presence... yes
+checking for sys/socket.h... yes
+checking for net/if.h... yes
+checking whether struct tm is in sys/time.h or time.h... time.h
+checking for struct tm.tm_zone... yes
+checking for struct tm.tm_gmtoff... yes
+checking for struct ifreq.ifr_flags... yes
+checking for struct ifreq.ifr_hwaddr... yes
+checking for struct ifreq.ifr_netmask... yes
+checking for struct ifreq.ifr_broadaddr... yes
+checking for struct ifreq.ifr_addr... yes
+checking for function prototypes... yes
+checking for working volatile... yes
+checking for an ANSI C-conforming const... yes
+checking for void * support... yes
+checking whether make sets $(MAKE)... yes
+checking whether we are using GNU Make... yes
+checking whether gcc understands -MMD -MF... yes
+checking for long file names... yes
+checking for X... no
+checking for X... false
+checking for malloc_get_state... no
+checking for malloc_set_state... no
+checking whether __after_morecore_hook exists... no
+checking for stdlib.h... (cached) yes
+checking for unistd.h... (cached) yes
+checking for getpagesize... yes
+checking for working mmap... yes
+checking for dnet_ntoa in -ldnet... no
+checking for main in -lXbsd... no
+checking for cma_open in -lpthreads... no
+checking for pkg-config... (cached) no
+checking gpm.h usability... no
+checking gpm.h presence... no
+checking for gpm.h... no
+checking malloc/malloc.h usability... no
+checking malloc/malloc.h presence... no
+checking for malloc/malloc.h... no
+checking whether netdb declares h_errno... yes
+checking for working alloca.h... yes
+checking for alloca... yes
+checking for sqrt in -lm... yes
+checking for maillock in -lmail... no
+checking for maillock in -llockfile... no
+checking for liblockfile.so... no
+checking for touchlock... no
+checking maillock.h usability... no
+checking maillock.h presence... no
+checking for maillock.h... no
+checking for gethostname... yes
+checking for getdomainname... yes
+checking for dup2... yes
+checking for rename... yes
+checking for closedir... yes
+checking for mkdir... yes
+checking for rmdir... yes
+checking for sysinfo... yes
+checking for getrusage... yes
+checking for get_current_dir_name... yes
+checking for random... yes
+checking for lrand48... yes
+checking for bcopy... yes
+checking for bcmp... yes
+checking for logb... yes
+checking for frexp... yes
+checking for fmod... yes
+checking for rint... yes
+checking for cbrt... yes
+checking for ftime... yes
+checking for setsid... yes
+checking for strerror... yes
+checking for fpathconf... yes
+checking for select... yes
+checking for mktime... yes
+checking for euidaccess... no
+checking for getpagesize... (cached) yes
+checking for tzset... yes
+checking for setlocale... yes
+checking for utimes... yes
+checking for getrlimit... yes
+checking for setrlimit... yes
+checking for setpgid... yes
+checking for getcwd... yes
+checking for getwd... no
+checking for shutdown... yes
+checking for getaddrinfo... yes
+checking for __fpending... yes
+checking for mblen... yes
+checking for mbrlen... yes
+checking for mbsinit... yes
+checking for strsignal... yes
+checking for setitimer... yes
+checking for ualarm... yes
+checking for index... yes
+checking for rindex... yes
+checking for sendto... yes
+checking for recvfrom... yes
+checking for getsockopt... yes
+checking for setsockopt... yes
+checking for getsockname... yes
+checking for getpeername... yes
+checking for gai_strerror... yes
+checking for mkstemp... yes
+checking for getline... yes
+checking for getdelim... yes
+checking for mremap... yes
+checking for memmove... yes
+checking for fsync... yes
+checking for sync... yes
+checking for bzero... yes
+checking for memset... yes
+checking for memcmp... yes
+checking for difftime... yes
+checking for memcpy... yes
+checking for mempcpy... yes
+checking for mblen... (cached) yes
+checking for mbrlen... (cached) yes
+checking for posix_memalign... no
+checking for cfmakeraw... yes
+checking for cfsetspeed... yes
+checking sys/un.h usability... yes
+checking sys/un.h presence... yes
+checking for sys/un.h... yes
+checking for sys/time.h... (cached) yes
+checking for unistd.h... (cached) yes
+checking for alarm... yes
+checking for working mktime... no
+checking for getloadavg... no
+checking for pstat_getdynamic... no
+checking for kstat_open in -lkstat... no
+checking for elf_begin in -lelf... no
+checking for kvm_open in -lkvm... no
+checking for getloadavg in -lutil... no
+checking for getloadavg in -lgetloadavg... no
+checking for getloadavg... no
+checking sys/dg_sys_info.h usability... no
+checking sys/dg_sys_info.h presence... no
+checking for sys/dg_sys_info.h... no
+checking for locale.h... (cached) yes
+checking for setlocale... (cached) yes
+checking inq_stats/cpustats.h usability... no
+checking inq_stats/cpustats.h presence... no
+checking for inq_stats/cpustats.h... no
+checking sys/cpustats.h usability... no
+checking sys/cpustats.h presence... no
+checking for sys/cpustats.h... no
+checking mach/mach.h usability... no
+checking mach/mach.h presence... no
+checking for mach/mach.h... no
+checking nlist.h usability... no
+checking nlist.h presence... no
+checking for nlist.h... no
+checking whether getloadavg requires setgid... no
+checking for _LARGEFILE_SOURCE value needed for large files... no
+checking getopt.h usability... yes
+checking getopt.h presence... yes
+checking for getopt.h... yes
+checking for getopt_long_only... yes
+checking whether optreset is declared... no
+checking for working GNU getopt function... yes
+checking whether getpgrp requires zero arguments... yes
+checking for strftime... yes
+checking for grantpt... yes
+checking for getpt... no
+checking for tparm in -lncurses... yes
+checking for dgettext in -lintl... no
+checking whether localtime caches TZ... no
+checking for gettimeofday... yes
+checking whether gettimeofday can accept two arguments... yes
+checking for socket... yes
+checking netinet/in.h usability... yes
+checking netinet/in.h presence... yes
+checking for netinet/in.h... yes
+checking arpa/inet.h usability... yes
+checking arpa/inet.h presence... yes
+checking for arpa/inet.h... yes
+checking sys/ioctl.h usability... yes
+checking sys/ioctl.h presence... yes
+checking for sys/ioctl.h... yes
+checking whether system supports dynamic ptys... no
+checking for pid_t... yes
+checking vfork.h usability... no
+checking vfork.h presence... no
+checking for vfork.h... no
+checking for fork... yes
+checking for vfork... yes
+checking for working fork... yes
+checking for working vfork... (cached) yes
+checking for nl_langinfo and CODESET... yes
+checking for size_t... yes
+checking for mbstate_t... yes
+checking for C restrict keyword... __restrict
+checking for C restricted array declarations... yes
+
+Configured for `i686-pc-linux-gnu'.
+
+  Where should the build process find the source code?    /var/tmp/src/emacs-23.2
+  What operating system and machine description files should Emacs use?
+        `s/gnu-linux.h' and `m/intel386.h'
+  What compiler should emacs be built with?               gcc -march=i586 -Os -g
+  Should Emacs use the GNU version of malloc?             yes
+  Should Emacs use a relocating allocator for buffers?    yes
+  Should Emacs use mmap(2) for buffer allocation?         no
+  What window system should Emacs use?                    none
+  What toolkit should Emacs use?                          none
+  Where do we find X Windows header files?                NONE
+  Where do we find X Windows libraries?                   NONE
+  Does Emacs use -lXaw3d?                                 no
+  Does Emacs use -lXpm?                                   no
+  Does Emacs use -ljpeg?                                  no
+  Does Emacs use -ltiff?                                  no
+  Does Emacs use a gif library?                           no 
+  Does Emacs use -lpng?                                   no
+  Does Emacs use -lrsvg-2?                                no
+  Does Emacs use -lgpm?                                   no
+  Does Emacs use -ldbus?                                  no
+  Does Emacs use -lgconf?                                 no
+  Does Emacs use -lfreetype?                              no
+  Does Emacs use -lm17n-flt?                              no
+  Does Emacs use -lotf?                                   no
+  Does Emacs use -lxft?                                   no
+  Does Emacs use toolkit scroll bars?                     no
+
+
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating lib-src/Makefile.c
+config.status: creating oldXMenu/Makefile
+config.status: creating doc/emacs/Makefile
+config.status: creating doc/misc/Makefile
+config.status: creating doc/lispintro/Makefile
+config.status: creating doc/lispref/Makefile
+config.status: creating src/Makefile.c
+config.status: creating lwlib/Makefile
+config.status: creating lisp/Makefile
+config.status: creating leim/Makefile
+config.status: creating src/config.h
+config.status: executing default commands
+creating src/epaths.h
+creating lib-src/Makefile
+creating src/Makefile
+patching src/emacs.c
+cd lib-src; make all                            \
+	  CC='gcc' CFLAGS='-march=i586 -Os -g' CPPFLAGS='-D_BSD_SOURCE  ' \
+	  LDFLAGS='-static -Wl,-znocombreloc ' MAKE='make'
+make[1]: Entering directory `/var/tmp/src/emacs-23.2/lib-src'
+gcc -D_BSD_SOURCE -DHAVE_CONFIG_H -I. -I../src -I/var/tmp/src/emacs-23.2/lib-src -I/var/tmp/src/emacs-23.2/lib-src/../src -static -Wl,-znocombreloc  -D_BSD_SOURCE   -march=i586 -Os -g -o test-distrib /var/tmp/src/emacs-23.2/lib-src/test-distrib.c
+./test-distrib /var/tmp/src/emacs-23.2/lib-src/testfile
+gcc -D_BSD_SOURCE -DHAVE_CONFIG_H -I. -I../src -I/var/tmp/src/emacs-23.2/lib-src -I/var/tmp/src/emacs-23.2/lib-src/../src -static -Wl,-znocombreloc  -D_BSD_SOURCE   -march=i586 -Os -g /var/tmp/src/emacs-23.2/lib-src/make-docfile.c  -o make-docfile
+gcc -D_BSD_SOURCE -DHAVE_CONFIG_H -I. -I../src -I/var/tmp/src/emacs-23.2/lib-src -I/var/tmp/src/emacs-23.2/lib-src/../src -static -Wl,-znocombreloc  -D_BSD_SOURCE   -march=i586 -Os -g /var/tmp/src/emacs-23.2/lib-src/profile.c  -o profile
+gcc -D_BSD_SOURCE -DHAVE_CONFIG_H -I. -I../src -I/var/tmp/src/emacs-23.2/lib-src -I/var/tmp/src/emacs-23.2/lib-src/../src -static -Wl,-znocombreloc  -D_BSD_SOURCE   -march=i586 -Os -g /var/tmp/src/emacs-23.2/lib-src/digest-doc.c  -o digest-doc
+gcc -D_BSD_SOURCE -DHAVE_CONFIG_H -I. -I../src -I/var/tmp/src/emacs-23.2/lib-src -I/var/tmp/src/emacs-23.2/lib-src/../src -static -Wl,-znocombreloc  -D_BSD_SOURCE   -march=i586 -Os -g /var/tmp/src/emacs-23.2/lib-src/sorted-doc.c  -o sorted-doc
+gcc -c -D_BSD_SOURCE -DHAVE_CONFIG_H -I. -I../src -I/var/tmp/src/emacs-23.2/lib-src -I/var/tmp/src/emacs-23.2/lib-src/../src -D_BSD_SOURCE   -march=i586 -Os -g  /var/tmp/src/emacs-23.2/lib-src/movemail.c
+gcc -c -D_BSD_SOURCE -DHAVE_CONFIG_H -I. -I../src -I/var/tmp/src/emacs-23.2/lib-src -I/var/tmp/src/emacs-23.2/lib-src/../src -D_BSD_SOURCE   -march=i586 -Os -g  /var/tmp/src/emacs-23.2/lib-src/pop.c
+gcc -D_BSD_SOURCE -DHAVE_CONFIG_H -I. -I../src -I/var/tmp/src/emacs-23.2/lib-src -I/var/tmp/src/emacs-23.2/lib-src/../src -static -Wl,-znocombreloc  -march=i586 -Os -g  movemail.o pop.o          -o movemail
+gcc -D_BSD_SOURCE -DHAVE_CONFIG_H -I. -I../src -I/var/tmp/src/emacs-23.2/lib-src -I/var/tmp/src/emacs-23.2/lib-src/../src -static -Wl,-znocombreloc  -D_BSD_SOURCE   -march=i586 -Os -g /var/tmp/src/emacs-23.2/lib-src/fakemail.c  -o fakemail
+gcc -D_BSD_SOURCE -DHAVE_CONFIG_H -I. -I../src -I/var/tmp/src/emacs-23.2/lib-src -I/var/tmp/src/emacs-23.2/lib-src/../src -static -Wl,-znocombreloc  -D_BSD_SOURCE   -march=i586 -Os -g /var/tmp/src/emacs-23.2/lib-src/hexl.c  -o hexl
+gcc -c -D_BSD_SOURCE -DHAVE_CONFIG_H -I. -I../src -I/var/tmp/src/emacs-23.2/lib-src -I/var/tmp/src/emacs-23.2/lib-src/../src -D_BSD_SOURCE   -march=i586 -Os -g /var/tmp/src/emacs-23.2/lib-src/update-game-score.c -DHAVE_SHARED_GAME_DIR="\"/opt/emacs/var/games/emacs\""
+gcc -D_BSD_SOURCE -DHAVE_CONFIG_H -I. -I../src -I/var/tmp/src/emacs-23.2/lib-src -I/var/tmp/src/emacs-23.2/lib-src/../src -static -Wl,-znocombreloc  -march=i586 -Os -g  update-game-score.o   -o update-game-score
+gcc -c -D_BSD_SOURCE -DHAVE_CONFIG_H -I. -I../src -I/var/tmp/src/emacs-23.2/lib-src -I/var/tmp/src/emacs-23.2/lib-src/../src -D_BSD_SOURCE   -march=i586 -Os -g -DCONFIG_BROKETS -DINHIBIT_STRING_HEADER /var/tmp/src/emacs-23.2/lib-src/../src/regex.c
+gcc -D_BSD_SOURCE -DHAVE_CONFIG_H -I. -I../src -I/var/tmp/src/emacs-23.2/lib-src -I/var/tmp/src/emacs-23.2/lib-src/../src -static -Wl,-znocombreloc  -D_BSD_SOURCE   -march=i586 -Os -g -DEMACS_NAME="\"GNU Emacs\"" -DVERSION="\"23.2\"" /var/tmp/src/emacs-23.2/lib-src/etags.c  regex.o  -o etags
+gcc -D_BSD_SOURCE -DHAVE_CONFIG_H -I. -I../src -I/var/tmp/src/emacs-23.2/lib-src -I/var/tmp/src/emacs-23.2/lib-src/../src -static -Wl,-znocombreloc  -D_BSD_SOURCE   -march=i586 -Os -g -DCTAGS -DEMACS_NAME="\"GNU Emacs\"" -DVERSION="\"23.2\"" /var/tmp/src/emacs-23.2/lib-src/etags.c  regex.o  -o ctags
+gcc -D_BSD_SOURCE -DHAVE_CONFIG_H -I. -I../src -I/var/tmp/src/emacs-23.2/lib-src -I/var/tmp/src/emacs-23.2/lib-src/../src -static -Wl,-znocombreloc  -D_BSD_SOURCE   -march=i586 -Os -g /var/tmp/src/emacs-23.2/lib-src/emacsclient.c  -DVERSION="\"23.2\""  -o emacsclient
+gcc -D_BSD_SOURCE -DHAVE_CONFIG_H -I. -I../src -I/var/tmp/src/emacs-23.2/lib-src -I/var/tmp/src/emacs-23.2/lib-src/../src -static -Wl,-znocombreloc  -D_BSD_SOURCE   -march=i586 -Os -g /var/tmp/src/emacs-23.2/lib-src/b2m.c -DVERSION="\"23.2\""   -o b2m
+gcc -D_BSD_SOURCE -DHAVE_CONFIG_H -I. -I../src -I/var/tmp/src/emacs-23.2/lib-src -I/var/tmp/src/emacs-23.2/lib-src/../src -static -Wl,-znocombreloc  -D_BSD_SOURCE   -march=i586 -Os -g -DVERSION="\"23.2\"" /var/tmp/src/emacs-23.2/lib-src/ebrowse.c   -o ebrowse
+make[1]: Leaving directory `/var/tmp/src/emacs-23.2/lib-src'
+boot=bootstrap-emacs;                         \
+	if [ ! -x "src/$boot" ]; then                                     \
+	    cd src; make all                                    \
+	      CC='gcc' CFLAGS='-march=i586 -Os -g' CPPFLAGS='-D_BSD_SOURCE  '         \
+	      LDFLAGS='-static -Wl,-znocombreloc ' MAKE='make' BOOTSTRAPEMACS="$boot"; \
+	fi;
+make[1]: Entering directory `/var/tmp/src/emacs-23.2/src'
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/pre-crt0.d pre-crt0.c
+touch stamp-oldxmenu
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/dispnew.d dispnew.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/frame.d frame.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/scroll.d scroll.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/xdisp.d xdisp.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/menu.d menu.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/window.d window.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/charset.d charset.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/coding.d coding.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/category.d category.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/ccl.d ccl.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/character.d character.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/chartab.d chartab.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/cm.d cm.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/term.d term.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/terminal.d terminal.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/xfaces.d xfaces.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/emacs.d emacs.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/keyboard.d keyboard.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/macros.d macros.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/keymap.d keymap.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/sysdep.d sysdep.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/buffer.d buffer.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/filelock.d filelock.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/insdel.d insdel.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/marker.d marker.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/minibuf.d minibuf.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/fileio.d fileio.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/dired.d dired.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/filemode.d filemode.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/cmds.d cmds.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/casetab.d casetab.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/casefiddle.d casefiddle.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/indent.d indent.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/search.d search.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/regex.d regex.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/undo.d undo.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/alloc.d alloc.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/data.d data.c
+echo "#define BUILDOBJ \"dispnew.o frame.o scroll.o xdisp.o menu.o  window.o charset.o coding.o category.o ccl.o character.o chartab.o cm.o term.o terminal.o xfaces.o    emacs.o keyboard.o macros.o keymap.o sysdep.o buffer.o filelock.o insdel.o marker.o minibuf.o fileio.o dired.o filemode.o cmds.o casetab.o casefiddle.o indent.o search.o regex.o undo.o alloc.o data.o doc.o editfns.o callint.o eval.o floatfns.o fns.o font.o print.o lread.o syntax.o unexelf.o bytecode.o process.o callproc.o region-cache.o sound.o atimer.o doprnt.o strftime.o intervals.o textprop.o composite.o md5.o     terminfo.o lastfile.o gmalloc.o ralloc.o vm-limit.o  mktime.o getloadavg.o " "\"" > buildobj.h
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/doc.d doc.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/editfns.d editfns.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/callint.d callint.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/eval.d eval.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/floatfns.d floatfns.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/fns.d fns.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/font.d font.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/print.d print.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/lread.d lread.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/syntax.d syntax.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/unexelf.d unexelf.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/bytecode.d bytecode.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/process.d process.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/callproc.d callproc.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/region-cache.d region-cache.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/sound.d sound.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/atimer.d atimer.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/doprnt.d doprnt.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/strftime.d strftime.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/intervals.d intervals.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/textprop.d textprop.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/composite.d composite.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/md5.d md5.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/terminfo.d terminfo.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/lastfile.d lastfile.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/gmalloc.d gmalloc.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/ralloc.d ralloc.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/vm-limit.d vm-limit.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/mktime.d mktime.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/getloadavg.d getloadavg.c
+gcc -c -D_BSD_SOURCE   -Demacs -DHAVE_CONFIG_H  -I. -I/var/tmp/src/emacs-23.2/src -D_BSD_SOURCE     -march=i586 -Os -g -MMD -MF deps/prefix-args.d prefix-args.c
+gcc -static -Wl,-znocombreloc  prefix-args.o -o prefix-args
+gcc -nostdlib `./prefix-args -Xlinker  -z nocombreloc` -static -Wl,-znocombreloc  -o temacs pre-crt0.o /usr/lib/crt1.o /usr/lib/crti.o dispnew.o frame.o scroll.o xdisp.o menu.o  window.o charset.o coding.o category.o ccl.o character.o chartab.o cm.o term.o terminal.o xfaces.o    emacs.o keyboard.o macros.o keymap.o sysdep.o buffer.o filelock.o insdel.o marker.o minibuf.o fileio.o dired.o filemode.o cmds.o casetab.o casefiddle.o indent.o search.o regex.o undo.o alloc.o data.o doc.o editfns.o callint.o eval.o floatfns.o fns.o font.o print.o lread.o syntax.o unexelf.o bytecode.o process.o callproc.o region-cache.o sound.o atimer.o doprnt.o strftime.o intervals.o textprop.o composite.o md5.o     terminfo.o lastfile.o gmalloc.o ralloc.o vm-limit.o  mktime.o getloadavg.o       -lncurses    -lm -lgcc -lc -lgcc /usr/lib/crtn.o 
+sysdep.o: In function `set_file_times':
+/var/tmp/src/emacs-23.2/src/sysdep.c:2748: warning: the use of LEGACY `utimes' is discouraged, use `utime'
+cd ../lisp; make -w update-subdirs
+make[2]: Entering directory `/var/tmp/src/emacs-23.2/lisp'
+wd=/var/tmp/src/emacs-23.2/lisp; subdirs=`(cd $wd; find . -type d -print)`; for file in $subdirs; do case $file in */Old | */RCS | */CVS | */CVS/* | */.* | */.*/* | */=* | */cedet* ) ;; *) wins="$wins $wd/$file" ;; esac; done; \
+	for file in $wins; do \
+	   /var/tmp/src/emacs-23.2/lisp/../update-subdirs $file; \
+	done;
+make[2]: Leaving directory `/var/tmp/src/emacs-23.2/lisp'
+`/bin/pwd`/temacs --batch --load loadup bootstrap
+Loading loadup.el (source)...
+Using load-path (/var/tmp/src/emacs-23.2/lisp /var/tmp/src/emacs-23.2/lisp/emacs-lisp /var/tmp/src/emacs-23.2/lisp/language /var/tmp/src/emacs-23.2/lisp/international /var/tmp/src/emacs-23.2/lisp/textmodes)
+Loading emacs-lisp/byte-run...
+Loading emacs-lisp/backquote...
+Loading subr...
+Loading version.el (source)...
+Loading widget...
+Loading custom...
+Loading emacs-lisp/map-ynp...
+Loading cus-start...
+Loading international/mule...
+Loading international/mule-conf...
+Loading env...
+Loading format...
+Loading bindings...
+Loading files...
+Loading cus-face...
+Loading faces...
+Loading minibuffer...
+Loading button...
+Loading startup...
+Loading /var/tmp/src/emacs-23.2/lisp/loaddefs.el (source)...
+Loading abbrev...
+Loading simple...
+Loading help...
+Loading jka-cmpr-hook...
+Loading epa-hook...
+Loading international/mule-cmds...
+Loading case-table...
+Loading international/characters...
+Loading composite...
+Loading /var/tmp/src/emacs-23.2/lisp/international/charprop.el (source)...
+Loading language/chinese...
+Loading language/cyrillic...
+Loading language/indian...
+Loading /var/tmp/src/emacs-23.2/lisp/language/sinhala.el (source)...
+Loading /var/tmp/src/emacs-23.2/lisp/language/english.el (source)...
+Loading language/ethiopic...
+Loading language/european...
+Loading /var/tmp/src/emacs-23.2/lisp/language/czech.el (source)...
+Loading /var/tmp/src/emacs-23.2/lisp/language/slovak.el (source)...
+Loading /var/tmp/src/emacs-23.2/lisp/language/romanian.el (source)...
+Loading /var/tmp/src/emacs-23.2/lisp/language/greek.el (source)...
+Loading /var/tmp/src/emacs-23.2/lisp/language/hebrew.el (source)...
+Loading /var/tmp/src/emacs-23.2/lisp/language/japanese.el (source)...
+Loading /var/tmp/src/emacs-23.2/lisp/international/cp51932.el (source)...
+Loading /var/tmp/src/emacs-23.2/lisp/international/eucjp-ms.el (source)...
+Loading /var/tmp/src/emacs-23.2/lisp/language/korean.el (source)...
+Loading /var/tmp/src/emacs-23.2/lisp/language/lao.el (source)...
+Loading /var/tmp/src/emacs-23.2/lisp/language/tai-viet.el (source)...
+Loading /var/tmp/src/emacs-23.2/lisp/language/thai.el (source)...
+Loading language/tibetan...
+Loading language/vietnamese...
+Loading /var/tmp/src/emacs-23.2/lisp/language/misc-lang.el (source)...
+Loading /var/tmp/src/emacs-23.2/lisp/language/utf-8-lang.el (source)...
+Loading /var/tmp/src/emacs-23.2/lisp/language/georgian.el (source)...
+Loading /var/tmp/src/emacs-23.2/lisp/language/khmer.el (source)...
+Loading /var/tmp/src/emacs-23.2/lisp/language/burmese.el (source)...
+Loading /var/tmp/src/emacs-23.2/lisp/language/cham.el (source)...
+Loading indent...
+Loading window...
+Loading frame...
+Loading term/tty-colors...
+Loading font-core...
+Loading facemenu...
+Loading emacs-lisp/syntax...
+Loading font-lock...
+Loading jit-lock...
+Loading emacs-lisp/timer...
+Loading isearch...
+Loading rfn-eshadow...
+Loading menu-bar...
+Loading /var/tmp/src/emacs-23.2/lisp/paths.el (source)...
+Loading emacs-lisp/lisp...
+Loading textmodes/page...
+Loading register...
+Loading textmodes/paragraphs...
+Loading emacs-lisp/lisp-mode...
+Loading textmodes/text-mode...
+Loading textmodes/fill...
+Loading replace...
+Loading buff-menu...
+Loading emacs-lisp/float-sup...
+Loading vc-hooks...
+Loading ediff-hook...
+Finding pointers to doc strings...
+Finding pointers to doc strings...done
+Dumping under the name emacs
+37621 pure bytes used
+mv -f emacs bootstrap-emacs
+cd ../lisp; make -w compile-first EMACS=../src/bootstrap-emacs
+make[2]: Entering directory `/var/tmp/src/emacs-23.2/lisp'
+make[2]: Nothing to be done for `compile-first'.
+make[2]: Leaving directory `/var/tmp/src/emacs-23.2/lisp'
+cd ../lisp; make -w autoloads EMACS=../src/bootstrap-emacs
+make[2]: Entering directory `/var/tmp/src/emacs-23.2/lisp'
+chmod +w /var/tmp/src/emacs-23.2/lisp/ps-print.el /var/tmp/src/emacs-23.2/lisp/emulation/tpu-edt.el \
+	  /var/tmp/src/emacs-23.2/lisp/emacs-lisp/cl-loaddefs.el /var/tmp/src/emacs-23.2/lisp/mail/rmail.el \
+	  /var/tmp/src/emacs-23.2/lisp/dired.el /var/tmp/src/emacs-23.2/lisp/ibuffer.el
+wd=/var/tmp/src/emacs-23.2/lisp; subdirs=`(cd $wd; find . -type d -print)`; for file in $subdirs; do case $file in */Old | */RCS | */CVS | */CVS/* | */.* | */.*/* | */=* | */obsolete | */term ) ;; *) wins="$wins $wd/$file" ;; esac; done; \
+	echo Directories: $wins; \
+	EMACSLOADPATH=/var/tmp/src/emacs-23.2/lisp LC_ALL=C ../src/bootstrap-emacs -batch --no-site-file --multibyte -l autoload --eval '(setq generated-autoload-file "/var/tmp/src/emacs-23.2/lisp/loaddefs.el")' -f batch-update-autoloads $wins
+Directories: /var/tmp/src/emacs-23.2/lisp/. /var/tmp/src/emacs-23.2/lisp/./net /var/tmp/src/emacs-23.2/lisp/./progmodes /var/tmp/src/emacs-23.2/lisp/./emulation /var/tmp/src/emacs-23.2/lisp/./cedet /var/tmp/src/emacs-23.2/lisp/./cedet/srecode /var/tmp/src/emacs-23.2/lisp/./cedet/ede /var/tmp/src/emacs-23.2/lisp/./cedet/semantic /var/tmp/src/emacs-23.2/lisp/./cedet/semantic/decorate /var/tmp/src/emacs-23.2/lisp/./cedet/semantic/analyze /var/tmp/src/emacs-23.2/lisp/./cedet/semantic/wisent /var/tmp/src/emacs-23.2/lisp/./cedet/semantic/bovine /var/tmp/src/emacs-23.2/lisp/./cedet/semantic/symref /var/tmp/src/emacs-23.2/lisp/./org /var/tmp/src/emacs-23.2/lisp/./url /var/tmp/src/emacs-23.2/lisp/./language /var/tmp/src/emacs-23.2/lisp/./erc /var/tmp/src/emacs-23.2/lisp/./mail /var/tmp/src/emacs-23.2/lisp/./gnus /var/tmp/src/emacs-23.2/lisp/./textmodes /var/tmp/src/emacs-23.2/lisp/./eshell /var/tmp/src/emacs-23.2/lisp/./international /var/tmp/src/emacs-23.2/lisp/./nxml /var/tmp/src/emacs-23.2/lisp/./calendar /var/tmp/src/emacs-23.2/lisp/./calc /var/tmp/src/emacs-23.2/lisp/./play /var/tmp/src/emacs-23.2/lisp/./mh-e /var/tmp/src/emacs-23.2/lisp/./emacs-lisp
+Fatal error (11)Segmentation fault
+make[2]: *** [autoloads] Error 139
+make[2]: Leaving directory `/var/tmp/src/emacs-23.2/lisp'
+make[1]: *** [/var/tmp/src/emacs-23.2/src/../lisp/loaddefs.el] Error 2
+make[1]: Leaving directory `/var/tmp/src/emacs-23.2/src'
+make: *** [src] Error 2
++-------------------------------------
