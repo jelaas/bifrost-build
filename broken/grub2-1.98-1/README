@@ -1,0 +1,5 @@
+This file is only here because git is so dump it doesn't track empty
+directories, in this case is necessary to avoid the minos bifrost-autobuild to
+look for a recipe with the name of this directory. The original recipe has been
+renamed to complete the build correctly. It could be removed in the future if
+upstream rename/delete its faulty recipes.
