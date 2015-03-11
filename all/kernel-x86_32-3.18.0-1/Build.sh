@@ -84,7 +84,7 @@ dopatch -p1 $PKGDIR/ipv4_per_cpu_uncached_list.pat || exit 1
 cp -f $PKGDIR/config.arch bifrost-config
 cat $PKGDIR/config >> bifrost-config
 make KCONFIG_ALLCONFIG=bifrost-config allnoconfig
- exit 1 # This is a nice place to break if you want to change the kernel config
+# exit 1 # This is a nice place to break if you want to change the kernel config
 sed -i "s/BIFROST/${BUILDVERSION}-bifrost-$ARCH/" .config
 
 #########
