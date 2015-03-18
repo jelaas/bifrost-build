@@ -2,6 +2,10 @@ Bifrost 7.2.1: changes since 7.2
 --------------------------------
 
 TODO:
+ kernel:
+  config.arch:
+   CONFIG_PROCESSOR_SELECT=y
+   CONFIG_SCHED_SMT=y
 
  - bifrost-upgrade.
   -  Maybe let bifrost-upgrade take a tarball as argument.
