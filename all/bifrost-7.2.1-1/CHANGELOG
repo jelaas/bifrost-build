@@ -1,6 +1,11 @@
 Bifrost 7.2.1: changes since 7.2
 --------------------------------
 
+ Security:
+  curl /openssl
+  wget /openssl
+  git /openssl
+
  Framework:
  - remove rtcache disable
  - more hooks
