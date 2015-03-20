@@ -1,11 +1,18 @@
 Bifrost 7.2.1: changes since 7.2
 --------------------------------
 
+ Framework:
+ - remove rtcache disable
+ - more hooks
+
 TODO:
  kernel:
+  config:
+   CONFIG_CC_OPTIMIZE_FOR_SIZE=n
   config.arch:
    CONFIG_PROCESSOR_SELECT=y
    CONFIG_SCHED_SMT=y
+  perf patch
 
  - bifrost-upgrade.
   -  Maybe let bifrost-upgrade take a tarball as argument.
