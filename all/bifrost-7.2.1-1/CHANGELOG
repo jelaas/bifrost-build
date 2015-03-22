@@ -9,6 +9,7 @@ Bifrost 7.2.1: changes since 7.2
  Framework:
  - remove rtcache disable
  - more hooks
+ - rc.d/dhcrelay
 
 TODO:
  kernel:
