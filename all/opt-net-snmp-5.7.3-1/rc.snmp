@@ -1,0 +1,15 @@
+#!/bin/bash
+
+
+case "$1" in
+    start)
+        /opt/snmp/sbin/snmpd
+        ;;
+    stop)
+	killall snmpd
+        ;;
+    *)
+        printf "\n\tusage:      $0 < start | stop >\n\n"
+        ;;
+esac
+
