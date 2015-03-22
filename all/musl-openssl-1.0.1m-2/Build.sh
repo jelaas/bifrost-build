@@ -29,7 +29,7 @@ patch -p0 < $PKGDIR/default_ciphers.pat || exit 1
 
 #########
 # Configure
-./Configure linux-elf --prefix=/opt/musl --bindir=/usr/bin --openssldir=/etc/ssl no-shared no-bf no-cast no-md2 no-mdc2 no-rc2 no-rc4 no-rc5 no-idea no-ripemd no-dso no-jpake no-md4 no-srp no-ssl2
+./Configure linux-elf --prefix=/opt/musl -openssldir=/etc/ssl no-shared no-bf no-cast no-md2 no-mdc2 no-rc2 no-rc4 no-rc5 no-idea no-ripemd no-dso no-jpake no-md4 no-srp no-ssl2
 
 #########
 # Post configure patch
@@ -60,6 +60,8 @@ make INSTALL_PREFIX=$DST install
 cd $DST || exit 1
 # [ -f usr/bin/myprog ] || exit 1
 (ldd opt/musl/bin/openssl|grep -qs "not a dynamic executable") || exit 1
+mkdir -p usr/bin || exit 1
+mv opt/musl/bin/openssl usr/bin || exit 1
 
 #########
 # Clean up
