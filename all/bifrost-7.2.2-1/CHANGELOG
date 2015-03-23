@@ -22,8 +22,8 @@ Bifrost 7.2.1: changes since 7.2
  - remove rtcache disable
  - more hooks
  - rc.d/dhcrelay
-
- - dhcp upgrade
+ - intel adapters now recognized at boot (pci info was retroactively changed in	pcidb)
+ - dhcp upgrade	  (VLAN interfaces could cause multiplexing of requests)
 
  kernel:
   config:
@@ -31,7 +31,9 @@ Bifrost 7.2.1: changes since 7.2
   config.arch:
    CONFIG_PROCESSOR_SELECT=y
    CONFIG_SCHED_SMT=y
-  perf patch
+  perf patch (some haswell processors caused kernel panic at boot)
+
+ Honorable mention to Peter Olsson who helped find and solve problems with 7.2.
 
 Bifrost 7.2: changes since 7.1.2
 --------------------------------
