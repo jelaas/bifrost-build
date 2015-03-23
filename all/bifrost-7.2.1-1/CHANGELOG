@@ -11,6 +11,8 @@ Bifrost 7.2.1: changes since 7.2
  - more hooks
  - rc.d/dhcrelay
 
+ - dhcp upgrade
+
  kernel:
   config:
    CONFIG_CC_OPTIMIZE_FOR_SIZE=n
@@ -18,15 +20,6 @@ Bifrost 7.2.1: changes since 7.2
    CONFIG_PROCESSOR_SELECT=y
    CONFIG_SCHED_SMT=y
   perf patch
-
-TODO:
- - bifrost-upgrade.
-  -  Maybe let bifrost-upgrade take a tarball as argument.
-
- * modernization path for buildsystem ?
-   The miniroots are getting long in the tooth.
-   The new system should be contained within the old.
-
 
 Bifrost 7.2: changes since 7.1.2
 --------------------------------

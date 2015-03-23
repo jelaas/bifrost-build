@@ -80,7 +80,7 @@ untar meta-bifrost-bin64-7
 
 untar bind-9.7.6-P2-1 ./usr/bin/host
 untar bridge-utils-1.4-1
-untar dhcp-4.1-ESV-R6-1
+untar dhcp-4.1-ESV-R11-1
 untar dhclient-script-1
 untar dhcpcd-4.0.15-2
 untar dnsmasq-2.71-1
