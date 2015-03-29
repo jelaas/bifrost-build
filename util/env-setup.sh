@@ -9,4 +9,6 @@
 [ -L /dev/fd/1 ] && [ ! -e /dev/stdout ] && ln -s /dev/fd/1 /dev/stdout
 [ -L /dev/fd/2 ] && [ ! -e /dev/stderr ] && ln -s /dev/fd/2 /dev/stderr
 
-exec /var/lib/build/pkg_build "${@}"
+[ -f /bin/env-hooks.sh ] && . /bin/env-hooks.sh
+
+exec /bin/bash -li

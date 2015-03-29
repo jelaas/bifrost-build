@@ -6,4 +6,4 @@ BASEDIR="$(dirname "$(readlink -f "${0}")")"
 mkdir -p $BASEDIR/mini-native-i586/var/lib
 cp /etc/resolv.conf $BASEDIR/mini-native-i586/etc
 cp /etc/hosts $BASEDIR/mini-native-i586/etc
-setarch i586 chroot $BASEDIR/mini-native-i586 /bin/env-build.sh "${@}"
+setarch i586 chroot $BASEDIR/mini-native-i586 /bin/env-install.sh "${@}"

@@ -5,8 +5,8 @@ This is a custom version of bifrost-build for autobuilds at
 http://archive.minos.io/static/bifrost, the original project lives
 at https://github.com/jelaas/bifrost-build.
 
- BUILD ENVIRONMENT FOR BIFROST
--------------------------------
+BUILD ENVIRONMENT FOR BIFROST
+-----------------------------
 
 A predictable and repeatable building environment for Bifrost binaries.
 Consists of a uclibc mini-native chroot environment and a this package
@@ -22,42 +22,36 @@ dependencies are uninstalled) before the package's own build script is run.
 Installation:
 -------------
 Fetch the uclibc chroot tarball:
-$ cd /tmp
 $ wget http://uclibc.org/downloads/binaries/0.9.30.1/mini-native-i586.tar.bz2
 
-Put into a suitable place:
-$ mkdir /home/build
-$ cd /home/build
-$ tar xf /tmp/mini-native-i586.tar.bz2
+Decompress the tarball
+$ tar xf mini-native-i586.tar.bz2
 
 Install this package:
-$ mkdir -p mini-native-i586/var/lib
-$ cd mini-native-i586/var/lib
-$ git clone git://github.com/jelaas/bifrost-build.git build
+$ git clone git://github.com/jelaas/bifrost-build.git mini-native-i586/var/lib/build
 
 Install helpful scripts:
-$ cd build
-$ cp -p util/chroot-i586.sh /home/build
-$ cp -p util/chroot-i586-build.sh /home/build
-$ cp -p util/chroot-setup.sh /home/build/mini-native-i586/bin
-$ cp -p util/chroot-build.sh /home/build/mini-native-i586/bin
+$ cd mini-native-i586/var/lib/build
+$ cp -p mini-native-i586/var/lib/build/util/chroot-i586.sh         .
+$ cp -p mini-native-i586/var/lib/build/util/chroot-i586-build.sh   .
+$ cp -p mini-native-i586/var/lib/build/util/chroot-i586-install.sh .
+$ cp -p mini-native-i586/var/lib/build/util/env-setup.sh   mini-native-i586/bin
+$ cp -p mini-native-i586/var/lib/build/util/env-build.sh   mini-native-i586/bin
+$ cp -p mini-native-i586/var/lib/build/util/env-install.sh mini-native-i586/bin
+$ cp -p mini-native-i586/var/lib/build/util/env-hooks.sh   mini-native-i586/bin
 
 Now enter chroot:
-$ cd /home/build
 $ ./chroot-i586.sh
 $ cd /var/lib/build
 
-Start with building gnu tar:
+Build gnu tar:
 $ ./pkg_build tar-1.23-1
 
-Note: the first time you install a package or a build script installs a
-dependency it will try to install GNU tar.
+Note: the first time you install a package it will try to install GNU tar.
 
-Build and install newer bash and (optionally) the zile editor:
-$ ./pkg_build bash-4.1-1 zile-2.3.14-2 terminfo-5.7-1
+Build and install newer bash
+$ ./pkg_build bash-4.1-1
 $ ./pkg_install --permanent bash-4.1-1
-$ ./pkg_install --permanent terminfo-5.7-1
-$ ./pkg_install --permanent zile-2.3.14-2
 
 Exit chroot:
 $ exit
@@ -66,23 +60,19 @@ Done! The build environment is ready for use.
 
 Usage:
 ------
-$ cd /home/build
 $ ./chroot-i586.sh
 $ cd /var/lib/build
 
 To build a package:
 $ ./pkg_build <package-name>
+
 or
+
 $ ./pkg_build /path/that/is/ignored/<package-name>
 
-The second way to give the package name is convenient when you use tab expansion.
-You can begin by typing ./all/ and the tab expand to the package you want.
+or from outside the chroot
 
-Additionally the ./chroot-i586-build.sh script can be used to build packages from
-outside the chroot:
-
-$ cd /home/build
-$ ./chroot-i586-build.sh zip30-1
+$ ./chroot-i586-build.sh <package-name>
 
 The results are saved at ./mini-native-i586/var/spool/pkg/
 
@@ -172,6 +162,7 @@ Each build is supposed to start with a "clean" environment. Before each build
 the 'pkg_build' script will run the 'pkg_uninstall' script.
 
 __Important note_!!_
+
 Be careful with the install part of making the package. Make sure that
 for instance 'make install' wont install files under a real prefix into
 the actual build environment. You might inadvertently insert unknown
