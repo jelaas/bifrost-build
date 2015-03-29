@@ -1,0 +1,9 @@
+Quagga suite, statically linked with uclibc.
+
+You MUST adapt the rc.quagga script in order for it to
+start the subservices you want.  Simply (un)comment, or
+add if missing, the services of interest.
+
+Please note that this package the general package starter.
+
+Suggestions and/or bug reports may be sent to bifrost@slu.se.
