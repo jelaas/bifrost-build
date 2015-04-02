@@ -1,7 +1,7 @@
 #!/bin/sh
 
-[ -d /proc/1 ] || mount proc -t proc /proc
-[ -d /sys/class ] || mount -t sysfs sys /sys
+[ -d /proc/1 ]      || mount proc -t proc /proc
+[ -d /sys/class ]   || mount -t sysfs sys /sys
 [ -c /dev/urandom ] || mdev -s
 
 [ -d /proc/self/fd ] && [ ! -e /dev/fd ] && ln -s /proc/self/fd /dev/fd
