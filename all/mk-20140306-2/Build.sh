@@ -1,7 +1,7 @@
 #!/bin/bash
 
 SRCVER=plan9port-20140306
-PKG=mk-20140306-1 # with build version
+PKG=mk-20140306-2 # with build version
 
 # PKGDIR is set by 'pkg_build'. Usually "/var/lib/build/all/$PKG".
 PKGDIR=${PKGDIR:-/var/lib/build/all/$PKG}
@@ -18,20 +18,18 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 # Install dependencies:
 # pkg_available dependency1-1 dependency2-1
 pkg_install musl-0.9.9-2 || exit 2
-#pkg_install musl-kernel-headers-3.6.0-1 || exit 2
+pkg_install musl-kernel-headers-3.6.0-1 || exit 2
 export CC9=musl-gcc
 
 #########
 # Unpack sources into dir under /var/tmp/src
 cd $(dirname $BUILDDIR); tar xf $SRC && mv plan9port "${PKG}" && cd "${PKG}"
-rm -rf "${BUILDDIR}"/minimal-linux-include
-cp -r "${PKGDIR}"/minimal-linux-include . || exit 2
 
 #########
 # Patch
 sed -i 's:gcc lib/linux-isnptl.c:musl-gcc lib/linux-isnptl.c:g' INSTALL
 sed -i '/Building everything/i exit $?' INSTALL
-sed -i "s:9c:9c -march=i586 -Os -g -I/opt/musl/include -I${BUILDDIR}/minimal-linux-include:g" src/mkmk.sh
+sed -i 's:9c:9c -march=i586 -Os -g -I/opt/musl/include:g' src/mkmk.sh
 sed -i 's:9l:9l -static:g' src/mkmk.sh
 sed -i '/sys\/termios.h/d' src/lib9/readcons.c
 sed -i 's:#if defined(__linux__:#if defined(__GLIBC__:g' src/lib9/dirread.c
