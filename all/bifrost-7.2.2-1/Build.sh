@@ -83,7 +83,7 @@ untar bridge-utils-1.4-1
 untar dhcp-4.1-ESV-R11-1
 untar dhclient-script-1
 untar dhcpcd-4.0.15-2
-untar dnsmasq-2.71-1
+untar dnsmasq-2.71-2
 untar ethtool-v3.16-1
 untar inetutils-1.9.1-1 ./bin/tftp
 untar iproute2-3.17.0-1
@@ -96,7 +96,7 @@ untar nftables-0.3-1
 untar ntp-4.2.6p5-1
 untar openssh-6.1p1-3
 untar traceroute-2.0.16-1; chmod +s ./bin/traceroute
-untar whois_5.0.10-2
+untar whois_5.0.10-3
 untar wireless_tools.29-1
 
 # fileutils
