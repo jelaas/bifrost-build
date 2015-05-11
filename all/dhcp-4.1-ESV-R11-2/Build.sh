@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SRCVER=dnsmasq-2.71
+SRCVER=dhcp-4.1-ESV-R11
 PKG=$SRCVER-2 # with build version
 
 # PKGDIR is set by 'pkg_build'. Usually "/var/lib/build/all/$PKG".
@@ -26,9 +26,9 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 #########
 # Install dependencies:
 # pkg_available dependency1-1 dependency2-1
-pkg_install gawk-3.1.8-1 || exit 2
+# pkg_install dependency1-1 || exit 1
 pkg_install musl-1.1.8-1 || exit 2 
-pkg_install musl-kernel-headers-3.6.0-1 || exit 2
+pkg_install musl-kernel-headers-3.17.0-1 || exit 2
 export CC=musl-gcc
 
 #########
@@ -43,7 +43,7 @@ libtool_fix-1
 
 #########
 # Configure
-sedit 's,usr/local,,g' Makefile
+B-configure-3 --prefix=/ || exit 1
 
 #########
 # Post configure patch
@@ -51,26 +51,26 @@ sedit 's,usr/local,,g' Makefile
 
 #########
 # Compile
-make AWK=gawk LDFLAGS="-static" CFLAGS="-Os -march=i586" || exit 1
+make || exit 1
 
 #########
 # Install into dir under /var/tmp/install
 rm -rf "$DST"
-make install DESTDIR=$DST
-mkdir -p $DST/etc/config.preconf
-cp dnsmasq.conf.example $DST/etc/config.preconf/dnsmasq.conf.default
+make install DESTDIR=$DST # --with-install-prefix may be an alternative
 
 #########
 # Check result
-cd $DST
+cd $DST || exit 1
 # [ -f usr/bin/myprog ] || exit 1
 # (ldd sbin/myprog|grep -qs "not a dynamic executable") || exit 1
 
 #########
 # Clean up
-cd $DST
-rm -rf share
-strip sbin/*
+cd $DST || exit 1
+mv etc/dhclient.conf.example etc/dhclient.conf.sample
+mv etc/dhcpd.conf.example etc/dhcpd.conf.sample
+rm -rf share include lib
+strip bin/* sbin/*
 
 #########
 # Make package
