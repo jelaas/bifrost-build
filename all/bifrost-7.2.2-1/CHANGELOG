@@ -6,6 +6,8 @@ TODO:
  Security:
   pcre update to 8.37
 
+ + ifstat2 new version with 64bit stats
+
  - bifrost-upgrade.
   -  Maybe let bifrost-upgrade take a tarball as argument.
 
