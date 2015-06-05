@@ -1,7 +1,11 @@
-Bifrost 7.2.2: changes since 7.2
---------------------------------
+Bifrost 7.2.2: changes since 7.2.1
+----------------------------------
 
 TODO:
+
+ Security:
+  pcre update to 8.37
+
  - bifrost-upgrade.
   -  Maybe let bifrost-upgrade take a tarball as argument.
 
