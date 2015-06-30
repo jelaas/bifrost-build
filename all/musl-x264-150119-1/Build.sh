@@ -33,7 +33,7 @@ pkg_install yasm-1.2.0-1 || exit 2
 pkg_install perl-5.10.1-3 || exit 2
 
 # Compile against musl:
-pkg_install musl-1.1.6-1 || exit 2 
+pkg_install musl-1.1.8-1 || exit 2 
 export CC=musl-gcc
 
 #########
