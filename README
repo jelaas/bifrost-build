@@ -2,7 +2,7 @@ ABOUT
 -----
 
 This is a custom version of bifrost-build for autobuilds at
-http://archive.minos.io/static/bifrost, the original project lives
+http://static.minos.io/bifrost, the original project lives
 at https://github.com/jelaas/bifrost-build.
 
 BUILD ENVIRONMENT FOR BIFROST
