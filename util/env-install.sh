@@ -11,5 +11,17 @@
 
 [ -f /bin/env-hooks.sh ] && . /bin/env-hooks.sh
 
+for arg; do #parse options
+    case "${arg}" in
+        -b|--blob|--binary) binary="true" && shift ;;
+    esac
+done
+
+if [ "${binary}" ] && [ ! -f /var/spool/pkg/"${1}".tar.gz ]; then
+    [ ! -f /var/spool/pkg/tar-1.23-1.tar.gz ] && \
+        /var/lib/build/static-get -f gz -d /var/spool/pkg "tar-1.23-1" > /dev/null
+   /var/lib/build/static-get -f gz -d /var/spool/pkg "${1}" >/dev/null
+fi
+
 [ -f /var/spool/pkg/"${1}".tar.gz ] || /var/lib/build/pkg_build "${1}"
 exec /var/lib/build/pkg_install --permanent "${1}"
