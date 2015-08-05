@@ -8,6 +8,11 @@ TODO:
 
  + ifstat2 new version with 64bit stats
 
+ + netcat
+ + mtr
+ + util-linux/nsenter et al
+ + ebtables
+
  - bifrost-upgrade.
   -  Maybe let bifrost-upgrade take a tarball as argument.
 
