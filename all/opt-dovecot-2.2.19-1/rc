@@ -1,0 +1,20 @@
+#!/bin/bash
+
+PKG=dovecot
+BINDIR=/opt/dovecot/sbin
+
+case "$1" in
+    start)
+        printf "\nstarting: $PKG"
+	[ -f /opt/dovecot/etc/dovecot/dovecot.conf ] || cp /opt/dovecot/etc/dovecot/dovecot.conf.sample-shadow-imap /opt/dovecot/etc/dovecot/dovecot.conf
+        $BINDIR/dovecot
+        ;;
+    stop)
+        printf "\nstopping: $PKG"
+	kill $(cat /var/run/dovecot/master.pid)
+        ;;
+    *)
+        printf "\n\tUsage: $0 < start | stop >\n\n"
+        ;;
+esac
+
