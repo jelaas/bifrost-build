@@ -360,6 +360,7 @@ untar terminfo-5.7-1 ./usr/share/terminfo/v/vt220
 untar terminfo-5.7-1 ./usr/share/terminfo/x/xterm
 untar terminfo-5.7-1 ./usr/share/terminfo/x/xterm-bold
 untar terminfo-5.7-1 ./usr/share/terminfo/x/xterm-color
+untar terminfo-5.7-1 ./usr/share/terminfo/x/xterm-256color
 untar terminfo-5.7-1 ./usr/share/terminfo/x/xterm-nic
 untar terminfo-5.7-1 ./usr/share/terminfo/x/xterm-pcolor
 untar terminfo-5.7-1 ./usr/share/terminfo/x/xterms
