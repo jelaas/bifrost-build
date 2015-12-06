@@ -46,8 +46,8 @@ cd $(dirname $BUILDDIR); tar xf $SRC
 # Patch
 cd $BUILDDIR
 libtool_fix-1
-#echo Apllying devtag patch
-#patch -p0 < $PKGDIR/main.c.pat || exit 1
+echo Apllying devtag patch
+patch -p0 < $PKGDIR/main.c.pat || exit 1
 
 #########
 # Configure
