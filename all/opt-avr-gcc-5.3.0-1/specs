@@ -1,0 +1,133 @@
+*asm:
+%{mmcu=avr25:-mmcu=avr2;mmcu=avr35:-mmcu=avr3;mmcu=avr31:-mmcu=avr3;mmcu=avr51:-mmcu=avr5;mmcu=*:-mmcu=%*}
+
+*asm_debug:
+%{!g0:%{gdwarf-2*:--gdwarf2}%{!gdwarf-2*:%{g*:--gstabs}}} %{fdebug-prefix-map=*:--debug-prefix-map %*}
+
+*asm_final:
+
+
+*asm_options:
+%{-target-help:%:print-asm-header()} %a %Y %{c:%W{o*}%{!o*:-o %w%b%O}}%{!c:-o %d%w%u%O}
+
+*invoke_as:
+%{!fwpa:   %{fcompare-debug=*|fdump-final-insns=*:%:compare-debug-dump-opt()}   %{!S:-o %|.s |
+ avr-as %(asm_options) %m.s %A }  }
+
+*cpp:
+
+
+*cpp_options:
+%(cpp_unique_options) %1 %{m*} %{std*&ansi&trigraphs} %{W*&pedantic*} %{w} %{f*} %{g*:%{!g0:%{g*} %{!fno-working-directory:-fworking-directory}}} %{O*} %{undef} %{save-temps*:-fpch-preprocess}
+
+*cpp_debug_options:
+%{d*}
+
+*cpp_unique_options:
+%{!Q:-quiet} %{nostdinc*} %{C} %{CC} %{v} %{I*&F*} %{P} %I %{MD:-MD %{!o:%b.d}%{o*:%.d%*}} %{MMD:-MMD %{!o:%b.d}%{o*:%.d%*}} %{M} %{MM} %{MF*} %{MG} %{MP} %{MQ*} %{MT*} %{!E:%{!M:%{!MM:%{!MT:%{!MQ:%{MD|MMD:%{o*:-MQ %*}}}}}}} %{remap} %{g3|ggdb3|gstabs3|gcoff3|gxcoff3|gvms3:-dD} %{!iplugindir*:%{fplugin*:%:find-plugindir()}} %{H} %C %{D*&U*&A*} %{i*} %Z %i %{fmudflap:-D_MUDFLAP -include mf-runtime.h} %{fmudflapth:-D_MUDFLAP -D_MUDFLAPTH -include mf-runtime.h} %{E|M|MM:%W{o*}}
+
+*trad_capable_cpp:
+cc1 -E %{traditional|traditional-cpp:-traditional-cpp}
+
+*cc1:
+
+
+*cc1_options:
+%{pg:%{fomit-frame-pointer:%e-pg and -fomit-frame-pointer are incompatible}} %{!iplugindir*:%{fplugin*:%:find-plugindir()}} %1 %{!Q:-quiet} %{!dumpbase:-dumpbase %B} %{d*} %{m*} %{aux-info*} %{fcompare-debug-second:%:compare-debug-auxbase-opt(%b)}  %{!fcompare-debug-second:%{c|S:%{o*:-auxbase-strip %*}%{!o*:-auxbase %b}}}%{!c:%{!S:-auxbase %b}}  %{g*} %{O*} %{W*&pedantic*} %{w} %{std*&ansi&trigraphs} %{v:-version} %{pg:-p} %{p} %{f*} %{undef} %{Qn:-fno-ident} %{Qy:} %{-help:--help} %{-target-help:--target-help} %{-version:--version} %{-help=*:--help=%*} %{!fsyntax-only:%{S:%W{o*}%{!o*:-o %b.s}}} %{fsyntax-only:-o %j} %{-param*} %{fmudflap|fmudflapth:-fno-builtin -fno-merge-constants} %{coverage:-fprofile-arcs -ftest-coverage}
+
+*cc1plus:
+%{!frtti:-fno-rtti}     %{!fenforce-eh-specs:-fno-enforce-eh-specs}     %{!fexceptions:-fno-exceptions}
+
+*link_gcc_c_sequence:
+%G %L %G
+
+*link_ssp:
+%{fstack-protector|fstack-protector-all:-lssp_nonshared -lssp}
+
+*endfile:
+
+
+*link:
+%{mrelax:--relax         %{mpmem-wrap-around:%{mmcu=at90usb8*:--pmem-wrap-around=8k}                             %{mmcu=atmega16*:--pmem-wrap-around=16k}                             %{mmcu=atmega32*|                               mmcu=at90can32*:--pmem-wrap-around=32k}                             %{mmcu=atmega64*|                               mmcu=at90can64*|                               mmcu=at90usb64*:--pmem-wrap-around=64k}}}%:device_to_arch(%{mmcu=*:%*})%:device_to_data_start(%{mmcu=*:%*})
+
+*lib:
+%{!mmcu=at90s1*:%{!mmcu=attiny11:%{!mmcu=attiny12:%{!mmcu=attiny15:%{!mmcu=attiny28: -lc }}}}}
+
+*mfwrap:
+ %{static: %{fmudflap|fmudflapth:  --wrap=malloc --wrap=free --wrap=calloc --wrap=realloc --wrap=mmap --wrap=munmap --wrap=alloca} %{fmudflapth: --wrap=pthread_create}} %{fmudflap|fmudflapth: --wrap=main}
+
+*mflib:
+%{fmudflap|fmudflapth: -export-dynamic}
+
+*link_gomp:
+
+
+*libgcc:
+%{!mmcu=at90s1*:%{!mmcu=attiny11:%{!mmcu=attiny12:%{!mmcu=attiny15:%{!mmcu=attiny28: -lgcc }}}}}
+
+*startfile:
+%:device_to_startfile(%{mmcu=*:%*})
+
+*cross_compile:
+1
+
+*version:
+4.6.1
+
+*multilib:
+. !mmcu=avr2 !mmcu=avr25 !mmcu=avr3 !mmcu=avr31 !mmcu=avr35 !mmcu=avr4 !mmcu=avr5 !mmcu=avr51 !mmcu=avr6;avr2 mmcu=avr2 !mmcu=avr25 !mmcu=avr3 !mmcu=avr31 !mmcu=avr35 !mmcu=avr4 !mmcu=avr5 !mmcu=avr51 !mmcu=avr6;avr25 !mmcu=avr2 mmcu=avr25 !mmcu=avr3 !mmcu=avr31 !mmcu=avr35 !mmcu=avr4 !mmcu=avr5 !mmcu=avr51 !mmcu=avr6;avr3 !mmcu=avr2 !mmcu=avr25 mmcu=avr3 !mmcu=avr31 !mmcu=avr35 !mmcu=avr4 !mmcu=avr5 !mmcu=avr51 !mmcu=avr6;avr31 !mmcu=avr2 !mmcu=avr25 !mmcu=avr3 mmcu=avr31 !mmcu=avr35 !mmcu=avr4 !mmcu=avr5 !mmcu=avr51 !mmcu=avr6;avr35 !mmcu=avr2 !mmcu=avr25 !mmcu=avr3 !mmcu=avr31 mmcu=avr35 !mmcu=avr4 !mmcu=avr5 !mmcu=avr51 !mmcu=avr6;avr4 !mmcu=avr2 !mmcu=avr25 !mmcu=avr3 !mmcu=avr31 !mmcu=avr35 mmcu=avr4 !mmcu=avr5 !mmcu=avr51 !mmcu=avr6;avr5 !mmcu=avr2 !mmcu=avr25 !mmcu=avr3 !mmcu=avr31 !mmcu=avr35 !mmcu=avr4 mmcu=avr5 !mmcu=avr51 !mmcu=avr6;avr51 !mmcu=avr2 !mmcu=avr25 !mmcu=avr3 !mmcu=avr31 !mmcu=avr35 !mmcu=avr4 !mmcu=avr5 mmcu=avr51 !mmcu=avr6;avr6 !mmcu=avr2 !mmcu=avr25 !mmcu=avr3 !mmcu=avr31 !mmcu=avr35 !mmcu=avr4 !mmcu=avr5 !mmcu=avr51 mmcu=avr6;
+
+*multilib_defaults:
+mmcu=avr2
+
+*multilib_extra:
+
+
+*multilib_matches:
+mmcu=ata6289 mmcu=avr25;mmcu=attiny13 mmcu=avr25;mmcu=attiny13a mmcu=avr25;mmcu=attiny2313 mmcu=avr25;mmcu=attiny2313a mmcu=avr25;mmcu=attiny4313 mmcu=avr25;mmcu=attiny24 mmcu=avr25;mmcu=attiny24a mmcu=avr25;mmcu=attiny44 mmcu=avr25;mmcu=attiny44a mmcu=avr25;mmcu=attiny84 mmcu=avr25;mmcu=attiny84a mmcu=avr25;mmcu=attiny25 mmcu=avr25;mmcu=attiny45 mmcu=avr25;mmcu=attiny85 mmcu=avr25;mmcu=attiny261 mmcu=avr25;mmcu=attiny261a mmcu=avr25;mmcu=attiny461 mmcu=avr25;mmcu=attiny461a mmcu=avr25;mmcu=attiny861 mmcu=avr25;mmcu=attiny861a mmcu=avr25;mmcu=attiny43u mmcu=avr25;mmcu=attiny87 mmcu=avr25;mmcu=attiny48 mmcu=avr25;mmcu=attiny88 mmcu=avr25;mmcu=at86rf401 mmcu=avr25;mmcu=at43usb355 mmcu=avr3;mmcu=at76c711 mmcu=avr3;mmcu=atmega103 mmcu=avr31;mmcu=at43usb320 mmcu=avr31;mmcu=at90usb82 mmcu=avr35;mmcu=at90usb162 mmcu=avr35;mmcu=atmega8u2 mmcu=avr35;mmcu=atmega16u2 mmcu=avr35;mmcu=atmega32u2 mmcu=avr35;mmcu=attiny167 mmcu=avr35;mmcu=atmega48 mmcu=avr4;mmcu=atmega48a mmcu=avr4;mmcu=atmega48p mmcu=avr4;mmcu=atmega8 mmcu=avr4;mmcu=atmega8515 mmcu=avr4;mmcu=atmega8535 mmcu=avr4;mmcu=atmega88 mmcu=avr4;mmcu=atmega88a mmcu=avr4;mmcu=atmega88p mmcu=avr4;mmcu=atmega88pa mmcu=avr4;mmcu=atmega8hva mmcu=avr4;mmcu=at90pwm1 mmcu=avr4;mmcu=at90pwm2 mmcu=avr4;mmcu=at90pwm2b mmcu=avr4;mmcu=at90pwm3 mmcu=avr4;mmcu=at90pwm3b mmcu=avr4;mmcu=at90pwm81 mmcu=avr4;mmcu=atmega16 mmcu=avr5;mmcu=atmega16a mmcu=avr5;mmcu=atmega161 mmcu=avr5;mmcu=atmega162 mmcu=avr5;mmcu=atmega163 mmcu=avr5;mmcu=atmega164a mmcu=avr5;mmcu=atmega164p mmcu=avr5;mmcu=atmega165 mmcu=avr5;mmcu=atmega165a mmcu=avr5;mmcu=atmega165p mmcu=avr5;mmcu=atmega168 mmcu=avr5;mmcu=atmega168a mmcu=avr5;mmcu=atmega168p mmcu=avr5;mmcu=atmega169 mmcu=avr5;mmcu=atmega169a mmcu=avr5;mmcu=atmega169p mmcu=avr5;mmcu=atmega169pa mmcu=avr5;mmcu=atmega32 mmcu=avr5;mmcu=atmega323 mmcu=avr5;mmcu=atmega324a mmcu=avr5;mmcu=atmega324p mmcu=avr5;mmcu=atmega324pa mmcu=avr5;mmcu=atmega325 mmcu=avr5;mmcu=atmega325a mmcu=avr5;mmcu=atmega325p mmcu=avr5;mmcu=atmega3250 mmcu=avr5;mmcu=atmega3250a mmcu=avr5;mmcu=atmega3250p mmcu=avr5;mmcu=atmega328 mmcu=avr5;mmcu=atmega328p mmcu=avr5;mmcu=atmega329 mmcu=avr5;mmcu=atmega329a mmcu=avr5;mmcu=atmega329p mmcu=avr5;mmcu=atmega329pa mmcu=avr5;mmcu=atmega3290 mmcu=avr5;mmcu=atmega3290a mmcu=avr5;mmcu=atmega3290p mmcu=avr5;mmcu=atmega406 mmcu=avr5;mmcu=atmega64 mmcu=avr5;mmcu=atmega640 mmcu=avr5;mmcu=atmega644 mmcu=avr5;mmcu=atmega644a mmcu=avr5;mmcu=atmega644p mmcu=avr5;mmcu=atmega644pa mmcu=avr5;mmcu=atmega645 mmcu=avr5;mmcu=atmega645a mmcu=avr5;mmcu=atmega645p mmcu=avr5;mmcu=atmega6450 mmcu=avr5;mmcu=atmega6450a mmcu=avr5;mmcu=atmega6450p mmcu=avr5;mmcu=atmega649 mmcu=avr5;mmcu=atmega649a mmcu=avr5;mmcu=atmega649p mmcu=avr5;mmcu=atmega6490 mmcu=avr5;mmcu=atmega6490a mmcu=avr5;mmcu=atmega6490p mmcu=avr5;mmcu=atmega16hva mmcu=avr5;mmcu=atmega16hva2 mmcu=avr5;mmcu=atmega16hvb mmcu=avr5;mmcu=atmega32hvb mmcu=avr5;mmcu=atmega64hve mmcu=avr5;mmcu=at90can32 mmcu=avr5;mmcu=at90can64 mmcu=avr5;mmcu=at90pwm216 mmcu=avr5;mmcu=at90pwm316 mmcu=avr5;mmcu=atmega32c1 mmcu=avr5;mmcu=atmega64c1 mmcu=avr5;mmcu=atmega16m1 mmcu=avr5;mmcu=atmega32m1 mmcu=avr5;mmcu=atmega64m1 mmcu=avr5;mmcu=atmega16u4 mmcu=avr5;mmcu=atmega32u4 mmcu=avr5;mmcu=atmega32u6 mmcu=avr5;mmcu=at90scr100 mmcu=avr5;mmcu=at90usb646 mmcu=avr5;mmcu=at90usb647 mmcu=avr5;mmcu=at94k mmcu=avr5;mmcu=m3000 mmcu=avr5;mmcu=atmega128 mmcu=avr51;mmcu=atmega1280 mmcu=avr51;mmcu=atmega1281 mmcu=avr51;mmcu=atmega1284p mmcu=avr51;mmcu=atmega128rfa1 mmcu=avr51;mmcu=at90can128 mmcu=avr51;mmcu=at90usb1286 mmcu=avr51;mmcu=at90usb1287 mmcu=avr51;mmcu=atmega2560 mmcu=avr6;mmcu=atmega2561 mmcu=avr6;mmcu=avr2 mmcu=avr2;mmcu=avr25 mmcu=avr25;mmcu=avr3 mmcu=avr3;mmcu=avr31 mmcu=avr31;mmcu=avr35 mmcu=avr35;mmcu=avr4 mmcu=avr4;mmcu=avr5 mmcu=avr5;mmcu=avr51 mmcu=avr51;mmcu=avr6 mmcu=avr6;
+
+*multilib_exclusions:
+
+
+*multilib_options:
+mmcu=avr2/mmcu=avr25/mmcu=avr3/mmcu=avr31/mmcu=avr35/mmcu=avr4/mmcu=avr5/mmcu=avr51/mmcu=avr6
+
+*linker:
+collect2
+
+*linker_plugin_file:
+
+
+*lto_wrapper:
+
+
+*lto_gcc:
+
+
+*link_libgcc:
+%D
+
+*md_exec_prefix:
+
+
+*md_startfile_prefix:
+
+
+*md_startfile_prefix_1:
+
+
+*startfile_prefix_spec:
+
+
+*sysroot_spec:
+--sysroot=%R
+
+*sysroot_suffix_spec:
+
+
+*sysroot_hdrs_suffix_spec:
+
+
+*link_command:
+%{!fsyntax-only:%{!c:%{!M:%{!MM:%{!E:%{!S:    %(linker)     %{fuse-linker-plugin:     -plugin %(linker_plugin_file)     -plugin-opt=%(lto_wrapper)     -plugin-opt=-fresolution=%u.res     %{!nostdlib:%{!nodefaultlibs:%:pass-through-libs(%(link_gcc_c_sequence))}}     }     %{flto|flto=*:%<fcompare-debug*}     %{flto} %{flto=*} %l %{pie:-pie} %X %{o*} %{e*} %{N} %{n} %{r}    %{s} %{t} %{u*} %{z} %{Z} %{!nostdlib:%{!nostartfiles:%S}}    %{static:} %{L*} %(mfwrap) %(link_libgcc) %o    %{fopenmp|ftree-parallelize-loops=*:%:include(libgomp.spec)%(link_gomp)}    %(mflib)  %{fsplit-stack: --wrap=pthread_create}    %{fprofile-arcs|fprofile-generate*|coverage:-lgcov}    %{!nostdlib:%{!nodefaultlibs:%(link_ssp) %(link_gcc_c_sequence)}}    %{!nostdlib:%{!nostartfiles:%E}} %{T*} }}}}}}
+
