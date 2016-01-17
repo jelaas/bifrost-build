@@ -30,7 +30,7 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 # pkg_install groff-1.21-1 || exit 2 # Needed to convert man-pages: see below
 
 # Compile against musl:
-# pkg_install musl-0.9.9-2 || exit 2 
+# pkg_install musl-0.9.9-2 || exit 2
 # export CC=musl-gcc
 pkg_install opt-avr-binutils-2.25.1-1 || exit 2
 pkg_install opt-avr-gcc-5.3.0-1 || exit 2
@@ -49,7 +49,7 @@ cd $(dirname $BUILDDIR); tar xf $SRC
 # Patch
 cd $BUILDDIR || exit 1
 echo $BUILDDIR
-bootstrap
+./bootstrap
 libtool_fix-1
 # patch -p1 < $PKGDIR/mypatch.pat
 
