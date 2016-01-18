@@ -49,7 +49,7 @@ cd $(dirname $BUILDDIR); tar xf $SRC
 # Patch
 cd $BUILDDIR || exit 1
 echo $BUILDDIR
-bootstrap
+./bootstrap
 libtool_fix-1
 # patch -p1 < $PKGDIR/mypatch.pat
 
