@@ -57,7 +57,7 @@ make V=1 || exit 1
 #########
 # Install into dir under /var/tmp/install
 rm -rf "$DST"
-make install DESTDIR=$DST # --with-install-prefix may be an alternative
+NO_INSTALL_HARDLINKS=YES make install DESTDIR=$DST # --with-install-prefix may be an alternative
 
 #########
 # Check result
@@ -74,6 +74,7 @@ rm usr/libexec/git-core/git-quiltimport usr/libexec/git-core/git-archimport usr/
 rm usr/bin/git-receive-pack && ln -s git usr/bin/git-receive-pack 
 rm usr/bin/git-upload-archive && ln -s git usr/bin/git-upload-archive
 rm usr/libexec/git-core/git-upload-pack && ln -s /usr/bin/git-upload-pack usr/libexec/git-core/git-upload-pack
+rm usr/bin/git && ln -s ../libexec/git-core/git usr/bin/git
 
 strip usr/bin/*
 strip usr/libexec/git-core/*
