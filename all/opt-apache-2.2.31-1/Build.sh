@@ -41,6 +41,9 @@ cd $BUILDDIR
 libtool_fix-1
 patch -p0 < $PKGDIR/layout.pat
 
+sed -i 's/epoll/APANARNE/' srclib/apr/configure
+sed -i 's/epoll/APANARNE/' srclib/apr/configure.in
+
 #########
 # Configure
 B-configure-3 --prefix=/opt/apache --disable-nls --enable-static-support\
