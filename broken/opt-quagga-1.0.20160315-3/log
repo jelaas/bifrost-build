@@ -1,0 +1,15 @@
+#requires musl-kernel-headers-2.6.34-1 but minos-static is not
+#building kernel packages due to scarse resources.
+
+opt-quagga-1.0.20160315-3 failed to build
+Building opt-quagga-1.0.20160315-3 from /var/lib/build/all/opt-quagga-1.0.20160315-3
+Installing gawk-3.1.8-1: . Done!
+Installing musl-ncurses-lib-5.7-1: .. Done!
+Installing musl-readline-6.1-2: . Done!
+Installing perl-5.10.1-3: ........ Done!
+Installing musl-1.1.14-1: .. Done!
+musl-kernel-headers-2.6.34-1 not found in spool
+/var/lib/build/all/musl-kernel-headers-2.6.34-1 does not exist
+ATTN: Maximum number of recursive builds (17) exceeded!
+ATTN: Last build was \'opt-quagga-1.0.20160315-3\'.
+ERROR: Build unsuccessful [2]. See /var/log/build/opt-quagga-1.0.20160315-3.log and /var/tmp/src
