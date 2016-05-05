@@ -28,6 +28,7 @@ cd $(dirname $BUILDDIR); tar xf $SRC
 # Patch
 cd $BUILDDIR
 libtool_fix-1
+patch -p0 < $PKGDIR/01-make-utf-errors-non-terminal.patch || exit 2
 # patch -p1 < $PKGDIR/mypatch.pat
 
 #########
