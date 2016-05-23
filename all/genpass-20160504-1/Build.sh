@@ -1,7 +1,6 @@
 #!/bin/bash
 
-GIT=834ba1f427e3edc30ff90b43b7dbb1b60ccdd467
-SRCVER=genpass-$GIT
+SRCVER=genpass-2016.05.04
 PKG=genpass-20160504-1 # with build version
 
 # PKGDIR is set by 'pkg_build'. Usually "/var/lib/build/all/$PKG".
