@@ -152,7 +152,7 @@ untar devtag-1.0.7-1 ./bin/devtag
 untar devtag-1.0.7-1 ./bin/devtagns
 untar eth-affinity-1.2.7-1
 untar ifinfo-1.6-1
-untar ifstat2-0.31-1
+untar ifstat2-0.32-1
 untar iocethtool-0.2-1
 untar loop-1-1
 untar make_bifrost-3

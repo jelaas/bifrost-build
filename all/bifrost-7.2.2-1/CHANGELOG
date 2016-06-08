@@ -4,9 +4,10 @@ Bifrost 7.2.2: changes since 7.2.1
   ntp 4.28.p8
   pcre update
 
+ + ifstat2 new version with 64bit stats
+
 TODO:
 
- + ifstat2 new version with 64bit stats
 
  + netcat
  + mtr
