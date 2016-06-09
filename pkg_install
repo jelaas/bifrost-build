@@ -1,6 +1,7 @@
 #!/bin/bash
 
 TARPKG=tar-1.23-1
+CURLPKG=curl-7.49.1-1
 
 PERMANENT=no
 FORCE=no
@@ -70,6 +71,12 @@ if [ "$INTERNAL" = no ]; then
 	    echo "I need pkg $TARPKG permanently installed!"
 	    echo "Please run: \"/var/lib/build/pkg_build $TARPKG\""
 	    exit 1
+	fi
+    fi
+    if ! pkg_available $CURLPKG; then
+	if ! pkg_build $CURLPKG; then
+		echo Failed to build base dependency $CURLPKG
+		exit 1
 	fi
     fi
 fi
