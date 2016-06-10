@@ -3,4 +3,5 @@
 SRC=openssl-1.0.1m.tar.gz
 DST=/var/spool/src/$SRC
 
-[ -s "$DST" ] || wget -O $DST http://www.openssl.org/source/$SRC
+pkg_install curl-7.49.1-1 || exit 2
+[ -s "$DST" ] || wget -O $DST http://www.openssl.org/source/$SRC || curl -L -k -o $DST http://www.openssl.org/source/$SRC
