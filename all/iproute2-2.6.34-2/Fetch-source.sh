@@ -3,4 +3,4 @@
 SRC=iproute2-2.6.34.tar.bz2
 DST=/var/spool/src/$SRC
 
-[ -s "$DST" ] || wget -O $DST http://ftp.sunet.se/pub/Linux/distributions/bifrost/download/src/$SRC || wget -O $DST http://devresources.linuxfoundation.org/dev/iproute2/download/$SRC
+[ -s "$DST" ] || wget -O $DST http://pkgs.fedoraproject.org/repo/pkgs/iproute/iproute2-2.6.34.tar.bz2/5c5742bdac05a1688f266512e685b83c/$SRC
