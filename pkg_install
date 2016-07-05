@@ -55,9 +55,9 @@ if [ -z "$pkgfile" ]; then
    echo "$pkg not found in spool"
    if [ "$RECURSIVEBUILD" = yes ]; then
        if [ "$FROMPKG" ]; then
-	   pkg_build "$FROMPKG"
+	   /var/lib/build/pkg_build "$FROMPKG"
        else
-	   pkg_build $pkg
+	   /var/lib/build/pkg_build $pkg
        fi
        exit 1
    fi
@@ -73,8 +73,8 @@ if [ "$INTERNAL" = no ]; then
 	    exit 1
 	fi
     fi
-    if ! pkg_available $CURLPKG; then
-	if ! pkg_build $CURLPKG; then
+    if ! /var/lib/build/pkg_available $CURLPKG; then
+	if ! /var/lib/build/pkg_build $CURLPKG; then
 		echo Failed to build base dependency $CURLPKG
 		exit 1
 	fi
