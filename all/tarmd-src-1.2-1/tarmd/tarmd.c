@@ -111,6 +111,7 @@ static int untar(struct zstream *z, char **err)
 
 		if(strncmp(th->magic, "ustar", 5)) {
 			*err = "ustar magic";
+			if(conf.verbose) fprintf(stderr, "magic: '%s' %s\n", th->magic, th->name);
 			return -1;
 		}
 		
@@ -145,7 +146,7 @@ static int untar(struct zstream *z, char **err)
 			strcpy(pownerstr, "R");
 		}
 		
-		if(conf.verbose) fprintf(stderr, "tarmd: read %s %s/%s %s\n", md.filename, th->uid, th->gid, th->mtime);
+		if(conf.verbose) fprintf(stderr, "tarmd: read %s %s/%s %s size=%s\n", md.filename, th->uid, th->gid, th->mtime, th->size);
 		
 		sha256_init_ctx(&sha256);
 		if(conf.filter.filename) sha256_process_bytes(md.filename, strlen(md.filename), &sha256);
@@ -164,8 +165,9 @@ static int untar(struct zstream *z, char **err)
 		if(siz) {
 			ssize_t n;
 
-			nulsiz = ((siz+512) & ~511) - siz;
-			
+			nulsiz = ((siz+511) & ~511) - siz;
+
+			if(conf.verbose > 1) fprintf(stderr, "tarmd: reading size %zd bytes\n", siz);
 			while(siz) {
 				n = zreadall(z,buf,siz > sizeof(buf) ? sizeof(buf):siz);
 				if(n < 1) {
@@ -175,9 +177,13 @@ static int untar(struct zstream *z, char **err)
 				}
 				siz -= n;
 				if(conf.filter.content) sha256_process_bytes(buf, n, &sha256);
+
+				if(conf.verbose && th->typeflag == 'g')
+					fprintf(stderr, "pax data: %s\n", buf);
 			}
 			
 			// throw away excess
+			if(conf.verbose > 1) fprintf(stderr, "tarmd: reading nulsize %zd bytes\n", nulsiz);
 			while(nulsiz) {
 				n = zreadall(z,buf,nulsiz > sizeof(buf) ? sizeof(buf):nulsiz);
 				if(n < 1) {
@@ -232,11 +238,16 @@ static int untar(struct zstream *z, char **err)
 				}
 				if(conf.verbose) fprintf(stderr, "tarmd: digest %s\n", md.filename);
 			}
-		} else {
-			fprintf(stderr, "tarmd: unhandled: %d/'%c' %s\n", th->typeflag, th->typeflag, md.filename);
-			*err = "tar support";
-			return -1;
+			continue;
 		}
+
+		if(th->typeflag == 'g') {
+			if(conf.verbose) fprintf(stderr, "skipping pax global header\n");
+			continue;
+		}
+		fprintf(stderr, "tarmd: unhandled: %d/'%c' %s\n", th->typeflag, th->typeflag, md.filename);
+		*err = "tar support";
+		return -1;
 	}
 	
 	// sort list
