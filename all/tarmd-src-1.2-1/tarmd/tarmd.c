@@ -92,11 +92,11 @@ static ssize_t zreadall(struct zstream *z, char *buf, size_t len)
 static int untar(struct zstream *z, char **err)
 {
 	struct mdfile md;
-	char hbuf[520];
+	unsigned char hbuf[520];
 	char buf[1024];
 	struct tar_header *th;
 	ssize_t siz, nulsiz;
-	int mode, pmode, powner;
+	int mode, pmode, powner, oldhdr, chksum;
 	char pmodestr[4], pownerstr[2];
 	struct arrarr aa;
 	struct sha256_ctx sha256;
@@ -105,14 +105,31 @@ static int untar(struct zstream *z, char **err)
 	arr_init(&aa);
 	
 	while(zreadall(z,hbuf,512)==512) {
+		oldhdr = 0;
 		md.filename[0] = 0;
 		th=(struct tar_header*)hbuf;
 		if(th->name[0] == 0) break;
 
+		if(conf.verbose) fprintf(stderr, "chksum: '%s'\n", th->chksum);
+		chksum = strtoull(th->chksum,0,8);
+		{
+			int i;
+			unsigned int sum=0;
+			for(i=0;i<148;i++) sum+=hbuf[i];
+			for(i=0;i<8;i++) sum+=32;
+			for(i=156;i<512;i++) sum+=hbuf[i];
+			if(conf.verbose) fprintf(stderr, "chksum: '%o'\n", sum);
+			if(chksum != sum) {
+				*err = "checksum";
+				fprintf(stderr, "tarmd: header checksum failed\n");
+				return -1;
+			}
+		}
+		
 		if(strncmp(th->magic, "ustar", 5)) {
-			*err = "ustar magic";
-			if(conf.verbose) fprintf(stderr, "magic: '%s' %s\n", th->magic, th->name);
-			return -1;
+			if(conf.verbose > 1) fprintf(stderr, "magic: '%s' %s\n", th->magic, th->name);
+			oldhdr = 1;
+			th->prefix[0] = 0;
 		}
 		
 		th->name[99] = 0;
@@ -436,6 +453,7 @@ int main(int argc, char **argv, char **envp)
 			dup2(fd, 0);
 			dup2(var.cmdpipe[1], 1);
 			execve(cmdargv[0], cmdargv, envp);
+			fprintf(stderr, "tarmd: failed execve %s\n", cmdargv[0]);
 			exit(2);
 		}
 	} else {
