@@ -75,6 +75,7 @@ while [ "$1" ]; do
     
     while true; do
 	/var/lib/build/pkg_src_fetch $pkg
+	/var/lib/build/pkg_uninstall
 	rm -f /var/log/build/$pkg.log
         # Save current stdout to file descriptor 3, and redirect stdout to tee
 	exec 3>&1 > >(tee -a "/var/log/build/$pkg.log")
