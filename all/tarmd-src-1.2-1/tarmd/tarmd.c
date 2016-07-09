@@ -104,7 +104,7 @@ static int untar(struct zstream *z, char **err)
 	
 	arr_init(&aa);
 	
-	while(zreadall(z,hbuf,512)==512) {
+	while(zreadall(z,(char*)hbuf,512)==512) {
 		oldhdr = 0;
 		md.filename[0] = 0;
 		th=(struct tar_header*)hbuf;

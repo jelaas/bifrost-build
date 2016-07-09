@@ -40,7 +40,7 @@ struct zstream  {
 	        struct {
 	                int fd;
                 } copy;
-	};
+	} codec;
 };
 
 int zstream(struct zstream *z, const char *codec);

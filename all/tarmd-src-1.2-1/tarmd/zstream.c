@@ -28,14 +28,14 @@ static ssize_t readall(int fd, void *buf, size_t count)
 #ifdef USE_ZLIB
 static int gzip_init(struct zstream *z)
 {
-	z->gzip = (void*)0;
+	z->codec.gzip = (void*)0;
 	return 0;
 }
 
 static int gzip_open(struct zstream *z, int fd, char *mode)
 {
-	z->gzip = gzdopen(fd, mode);
-	if(!z->gzip) {
+	z->codec.gzip = gzdopen(fd, mode);
+	if(!z->codec.gzip) {
 		return -1;
 	}
 	return 0;
@@ -43,18 +43,18 @@ static int gzip_open(struct zstream *z, int fd, char *mode)
 
 static ssize_t gzip_read(struct zstream *z, void *buf, size_t size)
 {
-	return gzread(z->gzip, buf, size);
+	return gzread(z->codec.gzip, buf, size);
 }
 
 static ssize_t gzip_write(struct zstream *z, void *buf, size_t count)
 {
-	return gzwrite(z->gzip, buf, count);
+	return gzwrite(z->codec.gzip, buf, count);
 }
 
 static int gzip_close(struct zstream *z)
 {
-	int rc = gzclose(z->gzip);
-	z->gzip = (void*)0;
+	int rc = gzclose(z->codec.gzip);
+	z->codec.gzip = (void*)0;
 	return rc;
 }
 #endif
@@ -62,9 +62,9 @@ static int gzip_close(struct zstream *z)
 #ifdef USE_BZIP2
 static int bzip_init(struct zstream *z)
 {
-	z->bz.f = (void*)0;
-	z->bz.eof = 1;
-	z->bz.error = 0;
+	z->codec.bz.f = (void*)0;
+	z->codec.bz.eof = 1;
+	z->codec.bz.error = 0;
 	return 0;
 }
 
@@ -72,7 +72,7 @@ static int bzip_open(struct zstream *z, int fd, char *mode)
 {
 	FILE *f;
 
-	z->bz.eof = 0;
+	z->codec.bz.eof = 0;
 
 	f = fdopen(fd, mode);
 	if(!f) {
@@ -84,8 +84,8 @@ static int bzip_open(struct zstream *z, int fd, char *mode)
 	}
 	
 	if(*mode == 'r') {
-		z->bz.f = BZ2_bzReadOpen(&z->bz.error, f, 0, 0, NULL, 0);
-		if(z->bz.error != BZ_OK) {
+		z->codec.bz.f = BZ2_bzReadOpen(&z->codec.bz.error, f, 0, 0, NULL, 0);
+		if(z->codec.bz.error != BZ_OK) {
 			return -1;
 		}
 		return 0;
@@ -98,11 +98,11 @@ static ssize_t bzip_read(struct zstream *z, void *buf, size_t size)
 {
 	int n;
 
-	if(z->bz.eof) return 0;
+	if(z->codec.bz.eof) return 0;
 
-	n = BZ2_bzRead(&z->bz.error, z->bz.f, buf, size);
-	if(z->bz.error == BZ_STREAM_END) z->bz.eof = 1;
-	if (z->bz.error == BZ_OK || z->bz.error == BZ_STREAM_END) {
+	n = BZ2_bzRead(&z->codec.bz.error, z->codec.bz.f, buf, size);
+	if(z->codec.bz.error == BZ_STREAM_END) z->codec.bz.eof = 1;
+	if (z->codec.bz.error == BZ_OK || z->codec.bz.error == BZ_STREAM_END) {
 		return n;
 	}
 	return -1;
@@ -115,9 +115,9 @@ static ssize_t bzip_write(struct zstream *z, void *buf, size_t count)
 
 static int bzip_close(struct zstream *z)
 {
-	BZ2_bzReadClose(&z->bz.error, z->bz.f);
-	z->bz.f = (void*)0;
-	return z->bz.error;
+	BZ2_bzReadClose(&z->codec.bz.error, z->codec.bz.f);
+	z->codec.bz.f = (void*)0;
+	return z->codec.bz.error;
 }
 #endif
 
@@ -125,13 +125,13 @@ static int bzip_close(struct zstream *z)
 static int xz_init(struct zstream *z)
 {
 	lzma_stream tmp = LZMA_STREAM_INIT;
-	z->xz.eof = 1;
-	z->xz.stream = tmp;
-	z->xz.bufsize = 4096;
-	z->xz.inbuf = malloc(z->xz.bufsize);
-	if(!z->xz.inbuf) return -1;
-	z->xz.outbuf = malloc(z->xz.bufsize);
-	if(!z->xz.outbuf) return -1;
+	z->codec.xz.eof = 1;
+	z->codec.xz.stream = tmp;
+	z->codec.xz.bufsize = 4096;
+	z->codec.xz.inbuf = malloc(z->codec.xz.bufsize);
+	if(!z->codec.xz.inbuf) return -1;
+	z->codec.xz.outbuf = malloc(z->codec.xz.bufsize);
+	if(!z->codec.xz.outbuf) return -1;
 	return 0;
 }
 
@@ -139,21 +139,21 @@ static int xz_open(struct zstream *z, int fd, char *mode)
 {
 	lzma_ret ret;
 	
-	z->xz.eof = 0;
-	z->xz.fd = fd;
+	z->codec.xz.eof = 0;
+	z->codec.xz.fd = fd;
 	if(*mode == 'w') {
-		ret = lzma_easy_encoder(&z->xz.stream, 5, LZMA_CHECK_CRC64);
+		ret = lzma_easy_encoder(&z->codec.xz.stream, 5, LZMA_CHECK_CRC64);
 		if (ret == LZMA_OK)
 			return 0;
 		return -1;
 	}
 	if(*mode == 'r') {
-		z->xz.stream.next_in = NULL;
-		z->xz.stream.avail_in = 0;
-		z->xz.stream.next_out = z->xz.outbuf;
-		z->xz.stream.avail_out = z->xz.bufsize;
+		z->codec.xz.stream.next_in = NULL;
+		z->codec.xz.stream.avail_in = 0;
+		z->codec.xz.stream.next_out = z->codec.xz.outbuf;
+		z->codec.xz.stream.avail_out = z->codec.xz.bufsize;
 		
-		ret = lzma_stream_decoder(&z->xz.stream, UINT64_MAX, LZMA_CONCATENATED);
+		ret = lzma_stream_decoder(&z->codec.xz.stream, UINT64_MAX, LZMA_CONCATENATED);
 		if (ret == LZMA_OK)
 			return 0;
 		return -1;
@@ -168,38 +168,38 @@ static ssize_t xz_read(struct zstream *z, void *buf, size_t size)
 	lzma_ret ret;
 	lzma_action action = LZMA_RUN;
 
-	if(z->xz.eof) action = LZMA_FINISH;
+	if(z->codec.xz.eof) action = LZMA_FINISH;
 	
-	if (z->xz.stream.avail_in == 0 && (!z->xz.eof)) {
-		z->xz.stream.next_in = z->xz.inbuf;
-		z->xz.stream.avail_in = readall(z->xz.fd, z->xz.inbuf, z->xz.bufsize);
-		if(z->xz.stream.avail_in < 0) {
+	if (z->codec.xz.stream.avail_in == 0 && (!z->codec.xz.eof)) {
+		z->codec.xz.stream.next_in = z->codec.xz.inbuf;
+		z->codec.xz.stream.avail_in = readall(z->codec.xz.fd, z->codec.xz.inbuf, z->codec.xz.bufsize);
+		if(z->codec.xz.stream.avail_in < 0) {
 			/* read error */
 			return -1;
 		}
-		if(z->xz.stream.avail_in == 0) {
+		if(z->codec.xz.stream.avail_in == 0) {
 			/* EOF */
-			z->xz.eof = 1;
-			z->xz.stream.avail_in = 0;
+			z->codec.xz.eof = 1;
+			z->codec.xz.stream.avail_in = 0;
 			action = LZMA_FINISH;
 		}
 	}
-	ret = lzma_code(&z->xz.stream, action);
+	ret = lzma_code(&z->codec.xz.stream, action);
 	if (ret != LZMA_OK) {
 		if (ret != LZMA_STREAM_END) {
 			return -2;
 		}
 	}
-	avail = z->xz.bufsize - z->xz.stream.avail_out;
+	avail = z->codec.xz.bufsize - z->codec.xz.stream.avail_out;
 	if (avail) {
 		copysize = avail;
 		if(copysize > size) {
 			copysize = size;
 		}
-		memcpy(buf, z->xz.outbuf, copysize);
-		memmove(z->xz.outbuf, z->xz.outbuf + copysize, avail - copysize);
-		z->xz.stream.next_out = z->xz.outbuf + (avail - copysize);
-		z->xz.stream.avail_out = z->xz.bufsize - (avail - copysize);
+		memcpy(buf, z->codec.xz.outbuf, copysize);
+		memmove(z->codec.xz.outbuf, z->codec.xz.outbuf + copysize, avail - copysize);
+		z->codec.xz.stream.next_out = z->codec.xz.outbuf + (avail - copysize);
+		z->codec.xz.stream.avail_out = z->codec.xz.bufsize - (avail - copysize);
 		return copysize;
 	}
 
@@ -213,9 +213,9 @@ static ssize_t xz_write(struct zstream *z, void *buf, size_t count)
 
 static int xz_close(struct zstream *z)
 {
-	int rc = close(z->xz.fd);
-	z->xz.fd = -1;
-	lzma_end(&z->xz.stream);
+	int rc = close(z->codec.xz.fd);
+	z->codec.xz.fd = -1;
+	lzma_end(&z->codec.xz.stream);
 	return rc;
 }
 #endif
@@ -227,23 +227,23 @@ static int copy_init(struct zstream *z)
 
 static int copy_open(struct zstream *z, int fd, char *mode)
 {
-	z->copy.fd = fd;
+	z->codec.copy.fd = fd;
 	return 0;
 }
 
 static ssize_t copy_read(struct zstream *z, void *buf, size_t size)
 {
-	return readall(z->copy.fd, buf, size);
+	return readall(z->codec.copy.fd, buf, size);
 }
 
 static ssize_t copy_write(struct zstream *z, void *buf, size_t count)
 {
-	return write(z->copy.fd, buf, count);
+	return write(z->codec.copy.fd, buf, count);
 }
 
 static int copy_close(struct zstream *z)
 {
-	int rc = close(z->copy.fd);
+	int rc = close(z->codec.copy.fd);
 	return rc;
 }
 
