@@ -31,7 +31,7 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 # pkg_install groff-1.21-1 || exit 2 # Needed to convert man-pages: see below
 
 # Compile against musl:
-pkg_install musl-1.1.3-1 || exit 2 
+pkg_install musl-1.1.15-1 || exit 2 
 export CC=musl-gcc
 
 #########
