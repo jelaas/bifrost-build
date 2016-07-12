@@ -194,8 +194,14 @@ static int untar(struct zstream *z, char **err)
 				}
 				siz -= n;
 				if(conf.filter.content) sha256_process_bytes(buf, n, &sha256);
-
+				if(n < sizeof(buf)) {
+					buf[n] = 0;
+				} else {
+					buf[sizeof(buf)-1] = 0;
+				}
 				if(conf.verbose && th->typeflag == 'g')
+					fprintf(stderr, "pax data: %s\n", buf);
+				if(conf.verbose && th->typeflag == 'x')
 					fprintf(stderr, "pax data: %s\n", buf);
 			}
 			
@@ -262,6 +268,10 @@ static int untar(struct zstream *z, char **err)
 			if(conf.verbose) fprintf(stderr, "skipping pax global header\n");
 			continue;
 		}
+		if(th->typeflag == 'x') {
+			if(conf.verbose) fprintf(stderr, "skipping pax extended header\n");
+			continue;
+		}
 		fprintf(stderr, "tarmd: unhandled: %d/'%c' %s\n", th->typeflag, th->typeflag, md.filename);
 		*err = "tar support";
 		return -1;
@@ -303,7 +313,8 @@ static int untar(struct zstream *z, char **err)
 		} else {
 			if(strcasecmp(shastr, conf.sha)) {
 				if(conf.verbose) fprintf(stderr, "tarmd: SHA256 mismatch!\n");
-				*err = "SHA256";
+				sprintf(buf, "SHA256 %s", shastr);
+				*err = buf;
 				return 1;
 			}
 		}
@@ -410,9 +421,17 @@ int main(int argc, char **argv, char **envp)
 		conf.filter.content = 1;
 		conf.filter.pmode = 1;
 	}
+	if(argc <= 1) {
+		fprintf(stderr, "tarmd: missing arg\n");
+		exit(1);
+	}
 	if(!conf.generate) {
 		conf.sha=strdup(argv[1]);
 		argc--; argv++;
+	}
+	if(argc <= 1) {
+		fprintf(stderr, "tarmd: missing arg\n");
+		exit(1);
 	}
 	conf.ofile=strdup(argv[1]);
 	argc--; argv++;
