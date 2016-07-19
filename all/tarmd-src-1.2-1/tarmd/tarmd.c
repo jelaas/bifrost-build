@@ -51,6 +51,16 @@ struct tar_header {
 	char filler[12];
 };
 
+struct pax {
+	char *name;
+	char *uid;
+	char *gid;
+	char *mtime;
+	char *linkname;
+	char *uname;
+	char *gname;
+};
+
 struct {
 	char *sha;
 	char *ofile, *ofilesuff;
@@ -70,6 +80,103 @@ struct {
 	pid_t detpid;
 	char *compressor;
 } var;
+
+static int pax_parse(struct pax *pax, char *data, size_t datasize)
+{
+	char *p = data, *key, *value;
+	size_t siz;
+	
+	/* "%d %s=%s\n", <length>, <keyword>, <value> */
+
+	while(p && *p) {
+		siz = strtoul(p,0,10);
+		if(siz < 1) return -1;
+		if( (p+siz) > data+datasize) return -1;
+
+		for(key=p; key < (p+siz); key++) {
+			if(*key == ' ') break;
+		}
+		if(*key != ' ') return -1;
+
+		key++;
+		for(value=key; value < (p+siz); value++) {
+			if(*value == '=') break;
+		}
+		if(*value != '=') return -1;
+		*value = 0;
+		value++;
+		*(p+siz-1) = 0;
+		p+=siz;
+		
+		if(!strcmp(key, "comment")) {
+			continue;
+		}
+		if(!strcmp(key, "atime")) {
+			continue;
+		}
+		if(!strcmp(key, "ctime")) {
+			continue;
+		}
+		if(!strcmp(key, "uid")) {
+			if(pax->uid) {
+				free(pax->uid);
+				pax->uid = (void*)0;
+			}
+			if(*value) pax->uid = strdup(value);
+			continue;
+		}
+		if(!strcmp(key, "gid")) {
+			if(pax->gid) {
+				free(pax->gid);
+				pax->gid = (void*)0;
+			}
+			if(*value) pax->gid = strdup(value);
+			continue;
+		}
+		if(!strcmp(key, "mtime")) {
+			if(pax->mtime) {
+				free(pax->mtime);
+				pax->mtime = (void*)0;
+			}
+			if(*value) pax->mtime = strdup(value);
+			continue;
+		}
+		if(!strcmp(key, "uname")) {
+			if(pax->uname) {
+				free(pax->uname);
+				pax->uname = (void*)0;
+			}
+			if(*value) pax->uname = strdup(value);
+			continue;
+		}
+		if(!strcmp(key, "gname")) {
+			if(pax->gname) {
+				free(pax->gname);
+				pax->gname = (void*)0;
+			}
+			if(*value) pax->gname = strdup(value);
+			continue;
+		}
+		if(!strcmp(key, "path")) {
+			if(pax->name) {
+				free(pax->name);
+				pax->name = (void*)0;
+			}
+			if(*value) pax->name = strdup(value);
+		}
+		if(!strcmp(key, "linkpath")) {
+			if(pax->linkname) {
+				free(pax->linkname);
+				pax->linkname = (void*)0;
+			}
+			if(*value) pax->linkname = strdup(value);
+			continue;
+		}
+		return -1;
+	}
+	
+	return 0;
+}
 
 static ssize_t zreadall(struct zstream *z, char *buf, size_t len)
 {
@@ -95,6 +202,19 @@ static int untar(struct zstream *z, char **err)
 	unsigned char hbuf[520];
 	char buf[1024];
 	struct tar_header *th;
+	struct pax glob;
+	struct pax ext;
+	struct {
+		char mode[32];
+		char uid[32];
+		char gid[32];
+		char mtime[32];
+		char *linkname;
+		char *uname;
+		char *gname;
+		char devmajor[32];
+		char devminor[32];
+	} norm;
 	ssize_t siz, nulsiz;
 	int mode, pmode, powner, oldhdr, chksum;
 	char pmodestr[4], pownerstr[2];
@@ -104,13 +224,21 @@ static int untar(struct zstream *z, char **err)
 	
 	arr_init(&aa);
 	
+	memset(&glob, 0, sizeof(glob));
+	memset(&ext, 0, sizeof(ext));
+	memset(&norm, 0, sizeof(norm));
+
 	while(zreadall(z,(char*)hbuf,512)==512) {
+		if(norm.linkname) free(norm.linkname);
+		if(norm.uname) free(norm.uname);
+		if(norm.gname) free(norm.gname);
+		memset(&norm, 0, sizeof(norm));
 		oldhdr = 0;
 		md.filename[0] = 0;
 		th=(struct tar_header*)hbuf;
 		if(th->name[0] == 0) break;
 
-		if(conf.verbose) fprintf(stderr, "chksum: '%s'\n", th->chksum);
+		if(conf.verbose) fprintf(stderr, "tarmd: chksum: '%s'\n", th->chksum);
 		chksum = strtoull(th->chksum,0,8);
 		{
 			int i;
@@ -118,7 +246,7 @@ static int untar(struct zstream *z, char **err)
 			for(i=0;i<148;i++) sum+=hbuf[i];
 			for(i=0;i<8;i++) sum+=32;
 			for(i=156;i<512;i++) sum+=hbuf[i];
-			if(conf.verbose) fprintf(stderr, "chksum: '%o'\n", sum);
+			if(conf.verbose) fprintf(stderr, "tarmd: calc chksum: '%o'\n", sum);
 			if(chksum != sum) {
 				*err = "checksum";
 				fprintf(stderr, "tarmd: header checksum failed\n");
@@ -127,7 +255,7 @@ static int untar(struct zstream *z, char **err)
 		}
 		
 		if(strncmp(th->magic, "ustar", 5)) {
-			if(conf.verbose > 1) fprintf(stderr, "magic: '%s' %s\n", th->magic, th->name);
+			if(conf.verbose > 1) fprintf(stderr, "tarmd: magic: '%s' %s\n", th->magic, th->name);
 			oldhdr = 1;
 			th->prefix[0] = 0;
 		}
@@ -139,13 +267,85 @@ static int untar(struct zstream *z, char **err)
 		th->gid[7] = 0;
 		th->mtime[11] = 0;
 		th->size[11] = 0;
+
+		if(!oldhdr) {
+			th->uname[31] = 0;
+			th->gname[31] = 0;
+			th->devmajor[7] = 0;
+			th->devminor[7] = 0;
+		}
+
+		if(ext.name) {
+			strncpy(md.filename, ext.name, sizeof(md.filename));
+			md.filename[sizeof(md.filename)-1] = 0;
+			free(ext.name);
+			ext.name = (void*)0;
+		} else {
+			if (th->prefix[0]) strcat(md.filename, th->prefix);
+			strcat(md.filename, th->name);			
+		}
 		
-		if (th->prefix[0]) strcat(md.filename, th->prefix);
-		strcat(md.filename, th->name);
+		snprintf(norm.mode, sizeof(norm.mode), "%llu", strtoull(th->mode,0,8));
+		norm.mode[sizeof(norm.mode)-1] = 0;
+		
+		snprintf(norm.uid, sizeof(norm.uid), "%llu", strtoull(th->uid,0,8));
+		if(glob.uid) strncpy(norm.uid, glob.uid, sizeof(norm.uid));
+		if(ext.uid) {
+			strncpy(norm.uid, ext.uid, sizeof(norm.uid));
+			free(ext.uid);
+			ext.uid = (void*)0;
+		}
+		norm.uid[sizeof(norm.uid)-1] = 0;
+		
+		snprintf(norm.gid, sizeof(norm.gid), "%llu", strtoull(th->gid,0,8));
+		if(glob.gid) strncpy(norm.gid, glob.gid, sizeof(norm.gid));
+		if(ext.gid) {
+			strncpy(norm.gid, ext.gid, sizeof(norm.gid));
+			free(ext.gid);
+			ext.gid = (void*)0;
+		}
+		norm.gid[sizeof(norm.gid)-1] = 0;
+		
+		snprintf(norm.mtime, sizeof(norm.mtime), "%llu", strtoull(th->mtime,0,8));
+		if(glob.mtime) strncpy(norm.mtime, glob.mtime, sizeof(norm.mtime));
+		if(ext.mtime) {
+			strncpy(norm.mtime, ext.mtime, sizeof(norm.mtime));
+			free(ext.mtime);
+			ext.mtime = (void*)0;
+		}
+		norm.mtime[sizeof(norm.mtime)-1] = 0;
+
+		norm.linkname = strdup(th->linkname);
+		if(ext.linkname) {
+			norm.linkname = ext.linkname;
+			ext.linkname = (void*)0;
+		}
+		
+		if(!oldhdr) {
+			norm.uname = strdup(th->uname);
+			if(glob.uname) norm.uname = strdup(glob.uname);
+			if(ext.uname) {
+				norm.uname = ext.uname;
+				ext.uname = (void*)0;
+			}
+			norm.gname = strdup(th->gname);
+			if(glob.gname) norm.gname = strdup(glob.gname);
+			if(ext.gname) {
+				norm.gname = ext.gname;
+				ext.gname = (void*)0;
+			}
+		
+			snprintf(norm.devmajor, sizeof(norm.devmajor), "%llu", strtoull(th->devmajor,0,8));
+			norm.devmajor[sizeof(norm.devmajor)-1] = 0;
+			
+			snprintf(norm.devminor, sizeof(norm.devminor), "%llu", strtoull(th->devminor,0,8));
+			norm.devminor[sizeof(norm.devminor)-1] = 0;
+		}
+		
 		siz=strtoull(th->size,0,8);
 		
 		/* pmode: aggregates access flags. if one of user group or other is 1 then the result is 1. */
-		mode=strtoul(th->mode,0,8);
+		mode=strtoul(norm.mode,0,10);
 		pmode = 0;
 		if(mode & 0111) pmode += 1;
 		if(mode & 0222) pmode += 2;
@@ -155,36 +355,60 @@ static int untar(struct zstream *z, char **err)
 		sprintf(pmodestr, "%d", pmode);
 		
 		/* "R" if uid or gid = root. "U" if both uid and gid > 0 */
-		powner = strtoul(th->uid,0,10);
-		if(powner) powner = strtoul(th->gid,0,10);
+		powner = strtoul(norm.uid,0,10);
+		if(powner) powner = strtoul(norm.gid,0,10);
 		if(powner) {
 			strcpy(pownerstr, "U");
 		} else {
 			strcpy(pownerstr, "R");
 		}
 		
-		if(conf.verbose) fprintf(stderr, "tarmd: read %s %s/%s %s size=%s\n", md.filename, th->uid, th->gid, th->mtime, th->size);
+		if(conf.verbose) fprintf(stderr, "tarmd: read %s %s/%s %s size=%s\n", md.filename, norm.uid, norm.gid, norm.mtime, th->size);
 		
 		sha256_init_ctx(&sha256);
+		
 		if(conf.filter.filename) sha256_process_bytes(md.filename, strlen(md.filename), &sha256);
 		if(conf.filter.pmode) sha256_process_bytes(pmodestr, 4, &sha256);
+		if(conf.filter.mode) sha256_process_bytes(norm.mode, strlen(norm.mode), &sha256);
 		if(conf.filter.typeflag) sha256_process_bytes(&th->typeflag, 1, &sha256);
-		if(conf.filter.mtime) sha256_process_bytes(th->mtime, 11, &sha256);
+		if(conf.filter.mtime) sha256_process_bytes(norm.mtime, strlen(norm.mtime), &sha256);
 		if(conf.filter.powner) sha256_process_bytes(pownerstr, 1, &sha256);
 		if(conf.filter.owner) {
-			sha256_process_bytes(th->uid, 7, &sha256);
-			sha256_process_bytes(th->gid, 7, &sha256);
+			sha256_process_bytes(norm.uid, strlen(norm.uid), &sha256);
+			sha256_process_bytes(norm.gid, strlen(norm.gid), &sha256);
 		}
-		
 		if(conf.filter.size) {
 			sha256_process_bytes(th->size, 11, &sha256);
 		}
+		if(th->typeflag == 2) {
+			if(conf.filter.linkname) sha256_process_bytes(norm.linkname, strlen(norm.linkname), &sha256);
+		}
+		if(th->typeflag == 3 || th->typeflag == 4) {
+			if(conf.filter.dev) sha256_process_bytes(norm.devmajor, strlen(norm.devmajor), &sha256);
+			if(conf.filter.dev) sha256_process_bytes(norm.devminor, strlen(norm.devminor), &sha256);
+		}
+
 		if(siz) {
 			ssize_t n;
-
+			size_t extdatasize;
+			char *p, *extdata;
+			
 			nulsiz = ((siz+511) & ~511) - siz;
-
+			
+			/* Allocate memory buffer to hold extension data, if any */
+			extdata = (void*) 0;
+			if(th->typeflag == 'g' || th->typeflag == 'x' || th->typeflag == 'L' || th->typeflag == 'K' ) {
+				extdata = malloc(siz+1);
+				if(!extdata) {
+					*err = "extension data OOM";
+					return -1;
+				}
+				extdatasize = siz+1;
+			}
+			p = extdata;
+			
 			if(conf.verbose > 1) fprintf(stderr, "tarmd: reading size %zd bytes\n", siz);
+			
 			while(siz) {
 				n = zreadall(z,buf,siz > sizeof(buf) ? sizeof(buf):siz);
 				if(n < 1) {
@@ -194,16 +418,20 @@ static int untar(struct zstream *z, char **err)
 				}
 				siz -= n;
 				if(conf.filter.content) sha256_process_bytes(buf, n, &sha256);
+				if(extdata) {
+					memcpy(p, buf, n);
+					p += n;
+					*p = 0;
+				}
+				
 				if(n < sizeof(buf)) {
 					buf[n] = 0;
 				} else {
 					buf[sizeof(buf)-1] = 0;
 				}
-				if(conf.verbose && th->typeflag == 'g')
-					fprintf(stderr, "pax data: %s\n", buf);
-				if(conf.verbose && th->typeflag == 'x')
-					fprintf(stderr, "pax data: %s\n", buf);
 			}
+			if(conf.verbose > 2 && extdata)
+				fprintf(stderr, "extension data: '%s'\n", extdata);
 			
 			// throw away excess
 			if(conf.verbose > 1) fprintf(stderr, "tarmd: reading nulsize %zd bytes\n", nulsiz);
@@ -217,16 +445,30 @@ static int untar(struct zstream *z, char **err)
 				nulsiz -= n;
 			}
 
+			/* Parse extension data */
+			if(extdata && th->typeflag == 'K') {
+				ext.linkname = strdup(extdata);
+			}
+			if(extdata && th->typeflag == 'L') {
+				ext.name = strdup(extdata);
+			}
+			if(extdata && th->typeflag == 'g') {
+				/* pax global header */
+				if(pax_parse(&glob, extdata, extdatasize)) {
+					*err = "pax global data error";
+					return -1;
+				}
+			}
+			if(extdata && th->typeflag == 'x') {
+				/* pax extension header */
+				if(pax_parse(&ext, extdata, extdatasize)) {
+					*err = "pax extension data error";
+					return -1;
+				}
+			}
+			if(extdata) free(extdata);
 		}
-		if(th->typeflag == 2) {
-			// calc checksum over linkname
-			if(conf.filter.linkname) sha256_process_bytes(th->linkname, strlen(th->linkname), &sha256);
-		}
-		if(th->typeflag == 3 || th->typeflag == 4) {
-			// calc checksum over major minor
-			if(conf.filter.dev) sha256_process_bytes(th->devmajor, 8, &sha256);
-			if(conf.filter.dev) sha256_process_bytes(th->devminor, 8, &sha256);
-		}
+
 		{
 			int i;
 			unsigned u;
@@ -270,6 +512,14 @@ static int untar(struct zstream *z, char **err)
 		}
 		if(th->typeflag == 'x') {
 			if(conf.verbose) fprintf(stderr, "skipping pax extended header\n");
+			continue;
+		}
+		if(th->typeflag == 'L') {
+			if(conf.verbose) fprintf(stderr, "read 'L' (longname) extended header\n");
+			continue;
+		}
+		if(th->typeflag == 'K') {
+			if(conf.verbose) fprintf(stderr, "read 'K' (longlink) extended header\n");
 			continue;
 		}
 		fprintf(stderr, "tarmd: unhandled: %d/'%c' %s\n", th->typeflag, th->typeflag, md.filename);
@@ -465,6 +715,7 @@ int main(int argc, char **argv, char **envp)
 			}
 			cmdargv[argc] = (void*)0;
 			
+			/* FIXME/TODO: lookup cmd with help from PATH */
 			
 			/* child */
 			close(var.cmdpipe[0]);

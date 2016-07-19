@@ -1,7 +1,7 @@
 #define ARRAYSIZE 1024
 
 struct mdfile {
-  char filename[256];
+  char filename[384];
   char sha256[64];
 };
 
