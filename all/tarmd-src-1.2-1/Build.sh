@@ -85,7 +85,7 @@ cd $DST || exit 1
 #########
 # Make package
 cd $DST || exit 1
-tar czf /var/spool/pkg/$PKG.tar.gz .
+tar czf /var/spool/pkg/$PKG.tar.gz ./var/spool/src/$SRCVER.tar
 
 #########
 # Cleanup after a success
