@@ -526,6 +526,11 @@ static int untar(struct zstream *z, char **err)
 		*err = "tar support";
 		return -1;
 	}
+
+	if(!aa.list) {
+		*err = "empty tar";
+		return -1;
+	}
 	
 	// sort list
 	arr_sort(&aa);
@@ -571,6 +576,36 @@ static int untar(struct zstream *z, char **err)
 	}
 	
 	return 0;
+}
+
+int lookup(char *namebuf, size_t bufsize, const char *name)
+{
+	char *path, *sep;
+	size_t len;
+	struct stat buf;
+	path = getenv("PATH");
+	if(!path) return -1;
+	
+	while(path && *path) {
+		sep = strchr(path, ':');
+		if(sep)
+			len = sep - path;
+		else
+			len = strlen(path);
+		if( (len + strlen(name) + 2) < bufsize ) {
+			strncpy(namebuf, path, len);
+			strcpy(namebuf + len, "/");
+			strcpy(namebuf + len + 1, name);
+			if(conf.verbose > 3) fprintf(stderr, "tarmd: lookup '%s'\n", namebuf);
+			if(stat(namebuf, &buf) == 0) {
+				return 0;
+			}
+		}
+		path += len;
+		if(*path) path++;
+	}
+	
+	return -1;
 }
 
 
@@ -715,7 +750,12 @@ int main(int argc, char **argv, char **envp)
 			}
 			cmdargv[argc] = (void*)0;
 			
-			/* FIXME/TODO: lookup cmd with help from PATH */
+			if(cmdargv[0][0] != '/' && cmdargv[0][0] != '.') {
+				char namebuf[256];
+				if(lookup(namebuf, sizeof(namebuf), cmdargv[0]) == 0) {
+					cmdargv[0] = namebuf;
+				}
+			}
 			
 			/* child */
 			close(var.cmdpipe[0]);
