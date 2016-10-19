@@ -32,7 +32,7 @@ pkg_install musl-ncurses-lib-5.7-1 || exit 2
 pkg_install musl-readline-6.1-2 || exit 2
 pkg_install perl-5.10.1-3 || exit 2
 pkg_install musl-1.1.15-1 || exit 2 
-pkg_install musl-kernel-headers-2.6.34-1 || exit 2
+pkg_install musl-kernel-headers-3.6.0-1 || exit 2
 export CC=musl-gcc
 
 #########
