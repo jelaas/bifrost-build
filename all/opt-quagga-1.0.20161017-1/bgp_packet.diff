@@ -1,0 +1,10 @@
+--- bgpd/bgp_packet.c.orig	2016-03-25 11:48:03.000000000 +0100
++++ bgpd/bgp_packet.c	2016-03-25 11:51:15.000000000 +0100
+@@ -1794,6 +1794,7 @@
+        * Note2: This will also remap the wire code-point for VPN safi to the
+        * internal safi_t point, as needs be.
+        */
++      if(nlris[i].afi == 0 && nlris[i].safi == 0) continue;
+       if (!bgp_afi_safi_valid_indices (nlris[i].afi, &nlris[i].safi))
+         {
+           plog_info (peer->log,
