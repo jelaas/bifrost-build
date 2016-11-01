@@ -5,5 +5,5 @@ DST=/var/spool/src/$SRC
 SHA=deadbeef
 
 pkg_install tarmd-1.2-1 || exit 2
-[ -s "$DST" ] || tarmd $SHA $DST /usr/bin/wget -O- http://source.on.internet/$SRC || wget -O $DST http://bifrost-repo/$SRC
-
+pkg_install curl-7.49.1-1 || exit 2
+[ -s "$DST" ] || tarmd $SHA $DST curl -L -k http://source.on.internet/$SRC
