@@ -5,16 +5,16 @@ Bifrost 7.2.2: changes since 7.2.1
   pcre update
 
  + ifstat2 new version with 64bit stats
+ + util-linux/nsenter et al
 
  Framework:
- - fixed bug when running first time config (devcies were not probed)
+ - fixed bug when running first time config (devices were not probed)
 
 TODO:
-
+ - openssl, curl, wget, git?
 
  + netcat
  + mtr
- + util-linux/nsenter et al
  + ebtables
 
  - bifrost-upgrade.

@@ -409,6 +409,7 @@ untar util-linux-ng-bin-2.17.2-2 ./usr/bin/setarch
 untar util-linux-ng-bin-2.17.2-2 ./usr/bin/lscpu
 untar util-linux-ng-bin-2.17.2-2 ./usr/bin/fallocate
 untar util-linux-bin-2.22.2-1 ./usr/bin/unshare
+untar util-linux-bin-2.26.2-1 ./usr/bin/nsenter
 untar util-linux-ng-bin-2.17.2-2 ./usr/bin/column
 untar util-linux-ng-bin-2.17.2-2 ./usr/bin/hexdump
 untar util-linux-ng-bin-2.17.2-2 ./usr/bin/rev
