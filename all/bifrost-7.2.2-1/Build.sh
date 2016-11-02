@@ -173,7 +173,7 @@ untar arping-2.09-1
 untar arp-monitor-1.1-1
 untar arpwatch-2.1a15-1
 untar conntrack-tools-0.9.14-2
-untar curl-7.37.1-3
+untar curl-7.51.0-1
 untar ipgrab-0.9.10-1
 untar ncftp-3.2.5-1 ./usr/bin/ncftp
 untar netperf-2.4.5-1
