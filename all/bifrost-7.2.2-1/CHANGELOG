@@ -3,27 +3,24 @@ Bifrost 7.2.2: changes since 7.2.1
  Security:
   ntp 4.28.p8
   pcre update
+  curl 7.51
+  wget 1.18
+  git 2.10.2
 
  + ifstat2 new version with 64bit stats
  + util-linux/nsenter et al
+ + mtr
 
  Framework:
  - fixed bug when running first time config (devices were not probed)
 
 TODO:
- - openssl, curl, wget, git?
 
  + netcat
- + mtr
  + ebtables
 
  - bifrost-upgrade.
   -  Maybe let bifrost-upgrade take a tarball as argument.
-
- * modernization path for buildsystem ?
-   The miniroots are getting long in the tooth.
-   The new system should be contained within the old.
-
 
 Bifrost 7.2.1: changes since 7.2
 --------------------------------
