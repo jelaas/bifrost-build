@@ -4,7 +4,6 @@ SRCVER=tar-1.23
 PKG=$SRCVER-1 # with build version
 
 PKGDIR=${PKGDIR:-/var/lib/build/all/$PKG}
-SRC=/var/spool/src/$SRCVER.tar.bz2
 BUILDDIR=/var/tmp/src/$SRCVER
 DST="/var/tmp/install/$PKG"
 
@@ -16,17 +15,18 @@ DST="/var/tmp/install/$PKG"
 #########
 # Unpack sources into dir under /var/tmp/src
 ./Fetch-source.sh || exit 1
-cd $(dirname $BUILDDIR); tar xf $SRC
+cd $(dirname $BUILDDIR) || exit 1
+cp -r $PKGDIR/$SRCVER . || exit 1
 
 #########
 # Patch
-cd $BUILDDIR
+cd $BUILDDIR || exit 1
 libtool_fix-1
 # patch -p1 < $PKGDIR/mypatch.pat
 
 #########
 # Configure
-B-configure-1 --prefix=/ || exit 1
+B-configure-3 --prefix=/ || exit 1
 
 #########
 # Post configure patch
@@ -43,7 +43,7 @@ make install DESTDIR=$DST # --with-install-prefix may be an alternative
 
 #########
 # Check result
-cd $DST
+cd $DST || exit 1
 # [ -f usr/bin/myprog ] || exit 1
 # (file usr/bin/myprog | grep -qs "statically linked") || exit 1
 

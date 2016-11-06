@@ -1,0 +1,2834 @@
+# Translation of tar messages to Basque.
+# Copyright (C) 2006 Free Software Foundation, Inc.
+# Mikel Olasagasti <hey_neken@mundurat.net>, 2006.
+# Piarres Beobide <pi@beobide.net>, 2006.
+# This file is distributed under the same license as the tar package.
+#
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: tar-1.15.91-eu\n"
+"Report-Msgid-Bugs-To: bug-tar@gnu.org\n"
+"POT-Creation-Date: 2010-03-10 12:53+0200\n"
+"PO-Revision-Date: 2006-12-13 19:52+0100\n"
+"Last-Translator: Mikel Olasagasti <hey_neken@mundurat.net>\n"
+"Language-Team: Basque <translation-team-eu@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: gnu/argmatch.c:135
+#, c-format
+msgid "invalid argument %s for %s"
+msgstr "%s argumentu baliogabea %s-rentzat"
+
+#: gnu/argmatch.c:136
+#, c-format
+msgid "ambiguous argument %s for %s"
+msgstr "%s argumentu anbiguoa %s-rentzat"
+
+#: gnu/argmatch.c:155
+#, c-format
+msgid "Valid arguments are:"
+msgstr "Argumentu erabilgarriak:"
+
+#: gnu/argp-help.c:149
+#, c-format
+msgid "ARGP_HELP_FMT: %s value is less than or equal to %s"
+msgstr "ARGP_HELP_FMT: %s balioa %s-ren berdina edo txikiagoa da"
+
+#: gnu/argp-help.c:222
+#, c-format
+msgid "%.*s: ARGP_HELP_FMT parameter requires a value"
+msgstr "%.*s: ARGP_HELP_FMT parametroak balio bat behar du"
+
+#: gnu/argp-help.c:228
+#, c-format
+msgid "%.*s: ARGP_HELP_FMT parameter must be positive"
+msgstr "%.*s: ARGP_HELP_FMT parametroa positibo izan behar da"
+
+#: gnu/argp-help.c:237
+#, c-format
+msgid "%.*s: Unknown ARGP_HELP_FMT parameter"
+msgstr "%.*s: ARGP_HELP_FMT parametro ezezaguna"
+
+#: gnu/argp-help.c:249
+#, c-format
+msgid "Garbage in ARGP_HELP_FMT: %s"
+msgstr "Zaborra ARGP_HELP_FMT-en: %s"
+
+#: gnu/argp-help.c:1246
+msgid ""
+"Mandatory or optional arguments to long options are also mandatory or "
+"optional for any corresponding short options."
+msgstr ""
+"Aukera luzeentzat beharrezko edo aukerako argumentuak modu berdinean "
+"beharrezko edo aukerakoak izango dira aukera luzeentzat ere."
+
+#: gnu/argp-help.c:1639
+msgid "Usage:"
+msgstr "Erabilera:"
+
+#: gnu/argp-help.c:1643
+msgid "  or: "
+msgstr "  edo: "
+
+#: gnu/argp-help.c:1655
+msgid " [OPTION...]"
+msgstr " [AUKERA...]"
+
+#: gnu/argp-help.c:1682
+#, c-format
+msgid "Try `%s --help' or `%s --usage' for more information.\n"
+msgstr "`%s --help' edo `%s --usage' saiatu argibide gehiagorako.\n"
+
+#: gnu/argp-help.c:1710
+#, c-format
+msgid "Report bugs to %s.\n"
+msgstr "Arazoen berri %s-en eman.\n"
+
+#: gnu/argp-help.c:1929 gnu/error.c:155
+msgid "Unknown system error"
+msgstr "Sistema errore ezezaguna"
+
+#: gnu/argp-parse.c:83
+msgid "give this help list"
+msgstr "laguntza zerrenda hau eman"
+
+#: gnu/argp-parse.c:84
+msgid "give a short usage message"
+msgstr "erabilera mezu labur bat eman"
+
+#: gnu/argp-parse.c:85 src/tar.c:488 src/tar.c:490 src/tar.c:559
+#: tests/genfile.c:131
+msgid "NAME"
+msgstr "IZENA"
+
+#: gnu/argp-parse.c:85
+msgid "set the program name"
+msgstr "programa izen ezarri"
+
+#: gnu/argp-parse.c:86
+msgid "SECS"
+msgstr "SEG"
+
+#: gnu/argp-parse.c:87
+msgid "hang for SECS seconds (default 3600)"
+msgstr "SEG segundu gelditu (lehenetsia 3600)"
+
+#: gnu/argp-parse.c:144
+msgid "print program version"
+msgstr "programa bertsioa bistarazi"
+
+#: gnu/argp-parse.c:160
+#, c-format
+msgid "(PROGRAM ERROR) No version known!?"
+msgstr "(PROGRAMA ERROREA) Ez da bertsioa ezagutzen!?"
+
+#: gnu/argp-parse.c:613
+#, c-format
+msgid "%s: Too many arguments\n"
+msgstr "%s: Argumentu gehiegi\n"
+
+#: gnu/argp-parse.c:756
+msgid "(PROGRAM ERROR) Option should have been recognized!?"
+msgstr "(PROGRAMA ERROREA) Aukera ezaguna izan beharko zen!?"
+
+#: gnu/closeout.c:114
+msgid "write error"
+msgstr ""
+
+#: gnu/getopt.c:531 gnu/getopt.c:547
+#, fuzzy, c-format
+msgid "%s: option '%s' is ambiguous\n"
+msgstr "%s: `%s' aukera anbiguoa da\n"
+
+#: gnu/getopt.c:580 gnu/getopt.c:584
+#, fuzzy, c-format
+msgid "%s: option '--%s' doesn't allow an argument\n"
+msgstr "%s: `--%s' aukerak ez du argumenturik onartzen\n"
+
+#: gnu/getopt.c:593 gnu/getopt.c:598
+#, fuzzy, c-format
+msgid "%s: option '%c%s' doesn't allow an argument\n"
+msgstr "%s: `%c%s' aukerak ez du argumenturik onartzen\n"
+
+#: gnu/getopt.c:641 gnu/getopt.c:660 gnu/getopt.c:963 gnu/getopt.c:982
+#, fuzzy, c-format
+msgid "%s: option '%s' requires an argument\n"
+msgstr "%s: `%s' aukerak argumentu bat behar du\n"
+
+#: gnu/getopt.c:698 gnu/getopt.c:701
+#, fuzzy, c-format
+msgid "%s: unrecognized option '--%s'\n"
+msgstr "%s: `--%s' aukera ezezaguna\n"
+
+#: gnu/getopt.c:709 gnu/getopt.c:712
+#, fuzzy, c-format
+msgid "%s: unrecognized option '%c%s'\n"
+msgstr "%s: `%c%s' aukera ezezaguna\n"
+
+#: gnu/getopt.c:761 gnu/getopt.c:764
+#, fuzzy, c-format
+msgid "%s: invalid option -- '%c'\n"
+msgstr "%s: -- %c ekintza baliogabea\n"
+
+#: gnu/getopt.c:814 gnu/getopt.c:831 gnu/getopt.c:1034 gnu/getopt.c:1052
+#, fuzzy, c-format
+msgid "%s: option requires an argument -- '%c'\n"
+msgstr "%s: aukerak -- %c argumentu bat behar du.\n"
+
+#: gnu/getopt.c:884 gnu/getopt.c:900
+#, fuzzy, c-format
+msgid "%s: option '-W %s' is ambiguous\n"
+msgstr "%s: `-W %s' aukera anbiguoa da\n"
+
+#: gnu/getopt.c:924 gnu/getopt.c:942
+#, fuzzy, c-format
+msgid "%s: option '-W %s' doesn't allow an argument\n"
+msgstr "%s: `-W %s' aukerak ez du argumenturik onartzen\n"
+
+#: gnu/obstack.c:425 gnu/obstack.c:427 gnu/xalloc-die.c:36
+msgid "memory exhausted"
+msgstr "memoria askieza"
+
+#: gnu/openat-die.c:36
+#, fuzzy, c-format
+msgid "unable to record current working directory"
+msgstr "Ezin da lan direktorioa aldatu"
+
+#: gnu/openat-die.c:54
+#, fuzzy, c-format
+msgid "failed to return to initial working directory"
+msgstr "Ezin da lan direktorioa gorde"
+
+#. TRANSLATORS:
+#. Get translations for open and closing quotation marks.
+#.
+#. The message catalog should translate "`" to a left
+#. quotation mark suitable for the locale, and similarly for
+#. "'".  If the catalog has no translation,
+#. locale_quoting_style quotes `like this', and
+#. clocale_quoting_style quotes "like this".
+#.
+#. For example, an American English Unicode locale should
+#. translate "`" to U+201C (LEFT DOUBLE QUOTATION MARK), and
+#. should translate "'" to U+201D (RIGHT DOUBLE QUOTATION
+#. MARK).  A British English Unicode locale should instead
+#. translate these to U+2018 (LEFT SINGLE QUOTATION MARK)
+#. and U+2019 (RIGHT SINGLE QUOTATION MARK), respectively.
+#.
+#. If you don't know what to put here, please see
+#. <http://en.wikipedia.org/wiki/Quotation_mark#Glyphs>
+#. and use glyphs suitable for your language.
+#: gnu/quotearg.c:274
+msgid "`"
+msgstr "`"
+
+#: gnu/quotearg.c:275
+msgid "'"
+msgstr "'"
+
+#. TRANSLATORS: A regular expression testing for an affirmative answer
+#. (english: "yes").  Testing the first character may be sufficient.
+#. Take care to consider upper and lower case.
+#. To enquire the regular expression that your system uses for this
+#. purpose, you can use the command
+#. locale -k LC_MESSAGES | grep '^yesexpr='
+#: gnu/rpmatch.c:149
+msgid "^[yY]"
+msgstr "^[bB]"
+
+#. TRANSLATORS: A regular expression testing for a negative answer
+#. (english: "no").  Testing the first character may be sufficient.
+#. Take care to consider upper and lower case.
+#. To enquire the regular expression that your system uses for this
+#. purpose, you can use the command
+#. locale -k LC_MESSAGES | grep '^noexpr='
+#: gnu/rpmatch.c:162
+msgid "^[nN]"
+msgstr "^[eE]"
+
+#: gnu/version-etc.c:76
+#, c-format
+msgid "Packaged by %s (%s)\n"
+msgstr ""
+
+#: gnu/version-etc.c:79
+#, c-format
+msgid "Packaged by %s\n"
+msgstr ""
+
+#. TRANSLATORS: Translate "(C)" to the copyright symbol
+#. (C-in-a-circle), if this symbol is available in the user's
+#. locale.  Otherwise, do not translate "(C)"; leave it as-is.
+#: gnu/version-etc.c:86
+msgid "(C)"
+msgstr ""
+
+#: gnu/version-etc.c:88
+msgid ""
+"\n"
+"License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl."
+"html>.\n"
+"This is free software: you are free to change and redistribute it.\n"
+"There is NO WARRANTY, to the extent permitted by law.\n"
+"\n"
+msgstr ""
+
+#. TRANSLATORS: %s denotes an author name.
+#: gnu/version-etc.c:104
+#, c-format
+msgid "Written by %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#: gnu/version-etc.c:108
+#, c-format
+msgid "Written by %s and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#: gnu/version-etc.c:112
+#, c-format
+msgid "Written by %s, %s, and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: gnu/version-etc.c:119
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: gnu/version-etc.c:126
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: gnu/version-etc.c:133
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: gnu/version-etc.c:141
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: gnu/version-etc.c:149
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: gnu/version-etc.c:158
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, and %s.\n"
+msgstr ""
+
+#. TRANSLATORS: Each %s denotes an author name.
+#. You can use line breaks, estimating that each author name occupies
+#. ca. 16 screen columns and that a screen line has ca. 80 columns.
+#: gnu/version-etc.c:169
+#, c-format
+msgid ""
+"Written by %s, %s, %s,\n"
+"%s, %s, %s, %s,\n"
+"%s, %s, and others.\n"
+msgstr ""
+
+#. TRANSLATORS: The placeholder indicates the bug-reporting address
+#. for this package.  Please add _another line_ saying
+#. "Report translation bugs to <...>\n" with the address for translation
+#. bugs (typically your translation team's web or email address).
+#: gnu/version-etc.c:247
+#, fuzzy, c-format
+msgid ""
+"\n"
+"Report bugs to: %s\n"
+msgstr "Arazoen berri %s-en eman.\n"
+
+#: gnu/version-etc.c:249
+#, fuzzy, c-format
+msgid "Report %s bugs to: %s\n"
+msgstr ""
+"\n"
+"Erroreen berri <%s>-ra eman.\n"
+
+#: gnu/version-etc.c:253
+#, c-format
+msgid "%s home page: <%s>\n"
+msgstr ""
+
+#: gnu/version-etc.c:255
+#, c-format
+msgid "%s home page: <http://www.gnu.org/software/%s/>\n"
+msgstr ""
+
+#: gnu/version-etc.c:258
+msgid "General help using GNU software: <http://www.gnu.org/gethelp/>\n"
+msgstr ""
+
+#. TRANSLATORS: %s after `Cannot' is a function name, e.g. `Cannot open'.
+#. Directly translating this to another language will not work, first because
+#. %s itself is not translated.
+#. Translate it as `%s: Function %s failed'.
+#: lib/paxerror.c:58 lib/paxerror.c:71
+#, c-format
+msgid "%s: Cannot %s"
+msgstr "%s: Ezin da %s"
+
+#. TRANSLATORS: %s after `Cannot' is a function name, e.g. `Cannot open'.
+#. Directly translating this to another language will not work, first because
+#. %s itself is not translated.
+#. Translate it as `%s: Function %s failed'.
+#: lib/paxerror.c:84
+#, c-format
+msgid "%s: Warning: Cannot %s"
+msgstr "%s: Oharra: Ezin da %s"
+
+#: lib/paxerror.c:93
+#, c-format
+msgid "%s: Cannot change mode to %s"
+msgstr "%s: Ezin da modua %s-ra aldatu"
+
+#: lib/paxerror.c:101
+#, c-format
+msgid "%s: Cannot change ownership to uid %lu, gid %lu"
+msgstr "%s: Ezin da jabetza uid %lu, gid %lu -ra aldatu"
+
+#: lib/paxerror.c:127
+#, c-format
+msgid "%s: Cannot hard link to %s"
+msgstr "%s: Ezin da %s-ra gogorki lotu"
+
+#: lib/paxerror.c:179 lib/paxerror.c:211
+#, c-format
+msgid "%s: Read error at byte %s, while reading %lu byte"
+msgid_plural "%s: Read error at byte %s, while reading %lu bytes"
+msgstr[0] "%s: Irakurketa errorea %s byte-an, byte %lu irakurtzerakoan"
+msgstr[1] "%s: Irakurketa errorea %s byte-an, %lu byte irakurtzerakoan"
+
+#: lib/paxerror.c:192
+#, c-format
+msgid "%s: Warning: Read error at byte %s, while reading %lu byte"
+msgid_plural "%s: Warning: Read error at byte %s, while reading %lu bytes"
+msgstr[0] "%s: Oharra: Irakurketa errorea %s byte-an, byte %lu irakurtzerakoan"
+msgstr[1] "%s: Oharra: Irakurketa errorea %s byte-an, %lu byte irakurtzerakoan"
+
+#: lib/paxerror.c:259
+#, c-format
+msgid "%s: Cannot seek to %s"
+msgstr "%s: Ezin da %s-ra seek egin"
+
+#: lib/paxerror.c:275
+#, c-format
+msgid "%s: Warning: Cannot seek to %s"
+msgstr "%s: Oharra: Ezin da %s-ra seek egin"
+
+#: lib/paxerror.c:284
+#, c-format
+msgid "%s: Cannot create symlink to %s"
+msgstr "%s: Ezin da %s-ra lotura sinbolkoa sortu"
+
+#: lib/paxerror.c:349
+#, c-format
+msgid "%s: Wrote only %lu of %lu byte"
+msgid_plural "%s: Wrote only %lu of %lu bytes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/paxnames.c:155
+#, c-format
+msgid "Removing leading `%s' from member names"
+msgstr ""
+
+#: lib/paxnames.c:156
+#, c-format
+msgid "Removing leading `%s' from hard link targets"
+msgstr ""
+
+#: lib/paxnames.c:169
+msgid "Substituting `.' for empty member name"
+msgstr "`.' partaide izen hutsagatik aldatzen"
+
+#: lib/paxnames.c:170
+msgid "Substituting `.' for empty hard link target"
+msgstr "`.' lotura gogor helburu hutsegatik aldatzen"
+
+#: lib/rtapelib.c:299
+#, c-format
+msgid "exec/tcp: Service not available"
+msgstr "exec/tcp: Zerbitzua ez da erabilgarria"
+
+#: lib/rtapelib.c:303
+#, c-format
+msgid "stdin"
+msgstr "sarrera estandarra"
+
+#: lib/rtapelib.c:306
+#, c-format
+msgid "stdout"
+msgstr "irteera estandarra"
+
+#: lib/rtapelib.c:429
+#, c-format
+msgid "Cannot connect to %s: resolve failed"
+msgstr ""
+
+#: lib/rtapelib.c:515
+#, c-format
+msgid "Cannot execute remote shell"
+msgstr "Ezin da urruneko shell-a abiarazi"
+
+#: rmt/rmt.c:413
+msgid "Seek direction out of range"
+msgstr "Seek norabidea eremuz kanpo"
+
+#: rmt/rmt.c:419
+#, fuzzy
+msgid "Invalid seek direction"
+msgstr "Modu baliogabea eman da aukeran"
+
+#: rmt/rmt.c:427
+#, fuzzy
+msgid "Invalid seek offset"
+msgstr "Tamaina baliogabea: %s"
+
+#: rmt/rmt.c:433
+msgid "Seek offset out of range"
+msgstr "Seek offset-a eremuz kanpo"
+
+#: rmt/rmt.c:474 rmt/rmt.c:525 rmt/rmt.c:589
+#, fuzzy
+msgid "Invalid byte count"
+msgstr "Zinta luzera baliogabea"
+
+#: rmt/rmt.c:480 rmt/rmt.c:531 rmt/rmt.c:595 rmt/rmt.c:606
+#, fuzzy
+msgid "Byte count out of range"
+msgstr "Seek offset-a eremuz kanpo"
+
+#: rmt/rmt.c:539
+#, fuzzy
+msgid "Premature eof"
+msgstr "rmtd: Fitxategi amaiera azkarregia\n"
+
+#: rmt/rmt.c:582
+#, fuzzy
+msgid "Invalid operation code"
+msgstr "Ekintza nagusi modua:"
+
+#: rmt/rmt.c:617 rmt/rmt.c:661
+msgid "Operation not supported"
+msgstr ""
+
+#: rmt/rmt.c:645
+#, fuzzy
+msgid "Unexpected arguments"
+msgstr "Fitxategi Amaiera Esperogabea"
+
+#: rmt/rmt.c:670
+msgid "Manipulate a tape drive, accepting commands from a remote process"
+msgstr ""
+
+#: rmt/rmt.c:677 src/tar.c:423 src/tar.c:427 src/tar.c:557 src/tar.c:572
+#: src/tar.c:703 src/tar.c:741 tests/genfile.c:167
+msgid "NUMBER"
+msgstr "ZENBAKIA"
+
+#: rmt/rmt.c:678
+msgid "set debug level"
+msgstr ""
+
+#: rmt/rmt.c:679 src/tar.c:421 src/tar.c:562 src/tar.c:638 src/tar.c:642
+#: src/tar.c:654 src/tar.c:664 src/tar.c:667 src/tar.c:669 src/tar.c:756
+#: tests/genfile.c:133 tests/genfile.c:181 tests/genfile.c:185
+#: tests/genfile.c:188 tests/genfile.c:194
+msgid "FILE"
+msgstr "FITXATEGIA"
+
+#: rmt/rmt.c:680
+msgid "set debug output file name"
+msgstr ""
+
+#: rmt/rmt.c:696 rmt/rmt.c:764
+#, fuzzy, c-format
+msgid "cannot open %s"
+msgstr "Ezin da `%s' ireki"
+
+#: rmt/rmt.c:761 tests/genfile.c:885 tests/genfile.c:902
+#, c-format
+msgid "too many arguments"
+msgstr "argumentu gehiegi"
+
+#: rmt/rmt.c:803
+msgid "Garbage command"
+msgstr "Zabor komandoa"
+
+#: src/buffer.c:321 src/buffer.c:326 src/buffer.c:572 src/buffer.c:1176
+#: src/buffer.c:1222 src/buffer.c:1251 src/delete.c:211 src/list.c:171
+#: src/update.c:189
+msgid "This does not look like a tar archive"
+msgstr "Honek ez dirudi tar pakete bat"
+
+#: src/buffer.c:385 src/buffer.c:394
+msgid "Total bytes written"
+msgstr "Idatziriko byte-ak guztira"
+
+#: src/buffer.c:392 src/buffer.c:406
+msgid "Total bytes read"
+msgstr "Irakurritako byte-ak guztira"
+
+#: src/buffer.c:396
+#, c-format
+msgid "Total bytes deleted: %s\n"
+msgstr "Ezabaturiko byte-ak guztira: %s\n"
+
+#: src/buffer.c:485
+msgid "(pipe)"
+msgstr "(tutua)"
+
+#: src/buffer.c:508
+msgid "Invalid value for record_size"
+msgstr "balio baliogabea record_size-rentzat"
+
+#: src/buffer.c:511
+msgid "No archive name given"
+msgstr "Ez da fitxategi izenik eman"
+
+#: src/buffer.c:555
+msgid "Cannot verify stdin/stdout archive"
+msgstr "Ezin da sarrera/irteera estandar fitxategia egiaztatu"
+
+#: src/buffer.c:569
+#, c-format
+msgid "Archive is compressed. Use %s option"
+msgstr "Fitxategia konprimiturik dago. %s aukera erabili"
+
+#: src/buffer.c:626 src/tar.c:2429
+msgid "Cannot update compressed archives"
+msgstr "Ezin dira konprimituriko fitxategiak eguneratu"
+
+#: src/buffer.c:705
+msgid "At beginning of tape, quitting now"
+msgstr "Zintaren hasieran, uzten"
+
+#: src/buffer.c:711
+msgid "Too many errors, quitting"
+msgstr "Errore gehiegi, uzten"
+
+#: src/buffer.c:744
+#, c-format
+msgid "Record size = %lu block"
+msgid_plural "Record size = %lu blocks"
+msgstr[0] "Grabazio tamaina = bloke %lu"
+msgstr[1] "Grabazio tamaina = %lu bloke"
+
+#: src/buffer.c:765
+#, c-format
+msgid "Unaligned block (%lu byte) in archive"
+msgid_plural "Unaligned block (%lu bytes) in archive"
+msgstr[0] "Alineatu gabeko blokea (byte %lu) paketean"
+msgstr[1] "Alineatu gabeko blokea (%lu byte) paketean"
+
+#: src/buffer.c:842
+msgid "Cannot backspace archive file; it may be unreadable without -i"
+msgstr ""
+
+#: src/buffer.c:874
+msgid "rmtlseek not stopped at a record boundary"
+msgstr ""
+
+#: src/buffer.c:928
+#, c-format
+msgid "%s: contains invalid volume number"
+msgstr "%s: bolumen zenbaki baliogabea du"
+
+#: src/buffer.c:963
+msgid "Volume number overflow"
+msgstr "Bolumen zenbaki gainezkatzea"
+
+#: src/buffer.c:978
+#, c-format
+msgid "Prepare volume #%d for %s and hit return: "
+msgstr "#%d bolumena %s -rako prestatu eta enter sakatu: "
+
+#: src/buffer.c:984
+msgid "EOF where user reply was expected"
+msgstr "Fitxategi amaiera erabiltzaile erantzuna espero zenean"
+
+#: src/buffer.c:989 src/buffer.c:1021
+msgid "WARNING: Archive is incomplete"
+msgstr "Oharra: Paketea ez dago osaturik"
+
+#: src/buffer.c:1003
+#, c-format
+msgid ""
+" n name        Give a new file name for the next (and subsequent) volume(s)\n"
+" q             Abort tar\n"
+" y or newline  Continue operation\n"
+msgstr ""
+" n name        Eman izen berri bat hurrengo (eta hurrengo) bolumenentzat\n"
+" q             tar utzi\n"
+" y edo intro  Ekintza jarraitu\n"
+
+#: src/buffer.c:1008
+#, c-format
+msgid " !             Spawn a subshell\n"
+msgstr " !             Azpishell bat sortu\n"
+
+#: src/buffer.c:1009
+#, c-format
+msgid " ?             Print this list\n"
+msgstr " ?             Zerrenda hau inprimatu\n"
+
+#: src/buffer.c:1016
+msgid "No new volume; exiting.\n"
+msgstr "Ez dago bolumen berririk; uzten.\n"
+
+#: src/buffer.c:1049
+msgid "File name not specified. Try again.\n"
+msgstr "Ez da fitxategi izenik ezarri. Berriz saiatu.\n"
+
+#: src/buffer.c:1062
+#, c-format
+msgid "Invalid input. Type ? for help.\n"
+msgstr "SArrera baliogabea. ? idatzi laguntzarako.\n"
+
+#: src/buffer.c:1113
+#, c-format
+msgid "%s command failed"
+msgstr "%s komandoak huts egin du"
+
+#: src/buffer.c:1294
+#, c-format
+msgid "%s is possibly continued on this volume: header contains truncated name"
+msgstr "%s posibleki bolumen honen jarraipena da: buruak mozturiko izena du"
+
+#: src/buffer.c:1298
+#, c-format
+msgid "%s is not continued on this volume"
+msgstr "%s ez da bolumen honen jarraipena"
+
+#: src/buffer.c:1312
+#, c-format
+msgid "%s is the wrong size (%s != %s + %s)"
+msgstr "%s okerreko tamaina da (%s != %s + %s)"
+
+#: src/buffer.c:1326
+#, fuzzy, c-format
+msgid "This volume is out of sequence (%s - %s != %s)"
+msgstr "Bolumen hau sekuentziatik kanpo dago"
+
+#: src/buffer.c:1404 src/buffer.c:1430
+#, c-format
+msgid "Archive not labeled to match %s"
+msgstr ""
+
+#: src/buffer.c:1434
+#, c-format
+msgid "Volume %s does not match %s"
+msgstr "%s bolumena ez da %s-ren pareko"
+
+#: src/buffer.c:1530
+#, c-format
+msgid ""
+"%s: file name too long to be stored in a GNU multivolume header, truncated"
+msgstr ""
+"%s: fitxategi izen luzeegia GNU bolumen anitzeko buruan gordetzeko, mozturik"
+
+#: src/buffer.c:1749
+msgid "write did not end on a block boundary"
+msgstr ""
+
+#: src/compare.c:95
+#, c-format
+msgid "Could only read %lu of %lu byte"
+msgid_plural "Could only read %lu of %lu bytes"
+msgstr[0] "%lu byte bakarrik irakurri daiteke %lu byte-tatik"
+msgstr[1] "%lu byte bakarrik irakurri daiteke %lu byte-tatik"
+
+#: src/compare.c:105 src/compare.c:388
+msgid "Contents differ"
+msgstr "Eduki ezberdintasunak"
+
+#: src/compare.c:131 src/extract.c:830 src/incremen.c:1462 src/list.c:386
+#: src/list.c:1376 src/xheader.c:710
+msgid "Unexpected EOF in archive"
+msgstr "Esperogabeko Fitxategi amaiaera paketean"
+
+#: src/compare.c:179 src/compare.c:195 src/compare.c:313 src/compare.c:412
+msgid "File type differs"
+msgstr "Fixtategi mota ezberdinak"
+
+#: src/compare.c:182 src/compare.c:202 src/compare.c:327
+msgid "Mode differs"
+msgstr "Modu ezberdinak"
+
+#: src/compare.c:205
+msgid "Uid differs"
+msgstr "Uid ezberdinak"
+
+#: src/compare.c:207
+msgid "Gid differs"
+msgstr "Gid ezberdinak"
+
+#: src/compare.c:211
+msgid "Mod time differs"
+msgstr "Eraldaketa data ezberdinak"
+
+#: src/compare.c:215 src/compare.c:420
+msgid "Size differs"
+msgstr "Tamaina ezberdinak"
+
+#: src/compare.c:269
+#, c-format
+msgid "Not linked to %s"
+msgstr "Ez dago %s-ra loturik"
+
+#: src/compare.c:292
+msgid "Symlink differs"
+msgstr "Lotura sinboliko ezberdinak"
+
+#: src/compare.c:321
+msgid "Device number differs"
+msgstr "Gailu zenbaki ezberdinak"
+
+#: src/compare.c:462
+#, c-format
+msgid "Verify "
+msgstr "Egiaztatu "
+
+#: src/compare.c:469
+#, c-format
+msgid "%s: Unknown file type `%c', diffed as normal file"
+msgstr "%s: `%c' fitxategi mota ezezaguna, fitxategi arrunt batez ezberdina"
+
+#: src/compare.c:524
+msgid "Archive contains file names with leading prefixes removed."
+msgstr ""
+
+#: src/compare.c:526
+msgid "Verification may fail to locate original files."
+msgstr "Egiaztapenak huts egin dezake jatorrizko fitxategiak kokatzerakoan."
+
+#: src/compare.c:599
+#, c-format
+msgid "VERIFY FAILURE: %d invalid header detected"
+msgid_plural "VERIFY FAILURE: %d invalid headers detected"
+msgstr[0] "EGIAZTAPEN AKATSA: buru baliogabe %d aurkitu da"
+msgstr[1] "EGIAZTAPEN AKATSA: %d buru baliogabe aurkitu dira"
+
+#: src/compare.c:617 src/list.c:148
+#, c-format
+msgid "A lone zero block at %s"
+msgstr ""
+
+#: src/create.c:68
+#, fuzzy, c-format
+msgid "%s: contains a cache directory tag %s; %s"
+msgstr "%s: katxe direktorioa marka bat du; ez da irauliko"
+
+#: src/create.c:273
+#, c-format
+msgid "value %s out of %s range %s..%s; substituting %s"
+msgstr "%s eremua %s eremutik %s..%s kanpo: %s aldatzen"
+
+#: src/create.c:279
+#, c-format
+msgid "value %s out of %s range %s..%s"
+msgstr "%s balioa %s eremutik %s..%s kanpo dago"
+
+#: src/create.c:339
+msgid "Generating negative octal headers"
+msgstr "Zortzitar buru negatiboak sortzen"
+
+#: src/create.c:624 src/create.c:687
+#, c-format
+msgid "%s: file name is too long (max %d); not dumped"
+msgstr "%s: fitxategi izena luzeegia da (gehi. %d); ez da irauliko"
+
+#: src/create.c:634
+#, c-format
+msgid "%s: file name is too long (cannot be split); not dumped"
+msgstr "%s: fitxategi izena luzeegia da (ezin da moztu); ez da irauliko"
+
+#: src/create.c:661
+#, c-format
+msgid "%s: link name is too long; not dumped"
+msgstr "%s: lotura izena luzeegia da; ez da irauliko"
+
+#: src/create.c:1078
+#, c-format
+msgid "%s: File shrank by %s byte; padding with zeros"
+msgid_plural "%s: File shrank by %s bytes; padding with zeros"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/create.c:1175
+#, c-format
+msgid "%s: file is on a different filesystem; not dumped"
+msgstr "%s: fitxategia fitxategi sistema ezberdin batetan dago, ez da irauliko"
+
+#: src/create.c:1219 src/create.c:1230 src/incremen.c:590 src/incremen.c:596
+msgid "contents not dumped"
+msgstr ""
+
+#: src/create.c:1362
+#, c-format
+msgid "%s: Unknown file type; file ignored"
+msgstr "%s: Fitxategi mota ezezaguna; fitxategia alde batetara utziko da"
+
+#: src/create.c:1472
+#, fuzzy, c-format
+msgid "Missing links to %s."
+msgstr "%s-ra lotura falta da.\n"
+
+#: src/create.c:1543
+#, c-format
+msgid "%s: file is unchanged; not dumped"
+msgstr "%s: fitxategia ez da aldatu, ez da irauliko"
+
+#: src/create.c:1552
+#, c-format
+msgid "%s: file is the archive; not dumped"
+msgstr "%s: fitxategia paketea da, ez da irauliko"
+
+#: src/create.c:1593 src/incremen.c:583
+#, fuzzy
+msgid "directory not dumped"
+msgstr "%s: katxe direktorioa marka bat du; ez da irauliko"
+
+#: src/create.c:1664
+#, c-format
+msgid "%s: file changed as we read it"
+msgstr "%s: fitxategia aldatu egin da irakurtzen ari zenean"
+
+#: src/create.c:1731
+#, c-format
+msgid "%s: socket ignored"
+msgstr "%s: socket-a alde batetara utzi da"
+
+#: src/create.c:1737
+#, c-format
+msgid "%s: door ignored"
+msgstr "%s: atea alde batetara utzia"
+
+#: src/delete.c:217 src/list.c:185 src/update.c:194
+msgid "Skipping to next header"
+msgstr "Hurrengoa burura salto egiten"
+
+#: src/delete.c:283
+msgid "Deleting non-header from archive"
+msgstr "paketetik burugabea ezabatzen"
+
+#: src/extract.c:211
+#, c-format
+msgid "%s: implausibly old time stamp %s"
+msgstr "%s: Sinesgarri izateko zaharregia den denbora marka %s"
+
+#: src/extract.c:229
+#, c-format
+msgid "%s: time stamp %s is %s s in the future"
+msgstr "%s: %s denbora marka %s etorkizunean da"
+
+#: src/extract.c:409
+#, c-format
+msgid "%s: Unexpected inconsistency when making directory"
+msgstr "%s: Esperogabeko inkonsistentziak direktorioa sortzerakoan"
+
+#: src/extract.c:613
+#, c-format
+msgid "%s: Directory renamed before its status could be extracted"
+msgstr "%s: Direktorioa bere egoera atera aurretik berrizendatua izan da"
+
+#: src/extract.c:759
+msgid "Extracting contiguous files as regular files"
+msgstr "Alboko fitxategiak fitxategi erregularrak bezala ateratzen"
+
+#: src/extract.c:1039
+msgid "Attempting extraction of symbolic links as hard links"
+msgstr "Lotura sinbolikoak lotura gogor bezala ateratzen saiatzen"
+
+#: src/extract.c:1183
+#, c-format
+msgid "%s: Cannot extract -- file is continued from another volume"
+msgstr "%s: Ezin da atera -- paketea beste bolumen baten jarraipena da"
+
+#: src/extract.c:1190 src/list.c:1109
+msgid "Unexpected long name header"
+msgstr "Buru izen luzera esperogabea"
+
+#: src/extract.c:1197
+#, c-format
+msgid "%s: Unknown file type `%c', extracted as normal file"
+msgstr ""
+"%s: `%c' fitxategi mota ezezaguna, fitxategi arrunt bat bezala ateratzen"
+
+#: src/extract.c:1223
+#, c-format
+msgid "Current %s is newer or same age"
+msgstr "Unekoa %s berriagoa edo data berdinekoa da"
+
+#: src/extract.c:1274
+#, c-format
+msgid "%s: Was unable to backup this file"
+msgstr "%s: Ez da gai fitxategi honen babeskopia egiteko"
+
+#: src/extract.c:1402
+#, c-format
+msgid "Cannot rename %s to %s"
+msgstr "Ezin da %s %s-ra berrizendatu"
+
+#: src/incremen.c:482 src/incremen.c:526
+#, c-format
+msgid "%s: Directory has been renamed from %s"
+msgstr "%s: Direktorioa %s-tik berrizendatua izan da"
+
+#: src/incremen.c:494
+#, c-format
+msgid "%s: Directory has been renamed"
+msgstr "%s: Direktorioa berrizendatua izan da"
+
+#: src/incremen.c:539
+#, c-format
+msgid "%s: Directory is new"
+msgstr "%s: Direktorioa berria da"
+
+#: src/incremen.c:956 src/incremen.c:973
+msgid "Invalid time stamp"
+msgstr "denbora marka baliogabea"
+
+#: src/incremen.c:1012
+msgid "Invalid modification time (seconds)"
+msgstr "Eraldaketa denbora (segundu) baliogabea"
+
+#: src/incremen.c:1027
+msgid "Invalid modification time (nanoseconds)"
+msgstr "Eraldaketa denbora (nanosegundu) baliogabea"
+
+#: src/incremen.c:1047
+msgid "Invalid device number"
+msgstr "gailu zenbaki baliogabea"
+
+#: src/incremen.c:1062
+msgid "Invalid inode number"
+msgstr "Inodo zenbaki baliogabea"
+
+#: src/incremen.c:1113 src/incremen.c:1150
+msgid "Field too long while reading snapshot file"
+msgstr "Eremu luzeegia snapshot fitxategia irakurtzerakoan"
+
+#: src/incremen.c:1120 src/incremen.c:1158
+#, fuzzy
+msgid "Read error in snapshot file"
+msgstr "Eremu balio esperogabea snapshot fitxategian"
+
+#: src/incremen.c:1122 src/incremen.c:1162 src/incremen.c:1214
+#: src/incremen.c:1272
+#, fuzzy
+msgid "Unexpected EOF in snapshot file"
+msgstr "Eremu balio esperogabea snapshot fitxategian"
+
+#: src/incremen.c:1129 src/incremen.c:1169
+msgid "Unexpected field value in snapshot file"
+msgstr "Eremu balio esperogabea snapshot fitxategian"
+
+#: src/incremen.c:1264
+msgid "Missing record terminator"
+msgstr "Gordetze amaiera falta da"
+
+#: src/incremen.c:1325 src/incremen.c:1328
+msgid "Bad incremental file format"
+msgstr "Fitxategi inkremental formatu okerra"
+
+#: src/incremen.c:1347
+#, fuzzy, c-format
+msgid "Unsupported incremental format version: %<PRIuMAX>"
+msgstr "Onartugabeko inkremental formatu bertsioa: %d"
+
+#: src/incremen.c:1502
+#, c-format
+msgid "Malformed dumpdir: expected '%c' but found %#3o"
+msgstr ""
+"Gaizki eratutako iraulketa direktorioa: '%c'espero zen baina %#3o aurkitu da"
+
+#: src/incremen.c:1512
+msgid "Malformed dumpdir: 'X' duplicated"
+msgstr "Gaizki eratutako iraulketa direktorioa: 'X' bikoizturik"
+
+#: src/incremen.c:1525
+msgid "Malformed dumpdir: empty name in 'R'"
+msgstr "Gaizki eratutako iraulketa direktorioa: izen hutsa 'R'-en"
+
+#: src/incremen.c:1538
+msgid "Malformed dumpdir: 'T' not preceeded by 'R'"
+msgstr "Gaizki eratutako iraulketa direktorioa: 'T' ez doa 'R' atzean"
+
+#: src/incremen.c:1544
+msgid "Malformed dumpdir: empty name in 'T'"
+msgstr "Gaizki eratutako iraulketa direktorioa: izen hutsa 'T'-en"
+
+#: src/incremen.c:1564
+#, c-format
+msgid "Malformed dumpdir: expected '%c' but found end of data"
+msgstr ""
+"Gaizki eratutako iraulketa direktorioa: '%c' espero zen baina data amaiera "
+"aurkitu da"
+
+#: src/incremen.c:1571
+msgid "Malformed dumpdir: 'X' never used"
+msgstr "Gaizki eratutako iraulketa direktorioa: 'X' ez da inoiz erabili"
+
+#: src/incremen.c:1615
+#, c-format
+msgid "Cannot create temporary directory using template %s"
+msgstr "Ezin da aldiroko direktorioa sortu %s txantiloia erabiliaz"
+
+#: src/incremen.c:1677
+#, c-format
+msgid "%s: Not purging directory: unable to stat"
+msgstr "%s: Ez da direktorioa garbituko: ezin da egoera eskuratu"
+
+#: src/incremen.c:1690
+#, c-format
+msgid "%s: directory is on a different device: not purging"
+msgstr "%s: direktorioa gailu ezberdin batetan dago: ez da garbituko"
+
+#: src/incremen.c:1698
+#, c-format
+msgid "%s: Deleting %s\n"
+msgstr "%s: %s ezabatzen\n"
+
+#: src/incremen.c:1703
+#, c-format
+msgid "%s: Cannot remove"
+msgstr "%s: Ezin da ezabatu"
+
+#: src/list.c:115
+#, c-format
+msgid "%s: Omitting"
+msgstr "%s: Alde batetara uzten"
+
+#: src/list.c:133
+#, c-format
+msgid "block %s: ** Block of NULs **\n"
+msgstr ""
+
+#: src/list.c:159
+#, c-format
+msgid "block %s: ** End of File **\n"
+msgstr "%s blokea: ** Fitxategi Amaiera **\n"
+
+#: src/list.c:182 src/list.c:1081 src/list.c:1344
+#, c-format
+msgid "block %s: "
+msgstr "%s blokea: "
+
+#. TRANSLATORS: %s is type of the value (gid_t, uid_t,
+#. etc.)
+#: src/list.c:689
+#, c-format
+msgid "Blanks in header where numeric %s value expected"
+msgstr "Zuriunea buruan zenbakizko %s balioa espero zenean"
+
+#. TRANSLATORS: Second %s is a type name (gid_t,uid_t,etc.)
+#: src/list.c:744
+#, c-format
+msgid "Archive octal value %.*s is out of %s range; assuming two's complement"
+msgstr ""
+"Paketearen zortzitar %.*s balioa %s eremutik kanpo dago, biak bateragarriak "
+"direla pentsatuko da"
+
+#. TRANSLATORS: Second %s is a type name (gid_t,uid_t,etc.)
+#: src/list.c:755
+#, c-format
+msgid "Archive octal value %.*s is out of %s range"
+msgstr "Paketearen zortzitar %.*s balioa %s eremutik kanpo dago"
+
+#: src/list.c:776
+msgid "Archive contains obsolescent base-64 headers"
+msgstr "Paketeak zaharkituriko base-64 buruak ditu"
+
+#: src/list.c:790
+#, c-format
+msgid "Archive signed base-64 string %s is out of %s range"
+msgstr ""
+
+#: src/list.c:821
+#, c-format
+msgid "Archive base-256 value is out of %s range"
+msgstr ""
+
+#. TRANSLATORS: Second %s is a type name (gid_t,uid_t,etc.)
+#: src/list.c:850
+#, c-format
+msgid "Archive contains %.*s where numeric %s value expected"
+msgstr "Paketeak %.*s du zenbakizko %s balioa espero zenean "
+
+#. TRANSLATORS: Second %s is type name (gid_t,uid_t,etc.)
+#: src/list.c:872
+#, c-format
+msgid "Archive value %s is out of %s range %s..%s"
+msgstr "Pakete %s balioa %s eremutik kanpo dago %s.. %s"
+
+#: src/list.c:1245
+#, c-format
+msgid " link to %s\n"
+msgstr " %s-ra lotu\n"
+
+#: src/list.c:1253
+#, c-format
+msgid " unknown file type %s\n"
+msgstr " %s fitxategi mota ezezaguna\n"
+
+#: src/list.c:1271
+#, c-format
+msgid "--Long Link--\n"
+msgstr "--Lotura Luzea--\n"
+
+#: src/list.c:1275
+#, c-format
+msgid "--Long Name--\n"
+msgstr "--Izen Luzea--\n"
+
+#: src/list.c:1279
+#, c-format
+msgid "--Volume Header--\n"
+msgstr "--Bolumen Burua--\n"
+
+#: src/list.c:1287
+#, c-format
+msgid "--Continued at byte %s--\n"
+msgstr "--%s byte-an jarraitzen du--\n"
+
+#: src/list.c:1349
+msgid "Creating directory:"
+msgstr "Direktorioa sortzen:"
+
+#: src/misc.c:502
+#, c-format
+msgid "Renaming %s to %s\n"
+msgstr "%s %s-ra berrizendatzen\n"
+
+#: src/misc.c:511 src/misc.c:529
+#, c-format
+msgid "%s: Cannot rename to %s"
+msgstr "%s: Ezin da %s-ra berrizendatu"
+
+#: src/misc.c:534
+#, c-format
+msgid "Renaming %s back to %s\n"
+msgstr "%s %s-ra atzera berrizendatzen\n"
+
+#: src/misc.c:669
+msgid "Cannot save working directory"
+msgstr "Ezin da lan direktorioa gorde"
+
+#: src/misc.c:675
+msgid "Cannot change working directory"
+msgstr "Ezin da lan direktorioa aldatu"
+
+#: src/misc.c:759
+#, c-format
+msgid "%s: File removed before we read it"
+msgstr "%s: Fitxategia irakurri baino lehen ezabaturik"
+
+#: src/misc.c:774
+#, fuzzy, c-format
+msgid "%s: Directory removed before we read it"
+msgstr "%s: Fitxategia irakurri baino lehen ezabaturik"
+
+#: src/misc.c:795
+msgid "child process"
+msgstr "ume prozesua"
+
+#: src/misc.c:804
+msgid "interprocess channel"
+msgstr "prozesu arteko kanala"
+
+#: src/names.c:601
+msgid "Pattern matching characters used in file names"
+msgstr ""
+
+#: src/names.c:603
+msgid ""
+"Use --wildcards to enable pattern matching, or --no-wildcards to suppress "
+"this warning"
+msgstr ""
+
+#: src/names.c:619 src/names.c:637
+#, c-format
+msgid "%s: Not found in archive"
+msgstr "%s: Ez da paketean aurkitu"
+
+#: src/names.c:622
+#, c-format
+msgid "%s: Required occurrence not found in archive"
+msgstr ""
+
+#: src/names.c:894
+msgid ""
+"Using -C option inside file list is not allowed with --listed-incremental"
+msgstr ""
+
+#: src/names.c:900
+msgid "Only one -C option is allowed with --listed-incremental"
+msgstr ""
+
+#: src/tar.c:81
+#, c-format
+msgid "Options `-%s' and `-%s' both want standard input"
+msgstr "`-%s' eta `-%s' aukerek sarrera estandarra behar dute"
+
+#: src/tar.c:158
+#, c-format
+msgid "%s: Invalid archive format"
+msgstr "%s: Pakete formatu baliogabea"
+
+#: src/tar.c:182
+msgid "GNU features wanted on incompatible archive format"
+msgstr "GNU ezaugarriak behar dira pakete formatu bateraezinean"
+
+#: src/tar.c:250
+#, c-format
+msgid ""
+"Unknown quoting style `%s'. Try `%s --quoting-style=help' to get a list."
+msgstr ""
+"`%s' markatze estilo ezezaguna. Saiatu `%s --quoting-style=help' zerrenda "
+"eskuratzeko."
+
+#: src/tar.c:347
+#, fuzzy
+msgid ""
+"GNU `tar' saves many files together into a single tape or disk archive, and "
+"can restore individual files from the archive.\n"
+"\n"
+"Examples:\n"
+"  tar -cf archive.tar foo bar  # Create archive.tar from files foo and bar.\n"
+"  tar -tvf archive.tar         # List all files in archive.tar verbosely.\n"
+"  tar -xf archive.tar          # Extract all files from archive.tar.\n"
+msgstr ""
+"GNU `tar'-ek fitxategi anitz zinta edo disko pakete batetan gordetzen ditu, "
+"eta paketetetik banakako fitxategiak berreskuratu ditzake.\n"
+"\n"
+"Adibideak:\n"
+"  tar -cf archive.tar foo bar  # paketea.tar paketea sortu foo eta bar "
+"fitxategiekin.\n"
+"  tar -tvf archive.tar         # paketea.tar-eko fitxategi guztiak modu "
+"luzean zerrendatu.\n"
+"  tar -xf archive.tar          # paketea.tar-eko fitxategi guztiak atera.\n"
+"\vBabeskopia aurrizkia `~', da  --suffix edo SIMPLE_BACKUP_SUFFIX bidez "
+"ezarri ezean.\n"
+"Bertsio kontrola --backup edo VERSION_CONTROL bidez ezarri daiteke, balioak "
+"hauek dira:\n"
+"\n"
+"  none, off       inoiz ez egin babeskopiarik\n"
+"  t, numbered     zenbakitutako babeskopiak egin\n"
+"  nil, existing   zenbakitutako zenbakitutakoak baleude bestela sinplea "
+"erabili\n"
+"  never, simple   beti babeskopia sinpleak egin\n"
+
+#: src/tar.c:356
+#, fuzzy
+msgid ""
+"The backup suffix is `~', unless set with --suffix or SIMPLE_BACKUP_SUFFIX.\n"
+"The version control may be set with --backup or VERSION_CONTROL, values "
+"are:\n"
+"\n"
+"  none, off       never make backups\n"
+"  t, numbered     make numbered backups\n"
+"  nil, existing   numbered if numbered backups exist, simple otherwise\n"
+"  never, simple   always make simple backups\n"
+msgstr ""
+"GNU `tar'-ek fitxategi anitz zinta edo disko pakete batetan gordetzen ditu, "
+"eta paketetetik banakako fitxategiak berreskuratu ditzake.\n"
+"\n"
+"Adibideak:\n"
+"  tar -cf archive.tar foo bar  # paketea.tar paketea sortu foo eta bar "
+"fitxategiekin.\n"
+"  tar -tvf archive.tar         # paketea.tar-eko fitxategi guztiak modu "
+"luzean zerrendatu.\n"
+"  tar -xf archive.tar          # paketea.tar-eko fitxategi guztiak atera.\n"
+"\vBabeskopia aurrizkia `~', da  --suffix edo SIMPLE_BACKUP_SUFFIX bidez "
+"ezarri ezean.\n"
+"Bertsio kontrola --backup edo VERSION_CONTROL bidez ezarri daiteke, balioak "
+"hauek dira:\n"
+"\n"
+"  none, off       inoiz ez egin babeskopiarik\n"
+"  t, numbered     zenbakitutako babeskopiak egin\n"
+"  nil, existing   zenbakitutako zenbakitutakoak baleude bestela sinplea "
+"erabili\n"
+"  never, simple   beti babeskopia sinpleak egin\n"
+
+#: src/tar.c:386
+msgid "Main operation mode:"
+msgstr "Ekintza nagusi modua:"
+
+#: src/tar.c:389
+msgid "list the contents of an archive"
+msgstr "pakete baten edukiak zerrendatu"
+
+#: src/tar.c:391
+msgid "extract files from an archive"
+msgstr "pakete batetako fitxategiak atera"
+
+#: src/tar.c:394
+msgid "create a new archive"
+msgstr "pakete berri bat sortu"
+
+#: src/tar.c:396
+msgid "find differences between archive and file system"
+msgstr "paketea eta fitxategi sistema arteko ezberdintasunak bilatu"
+
+#: src/tar.c:399
+msgid "append files to the end of an archive"
+msgstr "fitxategiak paketearen amaieran gehitu"
+
+#: src/tar.c:401
+msgid "only append files newer than copy in archive"
+msgstr ""
+"paketean dauden kopiak baino berriagoak diren fitxategiak bakarrik gehitu"
+
+#: src/tar.c:403
+msgid "append tar files to an archive"
+msgstr "gehitu tar fitxategiak pakete batetara"
+
+#: src/tar.c:406
+msgid "delete from the archive (not on mag tapes!)"
+msgstr "paketetik ezabatu (ez mag zintetan!)"
+
+#: src/tar.c:408
+msgid "test the archive volume label and exit"
+msgstr "pakete bolumen etiketa egiaztatu eta irten"
+
+#: src/tar.c:413
+msgid "Operation modifiers:"
+msgstr "Ekintza aldagaiak:"
+
+#: src/tar.c:416
+msgid "handle sparse files efficiently"
+msgstr "sakabanatutako fitxategiak egoki kudeatu"
+
+#: src/tar.c:417
+msgid "MAJOR[.MINOR]"
+msgstr ""
+
+#: src/tar.c:418
+msgid "set version of the sparse format to use (implies --sparse)"
+msgstr ""
+
+#: src/tar.c:420
+msgid "handle old GNU-format incremental backup"
+msgstr "GNU basbeskopia inkremenetal formatu zaharra kudeatu"
+
+#: src/tar.c:422
+msgid "handle new GNU-format incremental backup"
+msgstr "GNU basbeskopia inkremenetal formatu berria kudeatu"
+
+#: src/tar.c:424
+msgid "dump level for created listed-incremental archive"
+msgstr ""
+
+#: src/tar.c:426
+msgid "do not exit with nonzero on unreadable files"
+msgstr ""
+
+#: src/tar.c:428
+msgid ""
+"process only the NUMBERth occurrence of each file in the archive; this "
+"option is valid only in conjunction with one of the subcommands --delete, --"
+"diff, --extract or --list and when a list of files is given either on the "
+"command line or via the -T option; NUMBER defaults to 1"
+msgstr ""
+
+#: src/tar.c:434
+msgid "archive is seekable"
+msgstr "paketeak `seek' onartzen du"
+
+#: src/tar.c:436
+#, fuzzy
+msgid "archive is not seekable"
+msgstr "paketeak `seek' onartzen du"
+
+#: src/tar.c:438
+msgid "do not check device numbers when creating incremental archives"
+msgstr ""
+
+#: src/tar.c:441
+msgid "check device numbers when creating incremental archives (default)"
+msgstr ""
+
+#: src/tar.c:447
+#, fuzzy
+msgid "Overwrite control:"
+msgstr "Gainidazketa kontrola:\n"
+
+#: src/tar.c:450
+msgid "attempt to verify the archive after writing it"
+msgstr "fitxategia egiaztatzen saiatu idatzi aurretik"
+
+#: src/tar.c:452
+msgid "remove files after adding them to the archive"
+msgstr "ezabatu fitxategiak paketera gehitu aurretik"
+
+#: src/tar.c:454
+msgid "don't replace existing files when extracting"
+msgstr "ez ordezkatu dauden fitxategiak ateratzerakoan"
+
+#: src/tar.c:456
+msgid "don't replace existing files that are newer than their archive copies"
+msgstr ""
+"ez ordezkatu ateratzerakoan dauden fitxategiak paketeko kopiak baino "
+"berriagoak badira"
+
+#: src/tar.c:458
+msgid "overwrite existing files when extracting"
+msgstr "gainidatzi dauden fitxategiak ateratzerakoan"
+
+#: src/tar.c:460
+msgid "remove each file prior to extracting over it"
+msgstr ""
+
+#: src/tar.c:462
+msgid "empty hierarchies prior to extracting directory"
+msgstr ""
+
+#: src/tar.c:464
+msgid "preserve metadata of existing directories"
+msgstr "dauden direktorioen metadata mantendu"
+
+#: src/tar.c:466
+msgid "overwrite metadata of existing directories when extracting (default)"
+msgstr "dauden direktorioen metadata gainidatzi ateratzerakoan (lehenetsia)"
+
+#: src/tar.c:472
+msgid "Select output stream:"
+msgstr "Irteera korrontea hautatu:"
+
+#: src/tar.c:475
+msgid "extract files to standard output"
+msgstr "fitxategiak irteera estandarrera atera"
+
+#: src/tar.c:476 src/tar.c:535 src/tar.c:537 tests/genfile.c:191
+msgid "COMMAND"
+msgstr "KOMANDOA"
+
+#: src/tar.c:477
+msgid "pipe extracted files to another program"
+msgstr "bideratu ateratako fitxategiak beste programa batetara"
+
+#: src/tar.c:479
+msgid "ignore exit codes of children"
+msgstr "alde batetara utzi semeen irteera kodeak"
+
+#: src/tar.c:481
+msgid "treat non-zero exit codes of children as error"
+msgstr "zero ez diren semeen irteera kodeekin errore bat bezala jokatu"
+
+#: src/tar.c:486
+msgid "Handling of file attributes:"
+msgstr "Fitxategi atributu kudeaketa:"
+
+#: src/tar.c:489
+msgid "force NAME as owner for added files"
+msgstr "indartu IZENA jabe bezala gehituriko fitxategientzat"
+
+#: src/tar.c:491
+msgid "force NAME as group for added files"
+msgstr "indartu IZENA talde bezala gehituriko fitxategientzat"
+
+#: src/tar.c:492 src/tar.c:689
+msgid "DATE-OR-FILE"
+msgstr "DATA-EDO-FITXATEGIA"
+
+#: src/tar.c:493
+msgid "set mtime for added files from DATE-OR-FILE"
+msgstr ""
+
+#: src/tar.c:494
+msgid "CHANGES"
+msgstr "ALDAKETAK"
+
+#: src/tar.c:495
+msgid "force (symbolic) mode CHANGES for added files"
+msgstr "indartu (sinbolikoa) modu ALDAKETAK gehituriko lerroentzat"
+
+#: src/tar.c:497
+msgid "METHOD"
+msgstr "METODOA"
+
+#: src/tar.c:498
+msgid ""
+"preserve access times on dumped files, either by restoring the times after "
+"reading (METHOD='replace'; default) or by not setting the times in the first "
+"place (METHOD='system')"
+msgstr ""
+
+#: src/tar.c:502
+msgid "don't extract file modified time"
+msgstr "ez atera fitxategi eraldaketa data"
+
+#: src/tar.c:504
+#, fuzzy
+msgid ""
+"try extracting files with the same ownership as exists in the archive "
+"(default for superuser)"
+msgstr "jabe berdinaren fitxategiak ateratzen saiatu"
+
+#: src/tar.c:506
+#, fuzzy
+msgid "extract files as yourself (default for ordinary users)"
+msgstr "atera fitxategiak zure kabuz"
+
+#: src/tar.c:508
+msgid "always use numbers for user/group names"
+msgstr "beti erabili zenbakiak erabiltzaile/talde izenen ordez"
+
+#: src/tar.c:510
+msgid "extract information about file permissions (default for superuser)"
+msgstr ""
+"fitxategi baimenei buruzko argibideak atera (lehenetsia root "
+"erabiltzailearentzat)"
+
+#: src/tar.c:514
+msgid ""
+"apply the user's umask when extracting permissions from the archive (default "
+"for ordinary users)"
+msgstr ""
+"erabiltzailearen umask-a erabili paketetik baimenak ateratzerakoan "
+"(lehenetsia erabiltzaile arruntentzat)"
+
+#: src/tar.c:516
+msgid "sort names to extract to match archive"
+msgstr ""
+
+#: src/tar.c:519
+msgid "same as both -p and -s"
+msgstr "-p eta -s bikotearen berdina"
+
+#: src/tar.c:521
+msgid ""
+"delay setting modification times and permissions of extracted directories "
+"until the end of extraction"
+msgstr ""
+
+#: src/tar.c:524
+msgid "cancel the effect of --delay-directory-restore option"
+msgstr "--delay-directory-restore aukeraren eragina ezeztatu"
+
+#: src/tar.c:529
+#, fuzzy
+msgid "Device selection and switching:"
+msgstr "Gailu hautapen eta aldaketa:\n"
+
+#: src/tar.c:531
+msgid "ARCHIVE"
+msgstr "PAKETEA"
+
+#: src/tar.c:532
+msgid "use archive file or device ARCHIVE"
+msgstr "pakete fitxategia edo gailu PAKETEA erabili"
+
+#: src/tar.c:534
+msgid "archive file is local even if it has a colon"
+msgstr "pakete fitxategi lokala da nahiz bi puntu izan"
+
+#: src/tar.c:536
+msgid "use given rmt COMMAND instead of rmt"
+msgstr "Emandako rmt KOMANDOA erabili rmt ordez"
+
+#: src/tar.c:538
+msgid "use remote COMMAND instead of rsh"
+msgstr "Urruneko KOMANDOA erabili rsh ordez"
+
+#: src/tar.c:542
+msgid "specify drive and density"
+msgstr "Gailu eta dentsitatea ezarri"
+
+#: src/tar.c:556
+msgid "create/list/extract multi-volume archive"
+msgstr "sortu/zerrendatu/atera bolumen-anitzeko paketea"
+
+#: src/tar.c:558
+msgid "change tape after writing NUMBER x 1024 bytes"
+msgstr "zinta aldatu ZENBAKIA x 1024 byte idatzi ondoren"
+
+#: src/tar.c:560
+msgid "run script at end of each tape (implies -M)"
+msgstr "scipt-a abiarazi zinta bakoitzaren amaieran (-M behar du)"
+
+#: src/tar.c:563
+msgid "use/update the volume number in FILE"
+msgstr "erabili/eguneratu FITXATEGI bolumen zenbakia"
+
+#: src/tar.c:568
+msgid "Device blocking:"
+msgstr "Gailu blokeak:"
+
+#: src/tar.c:570
+msgid "BLOCKS"
+msgstr "BLOKE"
+
+#: src/tar.c:571
+msgid "BLOCKS x 512 bytes per record"
+msgstr "BLOKE x 512 byte grabazio bakoitzeko"
+
+#: src/tar.c:573
+msgid "NUMBER of bytes per record, multiple of 512"
+msgstr "grabazio bakoitzeko byte ZENBAKIA, 512-ren multiploa"
+
+#: src/tar.c:575
+msgid "ignore zeroed blocks in archive (means EOF)"
+msgstr "paketean zeroz betetako blokeak alde batetara utzi"
+
+#: src/tar.c:577
+msgid "reblock as we read (for 4.2BSD pipes)"
+msgstr "irakurri ahala berriz bloke egin (4.2BSD tutuentzat)"
+
+#: src/tar.c:582
+msgid "Archive format selection:"
+msgstr "Pakete formatu hautapena:"
+
+#: src/tar.c:584 tests/genfile.c:154
+msgid "FORMAT"
+msgstr "FORMATUA"
+
+#: src/tar.c:585
+msgid "create archive of the given format"
+msgstr "emandako formatuko pakete bat sortu"
+
+#: src/tar.c:587
+msgid "FORMAT is one of the following:"
+msgstr "FORMATUA hauetako bat da:"
+
+#: src/tar.c:588
+msgid "old V7 tar format"
+msgstr "V7 tar formatu zaharra"
+
+#: src/tar.c:591
+msgid "GNU format as per tar <= 1.12"
+msgstr "GNU formatua tar <= 1.12"
+
+#: src/tar.c:593
+msgid "GNU tar 1.13.x format"
+msgstr "GNU tar 1.13.x formatua"
+
+#: src/tar.c:595
+msgid "POSIX 1003.1-1988 (ustar) format"
+msgstr "POSIX 1003.1-1988 (ustar) formatua"
+
+#: src/tar.c:597
+msgid "POSIX 1003.1-2001 (pax) format"
+msgstr "POSIX 1003.1-2001 (pax) formatua"
+
+#: src/tar.c:598
+msgid "same as pax"
+msgstr "pax-en berdina"
+
+#: src/tar.c:601
+msgid "same as --format=v7"
+msgstr "--format=v7-ren berdina"
+
+#: src/tar.c:604
+msgid "same as --format=posix"
+msgstr "--format=posix-ren berdina"
+
+#: src/tar.c:605
+msgid "keyword[[:]=value][,keyword[[:]=value]]..."
+msgstr "gakoa[[:]=balioavalue][,gakoa[[:]=balioa]]..."
+
+#: src/tar.c:606
+msgid "control pax keywords"
+msgstr ""
+
+#: src/tar.c:607
+msgid "TEXT"
+msgstr "TESTUA"
+
+#: src/tar.c:608
+msgid ""
+"create archive with volume name TEXT; at list/extract time, use TEXT as a "
+"globbing pattern for volume name"
+msgstr ""
+
+#: src/tar.c:613
+#, fuzzy
+msgid "Compression options:"
+msgstr "Elkarjotzen duten konpresio aukerak"
+
+#: src/tar.c:615
+msgid "use archive suffix to determine the compression program"
+msgstr ""
+
+#: src/tar.c:617
+msgid "do not use archive suffix to determine the compression program"
+msgstr ""
+
+#: src/tar.c:619
+msgid "PROG"
+msgstr "PROG"
+
+#: src/tar.c:620
+msgid "filter through PROG (must accept -d)"
+msgstr "PROG bidez iragazi (-d onartu behar du)"
+
+#: src/tar.c:636
+msgid "Local file selection:"
+msgstr "Fixtategi lokal hautapena:"
+
+#: src/tar.c:639
+msgid "add given FILE to the archive (useful if its name starts with a dash)"
+msgstr ""
+"Emandako FITXATEGIA paketera gehitu /Erabilgarri izena asaterisko batez "
+"asten bada)"
+
+#: src/tar.c:640
+msgid "DIR"
+msgstr "DIR"
+
+#: src/tar.c:641
+msgid "change to directory DIR"
+msgstr "DIR direktoriora aldatu"
+
+#: src/tar.c:643
+msgid "get names to extract or create from FILE"
+msgstr "ateratzeko edo sortzeko izenak FITXATEGIA-tik eskuratu"
+
+#: src/tar.c:645
+msgid "-T reads null-terminated names, disable -C"
+msgstr ""
+
+#: src/tar.c:647
+msgid "disable the effect of the previous --null option"
+msgstr ""
+
+#: src/tar.c:649
+msgid "unquote filenames read with -T (default)"
+msgstr ""
+
+#: src/tar.c:651
+msgid "do not unquote filenames read with -T"
+msgstr ""
+
+#: src/tar.c:652 tests/genfile.c:137
+msgid "PATTERN"
+msgstr "PATROIA"
+
+#: src/tar.c:653
+msgid "exclude files, given as a PATTERN"
+msgstr "fixtategiak utzi, PATROIA bezala emandakoak"
+
+#: src/tar.c:655
+msgid "exclude patterns listed in FILE"
+msgstr "FITXATEGIAN zerrendaturiko patroiak alde batetara utzi"
+
+#: src/tar.c:657
+#, fuzzy
+msgid ""
+"exclude contents of directories containing CACHEDIR.TAG, except for the tag "
+"file itself"
+msgstr "katxe marka duten direktorioak alde batetara utzi"
+
+#: src/tar.c:660
+#, fuzzy
+msgid "exclude everything under directories containing CACHEDIR.TAG"
+msgstr "katxe marka duten direktorioak alde batetara utzi"
+
+#: src/tar.c:663
+#, fuzzy
+msgid "exclude directories containing CACHEDIR.TAG"
+msgstr "katxe marka duten direktorioak alde batetara utzi"
+
+#: src/tar.c:665
+#, fuzzy
+msgid "exclude contents of directories containing FILE, except for FILE itself"
+msgstr "katxe marka duten direktorioak alde batetara utzi"
+
+#: src/tar.c:668
+#, fuzzy
+msgid "exclude everything under directories containing FILE"
+msgstr "katxe marka duten direktorioak alde batetara utzi"
+
+#: src/tar.c:670
+#, fuzzy
+msgid "exclude directories containing FILE"
+msgstr "katxe marka duten direktorioak alde batetara utzi"
+
+#: src/tar.c:672
+msgid "exclude version control system directories"
+msgstr ""
+
+#: src/tar.c:674
+msgid "exclude backup and lock files"
+msgstr ""
+
+#: src/tar.c:676
+msgid "avoid descending automatically in directories"
+msgstr "sahiestu automatikoki direktorioetan zehar jeistea"
+
+#: src/tar.c:678
+msgid "stay in local file system when creating archive"
+msgstr "fitxategi sistema lokalean egon paketea sortzerakoan"
+
+#: src/tar.c:680
+msgid "recurse into directories (default)"
+msgstr "direktorioetan barrena (lehenetsia)"
+
+#: src/tar.c:682
+msgid "don't strip leading `/'s from file names"
+msgstr "Ez kendu hasierako  `/' fitxategi izenetatik"
+
+#: src/tar.c:684
+msgid "follow symlinks; archive and dump the files they point to"
+msgstr ""
+"lotura sinbolikoak jarraitu; lotzen dituzten fitxategiak irauli eta paketean "
+"sartu"
+
+#: src/tar.c:686
+#, fuzzy
+msgid "follow hard links; archive and dump the files they refer to"
+msgstr ""
+"lotura sinbolikoak jarraitu; lotzen dituzten fitxategiak irauli eta paketean "
+"sartu"
+
+#: src/tar.c:687
+msgid "MEMBER-NAME"
+msgstr "PARTAIDE IZEN"
+
+#: src/tar.c:688
+msgid "begin at member MEMBER-NAME in the archive"
+msgstr ""
+
+#: src/tar.c:690
+msgid "only store files newer than DATE-OR-FILE"
+msgstr ""
+
+#: src/tar.c:692
+msgid "DATE"
+msgstr "DATA"
+
+#: src/tar.c:693
+msgid "compare date and time when data changed only"
+msgstr "data eta ordua parekatu data bakarrik aldatzen denean"
+
+#: src/tar.c:694
+msgid "CONTROL"
+msgstr "KONTROL"
+
+#: src/tar.c:695
+msgid "backup before removal, choose version CONTROL"
+msgstr "babeskopia egin ezabatu aurretik, KONTROL bertsioa hautatu"
+
+#: src/tar.c:696 src/tar.c:773 src/tar.c:775 tests/genfile.c:170
+msgid "STRING"
+msgstr "KATEA"
+
+#: src/tar.c:697
+msgid ""
+"backup before removal, override usual suffix ('~' unless overridden by "
+"environment variable SIMPLE_BACKUP_SUFFIX)"
+msgstr ""
+
+#: src/tar.c:702
+msgid "File name transformations:"
+msgstr "Fitxategi izen eraldaketak:"
+
+#: src/tar.c:704
+msgid "strip NUMBER leading components from file names on extraction"
+msgstr ""
+
+#: src/tar.c:706
+msgid "EXPRESSION"
+msgstr "ESPRESIOA"
+
+#: src/tar.c:707
+#, fuzzy
+msgid "use sed replace EXPRESSION to transform file names"
+msgstr "Sed-en ordezko EXPRESIOA erabili fitxategi izenak eraldatzeko"
+
+#: src/tar.c:713
+msgid "File name matching options (affect both exclude and include patterns):"
+msgstr ""
+
+#: src/tar.c:716
+msgid "ignore case"
+msgstr "kasua alde batetara utzi"
+
+#: src/tar.c:718
+msgid "patterns match file name start"
+msgstr ""
+
+#: src/tar.c:720
+msgid "patterns match after any `/' (default for exclusion)"
+msgstr ""
+
+#: src/tar.c:722
+msgid "case sensitive matching (default)"
+msgstr ""
+
+#: src/tar.c:724
+msgid "use wildcards (default for exclusion)"
+msgstr ""
+
+#: src/tar.c:726
+msgid "verbatim string matching"
+msgstr "verbatim kate parekatzea"
+
+#: src/tar.c:728
+msgid "wildcards do not match `/'"
+msgstr ""
+
+#: src/tar.c:730
+msgid "wildcards match `/' (default for exclusion)"
+msgstr ""
+
+#: src/tar.c:735
+msgid "Informative output:"
+msgstr "irteera informatiboa:"
+
+#: src/tar.c:738
+msgid "verbosely list files processed"
+msgstr ""
+
+#: src/tar.c:739
+msgid "KEYWORD"
+msgstr ""
+
+#: src/tar.c:740
+#, fuzzy
+msgid "warning control"
+msgstr "Gainidazketa kontrola:\n"
+
+#: src/tar.c:742
+msgid "display progress messages every NUMBERth record (default 10)"
+msgstr ""
+"Aurrerapen mezuak bistarazi grabaketa ZENBAKI bakiotzagatik (lehenetsia 10 "
+"da)"
+
+#: src/tar.c:744
+msgid "ACTION"
+msgstr ""
+
+#: src/tar.c:745
+msgid "execute ACTION on each checkpoint"
+msgstr ""
+
+#: src/tar.c:748
+msgid "print a message if not all links are dumped"
+msgstr "mezu bat inprimatu lotura guztiak ez badira iraultzen"
+
+#: src/tar.c:749
+msgid "SIGNAL"
+msgstr "SEINALEA"
+
+#: src/tar.c:750
+msgid ""
+"print total bytes after processing the archive; with an argument - print "
+"total bytes when this SIGNAL is delivered; Allowed signals are: SIGHUP, "
+"SIGQUIT, SIGINT, SIGUSR1 and SIGUSR2; the names without SIG prefix are also "
+"accepted"
+msgstr ""
+
+#: src/tar.c:755
+msgid "print file modification dates in UTC"
+msgstr "eraldaketa datak UTC orduan bistarazi"
+
+#: src/tar.c:757
+msgid "send verbose output to FILE"
+msgstr "irteera luzea FITXATEGIRA bidali"
+
+#: src/tar.c:759
+msgid "show block number within archive with each message"
+msgstr "Bloke zenbakia bistarazu pakete bakoitzeko mezu bakoitzagatik"
+
+#: src/tar.c:761
+msgid "ask for confirmation for every action"
+msgstr "berrespena eskatu ekintza bakoitzean"
+
+#: src/tar.c:764
+msgid "show tar defaults"
+msgstr "tar lehenespenak bistarazi"
+
+#: src/tar.c:766
+msgid ""
+"when listing or extracting, list each directory that does not match search "
+"criteria"
+msgstr ""
+
+#: src/tar.c:768
+msgid "show file or archive names after transformation"
+msgstr "fixtategi edo pakete izenak bistarazi eraldaketaren aurretik"
+
+#: src/tar.c:771
+msgid "STYLE"
+msgstr "ESTILOA"
+
+#: src/tar.c:772
+msgid "set name quoting style; see below for valid STYLE values"
+msgstr ""
+
+#: src/tar.c:774
+msgid "additionally quote characters from STRING"
+msgstr "Gako karaktere gehigarriak KATE-tik"
+
+#: src/tar.c:776
+msgid "disable quoting for characters from STRING"
+msgstr "gakoak kendu karaktereentzat KATE-tik"
+
+#: src/tar.c:781
+msgid "Compatibility options:"
+msgstr "Bateragarritasun aukerak:"
+
+#: src/tar.c:784
+msgid ""
+"when creating, same as --old-archive; when extracting, same as --no-same-"
+"owner"
+msgstr ""
+
+#: src/tar.c:789
+msgid "Other options:"
+msgstr "Beste aukerak:"
+
+#: src/tar.c:792
+msgid "disable use of some potentially harmful options"
+msgstr "ezgaitu arriskutsu izan daitezken zenbait aukera"
+
+#: src/tar.c:927
+#, fuzzy
+msgid "You may not specify more than one `-Acdtrux' or `--test-label' option"
+msgstr "Ezin duzu `-Acdtrux' aukera bat baino gehiago ezarri"
+
+#: src/tar.c:937
+msgid "Conflicting compression options"
+msgstr "Elkarjotzen duten konpresio aukerak"
+
+#: src/tar.c:993
+#, c-format
+msgid "Unknown signal name: %s"
+msgstr "Seinale izen ezezaguna: %s"
+
+#: src/tar.c:1017
+msgid "Date sample file not found"
+msgstr "Data adibide fitxategia ez da aurkitu"
+
+#: src/tar.c:1025
+#, c-format
+msgid "Substituting %s for unknown date format %s"
+msgstr "%s %s data formatu ezezagunagatik aldatzen"
+
+#: src/tar.c:1054
+#, c-format
+msgid "Option %s: Treating date `%s' as %s"
+msgstr ""
+
+#: src/tar.c:1132
+#, c-format
+msgid "%s: file list already read"
+msgstr "%s: fitxategi zerrenda irakurria dagoeneko"
+
+#: src/tar.c:1198
+#, c-format
+msgid "%s: file name read contains nul character"
+msgstr ""
+
+#: src/tar.c:1265 src/tar.c:1269 src/tar.c:1273 src/tar.c:1277 src/tar.c:1281
+#: src/tar.c:1285
+#, fuzzy, c-format
+msgid "filter the archive through %s"
+msgstr "fitxategia gzip bidez iragazi"
+
+#: src/tar.c:1290
+#, fuzzy
+msgid "Valid arguments for the --quoting-style option are:"
+msgstr "--quoting-style-entzat balio erabilgarriak:"
+
+#: src/tar.c:1294
+msgid ""
+"\n"
+"*This* tar defaults to:\n"
+msgstr ""
+
+#: src/tar.c:1393
+msgid "Invalid blocking factor"
+msgstr "Blokeo faktore baliogabea"
+
+#: src/tar.c:1500
+msgid "Invalid tape length"
+msgstr "Zinta luzera baliogabea"
+
+#: src/tar.c:1511
+#, fuzzy
+msgid "Invalid incremental level value"
+msgstr "Fitxategi inkremental formatu okerra"
+
+#: src/tar.c:1557
+msgid "More than one threshold date"
+msgstr "Atari data bat baino gehiago"
+
+#: src/tar.c:1612 src/tar.c:1615
+msgid "Invalid sparse version value"
+msgstr ""
+
+#: src/tar.c:1700
+msgid "--atime-preserve='system' is not supported on this platform"
+msgstr "--atime-preserve='system' ez da onartzen plataforma honetan"
+
+#: src/tar.c:1725
+msgid "--checkpoint value is not an integer"
+msgstr "--checkpoint balioa ez da zenbaki oso bat"
+
+#: src/tar.c:1830
+#, fuzzy
+msgid "Invalid group"
+msgstr "%s: Talde baliogabea"
+
+#: src/tar.c:1837
+msgid "Invalid mode given on option"
+msgstr "Modu baliogabea eman da aukeran"
+
+#: src/tar.c:1894
+msgid "Invalid number"
+msgstr "Zenbaki baliogabea"
+
+#: src/tar.c:1916
+msgid "Invalid owner"
+msgstr "Jabe baliogabea"
+
+#: src/tar.c:1946
+msgid ""
+"The --preserve option is deprecated, use --preserve-permissions --preserve-"
+"order instead"
+msgstr ""
+
+#: src/tar.c:1956
+msgid "Invalid record size"
+msgstr "Grabazio tamaina baliogabea"
+
+#: src/tar.c:1959
+#, c-format
+msgid "Record size must be a multiple of %d."
+msgstr "Grabaszio tamaina %d-ren multiplo bat izan behar da."
+
+#: src/tar.c:2000
+msgid "Invalid number of elements"
+msgstr "Elementu kopuru baliogabea"
+
+#: src/tar.c:2020
+msgid "Only one --to-command option allowed"
+msgstr "--to-command aukera bat bakarrik onartzen da"
+
+#: src/tar.c:2100
+#, c-format
+msgid "Malformed density argument: %s"
+msgstr "Gaizki eratutako dentsitate argumentua: %s"
+
+#: src/tar.c:2126
+#, c-format
+msgid "Unknown density: `%c'"
+msgstr "Dentsitate Ezezaguna: `%c'"
+
+#: src/tar.c:2143
+#, c-format
+msgid "Options `-[0-7][lmh]' not supported by *this* tar"
+msgstr " `-[0-7][lmh]' aukerak ez dira onartzen tar *honetan*"
+
+#: src/tar.c:2156
+msgid "[FILE]..."
+msgstr "[FITXATEGIA]..."
+
+#: src/tar.c:2274
+#, c-format
+msgid "Old option `%c' requires an argument."
+msgstr "`%c' zaharkituriko aukerak argumentu bat behar du"
+
+#: src/tar.c:2355
+msgid "--occurrence is meaningless without a file list"
+msgstr ""
+
+#: src/tar.c:2361
+msgid "--occurrence cannot be used in the requested operation mode"
+msgstr ""
+
+#: src/tar.c:2379
+msgid "Multiple archive files require `-M' option"
+msgstr "Pakete fitxategi anitzentzat `-M' aukera erabili behar da"
+
+#: src/tar.c:2384
+msgid "Cannot combine --listed-incremental with --newer"
+msgstr "Ezin dira --listed-incremental eta --newer batera erabili"
+
+#: src/tar.c:2387
+msgid "--level is meaningless without --listed-incremental"
+msgstr ""
+
+#: src/tar.c:2404
+#, c-format
+msgid "%s: Volume label is too long (limit is %lu byte)"
+msgid_plural "%s: Volume label is too long (limit is %lu bytes)"
+msgstr[0] "%s: Bolumen etiketa luzeegia da (muga %lu byte da)"
+msgstr[1] "%s: Bolumen etiketa luzeegia da (muga %lu byte da)"
+
+#: src/tar.c:2417
+msgid "Cannot verify multi-volume archives"
+msgstr "Ezin dira bolumen-anitzeko paketeak egiaztatu"
+
+#: src/tar.c:2419
+msgid "Cannot verify compressed archives"
+msgstr "Ezin dira konprimituriko fitxategiak egiaztatu"
+
+#: src/tar.c:2425
+msgid "Cannot use multi-volume compressed archives"
+msgstr "Ezin dira bolumen anitzeko konprimituriko paketeak erabaili"
+
+#: src/tar.c:2431
+msgid "Cannot concatenate compressed archives"
+msgstr "Ezin dira konprimituriko paketeak kateatu"
+
+#: src/tar.c:2443
+msgid "--pax-option can be used only on POSIX archives"
+msgstr "--pax-option POSIX paketeekin bakarrik erabili daiteke"
+
+#: src/tar.c:2461
+msgid "Volume length cannot be less than record size"
+msgstr ""
+
+#: src/tar.c:2464
+msgid "--preserve-order is not compatible with --listed-incremental"
+msgstr ""
+
+#: src/tar.c:2475
+msgid "Cowardly refusing to create an empty archive"
+msgstr ""
+
+#: src/tar.c:2501
+msgid "Options `-Aru' are incompatible with `-f -'"
+msgstr " `-Aru' aukerak bateraezinak dira `-f -' rekin"
+
+#: src/tar.c:2592
+#, fuzzy
+msgid "You must specify one of the `-Acdtrux' or `--test-label'  options"
+msgstr "Behintzat `-Acdtrux' aukeretako bat ezarri behar duzu"
+
+#: src/tar.c:2646
+#, c-format
+msgid "Exiting with failure status due to previous errors"
+msgstr ""
+
+#: src/update.c:86
+#, c-format
+msgid "%s: File shrank by %s byte"
+msgid_plural "%s: File shrank by %s bytes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/xheader.c:163
+#, c-format
+msgid "Keyword %s is unknown or not yet implemented"
+msgstr "%s gakoa ezezaguna da edo ez dago inplementaturik oraindik"
+
+#: src/xheader.c:173
+#, fuzzy
+msgid "Time stamp is out of allowed range"
+msgstr "Denbora marka eremuz kanpo dago"
+
+#: src/xheader.c:204
+#, c-format
+msgid "Pattern %s cannot be used"
+msgstr "%s patroia ezin da erabili"
+
+#: src/xheader.c:218
+#, c-format
+msgid "Keyword %s cannot be overridden"
+msgstr "%s gakoa ezin da gainidatzi"
+
+#: src/xheader.c:541
+msgid "Malformed extended header: missing length"
+msgstr "Gaizki eratutako buru luzapena: luzera falta da"
+
+#: src/xheader.c:549
+#, fuzzy
+msgid "Extended header length is out of allowed range"
+msgstr " %*s buru luzapen luzera eremuz kanpo dago"
+
+#: src/xheader.c:556
+#, c-format
+msgid "Extended header length %*s is out of range"
+msgstr " %*s buru luzapen luzera eremuz kanpo dago"
+
+#: src/xheader.c:568
+msgid "Malformed extended header: missing blank after length"
+msgstr "Gaizki eratutako buru luzapena: luzera ondoren hutsunea falta da"
+
+#: src/xheader.c:576
+msgid "Malformed extended header: missing equal sign"
+msgstr "Gaizki eratutako buru luzapena: berdin ikurra falta da"
+
+#: src/xheader.c:582
+msgid "Malformed extended header: missing newline"
+msgstr "Gaizki eratutako buru luzapena: lerro berria falta da"
+
+#: src/xheader.c:620
+#, c-format
+msgid "Ignoring unknown extended header keyword `%s'"
+msgstr "alde batetara utzi gako buru luzapen ezezaguna `%s'"
+
+#: src/xheader.c:830
+#, c-format
+msgid "Generated keyword/value pair is too long (keyword=%s, length=%s)"
+msgstr ""
+
+#. TRANSLATORS: The first %s is the pax extended header keyword
+#. (atime, gid, etc.).
+#: src/xheader.c:862
+#, c-format
+msgid "Extended header %s=%s is out of range %s..%s"
+msgstr "buru luzapena %s=%s eremuz kanpo dago %s..%s"
+
+#: src/xheader.c:993 src/xheader.c:1023 src/xheader.c:1337
+#, c-format
+msgid "Malformed extended header: invalid %s=%s"
+msgstr "Gaizki eratutako buru luzapena: baliogabea %s=%s"
+
+#: src/xheader.c:1290 src/xheader.c:1315 src/xheader.c:1365
+#, c-format
+msgid "Malformed extended header: excess %s=%s"
+msgstr "Gaizki eratutako buru luzapena: gehiegizkoa %s=%s"
+
+#: src/xheader.c:1378
+#, c-format
+msgid "Malformed extended header: invalid %s: unexpected delimiter %c"
+msgstr ""
+"Gaizki eratutako buru luzapena: %s baliogabea: %c mugatzaile esperodageba"
+
+#: src/xheader.c:1388
+#, c-format
+msgid "Malformed extended header: invalid %s: odd number of values"
+msgstr "Gaizki eratutako buru luzapena: %s baliogabea: balio kopuru bitxia"
+
+#: src/checkpoint.c:107
+#, fuzzy, c-format
+msgid "%s: not a valid timeout"
+msgstr "%s: Talde baliogabea"
+
+#: src/checkpoint.c:112
+#, c-format
+msgid "%s: unknown checkpoint action"
+msgstr ""
+
+#: src/checkpoint.c:132
+msgid "write"
+msgstr ""
+
+#: src/checkpoint.c:132
+msgid "read"
+msgstr ""
+
+#. TRANSLATORS: This is a ``checkpoint of write operation'',
+#. *not* ``Writing a checkpoint''.
+#. E.g. in Spanish ``Punto de comprobaci@'on de escritura'',
+#. *not* ``Escribiendo un punto de comprobaci@'on''
+#: src/checkpoint.c:222
+#, c-format
+msgid "Write checkpoint %u"
+msgstr "Idazketa %u egiaztapen puntua"
+
+#. TRANSLATORS: This is a ``checkpoint of read operation'',
+#. *not* ``Reading a checkpoint''.
+#. E.g. in Spanish ``Punto de comprobaci@'on de lectura'',
+#. *not* ``Leyendo un punto de comprobaci@'on''
+#: src/checkpoint.c:228
+#, c-format
+msgid "Read checkpoint %u"
+msgstr "Irakurketa %u egiaztapen puntua"
+
+#: tests/genfile.c:112
+msgid ""
+"genfile manipulates data files for GNU paxutils test suite.\n"
+"OPTIONS are:\n"
+msgstr ""
+
+#: tests/genfile.c:128
+msgid "File creation options:"
+msgstr "Pakete sortze aukerak:"
+
+#: tests/genfile.c:129 tests/genfile.c:140
+msgid "SIZE"
+msgstr "TAMAINA"
+
+#: tests/genfile.c:130
+msgid "Create file of the given SIZE"
+msgstr "Emandako TAMAINAko paketea sortu"
+
+#: tests/genfile.c:132
+msgid "Write to file NAME, instead of standard output"
+msgstr "Fitxategi IZENEAN idatzi irteera estandarren ordez"
+
+#: tests/genfile.c:134
+msgid "Read file names from FILE"
+msgstr "Fitxategi izenak PAKETEtik irakurri"
+
+#: tests/genfile.c:136
+msgid "-T reads null-terminated names"
+msgstr ""
+
+#: tests/genfile.c:138
+msgid "Fill the file with the given PATTERN. PATTERN is 'default' or 'zeros'"
+msgstr ""
+
+#: tests/genfile.c:141
+msgid "Size of a block for sparse file"
+msgstr "Bloke tamaina fitxategi sakabanatuentzat"
+
+#: tests/genfile.c:143
+msgid "Generate sparse file. Rest of the command line gives the file map."
+msgstr ""
+"Fitxategi sakabanatuak sortu. Komanod lerroaren besteak fitxategi mapa dakar."
+
+#: tests/genfile.c:145
+msgid "OFFSET"
+msgstr ""
+
+#: tests/genfile.c:146
+#, fuzzy
+msgid "Seek to the given offset before writing data"
+msgstr "fitxategia egiaztatzen saiatu idatzi aurretik"
+
+#: tests/genfile.c:152
+msgid "File statistics options:"
+msgstr "Fixtategi estatistika aukerak:"
+
+#: tests/genfile.c:155
+msgid "Print contents of struct stat for each given file. Default FORMAT is: "
+msgstr ""
+"Eduki eta egitura estatusa inprimatu emandako fitxategi bakoiztarentzat. "
+"Lehenetsiriko FORMATUA: "
+
+#: tests/genfile.c:162
+msgid "Synchronous execution options:"
+msgstr "Sinkronizatutako exekuzio aukerak:"
+
+#: tests/genfile.c:164
+#, fuzzy
+msgid "OPTION"
+msgstr " [AUKERA...]"
+
+#: tests/genfile.c:165
+#, fuzzy
+msgid ""
+"Execute ARGS. Useful with --checkpoint and one of --cut, --append, --touch, "
+"--unlink"
+msgstr ""
+"Emandako KOMANDOA exekutatu. Erabilgarri --checkpoint eta hauetako batekin; "
+"--cut, --append, --touch"
+
+#: tests/genfile.c:168
+msgid "Perform given action (see below) upon reaching checkpoint NUMBER"
+msgstr ""
+
+#: tests/genfile.c:171
+msgid "Set date for next --touch option"
+msgstr "Ezarri data hurrengo --touch aukerarentzat"
+
+#: tests/genfile.c:174
+msgid "Display executed checkpoints and exit status of COMMAND"
+msgstr ""
+
+#: tests/genfile.c:179
+msgid ""
+"Synchronous execution actions. These are executed when checkpoint number "
+"given by --checkpoint option is reached."
+msgstr ""
+
+#: tests/genfile.c:182
+msgid ""
+"Truncate FILE to the size specified by previous --length option (or 0, if it "
+"is not given)"
+msgstr ""
+
+#: tests/genfile.c:186
+msgid "Append SIZE bytes to FILE. SIZE is given by previous --length option."
+msgstr ""
+
+#: tests/genfile.c:189
+msgid "Update the access and modification times of FILE"
+msgstr "FITXATEGIAREN irakurketa eta eraldaketa denborak aldatu"
+
+#: tests/genfile.c:192
+msgid "Execute COMMAND"
+msgstr "KOMANDOA exekutatu"
+
+#: tests/genfile.c:195
+msgid "Unlink FILE"
+msgstr ""
+
+#: tests/genfile.c:245
+#, c-format
+msgid "Invalid size: %s"
+msgstr "Tamaina baliogabea: %s"
+
+#: tests/genfile.c:250
+#, fuzzy, c-format
+msgid "Number out of allowed range: %s"
+msgstr "Inodo zenbakia eremuz kanpo dago"
+
+#: tests/genfile.c:253
+#, fuzzy, c-format
+msgid "Negative size: %s"
+msgstr "Tamaina baliogabea: %s"
+
+#: tests/genfile.c:266 tests/genfile.c:568
+#, c-format
+msgid "stat(%s) failed"
+msgstr "stat(%s) -ek huts egin du"
+
+#: tests/genfile.c:269
+#, c-format
+msgid "requested file length %lu, actual %lu"
+msgstr ""
+
+#: tests/genfile.c:273
+#, c-format
+msgid "created file is not sparse"
+msgstr ""
+
+#: tests/genfile.c:362
+#, c-format
+msgid "Error parsing number near `%s'"
+msgstr "Errorea zenbakia analizatzean hemendi gertu: `%s'"
+
+#: tests/genfile.c:368
+#, c-format
+msgid "Unknown date format"
+msgstr "Data formatu ezezaguna"
+
+#: tests/genfile.c:392
+msgid "[ARGS...]"
+msgstr "[ARG...]"
+
+#: tests/genfile.c:429 tests/genfile.c:469 tests/genfile.c:522
+#: tests/genfile.c:672 tests/genfile.c:686
+#, c-format
+msgid "cannot open `%s'"
+msgstr "Ezin da `%s' ireki"
+
+#: tests/genfile.c:435
+#, fuzzy
+msgid "cannot seek"
+msgstr "%s: Ezin da %s-ra seek egin"
+
+#: tests/genfile.c:452
+#, c-format
+msgid "file name contains null character"
+msgstr "fitxategia izenak karaktere baliogabea du"
+
+#: tests/genfile.c:517
+#, c-format
+msgid "cannot generate sparse files on standard output, use --file option"
+msgstr ""
+"ezin dira sakabanaturiko fitxategiaksortu irteera estandarrean. --file "
+"erabili"
+
+#: tests/genfile.c:595
+#, c-format
+msgid "incorrect mask (near `%s')"
+msgstr "maskara baliogabea (`%s'-etik gertu)"
+
+#: tests/genfile.c:601 tests/genfile.c:634
+#, c-format
+msgid "Unknown field `%s'"
+msgstr "`%s' eremu ezezaguna"
+
+#: tests/genfile.c:661
+#, c-format
+msgid "cannot set time on `%s'"
+msgstr "ezin da `%s'-ren denbora ezarri"
+
+#: tests/genfile.c:700
+#, fuzzy, c-format
+msgid "cannot unlink `%s'"
+msgstr "Ezin da `%s' ireki"
+
+#: tests/genfile.c:826
+#, c-format
+msgid "Command exited successfully\n"
+msgstr "Komandoa behar bezala irten da\n"
+
+#: tests/genfile.c:828
+#, c-format
+msgid "Command failed with status %d\n"
+msgstr "Komandoa %d egoerarekin huts egin du\n"
+
+#: tests/genfile.c:832
+#, c-format
+msgid "Command terminated on signal %d\n"
+msgstr "Komandoa %d seinalearekin amaitu da\n"
+
+#: tests/genfile.c:834
+#, c-format
+msgid "Command stopped on signal %d\n"
+msgstr "Komandoa %d seinalearekin geratu da\n"
+
+#: tests/genfile.c:837
+#, c-format
+msgid "Command dumped core\n"
+msgstr "Komando iraulketa nagusia\n"
+
+#: tests/genfile.c:840
+#, c-format
+msgid "Command terminated\n"
+msgstr "Komandoa amaitua\n"
+
+#: tests/genfile.c:872
+#, c-format
+msgid "--stat requires file names"
+msgstr "--stat -ek fitxategi izenak behar ditu"
+
+#~ msgid "%s: illegal option -- %c\n"
+#~ msgstr "%s: -- %c legezkanpoko aukera\n"
+
+#~ msgid ""
+#~ "\n"
+#~ "Report bugs to <%s>.\n"
+#~ msgstr ""
+#~ "\n"
+#~ "Erroreen berri <%s>-ra eman.\n"
+
+#~ msgid "Reading %s\n"
+#~ msgstr "%s irakurtzen\n"
+
+#~ msgid "Error is not recoverable: exiting now"
+#~ msgstr "Errorea berreskura ezina da: irteten"
+
+#~ msgid "suppress this warning."
+#~ msgstr "ohar hau kendu."
+
+#~ msgid "filter the archive through bzip2"
+#~ msgstr "fitxategia bzip2 bidez iragazi"
+
+#~ msgid "filter the archive through gzip"
+#~ msgstr "fitxategia gzip bidez iragazi"
+
+#~ msgid "filter the archive through compress"
+#~ msgstr "fitxategia konpresorearen bidez iragazi"
+
+#, fuzzy
+#~ msgid "filter the archive through lzma"
+#~ msgstr "fitxategia gzip bidez iragazi"
+
+#, fuzzy
+#~ msgid "filter the archive through lzop"
+#~ msgstr "fitxategia gzip bidez iragazi"
+
+#~ msgid "Input string too long"
+#~ msgstr "Sarrera kate luzeegia"
+
+#~ msgid "Number syntax error"
+#~ msgstr "Zenbaki sintaxi errorea"
+
+#~ msgid "rmtd: Cannot allocate buffer space\n"
+#~ msgstr "rmtd: Ezin da buffer lekua esleitu\n"
+
+#~ msgid "Cannot allocate buffer space"
+#~ msgstr "Ezin da buffer lekua esleitu"
+
+#~ msgid "Try `%s --help' for more information.\n"
+#~ msgstr "`%s --help' saiatu argibide gehiagorako.\n"
+
+#~ msgid ""
+#~ "Usage: %s [OPTION]\n"
+#~ "Manipulate a tape drive, accepting commands from a remote process.\n"
+#~ "\n"
+#~ "  --version  Output version info.\n"
+#~ "  --help     Output this help.\n"
+#~ msgstr ""
+#~ "Erabilea: %s [AUKERA]\n"
+#~ "Zinta gailu bat manipulatu, urruneko prozesu baten komandoak onartzen.\n"
+#~ "\n"
+#~ "  --version  Bertsio argibideak eman.\n"
+#~ "  --help     Laguntza hau eman.\n"
+
+#~ msgid "Seek offset error"
+#~ msgstr "Seek offset errorea"
+
+#~ msgid "Premature end of file"
+#~ msgstr "Fitxategi amaiera azkarregia"
+
+#~ msgid "block size"
+#~ msgstr "bloke tamaina"
+
+#~ msgid "%s: Read error at byte %s, reading %lu byte"
+#~ msgid_plural "%s: Read error at byte %s, reading %lu bytes"
+#~ msgstr[0] "%s: Irakurketa errorea %s byte-an, byte %lu irakurtzerakoan"
+#~ msgstr[1] "%s: Irakurketa errorea %s byte-an, %lu byte irakurtzerakoan"
+
+#~ msgid "Modification time (seconds) out of range"
+#~ msgstr "Eraldaketa denbora (segundu) eremuz kanpo dago"
+
+#~ msgid "Modification time (nanoseconds) out of range"
+#~ msgstr "Eraldaketa denbora (nanosegundu) eremuz kanpo dago"
+
+#~ msgid "Device number out of range"
+#~ msgstr "Gailu zenbakia eremuz kanpo dago"
+
+#~ msgid "Error reading time stamp"
+#~ msgstr "Errorea denbora marka irakurtzerakoan"
+
+#~ msgid "--Mangled file names--\n"
+#~ msgstr "--Kudeatutako fitxategi izenak--\n"
+
+#~ msgid "Unexpected EOF in mangled names"
+#~ msgstr "Fitxategi amaiera esperogabea kudeatutako izenetan"
+
+#~ msgid "Renamed %s to %s"
+#~ msgstr "%s %s-ra berrizendaturik"
+
+#~ msgid "%s: Cannot symlink to %s"
+#~ msgstr "%s: Ezin da %s-ra lotura sinbolikoa egin"
+
+#~ msgid "Symlinked %s to %s"
+#~ msgstr "%s %s-ra sibolikoki lotua"
+
+#~ msgid "same as -N"
+#~ msgstr "-N -ren berdina"
+
+#~ msgid "[.]NUMBER"
+#~ msgstr "[.]ZENBAKIA"
+
+#~ msgid "Warning: the -I option is not supported; perhaps you meant -j or -T?"
+#~ msgstr "Oharra: -l aukera ez da onartzen; agian -j edo -T egin nahi zenuen?"
+
+#~ msgid "Error exit delayed from previous errors"
+#~ msgstr "Errore irteera aurreko erroreak direla eta"

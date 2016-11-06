@@ -1,0 +1,63 @@
+# List of files which contain translatable strings.
+
+# Copyright (C) 1996, 1999, 2000, 2003, 2004, 2005, 2007 Free Software
+# Foundation, Inc.
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3, or (at your option)
+# any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+# 02110-1301, USA.
+
+# Library files
+gnu/argmatch.c
+gnu/argp-help.c
+gnu/argp-parse.c
+gnu/closeout.c
+gnu/error.c
+gnu/getopt.c
+gnu/obstack.c
+gnu/human.c
+gnu/obstack.c
+gnu/openat-die.c
+gnu/quotearg.c
+gnu/rpmatch.c
+gnu/xalloc-die.c
+gnu/xmalloc.c
+gnu/version-etc.c
+gnu/xalloc-die.c
+
+lib/paxerror.c
+lib/paxexit.c
+lib/paxnames.c
+lib/rtapelib.c
+
+rmt/rmt.c
+
+# Package source files
+src/buffer.c
+src/common.h
+src/compare.c
+src/create.c
+src/delete.c
+src/extract.c
+src/incremen.c
+src/list.c
+src/misc.c
+src/names.c
+src/tar.c
+src/update.c
+src/xheader.c
+src/checkpoint.c
+
+# Testsuite
+tests/genfile.c
