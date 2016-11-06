@@ -4,7 +4,7 @@ V=1.0.33
 VER=bifrost-framework-$V
 SRC=bifrost-framework-$V.tar.gz
 DST=/var/spool/src/$SRC
-SHA=1531e0c1504d52d01036d3ba6f6a9e8f4a0db297348907bc3add4b3890e5809d
+SHA=c28459f5171de383894e9ba905246eafce3222f15bec737d6555f4af4d70259c
 
 pkg_install tarmd-1.2-1 || exit 2
 
