@@ -1,7 +1,7 @@
 #!/bin/bash
 
-SRCVER=mtr-0.86
-PKG=$SRCVER-1 # with build version
+SRCVER=mtr-0.87
+PKG=mtr-0.86-1 # with build version
 
 # PKGDIR is set by 'pkg_build'. Usually "/var/lib/build/all/$PKG".
 PKGDIR=${PKGDIR:-/var/lib/build/all/$PKG}
