@@ -50,7 +50,7 @@ Note: the first time you install a package or a build script installs a
 dependency it will try to install GNU tar.
 
 Build and install newer bash and (optionally) the zile editor:
-$ ./pkg_build bash-4.1-1 zile-2.3.14-2 terminfo-5.7-1
+$ ./pkg_build bash-4.1-1 zile-2.3.14-3 terminfo-5.7-1
 $ ./pkg_install --permanent bash-4.1-1
 $ ./pkg_install --permanent terminfo-5.7-1
 $ ./pkg_install --permanent zile-2.3.14-2
