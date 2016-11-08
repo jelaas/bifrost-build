@@ -319,7 +319,7 @@ untar make-3.81-1
 untar module-init-tools-3.15-1
 untar ncurses-bin-5.7-1 ./usr/bin/clear
 untar numactl-2.0.6-1 ./bin/numactl
-untar musl-openssl-1.1.0b-1/ ./usr/bin/openssl
+untar musl-openssl-1.1.0b-1 ./usr/bin/openssl
 untar procps-3.2.8-2 ./usr/bin/free
 untar procps-3.2.8-2 ./usr/bin/w
 untar procps-3.2.8-2 ./usr/bin/top
