@@ -30,7 +30,7 @@ cd $CDIR/$SRCVER
 #########
 # Configure
 # MAKEDEPPROG=musl-gcc
-./Configure linux-elf --prefix=/opt/musl --openssldir=/etc/ssl -static no-shared no-bf no-cast no-md2 no-mdc2 no-rc2 no-rc4 no-rc5 no-idea no-dso no-md4 no-srp no-ssl2
+./Configure linux-elf --prefix=/opt/musl --openssldir=/etc/ssl -static no-shared no-bf no-cast no-md2 no-mdc2 no-rc2 no-rc4 no-rc5 no-idea no-dso no-md4 no-srp no-afalgeng
 
 #########
 # Post configure patch
