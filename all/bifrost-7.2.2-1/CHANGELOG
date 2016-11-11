@@ -6,6 +6,7 @@ Bifrost 7.2.2: changes since 7.2.1
   curl 7.51
   wget 1.18
   git 2.10.2
+  kernel (dirtycow)
 
  + ifstat2 new version with 64bit stats
  + util-linux/nsenter et al
@@ -13,14 +14,6 @@ Bifrost 7.2.2: changes since 7.2.1
 
  Framework:
  - fixed bug when running first time config (devices were not probed)
-
-TODO:
-
- + netcat
- + ebtables
-
- - bifrost-upgrade.
-  -  Maybe let bifrost-upgrade take a tarball as argument.
 
 Bifrost 7.2.1: changes since 7.2
 --------------------------------
