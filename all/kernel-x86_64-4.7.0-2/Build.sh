@@ -36,7 +36,7 @@ pkg_install git-2.10.2-1 || exit 2
 
 echo "Updating build environment (git pull)"
 cd /home/build/mini-native-x86_64/var/lib/build
-/opt/git/bin/git pull
+git pull || exit 1
 
 echo Setting up networking
 cp /etc/resolv.conf /home/build/mini-native-x86_64/etc
