@@ -196,13 +196,13 @@ untar qemu-1.4.0-1 ./usr/bin/qemu-img
 
 # core
 
-untar kernel-x86_32-3.18.0-3
-untar kernel-x86_64-3.18.0-3
+untar kernel-x86_32-4.7.0-2
+untar kernel-x86_64-4.7.0-2
 
 untar extlinux-6.02-1
 untar grub-2.00-2
 
-untar bash-4.1-8
+untar bash-4.4-1
 untar binutils-2.20.1-1 ./usr/bin/size && mv ./usr/bin/size ./bin32/size
 untar binutils-2.20.1-1 ./usr/bin/objdump && mv ./usr/bin/objdump ./bin32/objdump
 untar binutils-2.20.1-1 ./usr/bin/ar && mv ./usr/bin/ar ./bin32/ar

@@ -1,10 +1,10 @@
 Bifrost 7.3: changes since 7.2.2
 ----------------------------------
+ bash 4.4
+ kernel 4.7.0
 
 TODO:
- kernel 4.7
  openssh
- 
 
  + netcat
  + ebtables
