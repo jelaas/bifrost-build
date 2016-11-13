@@ -1,0 +1,173 @@
+			     BASH PATCH REPORT
+			     =================
+
+Bash-Release:	4.1
+Patch-ID:	bash41-015
+
+Bug-Reported-by:	Florian Weimer <fweimer@redhat.com>
+Bug-Reference-ID:
+Bug-Reference-URL:
+
+Bug-Description:
+
+There are two local buffer overflows in parse.y that can cause the shell
+to dump core when given many here-documents attached to a single command
+or many nested loops.
+
+Patch (apply with `patch -p0'):
+
+*** ../bash-4.1.14/parse.y	2014-09-27 12:18:25.000000000 -0400
+--- parse.y	2014-09-30 19:36:03.000000000 -0400
+***************
+*** 168,171 ****
+--- 168,174 ----
+  static int reserved_word_acceptable __P((int));
+  static int yylex __P((void));
++ 
++ static void push_heredoc __P((REDIRECT *));
++ static char *mk_alexpansion __P((char *));
+  static int alias_expand_token __P((char *));
+  static int time_command_acceptable __P((void));
+***************
+*** 262,266 ****
+  /* Variables to manage the task of reading here documents, because we need to
+     defer the reading until after a complete command has been collected. */
+! static REDIRECT *redir_stack[10];
+  int need_here_doc;
+  
+--- 265,271 ----
+  /* Variables to manage the task of reading here documents, because we need to
+     defer the reading until after a complete command has been collected. */
+! #define HEREDOC_MAX 16
+! 
+! static REDIRECT *redir_stack[HEREDOC_MAX];
+  int need_here_doc;
+  
+***************
+*** 304,308 ****
+     index is decremented after a case, select, or for command is parsed. */
+  #define MAX_CASE_NEST	128
+! static int word_lineno[MAX_CASE_NEST];
+  static int word_top = -1;
+  
+--- 309,313 ----
+     index is decremented after a case, select, or for command is parsed. */
+  #define MAX_CASE_NEST	128
+! static int word_lineno[MAX_CASE_NEST+1];
+  static int word_top = -1;
+  
+***************
+*** 517,521 ****
+  			  redir.filename = $2;
+  			  $$ = make_redirection (source, r_reading_until, redir, 0);
+! 			  redir_stack[need_here_doc++] = $$;
+  			}
+  	|	NUMBER LESS_LESS WORD
+--- 522,526 ----
+  			  redir.filename = $2;
+  			  $$ = make_redirection (source, r_reading_until, redir, 0);
+! 			  push_heredoc ($$);
+  			}
+  	|	NUMBER LESS_LESS WORD
+***************
+*** 524,528 ****
+  			  redir.filename = $3;
+  			  $$ = make_redirection (source, r_reading_until, redir, 0);
+! 			  redir_stack[need_here_doc++] = $$;
+  			}
+  	|	REDIR_WORD LESS_LESS WORD
+--- 529,533 ----
+  			  redir.filename = $3;
+  			  $$ = make_redirection (source, r_reading_until, redir, 0);
+! 			  push_heredoc ($$);
+  			}
+  	|	REDIR_WORD LESS_LESS WORD
+***************
+*** 531,535 ****
+  			  redir.filename = $3;
+  			  $$ = make_redirection (source, r_reading_until, redir, REDIR_VARASSIGN);
+! 			  redir_stack[need_here_doc++] = $$;
+  			}
+  	|	LESS_LESS_MINUS WORD
+--- 536,540 ----
+  			  redir.filename = $3;
+  			  $$ = make_redirection (source, r_reading_until, redir, REDIR_VARASSIGN);
+! 			  push_heredoc ($$);
+  			}
+  	|	LESS_LESS_MINUS WORD
+***************
+*** 538,542 ****
+  			  redir.filename = $2;
+  			  $$ = make_redirection (source, r_deblank_reading_until, redir, 0);
+! 			  redir_stack[need_here_doc++] = $$;
+  			}
+  	|	NUMBER LESS_LESS_MINUS WORD
+--- 543,547 ----
+  			  redir.filename = $2;
+  			  $$ = make_redirection (source, r_deblank_reading_until, redir, 0);
+! 			  push_heredoc ($$);
+  			}
+  	|	NUMBER LESS_LESS_MINUS WORD
+***************
+*** 545,549 ****
+  			  redir.filename = $3;
+  			  $$ = make_redirection (source, r_deblank_reading_until, redir, 0);
+! 			  redir_stack[need_here_doc++] = $$;
+  			}
+  	|	REDIR_WORD  LESS_LESS_MINUS WORD
+--- 550,554 ----
+  			  redir.filename = $3;
+  			  $$ = make_redirection (source, r_deblank_reading_until, redir, 0);
+! 			  push_heredoc ($$);
+  			}
+  	|	REDIR_WORD  LESS_LESS_MINUS WORD
+***************
+*** 552,556 ****
+  			  redir.filename = $3;
+  			  $$ = make_redirection (source, r_deblank_reading_until, redir, REDIR_VARASSIGN);
+! 			  redir_stack[need_here_doc++] = $$;
+  			}
+  	|	LESS_LESS_LESS WORD
+--- 557,561 ----
+  			  redir.filename = $3;
+  			  $$ = make_redirection (source, r_deblank_reading_until, redir, REDIR_VARASSIGN);
+! 			  push_heredoc ($$);
+  			}
+  	|	LESS_LESS_LESS WORD
+***************
+*** 2508,2511 ****
+--- 2513,2531 ----
+  static int esacs_needed_count;
+  
++ static void
++ push_heredoc (r)
++      REDIRECT *r;
++ {
++   if (need_here_doc >= HEREDOC_MAX)
++     {
++       last_command_exit_value = EX_BADUSAGE;
++       need_here_doc = 0;
++       report_syntax_error (_("maximum here-document count exceeded"));
++       reset_parser ();
++       exit_shell (last_command_exit_value);
++     }
++   redir_stack[need_here_doc++] = r;
++ }
++ 
+  void
+  gather_here_documents ()
+*** ../bash-4.1-patched/patchlevel.h	2009-10-01 16:39:22.000000000 -0400
+--- patchlevel.h	2010-01-14 09:38:08.000000000 -0500
+***************
+*** 26,30 ****
+     looks for to find the patch level (for the sccs version string). */
+  
+! #define PATCHLEVEL 14
+  
+  #endif /* _PATCHLEVEL_H_ */
+--- 26,30 ----
+     looks for to find the patch level (for the sccs version string). */
+  
+! #define PATCHLEVEL 15
+  
+  #endif /* _PATCHLEVEL_H_ */

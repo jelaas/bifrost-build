@@ -1,0 +1,43 @@
+			     BASH PATCH REPORT
+			     =================
+
+Bash-Release:	4.1
+Patch-ID:	bash41-013
+
+Bug-Reported-by:	Tavis Ormandy <taviso@cmpxchg8b.com>
+Bug-Reference-ID:
+Bug-Reference-URL:	http://twitter.com/taviso/statuses/514887394294652929
+
+Bug-Description:
+
+Under certain circumstances, bash can incorrectly save a lookahead character and
+return it on a subsequent call, even when reading a new line.
+
+Patch (apply with `patch -p0'):
+
+*** ../bash-4.1.12/parse.y	2011-02-24 19:41:01.000000000 -0500
+--- parse.y	2014-09-25 16:13:57.000000000 -0400
+***************
+*** 2812,2815 ****
+--- 2812,2817 ----
+    word_desc_to_read = (WORD_DESC *)NULL;
+  
++   eol_ungetc_lookahead = 0;
++ 
+    current_token = '\n';		/* XXX */
+    last_read_token = '\n';
+*** ../bash-4.1-patched/patchlevel.h	2009-10-01 16:39:22.000000000 -0400
+--- patchlevel.h	2010-01-14 09:38:08.000000000 -0500
+***************
+*** 26,30 ****
+     looks for to find the patch level (for the sccs version string). */
+  
+! #define PATCHLEVEL 12
+  
+  #endif /* _PATCHLEVEL_H_ */
+--- 26,30 ----
+     looks for to find the patch level (for the sccs version string). */
+  
+! #define PATCHLEVEL 13
+  
+  #endif /* _PATCHLEVEL_H_ */
