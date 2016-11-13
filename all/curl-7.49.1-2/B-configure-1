@@ -1,0 +1,24 @@
+#!/bin/bash
+
+TMPFILE=/tmp/B-conf.$$
+OPTS=""
+trap "rm -f $TMPFILE" EXIT
+
+./configure --help > $TMPFILE
+for opt in disable-nls enable-static-link disable-shared-plugins disable-dynamicplugin disable-tls disable-pie; do
+    grep -qs $opt $TMPFILE && OPTS="$OPTS --$opt"
+done
+for opt in enable-static; do
+    grep -qs $opt $TMPFILE && OPTS="$OPTS --$opt=yes"
+done
+for opt in enable-shared; do
+    grep -qs $opt $TMPFILE && OPTS="$OPTS --$opt=no"
+done
+rm -f $TMPFILE
+
+# Compile for i586 if on a 32-bit system
+ARCH="-march=i586"
+[ "$(uname -m)" = x86_64 ] && ARCH="" # 64-bit needs no flags
+
+echo "Configure with: $OPTS $@"
+CXXFLAGS="$ARCH -Os -g" CFLAGS="$ARCH -Os -g" LDFLAGS="-static" LIBS="-ldl" ./configure $OPTS $@

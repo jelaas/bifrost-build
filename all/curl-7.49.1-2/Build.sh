@@ -1,24 +1,33 @@
 #!/bin/bash
 
 SRCVER=curl-7.49.1
-PKG=$SRCVER-1 # with build version
+PKG=$SRCVER-2 # with build version
 
 PKGDIR=${PKGDIR:-/var/lib/build/all/$PKG}
 SRC=/var/spool/src/$SRCVER.tar.bz2
 BUILDDIR=/var/tmp/src/$SRCVER
 DST="/var/tmp/install/$PKG"
+MBEDSSLSRC=$PKGDIR/mbedtls-2.2.1-apache.tgz
+MBEDBUILDDIR=/var/tmp/src/mbedtls-2.2.1
 
 #########
 # Install dependencies:
-pkg_install musl-openssl-1.0.1h-1 || exit 2
-pkg_install musl-zlib-1.2.8-1 || exit 2
-pkg_install musl-1.1.3-1 || exit 2 
-export CC=musl-gcc
 
 #########
 # Unpack sources into dir under /var/tmp/src
-./Fetch-source.sh || exit 1
-cd $(dirname $BUILDDIR); tar xf $SRC
+
+cd $(dirname $BUILDDIR) || exit 1
+tar xf $SRC
+tar xf $MBEDSSLSRC
+
+cd $MBEDBUILDDIR || exit 1
+make no_test || exit 1
+echo MBED SSL built
+make install DESTDIR=$MBEDBUILDDIR/install
+ln -s $MBEDBUILDDIR/install/include/mbedtls $MBEDBUILDDIR/install/include/openssl
+ln -s $MBEDBUILDDIR/install/lib/libmbedcrypto.a $MBEDBUILDDIR/install/lib/libcrypto.a
+ln -s $MBEDBUILDDIR/install/lib/libmbedtls.a $MBEDBUILDDIR/install/lib/libssl.a
+ln -s $MBEDBUILDDIR/install/include/mbedtls/error.h $MBEDBUILDDIR/install/include/mbedtls/err.h
 
 #########
 # Patch
@@ -28,7 +37,8 @@ libtool_fix-1
 
 #########
 # Configure
-$PKGDIR/B-configure-1 --prefix=/usr --without-ca-bundle --with-ca-path=/etc/ssl/certs || exit 1
+
+$PKGDIR/B-configure-1 --prefix=/usr --without-ca-bundle --with-mbedtls=$MBEDBUILDDIR/install || exit 1
 
 #########
 # Post configure patch
@@ -66,6 +76,6 @@ tar czf /var/spool/pkg/$PKG.tar.gz .
 # Cleanup after a success
 cd /var/lib/build
 [ "$DEVEL" ] || rm -rf "$DST"
-[ "$DEVEL" ] || rm -rf "$BUILDDIR"
+[ "$DEVEL" ] || rm -rf "$BUILDDIR" "$MBEDBUILDDIR"
 pkg_uninstall
 exit 0
