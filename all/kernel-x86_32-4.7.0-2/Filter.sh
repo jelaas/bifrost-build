@@ -35,7 +35,7 @@ while read L; do
 	[ $n = 1 ] && continue
 
 	for supported in kernel/arch/ kernel/crypto/ kernel/lib/ kernel/net/ kernel/fs/fat kernel/fs/nls \
-			loop.ko ata_piix.ko sata_svw.ko vmw_balloon.ko /ipmi/ drivers/ptp drivers/pps; do
+			loop.ko ata_piix.ko sata_svw.ko vmw_ /ipmi/ drivers/ptp drivers/pps; do
 		[[ $L =~ $supported ]] && n=1 && strip --strip-unneeded $L
 	done
 	[ $n = 1 ] && echo SUP: $L && continue
