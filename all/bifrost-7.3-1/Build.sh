@@ -175,6 +175,7 @@ untar arpwatch-2.1a15-1
 untar conntrack-tools-0.9.14-2
 untar curl-7.51.0-1
 untar ipgrab-0.9.10-1
+untar ipvsadm-1.28-1
 untar mtr-0.86-1 ./usr/sbin/mtr
 untar ncftp-3.2.5-1 ./usr/bin/ncftp
 untar netperf-2.4.5-1
