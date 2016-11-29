@@ -333,7 +333,7 @@ untar procps-3.2.8-2 ./bin/ps
 untar procps-3.2.8-2 ./sbin/sysctl
 untar psmisc-22.11-1
 untar shadow-4.1.4.2-1
-untar strace-4.5.20-2
+untar strace-4.14-1
 untar sysklogd-1.4.1-1
 untar sysvinit-2.86-1 ./sbin/init
 untar sysvinit-2.86-1 ./sbin/halt
