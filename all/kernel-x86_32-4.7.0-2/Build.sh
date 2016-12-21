@@ -84,6 +84,7 @@ dopatch -p0 $PKGDIR/fiber_gecko.pat || exit 1
 
 # Backported bugfix
 dopatch -p1 $PKGDIR/fm10k.pat || exit 1
+dopatch -p1 $PKGDIR/af_packet.pat || exit 1
 
 #########
 # Configure
