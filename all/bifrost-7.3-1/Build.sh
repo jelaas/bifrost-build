@@ -147,6 +147,7 @@ untar allcaps-2-1
 untar bifrost-upgrade-4
 untar cpuinfo-1.1-1
 untar cpu_pkts-1-1
+untar daemon-1.0-1
 untar dev-populate-1.2-1
 untar devtag-1.0.7-1 ./bin/devtag
 untar devtag-1.0.7-1 ./bin/devtagns
