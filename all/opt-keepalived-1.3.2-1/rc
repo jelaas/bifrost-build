@@ -1,0 +1,19 @@
+#!/bin/bash
+
+PKG=keepalived
+BINDIR=/opt/keepalived/sbin
+
+case "$1" in
+    start)
+        printf "\nstarting: $PKG"
+        $BINDIR/keepalived -D
+        ;;
+    stop)
+        printf "\nstopping: $PKG"
+	killall keepalived
+        ;;
+    *)
+        printf "\n\tUsage: $0 < start | stop >\n\n"
+        ;;
+esac
+
