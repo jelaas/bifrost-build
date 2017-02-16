@@ -12,7 +12,7 @@ DST="/var/tmp/install/$PKG"
 # Install dependencies:
 # pkg_available dependency1-1 dependency2-1
 # pkg_install dependency1-1 || exit 1
-pkg_install musl-1.1.5-1 || exit 2 
+pkg_install musl-1.1.5-1 || exit 2
 export CC=musl-gcc
 
 #########

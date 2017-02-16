@@ -12,7 +12,7 @@ DST="/var/tmp/install/$PKG"
 # Install dependencies:
 # pkg_available dependency1-1 dependency2-1
 # pkg_install dependency1-1 || exit 1
-pkg_install musl-0.9.10-1 || exit 2 
+pkg_install musl-0.9.10-1 || exit 2
 export CC=musl-gcc
 
 #########
@@ -28,7 +28,10 @@ libtool_fix-1
 
 #########
 # Configure
-B-configure-2 --enable-widec --prefix=/opt/musl --datadir=/usr/share --bindir=/usr/bin || exit 1
+#B-configure-2 --enable-widec --prefix=/opt/musl --datadir=/usr/share --bindir=/usr/bin || exit 1
+B-configure-2 --enable-widec --prefix=/opt/musl --datadir=/usr/share --bindir=/usr/bin \
+    --with-default-terminfo-dir=/usr/share/terminfo \
+    --with-terminfo-dirs="/etc/terminfo:/lib/terminfo:/usr/share/terminfo" \ || exit 1
 
 #########
 # Post configure patch

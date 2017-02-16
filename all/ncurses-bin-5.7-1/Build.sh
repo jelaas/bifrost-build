@@ -26,7 +26,10 @@ libtool_fix-1
 
 #########
 # Configure
-B-configure-1 --prefix=/usr || exit 1
+#B-configure-1 --prefix=/usr || exit 1
+B-configure-1 --prefix=/usr \
+    --with-default-terminfo-dir=/usr/share/terminfo \
+    --with-terminfo-dirs="/etc/terminfo:/lib/terminfo:/usr/share/terminfo" \ || exit 1
 
 #########
 # Post configure patch
