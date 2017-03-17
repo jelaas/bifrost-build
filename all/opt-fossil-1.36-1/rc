@@ -1,0 +1,24 @@
+#!/bin/bash
+
+PKG=fossil
+BINDIR=/opt/fossil/bin
+OPTIONS="--nossl --nojail /opt/fossil/repos"
+RUNUID=root
+RUNGID=root
+[ -f /opt/fossil/etc/config.data/options ] && . /opt/fossil/etc/config.data/options
+
+case "$1" in
+    start)
+        printf "\nstarting: $PKG"
+	cd /opt/fossil/repos
+        HOME=/opt/fossil $BINDIR/daemon "$RUNUID" "$RUNGID" $BINDIR/fossil server $OPTIONS
+        ;;
+    stop)
+        printf "\nstopping: $PKG"
+	killall fossil
+        ;;
+    *)
+        printf "\n\tUsage: $0 < start | stop >\n\n"
+        ;;
+esac
+
