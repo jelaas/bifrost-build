@@ -1,0 +1,84 @@
+diff -Naur emacs-25.1/configure.ac emacs-25.1.new/configure.ac
+--- emacs-25.1/configure.ac	2016-07-25 02:08:36.000000000 -0500
++++ emacs-25.1.new/configure.ac	2017-03-18 15:41:36.191060222 -0600
+@@ -2133,7 +2133,7 @@
+ 
+ system_malloc=$emacs_cv_sanitize_address
+ 
+-hybrid_malloc=
++hybrid_malloc=yes
+ 
+ case "$opsys" in
+   ## darwin ld insists on the use of malloc routines in the System framework.
+diff -Naur emacs-25.1/src/gmalloc.c emacs-25.1.new/src/gmalloc.c
+--- emacs-25.1/src/gmalloc.c	2016-06-29 04:49:22.000000000 -0500
++++ emacs-25.1.new/src/gmalloc.c	2017-03-18 15:42:18.421487207 -0600
+@@ -70,7 +70,7 @@
+ #define aligned_alloc galigned_alloc
+ #define free gfree
+ 
+-#ifdef CYGWIN
++//#ifdef CYGWIN
+ extern void *bss_sbrk (ptrdiff_t size);
+ extern int bss_sbrk_did_unexec;
+ extern char bss_sbrk_buffer[];
+@@ -78,7 +78,7 @@
+ #define DUMPED bss_sbrk_did_unexec
+ #define ALLOCATED_BEFORE_DUMPING(P) \
+   ((P) < bss_sbrk_buffer_end && (P) >= (void *) bss_sbrk_buffer)
+-#endif
++//#endif
+ 
+ #ifdef	__cplusplus
+ extern "C"
+@@ -1523,12 +1523,12 @@
+ __default_morecore (ptrdiff_t increment)
+ {
+   void *result;
+-#if defined (CYGWIN)
++//#if defined (CYGWIN)
+   if (!DUMPED)
+     {
+       return bss_sbrk (increment);
+     }
+-#endif
++//#endif
+   result = (void *) __sbrk (increment);
+   if (result == (void *) -1)
+     return NULL;
+diff -Naur emacs-25.1/src/Makefile.in emacs-25.1.new/src/Makefile.in
+--- emacs-25.1/src/Makefile.in	2016-06-29 04:49:20.000000000 -0500
++++ emacs-25.1.new/src/Makefile.in	2017-03-18 15:42:52.871435337 -0600
+@@ -398,6 +398,7 @@
+ 	doprnt.o intervals.o textprop.o composite.o xml.o $(NOTIFY_OBJ) \
+ 	$(XWIDGETS_OBJ) \
+ 	profiler.o decompress.o \
++	sheap.o \
+ 	$(MSDOS_OBJ) $(MSDOS_X_OBJ) $(NS_OBJ) $(CYGWIN_OBJ) $(FONT_OBJ) \
+ 	$(W32_OBJ) $(WINDOW_SYSTEM_OBJ) $(XGSELOBJ)
+ obj = $(base_obj) $(NS_OBJC_OBJ)
+diff -Naur emacs-25.1/src/print.c emacs-25.1.new/src/print.c
+--- emacs-25.1/src/print.c	2016-06-29 04:49:22.000000000 -0500
++++ emacs-25.1.new/src/print.c	2017-03-18 15:43:18.356859372 -0600
+@@ -775,7 +775,7 @@
+   print_output_debug_flag = x;
+ }
+ 
+-#if defined (GNU_LINUX)
++#if defined (GNU_LINUX) && defined (__GLIBC__)
+ 
+ /* This functionality is not vitally important in general, so we rely on
+    non-portable ability to use stderr as lvalue.  */
+diff -Naur emacs-25.1/src/unexelf.c emacs-25.1.new/src/unexelf.c
+--- emacs-25.1/src/unexelf.c	2016-06-29 04:49:23.000000000 -0500
++++ emacs-25.1.new/src/unexelf.c	2017-03-18 15:44:02.139273948 -0600
+@@ -227,6 +227,9 @@
+   off_t new_file_size;
+   void *new_break;
+ 
++  extern int bss_sbrk_did_unexec;
++  bss_sbrk_did_unexec = 1;
++
+   /* Pointers to the base of the image of the two files.  */
+   caddr_t old_base, new_base;
+ 
