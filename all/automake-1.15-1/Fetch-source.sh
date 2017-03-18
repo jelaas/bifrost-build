@@ -1,8 +1,8 @@
 #!/bin/bash
 
-SRC=automake-1.11.1.tar.bz2
+SRC=automake-1.15.tar.gz
 DST=/var/spool/src/$SRC
-MD5=c2972c4d9b3e29c03d5f2af86249876f
+MD5=716946a105ca228ab545fc37a70df3a3
 
 [ -s "$DST" ] || wget -O $DST http://ftp.gnu.org/gnu/automake/$SRC \
               || wget -O $DST http://mirror.cogentco.com/pub/gnu/automake/$SRC \
