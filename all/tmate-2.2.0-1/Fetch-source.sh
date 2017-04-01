@@ -1,9 +1,9 @@
 #!/bin/bash
 
 SRC=tmate-2.2.0.tar.gz
-DST=/var/spool/src/$SRC
-MD5=
+DST=/var/spool/src/"${SRC}"
+MD5=2b6d14008d352723ad23deb7a8a07481
 
-pkg_install wget-1.12-2 || exit 2
-
-[ -s "$DST" ] || wget --no-check-certificate -O $DST https://github.com/tmate-io/tmate/archive/3a73f1735437ef08d32e3d14966f813a5ed7dfb9.tar.gz
+[ -s "${DST}" ] || ../../wget-finder --checksum "${MD5}" -O "${DST}" http://pkgs.fedoraproject.org/repo/pkgs/tmate/2.2.0.tar.gz/2b6d14008d352723ad23deb7a8a07481/"${SRC}" \
+                || ../../wget-finder --checksum "${MD5}" -O "${DST}" --no-check-certificate https://github.com/tmate-io/tmate/archive/2.2.0.tar.gz \
+                || ../../wget-finder -O "${DST}" "${SRC}:${MD5}"

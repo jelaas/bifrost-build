@@ -5,8 +5,7 @@ PKG=opt-$SRCVER-1 # with build version
 
 # PKGDIR is set by 'pkg_build'. Usually "/var/lib/build/all/$PKG".
 PKGDIR=${PKGDIR:-/var/lib/build/all/$PKG}
-SRC=/var/spool/src/$SRCVER.tar.gz
-[ -f /var/spool/src/$SRCVER.tar.bz2 ] && SRC=/var/spool/src/$SRCVER.tar.bz2
+SRC=/var/spool/src/$SRCVER.tar.bz2
 BUILDDIR=/var/tmp/src/$SRCVER
 DST="/var/tmp/install/$PKG"
 
@@ -31,7 +30,7 @@ pkg_uninstall # Uninstall any dependencies used by Fetch-source.sh
 # pkg_install groff-1.21-1 || exit 2 # Needed to convert man-pages: see below
 
 # Compile against musl:
-# pkg_install musl-0.9.10-1 || exit 2 
+# pkg_install musl-0.9.10-1 || exit 2
 # export CC=musl-gcc
 
 #########

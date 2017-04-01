@@ -1,10 +1,14 @@
 #!/bin/bash
 
 SRC=util-linux-ng-2.17.2.tar.bz2
-DST=/var/spool/src/$SRC
+DST=/var/spool/src/"${SRC}"
 MD5=4635725a3eef1c57090bac8ea5e082e6
 
-[ -s "$DST" ] || wget --no-check-certificate -O $DST https://www.kernel.org/pub/linux/utils/util-linux/v2.17/$SRC \
-              || wget -O $DST http://ftp.ntu.edu.tw/linux/utils/util-linux/v2.17/$SRC      \
-              || wget -O $DST http://distro.ibiblio.org/tinycorelinux/3.x/release/src/$SRC \
- || ../../wget-finder -O $DST $SRC:$MD5
+[ -s "${DST}" ] || ../../wget-finder --checksum "${MD5}" -O "${DST}" https://www.kernel.org/pub/linux/utils/util-linux/v2.17/"${SRC}" \
+                || ../../wget-finder --checksum "${MD5}" -O "${DST}" http://ftp.be.debian.org/pub/linux/utils/util-linux-ng/v2.17/"${SRC}" \
+                || ../../wget-finder --checksum "${MD5}" -O "${DST}" http://ftp.sunet.se/mirror/archive/ftp.sunet.se/pub/Linux/distributions/bifrost/download/src/"${SRC}" \
+                || ../../wget-finder --checksum "${MD5}" -O "${DST}" http://distro.ibiblio.org/tinycorelinux/3.x/release/src/"${SRC}" \
+                || ../../wget-finder --checksum "${MD5}" -O "${DST}" http://kernel.securehost.com/linux/utils/util-linux/v2.17/"${SRC}" \
+                || ../../wget-finder --checksum "${MD5}" -O "${DST}" http://mirrors.ircam.fr/pub/linux/utils/util-linux/v2.17/"${SRC}" \
+                || ../../wget-finder --checksum "${MD5}" -O "${DST}" http://ftp.iij.ad.jp/pub/linux/kernel/linux/utils/util-linux/v2.17/"${SRC}" \
+                || ../../wget-finder -O "${DST}" "${SRC}:${MD5}"

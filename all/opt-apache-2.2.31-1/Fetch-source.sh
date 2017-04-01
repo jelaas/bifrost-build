@@ -1,11 +1,12 @@
 #!/bin/bash
 
 SRC=httpd-2.2.31.tar.bz2
-DST=/var/spool/src/$SRC
+DST=/var/spool/src/"${SRC}"
 MD5=6c10e15835ab214464228a9beb7afba8
 
-pkg_install wget-1.12-2 || exit 2
-
-[ -s "$DST" ] || wget -O $DST http://apache.archive.sunet.se/dist/httpd/$SRC \
-              || wget --no-check-certificate -O $DST https://archive.apache.org/dist/httpd/$SRC \
- || ../../wget-finder -O $DST $SRC:$MD5
+[ -s "${DST}" ] || ../../wget-finder --checksum "${MD5}" -O "${DST}" http://apache.archive.sunet.se/dist/httpd/"${SRC}" \
+                || ../../wget-finder --checksum "${MD5}" -O "${DST}" http://mirror.23media.de/apache/httpd/"${SRC}" \
+                || ../../wget-finder --checksum "${MD5}" -O "${DST}" http://mirror.bjtu.edu.cn/apache/httpd/"${SRC}" \
+                || ../../wget-finder --checksum "${MD5}" -O "${DST}" http://dev.gateworks.com/sources/"${SRC}" \
+                || ../../wget-finder --checksum "${MD5}" -O "${DST}" http://software.verknowsys.com/source/"${SRC}" \
+                || ../../wget-finder -O "${DST}" "${SRC}:${MD5}"
